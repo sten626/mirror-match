@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'mirror-match',
-  template: '<h1>Mirror Match</h1>'
+  templateUrl: 'app/app.component.html'
 })
 export class AppComponent {
 
