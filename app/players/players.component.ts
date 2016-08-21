@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   templateUrl: 'app/players/players.component.html'
 })
 export class PlayersComponent {
-
+  numberOfRounds = 3;
+  playerName: string;
 }
