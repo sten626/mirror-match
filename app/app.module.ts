@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { PlayersComponent } from './players/players.component';
+import { PlayerService } from './shared/player.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { PlayersComponent } from './players/players.component';
   declarations: [
     AppComponent,
     PlayersComponent
+  ],
+  providers: [
+    PlayerService
   ],
   bootstrap: [ AppComponent ]
 })
