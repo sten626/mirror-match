@@ -10,6 +10,7 @@ export class PlayersComponent implements OnInit {
   numberOfRounds = 3;
   playerName: string;
   players: Player[] = [];
+  selectedPlayer: Player;
 
   constructor(private playerService: PlayerService) {}
 
@@ -28,6 +29,11 @@ export class PlayersComponent implements OnInit {
 
   deletePlayer(player: Player): void {
     this.playerService.delete(player);
+  }
+
+  selectPlayer(player: Player): void {
+    this.selectedPlayer = player;
+    this.playerName = player.name;
   }
 
   private getPlayers(): void {
