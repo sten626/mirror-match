@@ -7,8 +7,8 @@ import { PlayerService } from '../shared/player.service';
   templateUrl: 'app/players/players.component.html'
 })
 export class PlayersComponent implements OnInit {
-  numberOfRounds = 3;
-  playerName: string;
+  editingPlayer: boolean;
+  numberOfRounds: number;
   players: Player[] = [];
   selectedPlayer: Player;
 
@@ -16,24 +16,36 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlayers();
-  }
-
-  addPlayer(): void {
-    if (this.playerName) {
-      let player = new Player();
-      player.name = this.playerName;
-      player = this.playerService.save(player);
-      this.playerName = '';
-    }
+    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+    this.clearPlayerInput();
   }
 
   deletePlayer(player: Player): void {
     this.playerService.delete(player);
+
+    if (player === this.selectedPlayer) {
+      this.clearPlayerInput();
+    }
+
+    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+  }
+
+  savePlayer(): void {
+    if (this.selectedPlayer.name) {
+      this.playerService.save(this.selectedPlayer);
+      this.clearPlayerInput();
+      this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+    }
   }
 
   selectPlayer(player: Player): void {
     this.selectedPlayer = player;
-    this.playerName = player.name;
+    this.editingPlayer = true;
+  }
+
+  private clearPlayerInput(): void {
+    this.selectedPlayer = new Player();
+    this.editingPlayer = false;
   }
 
   private getPlayers(): void {

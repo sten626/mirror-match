@@ -29,17 +29,17 @@ export class PlayerService {
     return this.players;
   }
 
-  save(player: Player): Player {
-    if (player.id) {
-      // TODO
-      return player;
-    } else {
+  getRecommendedNumberOfRounds(): number {
+    return Math.max(3, Math.ceil(Math.log2(this.players.length)));
+  }
+
+  save(player: Player): void {
+    if (!player.id) {
       player.id = this.nextId++;
       this.players.push(player);
-      localStorage.setItem('players', JSON.stringify(this.players));
-
-      return player;
     }
+
+    localStorage.setItem('players', JSON.stringify(this.players));
   }
 
   private calculateMaxId(): void {
