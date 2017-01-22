@@ -5,17 +5,25 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PlayerService } from './shared';
+import { SwissModule } from './swiss/swiss.module';
+import {
+  FooterComponent,
+  HeaderComponent,
+  PlayerService
+} from './shared';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    SwissModule
   ],
   providers: [
     PlayerService
