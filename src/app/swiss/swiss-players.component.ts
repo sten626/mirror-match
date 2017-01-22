@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Player } from '../shared/player.model';
-import { PlayerService } from '../shared/player.service';
+import {
+  Player,
+  PlayerService
+} from '../shared';
 
 @Component({
-  templateUrl: 'app/players/players.component.html'
+  templateUrl: './swiss-players.component.html'
 })
-export class PlayersComponent implements OnInit {
+export class SwissPlayersComponent implements OnInit {
   editingPlayer: boolean;
   numberOfRounds: number;
   players: Player[] = [];

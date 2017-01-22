@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Player } from './player.model';
+import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
@@ -14,7 +14,7 @@ export class PlayerService {
 
   getPlayers(): Player[] {
     if (!this.players) {
-      let playersData = localStorage.getItem('players');
+      const playersData = localStorage.getItem('players');
 
       if (playersData !== null) {
         this.players = JSON.parse(playersData);
