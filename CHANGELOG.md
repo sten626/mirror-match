@@ -14,3 +14,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   + SharedModule
 - Create page header and footer.
 - Add change log.
+- Add jQuery, as it is a dependency for certain Bootstrap features.
