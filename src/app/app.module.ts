@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HomeModule } from './home/home.module';
 import { SwissModule } from './swiss/swiss.module';
 import {
   FooterComponent,
@@ -22,6 +23,7 @@ import {
     AppRoutingModule,
     BrowserModule,
     FormsModule,
+    HomeModule,
     HttpModule,
     SwissModule
   ],
