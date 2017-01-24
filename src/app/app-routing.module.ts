@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { SwissPlayersComponent } from './swiss/swiss-players.component';
+import { SwissComponent } from './swiss/swiss.component';
 
 const routes: Routes = [{
   path: '',
   component: HomeComponent
 }, {
-  path: 'players',
-  component: SwissPlayersComponent
+  path: 'swiss',
+  component: SwissComponent
 }];
 
 @NgModule({
