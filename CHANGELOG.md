@@ -17,3 +17,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add jQuery, as it is a dependency for certain Bootstrap features.
 - Add HomeModule and a home page.
 - Add new SwissComponent to be the main component for SwissModule.
+- Remvove seperate routing module because it seems pointless.
