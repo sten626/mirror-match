@@ -11,7 +11,8 @@ import { SwissModule } from './swiss/swiss.module';
 import {
   FooterComponent,
   HeaderComponent,
-  PlayerService
+  PlayerService,
+  SharedModule
 } from './shared';
 
 const routes: Routes = [{
@@ -31,6 +32,7 @@ const routes: Routes = [{
     HomeModule,
     HttpModule,
     RouterModule.forRoot(routes),
+    SharedModule,
     SwissModule
   ],
   providers: [
