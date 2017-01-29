@@ -51,6 +51,6 @@ export class SwissPlayersComponent implements OnInit {
   }
 
   private getPlayers(): void {
-    this.players = this.playerService.getPlayers();
+    this.players = this.playerService.getAll();
   }
 }
