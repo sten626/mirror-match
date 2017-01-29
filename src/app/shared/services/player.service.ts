@@ -1,66 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
 
 import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
-  nextId = 1;
-  players: Player[];
+  private nextId = 1;
+  private players: Player[];
+  private playersKey = 'players';
 
-  getAll(): Observable<Player[]> {
-    const playerData = localStorage.getItem('players');
-
-    if (playerData) {
-      this.players = JSON.parse(playerData);
-    } else {
-      this.players = [];
-      localStorage.setItem('players', JSON.stringify(this.players));
-    }
-
-    return Observable.create(observer => {
-      observer.next(this.players);
-      observer.complete();
-    });
+  delete(player: Player): void {
+    this.players.splice(this.players.indexOf(player), 1);
+    localStorage.setItem(this.playersKey, JSON.stringify(this.players));
   }
 
-  // save(player: Player): Observable<Player> {
-  //   if (!player.id) {
-  //     player.id = this.nextId++;
-  //   }
-  // }
+  getAll(): Player[] {
+    if (!this.players) {
+      const playersData = localStorage.getItem(this.playersKey);
 
+      if (playersData) {
+        this.players = JSON.parse(playersData);
+      } else {
+        this.players = [];
+        localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+      }
+    }
 
-  // players: Player[];
+    this.initNextId();
 
-  // delete(player: Player): void {
-  //   this.players.splice(this.players.indexOf(player), 1);
-  //   localStorage.setItem('players', JSON.stringify(this.players));
-  // }
+    return this.players;
+  }
 
-  // getRecommendedNumberOfRounds(): number {
-  //   return Math.max(3, Math.ceil(Math.log2(this.players.length)));
-  // }
+  getRecommendedNumberOfRounds(): number {
+    return Math.max(3, Math.ceil(Math.log2(this.players.length)));
+  }
 
-  // save(player: Player): void {
-  //   if (!player.id) {
-  //     player.id = this.nextId++;
-  //     this.players.push(player);
-  //   }
+  save(player: Player): Player {
+    if (!player.id) {
+      // New player.
+      player.id = this.nextId++;
+      this.players.push(player);
+    }
 
-  //   localStorage.setItem('players', JSON.stringify(this.players));
-  // }
+    localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    return player;
+  }
 
-  // private calculateMaxId(): void {
-  //   let maxId = 0;
-
-  //   this.players.forEach((player) => {
-  //     if (player.id > maxId) {
-  //       maxId = player.id;
-  //     }
-  //   });
-
-  //   this.nextId = maxId + 1;
-  // }
+  private initNextId(): void {
+    if (this.players.length > 0) {
+      const ids = this.players.map(player => player.id);
+      this.nextId = Math.max(...ids) + 1;
+    } else {
+      this.nextId = 1;
+    }
+  }
 }

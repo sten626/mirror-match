@@ -18,7 +18,7 @@ export class SwissPlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlayers();
-    // this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
     this.clearPlayerInput();
   }
 
@@ -51,8 +51,6 @@ export class SwissPlayersComponent implements OnInit {
   }
 
   private getPlayers(): void {
-    this.playerService.getAll().subscribe(players => {
-      this.players = players;
-    });
+    this.players = this.playerService.getAll();
   }
 }
