@@ -12,10 +12,17 @@ export class PlayerService {
   private playersKey = 'players';
   private playersSubject = new BehaviorSubject<Player[]>([]);
 
-  delete(player: Player): void {
+  delete(player: Player): Observable<boolean> {
     this.players.splice(this.players.indexOf(player), 1);
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
-    this.playersSubject.next(this.players);
+    this.playersSubject.next(this.players.slice());
+
+    const deleteObservable = new Observable(observer => {
+      observer.next(true);
+      observer.complete();
+    });
+
+    return deleteObservable;
   }
 
   getAll(): Observable<Player[]> {
@@ -32,7 +39,7 @@ export class PlayerService {
       this.initNextId();
     }
 
-    this.playersSubject.next(this.players);
+    this.playersSubject.next(this.players.slice());
 
     return this.playersSubject.asObservable().distinctUntilChanged();
   }
@@ -49,7 +56,7 @@ export class PlayerService {
     }
 
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
-    this.playersSubject.next(this.players);
+    this.playersSubject.next(this.players.slice());
 
     const playerObservable = new Observable(observer => {
       observer.next(player);
