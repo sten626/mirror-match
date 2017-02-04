@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import { Player } from '../models';
 
@@ -7,13 +10,22 @@ export class PlayerService {
   private nextId = 1;
   private players: Player[];
   private playersKey = 'players';
+  private playersSubject = new BehaviorSubject<Player[]>([]);
 
-  delete(player: Player): void {
+  delete(player: Player): Observable<boolean> {
     this.players.splice(this.players.indexOf(player), 1);
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    this.playersSubject.next(this.players.slice());
+
+    const deleteObservable = new Observable(observer => {
+      observer.next(true);
+      observer.complete();
+    });
+
+    return deleteObservable;
   }
 
-  getAll(): Player[] {
+  getAll(): Observable<Player[]> {
     if (!this.players) {
       const playersData = localStorage.getItem(this.playersKey);
 
@@ -23,18 +35,20 @@ export class PlayerService {
         this.players = [];
         localStorage.setItem(this.playersKey, JSON.stringify(this.players));
       }
+
+      this.initNextId();
     }
 
-    this.initNextId();
+    this.playersSubject.next(this.players.slice());
 
-    return this.players;
+    return this.playersSubject.asObservable().distinctUntilChanged();
   }
 
   getRecommendedNumberOfRounds(): number {
     return Math.max(3, Math.ceil(Math.log2(this.players.length)));
   }
 
-  save(player: Player): Player {
+  save(player: Player): Observable<Player> {
     if (!player.id) {
       // New player.
       player.id = this.nextId++;
@@ -42,7 +56,14 @@ export class PlayerService {
     }
 
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
-    return player;
+    this.playersSubject.next(this.players.slice());
+
+    const playerObservable = new Observable(observer => {
+      observer.next(player);
+      observer.complete();
+    });
+
+    return playerObservable;
   }
 
   private initNextId(): void {
