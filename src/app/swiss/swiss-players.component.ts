@@ -9,7 +9,6 @@ import {
   templateUrl: './swiss-players.component.html'
 })
 export class SwissPlayersComponent implements OnInit {
-  editingPlayer: boolean;
   numberOfRounds: number;
   players: Player[] = [];
   selectedPlayer: Player;
@@ -19,35 +18,30 @@ export class SwissPlayersComponent implements OnInit {
   ngOnInit(): void {
     this.getPlayers();
     this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
-    this.clearPlayerInput();
+    this.resetSelectedPlayer();
   }
 
   deletePlayer(player: Player): void {
     this.playerService.delete(player);
 
     if (player === this.selectedPlayer) {
-      this.clearPlayerInput();
+      this.resetSelectedPlayer();
     }
 
     this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
   }
 
-  savePlayer(): void {
-    if (this.selectedPlayer.name) {
-      this.playerService.save(this.selectedPlayer);
-      this.clearPlayerInput();
-      this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
-    }
+  onSubmit(): void {
+    this.resetSelectedPlayer();
+    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
   }
 
   selectPlayer(player: Player): void {
     this.selectedPlayer = player;
-    this.editingPlayer = true;
   }
 
-  private clearPlayerInput(): void {
+  private resetSelectedPlayer(): void {
     this.selectedPlayer = new Player();
-    this.editingPlayer = false;
   }
 
   private getPlayers(): void {

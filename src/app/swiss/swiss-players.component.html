@@ -1,11 +1,17 @@
 <div class="row">
   <div class="col-sm-6">
-    <mm-swiss-player-form [player]="this.selectedPlayer"></mm-swiss-player-form>
+    <mm-swiss-player-form
+        [player]="this.selectedPlayer"
+        (onSubmit)="onSubmit($event)">
+    </mm-swiss-player-form>
   </div>
 
   <div class="col-sm-6">
     <div class="list-group">
-      <a *ngFor="let player of players" class="list-group-item" (click)="selectPlayer(player)">
+      <a *ngFor="let player of players"
+          class="list-group-item"
+          [ngClass]="{'active': this.selectedPlayer === player}"
+          (click)="selectPlayer(player)">
         {{player.name}}
         <button class="close" (click)="deletePlayer(player)">&times;</button>
       </a>

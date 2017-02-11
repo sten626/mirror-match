@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Player, PlayerService } from '../shared';
@@ -7,8 +7,9 @@ import { Player, PlayerService } from '../shared';
   selector: 'mm-swiss-player-form',
   templateUrl: 'swiss-player-form.component.html'
 })
-export class SwissPlayerFormComponent implements OnChanges {
+export class SwissPlayerFormComponent implements OnChanges, OnInit {
   @Input() player: Player;
+  @Output() onSubmit = new EventEmitter<void>();
 
   errors = {};
   swissPlayerForm: FormGroup;
@@ -16,29 +17,36 @@ export class SwissPlayerFormComponent implements OnChanges {
   constructor(
     private fb: FormBuilder,
     private playerService: PlayerService
-  ) {
+  ) { }
+
+  ngOnChanges() {
+    if (this.swissPlayerForm) {
+      this.swissPlayerForm.reset({
+        name: this.player.name
+      });
+    }
+  }
+
+  ngOnInit() {
     this.createForm();
   }
 
-  ngOnChanges() {
-    this.swissPlayerForm.reset({
-      name: this.player.name
-    });
-  }
-
-  onSubmit() {
+  submit() {
     this.updatePlayer();
-    this.playerService.save(this.player).subscribe(() => {
-      this.swissPlayerForm.reset();
-      // TODO: Emit event to unselect a player.
+    this.playerService.save(this.player).subscribe(player => {
+      this.player = player;
+      this.onSubmit.emit();
     }, err => {
-      this.errors = err;
+      // TODO: Error handling.
+      console.log(err);
     });
   }
 
   private createForm() {
     this.swissPlayerForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', [
+        Validators.required
+      ]]
     });
   }
 
