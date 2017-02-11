@@ -21,23 +21,33 @@ export class SwissPlayersComponent implements OnInit {
     this.resetSelectedPlayer();
   }
 
-  deletePlayer(player: Player): void {
-    this.playerService.delete(player);
+  onDeletePlayer(player: Player) {
+    this.playerService.delete(player).subscribe(() => {
+      if (player === this.selectedPlayer) {
+        this.resetSelectedPlayer();
+      }
 
-    if (player === this.selectedPlayer) {
-      this.resetSelectedPlayer();
-    }
-
-    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+      this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+    }, err => {
+      // TODO: Error handling.
+      console.log(err);
+    });
   }
 
   onSelectPlayer(player: Player) {
     this.selectedPlayer = player;
   }
 
-  onSubmit(): void {
-    this.resetSelectedPlayer();
-    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+  onSubmit(player: Player): void {
+    if (player) {
+      this.playerService.save(player).subscribe(() => {
+        this.resetSelectedPlayer();
+        this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+      }, err => {
+        // TODO: Error handling.
+        console.log(err);
+      });
+    }
   }
 
   private resetSelectedPlayer(): void {

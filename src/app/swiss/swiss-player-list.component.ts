@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import {
   Player,
@@ -10,11 +10,11 @@ import {
   templateUrl: './swiss-player-list.component.html'
 })
 export class SwissPlayerListComponent implements OnInit {
+  @Input() selectedPlayer: Player;
   @Output() onDeletePlayer = new EventEmitter<Player>();
   @Output() onSelectPlayer = new EventEmitter<Player>();
 
   players: Player[];
-  selectedPlayer: Player;
 
   constructor(private playerService: PlayerService) { }
 
@@ -27,12 +27,6 @@ export class SwissPlayerListComponent implements OnInit {
   }
 
   selectPlayer(player: Player) {
-    this.selectedPlayer = player;
-    this.onSelectPlayer.emit(this.selectedPlayer);
-  }
-
-  private resetSelectedPlayer() {
-    this.selectedPlayer = new Player();
-    this.onSelectPlayer.emit(this.selectedPlayer);
+    this.onSelectPlayer.emit(player);
   }
 }

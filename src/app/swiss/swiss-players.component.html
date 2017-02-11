@@ -7,6 +7,10 @@
   </div>
 
   <div class="col-sm-6">
-    <mm-swiss-player-list (onSelectPlayer)="onSelectPlayer($event)"></mm-swiss-player-list>
+    <mm-swiss-player-list
+        [selectedPlayer]="this.selectedPlayer"
+        (onDeletePlayer)="onDeletePlayer($event)"
+        (onSelectPlayer)="onSelectPlayer($event)">
+    </mm-swiss-player-list>
   </div>
 </div>
