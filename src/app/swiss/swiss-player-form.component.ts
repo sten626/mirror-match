@@ -11,7 +11,6 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
   @Input() player: Player;
   @Output() onSubmit = new EventEmitter<Player>();
 
-  errors = {};
   swissPlayerForm: FormGroup;
 
   constructor(private fb: FormBuilder) { }

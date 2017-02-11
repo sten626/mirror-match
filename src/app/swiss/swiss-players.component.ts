@@ -21,6 +21,11 @@ export class SwissPlayersComponent implements OnInit {
     this.resetSelectedPlayer();
   }
 
+  onBeginEvent(numRounds: number) {
+    // TODO
+    console.log(`${numRounds} rounds`);
+  }
+
   onDeletePlayer(player: Player) {
     this.playerService.delete(player).subscribe(() => {
       if (player === this.selectedPlayer) {
