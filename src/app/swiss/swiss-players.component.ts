@@ -31,13 +31,13 @@ export class SwissPlayersComponent implements OnInit {
     this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
   }
 
+  onSelectPlayer(player: Player) {
+    this.selectedPlayer = player;
+  }
+
   onSubmit(): void {
     this.resetSelectedPlayer();
     this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
-  }
-
-  selectPlayer(player: Player): void {
-    this.selectedPlayer = player;
   }
 
   private resetSelectedPlayer(): void {
