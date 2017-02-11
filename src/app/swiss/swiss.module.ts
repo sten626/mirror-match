@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SwissComponent } from './swiss.component';
 import { SwissPlayerFormComponent } from './swiss-player-form.component';
+import { SwissPlayerListComponent } from './swiss-player-list.component';
 import { SwissPlayersComponent } from './swiss-players.component';
 import { SharedModule } from '../shared';
 
@@ -23,6 +24,7 @@ const routes: Routes = [{
   declarations: [
     SwissComponent,
     SwissPlayerFormComponent,
+    SwissPlayerListComponent,
     SwissPlayersComponent
   ]
 })

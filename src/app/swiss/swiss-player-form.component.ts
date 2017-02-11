@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Player, PlayerService } from '../shared';
+import { Player } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
@@ -9,15 +9,12 @@ import { Player, PlayerService } from '../shared';
 })
 export class SwissPlayerFormComponent implements OnChanges, OnInit {
   @Input() player: Player;
-  @Output() onSubmit = new EventEmitter<void>();
+  @Output() onSubmit = new EventEmitter<Player>();
 
   errors = {};
   swissPlayerForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private playerService: PlayerService
-  ) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnChanges() {
     if (this.swissPlayerForm) {
@@ -33,13 +30,7 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
 
   submit() {
     this.updatePlayer();
-    this.playerService.save(this.player).subscribe(player => {
-      this.player = player;
-      this.onSubmit.emit();
-    }, err => {
-      // TODO: Error handling.
-      console.log(err);
-    });
+    this.onSubmit.emit(this.player);
   }
 
   private createForm() {
