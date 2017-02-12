@@ -7,6 +7,7 @@ import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
+  numPlayers = 0;
   private nextId = 1;
   private players: Player[];
   private playersKey = 'players';
@@ -16,6 +17,7 @@ export class PlayerService {
     this.players.splice(this.players.indexOf(player), 1);
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
     this.playersSubject.next(this.players.slice());
+    this.numPlayers = this.players.length;
 
     const deleteObservable = new Observable(observer => {
       observer.next(true);
@@ -39,6 +41,7 @@ export class PlayerService {
       this.initNextId();
     }
 
+    this.numPlayers = this.players.length;
     this.playersSubject.next(this.players.slice());
 
     return this.playersSubject.asObservable().distinctUntilChanged();
@@ -56,6 +59,7 @@ export class PlayerService {
     }
 
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    this.numPlayers = this.players.length;
     this.playersSubject.next(this.players.slice());
 
     const playerObservable = new Observable(observer => {
