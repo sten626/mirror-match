@@ -6,7 +6,7 @@
           <li role="presentation" routerLinkActive="active">
             <a routerLink="/swiss/players">Players</a>
           </li>
-          <li role="presentation" routerLinkActive="active">
+          <li role="presentation" routerLinkActive="active" *ngIf="isPairingsClickable()">
             <a routerLink="/swiss/pairings">Pairings</a>
           </li>
         </ul>

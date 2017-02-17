@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
+  PairingsService,
   Player,
   PlayerService
 } from '../shared';
@@ -13,7 +15,11 @@ export class SwissPlayersComponent implements OnInit {
   players: Player[] = [];
   selectedPlayer: Player;
 
-  constructor(private playerService: PlayerService) {}
+  constructor(
+    private pairingsService: PairingsService,
+    private playerService: PlayerService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getPlayers();
@@ -22,8 +28,9 @@ export class SwissPlayersComponent implements OnInit {
   }
 
   onBeginEvent(numRounds: number) {
-    // TODO
-    console.log(`${numRounds} rounds`);
+    this.pairingsService.roundsTotal = numRounds;
+    this.pairingsService.hasBegunPairings = true;
+    this.router.navigate(['/swiss/pairings']);
   }
 
   onDeletePlayer(player: Player) {
