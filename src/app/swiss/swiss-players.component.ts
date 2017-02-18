@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import {
-  PairingsService,
   Player,
   PlayerService
 } from '../shared';
@@ -16,21 +14,13 @@ export class SwissPlayersComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
-    private pairingsService: PairingsService,
-    private playerService: PlayerService,
-    private router: Router
+    private playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
     this.getPlayers();
     this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
     this.resetSelectedPlayer();
-  }
-
-  onBeginEvent(numRounds: number) {
-    this.pairingsService.roundsTotal = numRounds;
-    this.pairingsService.hasBegunPairings = true;
-    this.router.navigate(['/swiss/pairings']);
   }
 
   onDeletePlayer(player: Player) {
