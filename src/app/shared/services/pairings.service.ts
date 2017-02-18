@@ -1,41 +1,48 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingsService {
-  private _hasBegunPairings: boolean;
+  private begunPairings: boolean;
+  private begunPairingsSubject = new BehaviorSubject<boolean>(false);
   private _roundsTotal: number;
 
-  readonly lsKeys = {
+  private readonly lsKeys = {
     hasBegunPairings: 'hasBegunPairings',
     roundsTotal: 'roundsTotal'
   };
 
   constructor(private playerService: PlayerService) {}
 
+  beginPairings() {
+    this.begunPairings = true;
+    localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this.begunPairings));
+    this.begunPairingsSubject.next(this.begunPairings);
+  }
+
   canBeginPairings(): boolean {
     return this.playerService.numPlayers >= 4;
   }
 
-  get hasBegunPairings(): boolean {
-    if (this._hasBegunPairings === undefined) {
+  hasBegunPairings(): Observable<boolean> {
+    if (this.begunPairings === undefined) {
       const hasBegunPairingsData = localStorage.getItem(this.lsKeys.hasBegunPairings);
 
       if (hasBegunPairingsData) {
-        this._hasBegunPairings = JSON.parse(hasBegunPairingsData);
+        this.begunPairings = JSON.parse(hasBegunPairingsData);
       } else {
-        this._hasBegunPairings = false;
-        localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this._hasBegunPairings));
+        this.begunPairings = false;
+        localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this.begunPairings));
       }
     }
 
-    return this._hasBegunPairings;
-  }
+    this.begunPairingsSubject.next(this.begunPairings);
 
-  set hasBegunPairings(hasBegun: boolean) {
-    this._hasBegunPairings = hasBegun;
-    localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this._hasBegunPairings));
+    return this.begunPairingsSubject.asObservable().distinctUntilChanged();
   }
 
   get roundsTotal(): number {

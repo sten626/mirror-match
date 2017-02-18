@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {
+  PairingsService,
   Player,
   PlayerService
 } from '../shared';
@@ -14,12 +15,13 @@ export class SwissPlayersComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
+    private pairingsService: PairingsService,
     private playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
     this.getPlayers();
-    this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
+    this.numberOfRounds = this.pairingsService.roundsTotal || this.playerService.getRecommendedNumberOfRounds();
     this.resetSelectedPlayer();
   }
 

@@ -12,6 +12,7 @@ export class SwissPlayersStartComponent implements OnChanges, OnInit {
   @Input() numPlayers: number;
   @Input() numRounds: number;
 
+  isFormDisabled = false;
   swissPlayersStartForm: FormGroup;
 
   constructor(
@@ -21,7 +22,7 @@ export class SwissPlayersStartComponent implements OnChanges, OnInit {
   ) { }
 
   canBeginEvent(): boolean {
-    return this.swissPlayersStartForm.valid && this.numPlayers >= 4;
+    return this.swissPlayersStartForm.valid && this.numPlayers >= 4 && !this.isFormDisabled;
   }
 
   ngOnChanges() {
@@ -34,12 +35,21 @@ export class SwissPlayersStartComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
+      this.isFormDisabled = hasBegunPairings;
+
+      if (this.isFormDisabled) {
+        this.swissPlayersStartForm.get('numberOfRounds').disable();
+      } else {
+        this.swissPlayersStartForm.get('numberOfRounds').enable();
+      }
+    });
   }
 
   onSubmit() {
     this.numRounds = this.swissPlayersStartForm.value.numberOfRounds;
     this.pairingsService.roundsTotal = this.numRounds;
-    this.pairingsService.hasBegunPairings = true;
+    this.pairingsService.beginPairings();
     this.router.navigate(['/swiss/pairings']);
   }
 
