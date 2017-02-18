@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+
 import { PairingsService } from '../shared';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class PairingsGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (this.pairingsService.canBeginPairings) {
+    if (this.pairingsService.begunPairings) {
       return true;
     }
 

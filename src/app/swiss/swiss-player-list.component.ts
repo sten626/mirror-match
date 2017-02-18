@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import {
+  PairingsService,
   Player,
   PlayerService
 } from '../shared';
@@ -14,12 +15,17 @@ export class SwissPlayerListComponent implements OnInit {
   @Output() onDeletePlayer = new EventEmitter<Player>();
   @Output() onSelectPlayer = new EventEmitter<Player>();
 
+  canDeletePlayers = true;
   players: Player[];
 
-  constructor(private playerService: PlayerService) { }
+  constructor(
+    private pairingsService: PairingsService,
+    private playerService: PlayerService
+  ) {}
 
   ngOnInit() {
     this.playerService.getAll().subscribe(players => this.players = players);
+    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
   }
 
   deletePlayer(player: Player) {

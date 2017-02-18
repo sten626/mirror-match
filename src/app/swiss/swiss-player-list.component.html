@@ -4,6 +4,6 @@
       [ngClass]="{'active': this.selectedPlayer === player}"
       (click)="selectPlayer(player)">
     {{player.name}}
-    <button class="close" (click)="deletePlayer(player)">&times;</button>
+    <button class="close" *ngIf="canDeletePlayers" (click)="deletePlayer(player)">&times;</button>
   </a>
 </div>

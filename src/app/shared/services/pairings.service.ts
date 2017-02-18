@@ -7,7 +7,8 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingsService {
-  private begunPairings: boolean;
+  begunPairings: boolean;
+
   private begunPairingsSubject = new BehaviorSubject<boolean>(false);
   private _roundsTotal: number;
 
