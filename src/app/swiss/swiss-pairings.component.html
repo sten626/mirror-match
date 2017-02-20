@@ -1,1 +1,13 @@
-<p>Pairings!</p>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="selected-round" class="control-label col-sm-2">Round</label>
+    <div class="col-sm-2">
+      <select id="selected-round" class="form-control">
+        <option *ngFor="let round of rounds" [value]="round">{{round}}</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-default">Generate Pairings</button>
+    </div>
+  </div>
+</form>

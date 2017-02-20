@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 import { PairingsService } from '../shared';
 
@@ -10,12 +12,14 @@ export class PairingsGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): boolean {
-    if (this.pairingsService.begunPairings) {
-      return true;
-    }
+  canActivate(): Observable<boolean> {
+    return this.pairingsService.hasBegunPairings().map(result => {
+      if (result) {
+        return true;
+      }
 
-    this.router.navigate(['/swiss/players']);
-    return false;
+      this.router.navigate(['/swiss/players']);
+      return false;
+    });
   }
 }

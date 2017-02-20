@@ -4,5 +4,5 @@ import { Component } from '@angular/core';
   templateUrl: './swiss-pairings.component.html'
 })
 export class SwissPairingsComponent {
-
+  rounds: number[] = [1];
 }
