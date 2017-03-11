@@ -152,18 +152,15 @@ export class PairingsService {
     if (pairingsData) {
       const rawPairings = JSON.parse(pairingsData);
 
-      for (let i = 0; i < rawPairings.length; i++) {
-        for (let j = 0; j < rawPairings[i].length; j++) {
-          const oldPairing = rawPairings[i][j];
-          const newPairing = {
-            table: oldPairing.table,
-            player1: this.playerService.get(oldPairing.player1),
-            player2: this.playerService.get(oldPairing.player2)
+      rawPairings.forEach(roundPairings => {
+        roundPairings = roundPairings.map(pairing => {
+          return {
+            table: pairing.table,
+            player1: this.playerService.get(pairing.player1),
+            player2: this.playerService.get(pairing.player2)
           };
-
-          rawPairings[i][j] = newPairing;
-        }
-      }
+        });
+      });
 
       this.pairings = rawPairings;
     } else {
@@ -175,22 +172,17 @@ export class PairingsService {
   private savePairingsToLocalStorage() {
     const pairingsToLocalStorage = [];
 
-    for (let i = 0; i < this.pairings.length; i++) {
-      const newPairingsForRound = [];
-
-      for (let j = 0; j < this.pairings[i].length; j++) {
-        const oldPairing = this.pairings[i][j];
-        const newPairing = {
-          table: oldPairing.table,
-          player1: oldPairing.player1.id,
-          player2: oldPairing.player2 ? oldPairing.player2.id : null
+    this.pairings.forEach(roundPairings => {
+      const newRoundPairings = roundPairings.map(pairing => {
+        return {
+          table: pairing.table,
+          player1: pairing.player1.id,
+          player2: pairing.player2.id
         };
+      });
 
-        newPairingsForRound.push(newPairing);
-      }
-
-      pairingsToLocalStorage.push(newPairingsForRound);
-    }
+      pairingsToLocalStorage.push(newRoundPairings);
+    });
 
     localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   }
