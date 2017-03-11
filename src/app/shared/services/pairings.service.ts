@@ -3,16 +3,20 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 
+import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingsService {
   private begunPairings: boolean;
   private begunPairingsSubject = new BehaviorSubject<boolean>(false);
+  private pairings: Pairing[][];
+  private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
   private _roundsTotal: number;
 
   private readonly lsKeys = {
     hasBegunPairings: 'hasBegunPairings',
+    pairings: 'pairings',
     roundsTotal: 'roundsTotal'
   };
 
@@ -27,6 +31,84 @@ export class PairingsService {
   canBeginPairings(): boolean {
     return this.playerService.numPlayers >= 4;
   }
+
+  createPairings(round: number, players: Player[]): Observable<boolean> {
+    if (!this.pairings) {
+      this.loadPairingsFromLocalStorage();
+    }
+
+    const index = round - 1;
+
+    if (this.pairings[index]) {
+      return Observable.create(observer => observer.error(`Pairings already exist for round ${round}.`));
+    }
+
+    for (let i = players.length; i; i--) {
+      const j = Math.floor(Math.random() * i);
+      [players[i - 1], players[j]] = [players[j], players[i - 1]];
+    }
+
+    const pairingsForRound = [];
+    let table = 1;
+
+    while (players.length > 1) {
+      const pairing = {
+        table: table++,
+        player1: players.shift(),
+        player2: players.shift()
+      };
+
+      pairingsForRound.push(pairing);
+    }
+
+    if (players.length) {
+      const pairing = {
+        table: table,
+        player1: players.shift(),
+        player2: null
+      };
+
+      pairingsForRound.push(pairing);
+    }
+
+    this.pairings[index] = pairingsForRound;
+    this.pairingsSubject.next(pairingsForRound.slice());
+    this.savePairingsToLocalStorage();
+
+    return new Observable(observer => {
+      observer.next(true);
+      observer.complete();
+    });
+  }
+
+  get(round: number): Observable<Pairing[]> {
+    if (!this.pairings) {
+      this.loadPairingsFromLocalStorage();
+    }
+
+    const index = round - 1;
+    let pairingsForRound;
+
+    if (index < this.pairings.length) {
+      pairingsForRound = this.pairings[index];
+    } else {
+      pairingsForRound = [];
+    }
+
+    this.pairingsSubject.next(pairingsForRound.slice());
+
+    return this.pairingsSubject.asObservable().distinctUntilChanged();
+  }
+
+  // getAll(): Observable<Pairing[]> {
+  //   if (!this.pairings) {
+  //     this.loadPairingsFromLocalStorage();
+  //   }
+
+  //   this.pairingsSubject.next(this.pairings.slice());
+
+  //   return this.pairingsSubject.asObservable().distinctUntilChanged();
+  // }
 
   hasBegunPairings(): Observable<boolean> {
     if (this.begunPairings === undefined) {
@@ -62,5 +144,54 @@ export class PairingsService {
   set roundsTotal(numRounds: number) {
     this._roundsTotal = numRounds;
     localStorage.setItem(this.lsKeys.roundsTotal, JSON.stringify(this._roundsTotal));
+  }
+
+  private loadPairingsFromLocalStorage() {
+    const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+
+    if (pairingsData) {
+      const rawPairings = JSON.parse(pairingsData);
+
+      for (let i = 0; i < rawPairings.length; i++) {
+        for (let j = 0; j < rawPairings[i].length; j++) {
+          const oldPairing = rawPairings[i][j];
+          const newPairing = {
+            table: oldPairing.table,
+            player1: this.playerService.get(oldPairing.player1),
+            player2: this.playerService.get(oldPairing.player2)
+          };
+
+          rawPairings[i][j] = newPairing;
+        }
+      }
+
+      this.pairings = rawPairings;
+    } else {
+      this.pairings = [];
+      localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this.pairings));
+    }
+  }
+
+  private savePairingsToLocalStorage() {
+    const pairingsToLocalStorage = [];
+
+    for (let i = 0; i < this.pairings.length; i++) {
+      const newPairingsForRound = [];
+
+      for (let j = 0; j < this.pairings[i].length; j++) {
+        const oldPairing = this.pairings[i][j];
+        const newPairing = {
+          table: oldPairing.table,
+          player1: oldPairing.player1.id,
+          player2: oldPairing.player2 ? oldPairing.player2.id : null
+        };
+
+        newPairingsForRound.push(newPairing);
+      }
+
+      pairingsToLocalStorage.push(newPairingsForRound);
+    }
+
+    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   }
 }

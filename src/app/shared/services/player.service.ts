@@ -27,18 +27,23 @@ export class PlayerService {
     return deleteObservable;
   }
 
+  get(id: number): Player {
+    if (!this.players) {
+      this.loadPlayersFromLocalStorage();
+    }
+
+    const player = this.players.filter(p => p.id === id);
+
+    if (player.length === 1) {
+      return player[0];
+    }
+
+    return null;
+  }
+
   getAll(): Observable<Player[]> {
     if (!this.players) {
-      const playersData = localStorage.getItem(this.playersKey);
-
-      if (playersData) {
-        this.players = JSON.parse(playersData);
-      } else {
-        this.players = [];
-        localStorage.setItem(this.playersKey, JSON.stringify(this.players));
-      }
-
-      this.initNextId();
+      this.loadPlayersFromLocalStorage();
     }
 
     this.numPlayers = this.players.length;
@@ -70,12 +75,25 @@ export class PlayerService {
     return playerObservable;
   }
 
-  private initNextId(): void {
+  private initNextId() {
     if (this.players.length > 0) {
       const ids = this.players.map(player => player.id);
       this.nextId = Math.max(...ids) + 1;
     } else {
       this.nextId = 1;
     }
+  }
+
+  private loadPlayersFromLocalStorage() {
+    const playersData = localStorage.getItem(this.playersKey);
+
+    if (playersData) {
+      this.players = JSON.parse(playersData);
+    } else {
+      this.players = [];
+      localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    }
+
+    this.initNextId();
   }
 }
