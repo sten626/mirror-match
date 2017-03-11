@@ -10,10 +10,12 @@ export class PlayerService {
   numPlayers = 0;
   private nextId = 1;
   private players: Player[];
+  private playersCache = {};
   private playersKey = 'players';
   private playersSubject = new BehaviorSubject<Player[]>([]);
 
   delete(player: Player): Observable<boolean> {
+    delete this.playersCache[player.id];
     this.players.splice(this.players.indexOf(player), 1);
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
     this.playersSubject.next(this.players.slice());
@@ -32,13 +34,15 @@ export class PlayerService {
       this.loadPlayersFromLocalStorage();
     }
 
-    const player = this.players.filter(p => p.id === id);
+    if (!this.playersCache[id]) {
+      const player = this.players.filter(p => p.id === id);
 
-    if (player.length === 1) {
-      return player[0];
+      if (player.length === 1) {
+        this.playersCache[id] = player[0];
+      }
     }
 
-    return null;
+    return this.playersCache[id];
   }
 
   getAll(): Observable<Player[]> {
@@ -61,6 +65,7 @@ export class PlayerService {
       // New player.
       player.id = this.nextId++;
       this.players.push(player);
+      this.playersCache[player.id] = player;
     }
 
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
