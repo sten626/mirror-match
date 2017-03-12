@@ -7,15 +7,19 @@ import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
+  numPlayers = 0;
   private nextId = 1;
   private players: Player[];
+  private playersCache = {};
   private playersKey = 'players';
   private playersSubject = new BehaviorSubject<Player[]>([]);
 
   delete(player: Player): Observable<boolean> {
+    delete this.playersCache[player.id];
     this.players.splice(this.players.indexOf(player), 1);
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
     this.playersSubject.next(this.players.slice());
+    this.numPlayers = this.players.length;
 
     const deleteObservable = new Observable(observer => {
       observer.next(true);
@@ -25,20 +29,28 @@ export class PlayerService {
     return deleteObservable;
   }
 
-  getAll(): Observable<Player[]> {
+  get(id: number): Player {
     if (!this.players) {
-      const playersData = localStorage.getItem(this.playersKey);
-
-      if (playersData) {
-        this.players = JSON.parse(playersData);
-      } else {
-        this.players = [];
-        localStorage.setItem(this.playersKey, JSON.stringify(this.players));
-      }
-
-      this.initNextId();
+      this.loadPlayersFromLocalStorage();
     }
 
+    if (!this.playersCache[id]) {
+      const player = this.players.filter(p => p.id === id);
+
+      if (player.length === 1) {
+        this.playersCache[id] = player[0];
+      }
+    }
+
+    return this.playersCache[id];
+  }
+
+  getAll(): Observable<Player[]> {
+    if (!this.players) {
+      this.loadPlayersFromLocalStorage();
+    }
+
+    this.numPlayers = this.players.length;
     this.playersSubject.next(this.players.slice());
 
     return this.playersSubject.asObservable().distinctUntilChanged();
@@ -53,9 +65,11 @@ export class PlayerService {
       // New player.
       player.id = this.nextId++;
       this.players.push(player);
+      this.playersCache[player.id] = player;
     }
 
     localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    this.numPlayers = this.players.length;
     this.playersSubject.next(this.players.slice());
 
     const playerObservable = new Observable(observer => {
@@ -66,12 +80,25 @@ export class PlayerService {
     return playerObservable;
   }
 
-  private initNextId(): void {
+  private initNextId() {
     if (this.players.length > 0) {
       const ids = this.players.map(player => player.id);
       this.nextId = Math.max(...ids) + 1;
     } else {
       this.nextId = 1;
     }
+  }
+
+  private loadPlayersFromLocalStorage() {
+    const playersData = localStorage.getItem(this.playersKey);
+
+    if (playersData) {
+      this.players = JSON.parse(playersData);
+    } else {
+      this.players = [];
+      localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    }
+
+    this.initNextId();
   }
 }

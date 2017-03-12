@@ -4,6 +4,10 @@
         [player]="this.selectedPlayer"
         (onSubmit)="onSubmit($event)">
     </mm-swiss-player-form>
+    <mm-swiss-players-start
+        [numPlayers]=this.players.length
+        [numRounds]=this.numberOfRounds>
+    </mm-swiss-players-start>
   </div>
 
   <div class="col-sm-6">
