@@ -1,0 +1,15 @@
+<form class="form-horizontal panel panel-default" [formGroup]="swissPlayerForm" (ngSubmit)="submit()" novalidate>
+  <div class="panel-body">
+    <div class="form-group">
+      <label for="player-name" class="col-sm-4 control-label">Name:</label>
+      <div class="col-sm-8">
+        <input class="form-control" id="player-name" placeholder="Name" formControlName="name" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-2">
+        <button class="btn btn-default" [disabled]="!swissPlayerForm.valid || isFormDisabled">{{player.id ? 'Save' : 'Add'}} Player</button>
+      </div>
+    </div>
+  </div>
+</form>

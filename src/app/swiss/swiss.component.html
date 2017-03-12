@@ -1,0 +1,20 @@
+<div class="swiss-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" routerLinkActive="active">
+            <a routerLink="/swiss/players">Players</a>
+          </li>
+          <li role="presentation" routerLinkActive="active" *ngIf="isPairingsAvailable">
+            <a routerLink="/swiss/pairings">Pairings</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
