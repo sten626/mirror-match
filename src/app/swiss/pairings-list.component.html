@@ -1,24 +1,27 @@
 <div class="row">
-  <table class="table table-hover" *ngIf="pairings.length > 0">
-    <thead>
-      <tr>
-        <th>Table</th>
-        <th>Player 1</th>
-        <th>Player 1 Result</th>
-        <th>Player 2</th>
-        <th>Player 2 Result</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let pairing of pairings"
-          [ngClass]="{'active': this.activePairing === pairing}"
-          (click)="selectPairing(pairing)">
-        <td>{{pairing.table}}</td>
-        <td>{{pairing.player1.name}}</td>
-        <td>{{resultDisplayString(pairing)}}</td>
-        <td>{{pairing.player2.name}}</td>
-        <td>{{resultDisplayString(pairing, true)}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col-xs-12">
+    <table class="table table-hover" *ngIf="pairings.length > 0">
+      <thead>
+        <tr>
+          <th>Table</th>
+          <th>Player 1</th>
+          <th>Player 1 Result</th>
+          <th>Player 2</th>
+          <th>Player 2 Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pairing of pairings"
+            [ngClass]="{'active': this.activePairing === pairing}"
+            (click)="selectPairing(pairing)">
+          <td>{{pairing.table}}</td>
+          <td>{{pairing.player1.name}}</td>
+          <td>{{resultDisplayString(pairing)}}</td>
+          <td>{{pairing.player2.name}}</td>
+          <td>{{resultDisplayString(pairing, true)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+<mm-match-results [activePairing="this.activePairing"]></mm-match-results>
