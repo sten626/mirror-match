@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PairingsGuard } from './pairings-guard.service';
+import { PairingsListComponent } from './pairings-list.component';
 import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
 import { SwissPlayerFormComponent } from './swiss-player-form.component';
@@ -33,6 +34,7 @@ const routes: Routes = [{
     SharedModule
   ],
   declarations: [
+    PairingsListComponent,
     SwissComponent,
     SwissPairingsComponent,
     SwissPlayerFormComponent,

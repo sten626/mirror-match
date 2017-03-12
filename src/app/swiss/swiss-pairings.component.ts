@@ -7,6 +7,7 @@ import { PairingsService, Player, PlayerService } from '../shared';
   templateUrl: './swiss-pairings.component.html'
 })
 export class SwissPairingsComponent implements OnInit {
+  activeRoundPairingsExist = false;
   rounds: number[] = [1];
   pairingsForm: FormGroup;
   players: Player[];
@@ -27,6 +28,9 @@ export class SwissPairingsComponent implements OnInit {
   ngOnInit() {
     this.playerService.getAll().subscribe(players => this.players = players);
     this.createForm();
+    this.pairingsService.get(this.pairingsForm.value.currentRound).subscribe(pairings => {
+      this.activeRoundPairingsExist = pairings.length > 0;
+    });
   }
 
   private createForm() {

@@ -55,7 +55,10 @@ export class PairingsService {
       const pairing = {
         table: table++,
         player1: players.shift(),
-        player2: players.shift()
+        player2: players.shift(),
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0
       };
 
       pairingsForRound.push(pairing);
@@ -65,7 +68,10 @@ export class PairingsService {
       const pairing = {
         table: table,
         player1: players.shift(),
-        player2: null
+        player2: null,
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0
       };
 
       pairingsForRound.push(pairing);
@@ -99,16 +105,6 @@ export class PairingsService {
 
     return this.pairingsSubject.asObservable().distinctUntilChanged();
   }
-
-  // getAll(): Observable<Pairing[]> {
-  //   if (!this.pairings) {
-  //     this.loadPairingsFromLocalStorage();
-  //   }
-
-  //   this.pairingsSubject.next(this.pairings.slice());
-
-  //   return this.pairingsSubject.asObservable().distinctUntilChanged();
-  // }
 
   hasBegunPairings(): Observable<boolean> {
     if (this.begunPairings === undefined) {
@@ -152,12 +148,15 @@ export class PairingsService {
     if (pairingsData) {
       const rawPairings = JSON.parse(pairingsData);
 
-      rawPairings.forEach(roundPairings => {
-        roundPairings = roundPairings.map(pairing => {
+      rawPairings.forEach((roundPairings, index) => {
+        rawPairings[index] = roundPairings.map(pairing => {
           return {
             table: pairing.table,
             player1: this.playerService.get(pairing.player1),
-            player2: this.playerService.get(pairing.player2)
+            player2: this.playerService.get(pairing.player2),
+            player1Wins: pairing.player1Wins,
+            player2Wins: pairing.player2Wins,
+            draws: pairing.draws
           };
         });
       });
@@ -177,7 +176,10 @@ export class PairingsService {
         return {
           table: pairing.table,
           player1: pairing.player1.id,
-          player2: pairing.player2.id
+          player2: pairing.player2.id,
+          player1Wins: pairing.player1Wins,
+          player2Wins: pairing.player2Wins,
+          draws: pairing.draws
         };
       });
 
