@@ -61,6 +61,7 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     this.activePairing.player1Wins = form.get('player1Wins').value;
     this.activePairing.player2Wins = form.get('player2Wins').value;
     this.activePairing.draws = form.get('draws').value;
+    this.activePairing.submitted = true;
     this.onSubmit.emit();
   }
 

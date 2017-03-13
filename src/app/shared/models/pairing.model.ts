@@ -1,10 +1,13 @@
 import { Player } from './player.model';
 
 export class Pairing {
-  table: number;
-  player1: Player;
-  player2: Player;
-  player1Wins: number;
-  player2Wins: number;
-  draws: number;
+  constructor(
+    public table: number,
+    public player1: Player,
+    public player2: Player,
+    public player1Wins = 0,
+    public player2Wins = 0,
+    public draws = 0,
+    public submitted = false
+  ) {}
 }

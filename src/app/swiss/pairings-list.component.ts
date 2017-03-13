@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Pairing, PairingsService } from '../shared';
 
@@ -6,17 +7,28 @@ import { Pairing, PairingsService } from '../shared';
   selector: 'mm-pairings-list',
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnChanges {
+export class PairingsListComponent implements OnChanges, OnInit {
   @Input() roundNumber: number;
 
   activePairing: Pairing;
   pairings: Pairing[] = [];
+  pairingsListForm: FormGroup;
 
-  constructor(private pairingsService: PairingsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private pairingsService: PairingsService
+  ) {}
 
   ngOnChanges() {
     this.pairingsService.get(this.roundNumber).subscribe(pairings => {
       this.pairings = pairings;
+      console.log(this.pairings);
+    });
+  }
+
+  ngOnInit() {
+    this.pairingsListForm = this.fb.group({
+      showOutstandingOnly: true
     });
   }
 
