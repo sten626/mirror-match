@@ -142,6 +142,17 @@ export class PairingsService {
     localStorage.setItem(this.lsKeys.roundsTotal, JSON.stringify(this._roundsTotal));
   }
 
+  saveForRound(round: number, pairings: Pairing[]): Observable<Pairing[]> {
+    this.pairings[round] = pairings;
+    this.savePairingsToLocalStorage();
+    this.pairingsSubject.next(this.pairings[round]);
+
+    return new Observable(observer => {
+      observer.next(this.pairings[round]);
+      observer.complete();
+    });
+  }
+
   private loadPairingsFromLocalStorage() {
     const pairingsData = localStorage.getItem(this.lsKeys.pairings);
 

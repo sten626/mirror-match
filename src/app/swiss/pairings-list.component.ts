@@ -20,6 +20,12 @@ export class PairingsListComponent implements OnChanges {
     });
   }
 
+  onSubmit() {
+    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
+      this.activePairing = null;
+    });
+  }
+
   resultDisplayString(pairing: Pairing, invert = false): string {
     if (pairing.player1Wins || pairing.player2Wins || pairing.draws) {
       if (invert) {

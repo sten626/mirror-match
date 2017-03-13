@@ -24,4 +24,4 @@
     </table>
   </div>
 </div>
-<mm-match-results [activePairing="this.activePairing"]></mm-match-results>
+<mm-match-results [activePairing]="this.activePairing" (onSubmit)="onSubmit()"></mm-match-results>
