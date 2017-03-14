@@ -32,6 +32,10 @@ export class PairingsListComponent implements OnChanges, OnInit {
     });
   }
 
+  onClearResult() {
+    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
+  }
+
   onSubmit() {
     this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
       this.activePairing = null;

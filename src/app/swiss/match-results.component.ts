@@ -9,12 +9,22 @@ import { Pairing } from '../shared';
 })
 export class MatchResultsComponent implements OnChanges, OnInit {
   @Input() activePairing: Pairing;
+  @Output() onClearResult = new EventEmitter();
   @Output() onSubmit = new EventEmitter();
 
   matchResultsForm: FormGroup;
   resultValid: boolean;
 
   constructor(private fb: FormBuilder) {}
+
+  clearMatchResult() {
+    this.activePairing.player1Wins = 0;
+    this.activePairing.player2Wins = 0;
+    this.activePairing.draws = 0;
+    this.activePairing.submitted = false;
+    this.resetForm();
+    this.onClearResult.emit();
+  }
 
   incrementDraws() {
     const draws = this.matchResultsForm.get('draws').value;
@@ -45,11 +55,7 @@ export class MatchResultsComponent implements OnChanges, OnInit {
       return;
     }
 
-    this.matchResultsForm.reset({
-      player1Wins: this.activePairing.player1Wins,
-      player2Wins: this.activePairing.player2Wins,
-      draws: this.activePairing.draws
-    });
+    this.resetForm();
   }
 
   ngOnInit() {
@@ -94,5 +100,13 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     } else {
       this.resultValid = false;
     }
+  }
+
+  private resetForm() {
+    this.matchResultsForm.reset({
+      player1Wins: this.activePairing.player1Wins,
+      player2Wins: this.activePairing.player2Wins,
+      draws: this.activePairing.draws
+    });
   }
 }
