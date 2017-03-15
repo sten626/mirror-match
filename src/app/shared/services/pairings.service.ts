@@ -132,7 +132,7 @@ export class PairingsService {
     this.pairingsSubject.next(this.pairings[round].slice());
 
     return new Observable(observer => {
-      observer.next(this.pairings[round]);
+      observer.next(this.pairings[round].slice());
       observer.complete();
     });
   }

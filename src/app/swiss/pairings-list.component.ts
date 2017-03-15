@@ -19,10 +19,20 @@ export class PairingsListComponent implements OnChanges, OnInit {
     private pairingsService: PairingsService
   ) {}
 
+  deleteResults() {
+    this.pairings.forEach(pairing => {
+      pairing.player1Wins = 0;
+      pairing.player2Wins = 0;
+      pairing.draws = 0;
+      pairing.submitted = false;
+    });
+
+    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
+  }
+
   ngOnChanges() {
     this.pairingsService.get(this.roundNumber).subscribe(pairings => {
       this.pairings = pairings;
-      console.log(this.pairings);
     });
   }
 
