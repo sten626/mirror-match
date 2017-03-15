@@ -37,6 +37,7 @@ export class PairingsService {
       this.loadPairingsFromLocalStorage();
     }
 
+    players = players.slice();
     const index = round - 1;
 
     if (this.pairings[index]) {
@@ -69,6 +70,20 @@ export class PairingsService {
       observer.next(true);
       observer.complete();
     });
+  }
+
+  deletePairings(round: number): Observable<boolean> {
+    if (!this.pairings) {
+      this.loadPairingsFromLocalStorage();
+    }
+
+    const index = round - 1;
+    this.pairings.splice(index, 1);
+    console.log(this.pairings);
+    this.savePairingsToLocalStorage();
+    this.pairingsSubject.next([]);
+
+    return Observable.create(observer => observer.next(true));
   }
 
   get(round: number): Observable<Pairing[]> {

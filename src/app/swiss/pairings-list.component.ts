@@ -5,6 +5,7 @@ import { Pairing, PairingsService } from '../shared';
 
 @Component({
   selector: 'mm-pairings-list',
+  styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
 export class PairingsListComponent implements OnChanges, OnInit {
@@ -50,6 +51,10 @@ export class PairingsListComponent implements OnChanges, OnInit {
     this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
       this.activePairing = null;
     });
+  }
+
+  redoMatches() {
+    this.pairingsService.deletePairings(this.roundNumber).subscribe();
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
