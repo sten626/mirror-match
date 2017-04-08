@@ -17,7 +17,7 @@ export class PlayerService {
   delete(player: Player): Observable<boolean> {
     delete this.playersCache[player.id];
     this.players.splice(this.players.indexOf(player), 1);
-    localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    this.saveToLocalStorage();
     this.playersSubject.next(this.players.slice());
     this.numPlayers = this.players.length;
 
@@ -31,7 +31,7 @@ export class PlayerService {
 
   get(id: number): Player {
     if (!this.players) {
-      this.loadPlayersFromLocalStorage();
+      this.loadFromLocalStorage();
     }
 
     if (!this.playersCache[id]) {
@@ -47,7 +47,7 @@ export class PlayerService {
 
   getAll(): Observable<Player[]> {
     if (!this.players) {
-      this.loadPlayersFromLocalStorage();
+      this.loadFromLocalStorage();
     }
 
     this.numPlayers = this.players.length;
@@ -68,7 +68,7 @@ export class PlayerService {
       this.playersCache[player.id] = player;
     }
 
-    localStorage.setItem(this.playersKey, JSON.stringify(this.players));
+    this.saveToLocalStorage();
     this.numPlayers = this.players.length;
     this.playersSubject.next(this.players.slice());
 
@@ -89,16 +89,31 @@ export class PlayerService {
     }
   }
 
-  private loadPlayersFromLocalStorage() {
+  private loadFromLocalStorage() {
     const playersData = localStorage.getItem(this.playersKey);
 
     if (playersData) {
-      this.players = JSON.parse(playersData);
+      // this.players = JSON.parse(playersData);
+      const playersRawArray = JSON.parse(playersData);
+      this.players = playersRawArray.map(rawPlayer => {
+        return new Player(rawPlayer.id, rawPlayer.name);
+      });
     } else {
       this.players = [];
       localStorage.setItem(this.playersKey, JSON.stringify(this.players));
     }
 
     this.initNextId();
+  }
+
+  private saveToLocalStorage() {
+    const playersToLocalStorage = this.players.map(player => {
+      return {
+        id: player.id,
+        name: player.name
+      };
+    });
+
+    localStorage.setItem(this.playersKey, JSON.stringify(playersToLocalStorage));
   }
 }
