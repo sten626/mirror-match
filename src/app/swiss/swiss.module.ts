@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MatchResultsComponent } from './match-results.component';
 import { PairingsGuard } from './pairings-guard.service';
 import { PairingsListComponent } from './pairings-list.component';
 import { SwissComponent } from './swiss.component';
@@ -34,6 +35,7 @@ const routes: Routes = [{
     SharedModule
   ],
   declarations: [
+    MatchResultsComponent,
     PairingsListComponent,
     SwissComponent,
     SwissPairingsComponent,

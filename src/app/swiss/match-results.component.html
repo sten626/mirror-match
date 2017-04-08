@@ -1,0 +1,82 @@
+<form class="form-horizontal panel panel-default"
+    *ngIf="activePairing"
+    [formGroup]="matchResultsForm"
+    (submit)="submit()"
+    novalidate>
+  <div class="panel-body">
+    <div class="form-group">
+      <label for="player1Wins" class="col-xs-4 control-label">{{activePairing.player1.name}}:</label>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <input type="number" class="form-control" id="player1Wins" min="0" max="2" formControlName="player1Wins">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="incrementPlayer1Wins()">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-6">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" formControlName="player1Dropped"> Drop
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="player2Wins" class="col-xs-4 control-label">{{activePairing.player2.name}}:</label>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <input type="number" class="form-control" id="player2Wins" min="0" max="2" formControlName="player2Wins">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="incrementPlayer2Wins()">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-6">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" formControlName="player2Dropped"> Drop
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="draws" class="col-xs-4 control-label">Draws:</label>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <input type="number" class="form-control" id="draws" min="0" max="2" formControlName="draws">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="incrementDraws()">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-xs-4">
+        <button type="submit"
+            class="btn btn-default pull-right"
+            [disabled]="!resultValid">
+          Submit
+        </button>
+      </div>
+      <div class="col-xs-4">
+        <button type="button"
+            class="btn btn-default"
+            (click)="clearMatchResult()">
+          Clear Result
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
