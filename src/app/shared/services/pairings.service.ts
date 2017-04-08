@@ -34,7 +34,7 @@ export class PairingsService {
 
   createPairings(round: number, players: Player[]): Observable<boolean> {
     if (!this.pairings) {
-      this.loadPairingsFromLocalStorage();
+      this.loadFromLocalStorage();
     }
 
     players = players.slice();
@@ -64,7 +64,7 @@ export class PairingsService {
 
     this.pairings[index] = pairingsForRound;
     this.pairingsSubject.next(pairingsForRound.slice());
-    this.savePairingsToLocalStorage();
+    this.saveToLocalStorage();
 
     return new Observable(observer => {
       observer.next(true);
@@ -74,13 +74,13 @@ export class PairingsService {
 
   deletePairings(round: number): Observable<boolean> {
     if (!this.pairings) {
-      this.loadPairingsFromLocalStorage();
+      this.loadFromLocalStorage();
     }
 
     const index = round - 1;
     this.pairings.splice(index, 1);
     console.log(this.pairings);
-    this.savePairingsToLocalStorage();
+    this.saveToLocalStorage();
     this.pairingsSubject.next([]);
 
     return Observable.create(observer => observer.next(true));
@@ -88,7 +88,7 @@ export class PairingsService {
 
   get(round: number): Observable<Pairing[]> {
     if (!this.pairings) {
-      this.loadPairingsFromLocalStorage();
+      this.loadFromLocalStorage();
     }
 
     const index = round - 1;
@@ -143,7 +143,7 @@ export class PairingsService {
 
   saveForRound(round: number, pairings: Pairing[]): Observable<Pairing[]> {
     this.pairings[round] = pairings;
-    this.savePairingsToLocalStorage();
+    this.saveToLocalStorage();
     this.pairingsSubject.next(this.pairings[round].slice());
 
     return new Observable(observer => {
@@ -152,7 +152,7 @@ export class PairingsService {
     });
   }
 
-  private loadPairingsFromLocalStorage() {
+  private loadFromLocalStorage() {
     const pairingsData = localStorage.getItem(this.lsKeys.pairings);
 
     if (pairingsData) {
@@ -178,7 +178,7 @@ export class PairingsService {
     }
   }
 
-  private savePairingsToLocalStorage() {
+  private saveToLocalStorage() {
     const pairingsToLocalStorage = [];
 
     this.pairings.forEach(roundPairings => {
