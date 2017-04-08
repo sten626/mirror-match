@@ -37,6 +37,7 @@ export class PairingsService {
       this.loadPairingsFromLocalStorage();
     }
 
+    players = players.slice();
     const index = round - 1;
 
     if (this.pairings[index]) {
@@ -52,28 +53,12 @@ export class PairingsService {
     let table = 1;
 
     while (players.length > 1) {
-      const pairing = {
-        table: table++,
-        player1: players.shift(),
-        player2: players.shift(),
-        player1Wins: 0,
-        player2Wins: 0,
-        draws: 0
-      };
-
+      const pairing = new Pairing(table++, players.shift(), players.shift());
       pairingsForRound.push(pairing);
     }
 
     if (players.length) {
-      const pairing = {
-        table: table,
-        player1: players.shift(),
-        player2: null,
-        player1Wins: 0,
-        player2Wins: 0,
-        draws: 0
-      };
-
+      const pairing = new Pairing(table, players.shift(), null);
       pairingsForRound.push(pairing);
     }
 
@@ -85,6 +70,20 @@ export class PairingsService {
       observer.next(true);
       observer.complete();
     });
+  }
+
+  deletePairings(round: number): Observable<boolean> {
+    if (!this.pairings) {
+      this.loadPairingsFromLocalStorage();
+    }
+
+    const index = round - 1;
+    this.pairings.splice(index, 1);
+    console.log(this.pairings);
+    this.savePairingsToLocalStorage();
+    this.pairingsSubject.next([]);
+
+    return Observable.create(observer => observer.next(true));
   }
 
   get(round: number): Observable<Pairing[]> {
@@ -142,6 +141,17 @@ export class PairingsService {
     localStorage.setItem(this.lsKeys.roundsTotal, JSON.stringify(this._roundsTotal));
   }
 
+  saveForRound(round: number, pairings: Pairing[]): Observable<Pairing[]> {
+    this.pairings[round] = pairings;
+    this.savePairingsToLocalStorage();
+    this.pairingsSubject.next(this.pairings[round].slice());
+
+    return new Observable(observer => {
+      observer.next(this.pairings[round].slice());
+      observer.complete();
+    });
+  }
+
   private loadPairingsFromLocalStorage() {
     const pairingsData = localStorage.getItem(this.lsKeys.pairings);
 
@@ -150,14 +160,14 @@ export class PairingsService {
 
       rawPairings.forEach((roundPairings, index) => {
         rawPairings[index] = roundPairings.map(pairing => {
-          return {
-            table: pairing.table,
-            player1: this.playerService.get(pairing.player1),
-            player2: this.playerService.get(pairing.player2),
-            player1Wins: pairing.player1Wins,
-            player2Wins: pairing.player2Wins,
-            draws: pairing.draws
-          };
+          return new Pairing(
+            pairing.table,
+            this.playerService.get(pairing.player1),
+            this.playerService.get(pairing.player2),
+            pairing.player1Wins,
+            pairing.player2Wins,
+            pairing.draws,
+            pairing.submitted);
         });
       });
 
@@ -179,7 +189,8 @@ export class PairingsService {
           player2: pairing.player2.id,
           player1Wins: pairing.player1Wins,
           player2Wins: pairing.player2Wins,
-          draws: pairing.draws
+          draws: pairing.draws,
+          submitted: pairing.submitted
         };
       });
 
