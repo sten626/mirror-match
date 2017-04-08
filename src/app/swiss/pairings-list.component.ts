@@ -12,8 +12,10 @@ export class PairingsListComponent implements OnChanges, OnInit {
   @Input() roundNumber: number;
 
   activePairing: Pairing;
-  pairings: Pairing[] = [];
+  filteredPairings: Pairing[] = [];
   pairingsListForm: FormGroup;
+
+  private pairings: Pairing[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -34,13 +36,21 @@ export class PairingsListComponent implements OnChanges, OnInit {
   ngOnChanges() {
     this.pairingsService.get(this.roundNumber).subscribe(pairings => {
       this.pairings = pairings;
+      this.filterPairings();
     });
   }
 
   ngOnInit() {
     this.pairingsListForm = this.fb.group({
+      pairingsSearch: '',
       showOutstandingOnly: true
     });
+
+    this.pairingsListForm.valueChanges.subscribe(() => {
+      this.filterPairings();
+    });
+
+    this.filterPairings();
   }
 
   onClearResult() {
@@ -71,5 +81,25 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   selectPairing(pairing: Pairing) {
     this.activePairing = pairing;
+  }
+
+  private filterPairings() {
+    if (!this.pairingsListForm) {
+      return;
+    }
+
+    if (this.pairingsListForm.get('showOutstandingOnly').value) {
+      this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
+    } else {
+      this.filteredPairings = this.pairings.slice();
+    }
+
+    const filterText = this.pairingsListForm.get('pairingsSearch').value.trim();
+
+    if (filterText) {
+      this.filteredPairings = this.filteredPairings.filter(pairing => {
+        return pairing.table === filterText || pairing.player1.name.includes(filterText) || pairing.player2.name.includes(filterText);
+      });
+    }
   }
 }
