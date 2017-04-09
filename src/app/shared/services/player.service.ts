@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/count';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { Player } from '../models';
@@ -29,10 +30,8 @@ export class PlayerService {
 
     // Setup Observables.
     this.players = this.playersSubject.asObservable().distinctUntilChanged();
-    this.numberOfPlayers = this.players.count().distinctUntilChanged();
-    this.recommendedNumberOfRounds = this.numberOfPlayers.map(num => {
-      return Math.max(3, Math.ceil(Math.log2(num)));
-    }).distinctUntilChanged();
+    this.numberOfPlayers = this.players.map((players: Player[]) => players.length).distinctUntilChanged();
+    this.recommendedNumberOfRounds = this.numberOfPlayers.map(num => Math.max(3, Math.ceil(Math.log2(num)))).distinctUntilChanged();
     this.selectedPlayer = this.selectedPlayerSubject.asObservable().distinctUntilChanged();
 
     this.playersSubject.next(this._players.slice());
