@@ -24,7 +24,7 @@ export class SwissPlayerListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.playerService.getAll().subscribe(players => this.players = players);
+    this.playerService.players.subscribe(players => this.players = players);
     this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
   }
 

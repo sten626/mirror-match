@@ -26,7 +26,7 @@ export class SwissPairingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.playerService.getAll().subscribe(players => this.players = players);
+    this.playerService.players.subscribe(players => this.players = players);
     this.createForm();
     this.pairingsService.get(this.pairingsForm.value.currentRound).subscribe(pairings => {
       this.activeRoundPairingsExist = pairings.length > 0;

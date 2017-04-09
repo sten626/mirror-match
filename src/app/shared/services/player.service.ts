@@ -14,6 +14,7 @@ export class PlayerService {
 
   private nextId: number;
   private _players: Player[];
+  private playersLookup = {};
   private playersSubject = new BehaviorSubject<Player[]>([]);
 
   private readonly lsKeys = {
@@ -40,6 +41,14 @@ export class PlayerService {
       this.saveToLocalStorage();
       this.playersSubject.next(this._players.slice());
     }
+  }
+
+  get(id: number): Player {
+    if (!this.playersLookup[id]) {
+      return null;
+    }
+
+    return this.playersLookup[id];
   }
 
   save(player: Player): void {
@@ -69,7 +78,9 @@ export class PlayerService {
     if (playersData) {
       const playersRawArray = JSON.parse(playersData);
       this._players = playersRawArray.map(rawPlayer => {
-        return new Player(rawPlayer.id, rawPlayer.name);
+        const player = new Player(rawPlayer.id, rawPlayer.name);
+        this.playersLookup[rawPlayer.id] = player;
+        return player;
       });
     } else {
       this._players = [];
@@ -89,20 +100,4 @@ export class PlayerService {
 
     localStorage.setItem(this.lsKeys.players, JSON.stringify(playersToLocalStorage));
   }
-
-  // get(id: number): Player {
-  //   if (!this.players) {
-  //     this.loadFromLocalStorage();
-  //   }
-
-  //   if (!this.playersCache[id]) {
-  //     const player = this.players.filter(p => p.id === id);
-
-  //     if (player.length === 1) {
-  //       this.playersCache[id] = player[0];
-  //     }
-  //   }
-
-  //   return this.playersCache[id];
-  // }
 }

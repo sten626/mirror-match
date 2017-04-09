@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import {
-  PairingsService,
   Player,
   PlayerService
 } from '../shared';
@@ -15,27 +14,22 @@ export class SwissPlayersComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
-    private pairingsService: PairingsService,
     private playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
-    this.getPlayers();
-    this.numberOfRounds = this.pairingsService.roundsTotal || this.playerService.getRecommendedNumberOfRounds();
+    this.playerService.players.subscribe(players => this.players = players);
+    this.playerService.recommendedNumberOfRounds.subscribe(numRounds => {
+      this.numberOfRounds = numRounds;
+    });
     this.resetSelectedPlayer();
   }
 
   onDeletePlayer(player: Player) {
-    this.playerService.delete(player).subscribe(() => {
-      if (player === this.selectedPlayer) {
-        this.resetSelectedPlayer();
-      }
-
-      this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
-    }, err => {
-      // TODO: Error handling.
-      console.log(err);
-    });
+    this.playerService.delete(player);
+    if (player === this.selectedPlayer) {
+      this.resetSelectedPlayer();
+    }
   }
 
   onSelectPlayer(player: Player) {
@@ -44,21 +38,12 @@ export class SwissPlayersComponent implements OnInit {
 
   onSubmit(player: Player): void {
     if (player) {
-      this.playerService.save(player).subscribe(() => {
-        this.resetSelectedPlayer();
-        this.numberOfRounds = this.playerService.getRecommendedNumberOfRounds();
-      }, err => {
-        // TODO: Error handling.
-        console.log(err);
-      });
+      this.playerService.save(player);
+      this.resetSelectedPlayer();
     }
   }
 
   private resetSelectedPlayer(): void {
     this.selectedPlayer = new Player();
-  }
-
-  private getPlayers(): void {
-    this.playerService.getAll().subscribe(players => this.players = players);
   }
 }
