@@ -11,11 +11,14 @@ export class PlayerService {
   numberOfPlayers: Observable<number>;
   players: Observable<Player[]>;
   recommendedNumberOfRounds: Observable<number>;
+  selectedPlayer: Observable<Player>;
 
   private nextId: number;
   private _players: Player[];
   private playersLookup = {};
   private playersSubject = new BehaviorSubject<Player[]>([]);
+  private _selectedPlayer: Player;
+  private selectedPlayerSubject = new BehaviorSubject<Player>(new Player());
 
   private readonly lsKeys = {
     players: 'players'
@@ -30,6 +33,7 @@ export class PlayerService {
     this.recommendedNumberOfRounds = this.numberOfPlayers.map(num => {
       return Math.max(3, Math.ceil(Math.log2(num)));
     }).distinctUntilChanged();
+    this.selectedPlayer = this.selectedPlayerSubject.asObservable().distinctUntilChanged();
 
     this.playersSubject.next(this._players.slice());
   }
@@ -39,6 +43,12 @@ export class PlayerService {
       const playerIndex = this._players.indexOf(player);
       this._players.splice(playerIndex, 1);
       this.saveToLocalStorage();
+
+      if (player === this._selectedPlayer) {
+        this._selectedPlayer = new Player();
+        this.selectedPlayerSubject.next(this._selectedPlayer);
+      }
+
       this.playersSubject.next(this._players.slice());
     }
   }
@@ -61,6 +71,11 @@ export class PlayerService {
     // TODO: Save existing players?
     this.saveToLocalStorage();
     this.playersSubject.next(this._players.slice());
+  }
+
+  setSelectedPlayer(player: Player): void {
+    this._selectedPlayer = player;
+    this.selectedPlayerSubject.next(this._selectedPlayer);
   }
 
   private initNextId() {

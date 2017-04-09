@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import {
   PairingsService,
@@ -11,12 +12,8 @@ import {
   templateUrl: './swiss-player-list.component.html'
 })
 export class SwissPlayerListComponent implements OnInit {
-  @Input() selectedPlayer: Player;
-  @Output() onDeletePlayer = new EventEmitter<Player>();
-  @Output() onSelectPlayer = new EventEmitter<Player>();
-
   canDeletePlayers = true;
-  players: Player[];
+  players: Observable<Player[]>;
 
   constructor(
     private pairingsService: PairingsService,
@@ -24,15 +21,15 @@ export class SwissPlayerListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.playerService.players.subscribe(players => this.players = players);
+    this.players = this.playerService.players;
     this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
   }
 
   deletePlayer(player: Player) {
-    this.onDeletePlayer.emit(player);
+    this.playerService.delete(player);
   }
 
   selectPlayer(player: Player) {
-    this.onSelectPlayer.emit(player);
+    this.playerService.setSelectedPlayer(player);
   }
 }
