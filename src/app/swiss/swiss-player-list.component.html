@@ -1,7 +1,7 @@
 <div class="list-group">
   <a *ngFor="let player of players | async"
       class="list-group-item"
-      [ngClass]="{'active': this.selectedPlayer === player}"
+      [ngClass]="{'active': selectedPlayer === player}"
       (click)="selectPlayer(player)">
     {{player.name}}
     <button class="close" *ngIf="canDeletePlayers" (click)="deletePlayer(player)">&times;</button>

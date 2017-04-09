@@ -14,6 +14,7 @@ import {
 export class SwissPlayerListComponent implements OnInit {
   canDeletePlayers = true;
   players: Observable<Player[]>;
+  selectedPlayer: Player;
 
   constructor(
     private pairingsService: PairingsService,
@@ -22,6 +23,9 @@ export class SwissPlayerListComponent implements OnInit {
 
   ngOnInit() {
     this.players = this.playerService.players;
+    this.playerService.selectedPlayer.subscribe(player => {
+      this.selectedPlayer = player;
+    });
     this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
   }
 
