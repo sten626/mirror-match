@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import {
-  PairingService,
   Player,
-  PlayerService
+  PlayerService,
+  RoundService
 } from '../shared';
 
 @Component({
@@ -13,14 +13,13 @@ import {
 })
 export class SwissPlayerFormComponent implements OnInit {
   currentPlayer: Player;
+  hasBegunTournament = false;
   swissPlayerForm: FormGroup;
-
-  private isFormDisabled = false;
 
   constructor(
     private fb: FormBuilder,
-    private pairingService: PairingService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private roundService: RoundService
   ) {}
 
   ngOnInit() {
@@ -32,13 +31,13 @@ export class SwissPlayerFormComponent implements OnInit {
       });
     });
 
-    this.pairingService.hasBegunPairings().subscribe(hasBegunPairings => {
-      this.isFormDisabled = hasBegunPairings;
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
+      this.hasBegunTournament = hasBegun;
 
-      if (this.isFormDisabled) {
-        this.swissPlayerForm.get('name').disable();
+      if (hasBegun) {
+        this.swissPlayerForm.disable();
       } else {
-        this.swissPlayerForm.get('name').enable();
+        this.swissPlayerForm.enable();
       }
     });
   }

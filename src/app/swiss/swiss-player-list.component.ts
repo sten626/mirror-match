@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  PairingService,
   Player,
-  PlayerService
+  PlayerService,
+  RoundService
 } from '../shared';
 
 @Component({
@@ -12,21 +12,21 @@ import {
   templateUrl: './swiss-player-list.component.html'
 })
 export class SwissPlayerListComponent implements OnInit {
-  canDeletePlayers = true;
+  hasBegunTournament = false;
   players: Observable<Player[]>;
   selectedPlayer: Player;
 
   constructor(
-    private pairingService: PairingService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private roundService: RoundService
   ) {}
 
   ngOnInit() {
     this.players = this.playerService.players;
-    this.playerService.selectedPlayer.subscribe(player => {
+    this.playerService.selectedPlayer.subscribe((player: Player) => {
       this.selectedPlayer = player;
     });
-    this.pairingService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasBegunTournament = hasBegun);
   }
 
   deletePlayer(player: Player) {
@@ -34,6 +34,8 @@ export class SwissPlayerListComponent implements OnInit {
   }
 
   selectPlayer(player: Player) {
-    this.playerService.setSelectedPlayer(player);
+    if (!this.hasBegunTournament) {
+      this.playerService.setSelectedPlayer(player);
+    }
   }
 }
