@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  PairingsService,
+  PairingService,
   Player,
   PlayerService
 } from '../shared';
@@ -17,7 +17,7 @@ export class SwissPlayerListComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
-    private pairingsService: PairingsService,
+    private pairingService: PairingService,
     private playerService: PlayerService
   ) {}
 
@@ -26,7 +26,7 @@ export class SwissPlayerListComponent implements OnInit {
     this.playerService.selectedPlayer.subscribe(player => {
       this.selectedPlayer = player;
     });
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
+    this.pairingService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
   }
 
   deletePlayer(player: Player) {

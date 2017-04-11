@@ -8,7 +8,7 @@ import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
 
 @Injectable()
-export class PairingsService {
+export class PairingService {
   canBeginTournament: Observable<boolean>;
 
   private begunPairings: boolean;

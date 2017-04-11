@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import {
-  PairingsService,
+  PairingService,
   Player,
   PlayerService
 } from '../shared';
@@ -19,7 +19,7 @@ export class SwissPlayerFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private pairingsService: PairingsService,
+    private pairingService: PairingService,
     private playerService: PlayerService
   ) {}
 
@@ -32,7 +32,7 @@ export class SwissPlayerFormComponent implements OnInit {
       });
     });
 
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
+    this.pairingService.hasBegunPairings().subscribe(hasBegunPairings => {
       this.isFormDisabled = hasBegunPairings;
 
       if (this.isFormDisabled) {

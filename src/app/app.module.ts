@@ -11,7 +11,7 @@ import { SwissModule } from './swiss/swiss.module';
 import {
   FooterComponent,
   HeaderComponent,
-  PairingsService,
+  PairingService,
   PlayerService,
   SharedModule
 } from './shared';
@@ -37,7 +37,7 @@ const routes: Routes = [{
     SwissModule
   ],
   providers: [
-    PairingsService,
+    PairingService,
     PlayerService
   ],
   bootstrap: [AppComponent]

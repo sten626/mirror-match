@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Pairing, PairingsService } from '../shared';
+import { Pairing, PairingService } from '../shared';
 
 @Component({
   selector: 'mm-pairings-list',
@@ -19,7 +19,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private pairingsService: PairingsService
+    private pairingService: PairingService
   ) {}
 
   deleteResults() {
@@ -30,11 +30,11 @@ export class PairingsListComponent implements OnChanges, OnInit {
       pairing.submitted = false;
     });
 
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
+    this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe();
   }
 
   ngOnChanges() {
-    this.pairingsService.get(this.roundNumber).subscribe(pairings => {
+    this.pairingService.get(this.roundNumber).subscribe(pairings => {
       this.pairings = pairings;
       this.filterPairings();
     });
@@ -54,17 +54,17 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   onClearResult() {
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
+    this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe();
   }
 
   onSubmit() {
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
+    this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
       this.activePairing = null;
     });
   }
 
   redoMatches() {
-    this.pairingsService.deletePairings(this.roundNumber).subscribe();
+    this.pairingService.deletePairings(this.roundNumber).subscribe();
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {

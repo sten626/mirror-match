@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PairingsService } from '../shared';
+import { PairingService } from '../shared';
 
 @Component({
   templateUrl: './swiss.component.html'
@@ -8,10 +8,10 @@ import { PairingsService } from '../shared';
 export class SwissComponent implements OnInit {
   isPairingsAvailable = false;
 
-  constructor(private pairingsService: PairingsService) {}
+  constructor(private pairingService: PairingService) {}
 
   ngOnInit() {
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
+    this.pairingService.hasBegunPairings().subscribe(hasBegunPairings => {
       this.isPairingsAvailable = hasBegunPairings;
     });
   }

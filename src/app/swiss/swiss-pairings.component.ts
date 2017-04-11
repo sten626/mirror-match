@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { PairingsService, Player, PlayerService } from '../shared';
+import {
+  PairingService,
+  Player,
+  PlayerService
+} from '../shared';
 
 @Component({
   templateUrl: './swiss-pairings.component.html'
@@ -14,12 +18,12 @@ export class SwissPairingsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private pairingsService: PairingsService,
+    private pairingService: PairingService,
     private playerService: PlayerService
   ) {}
 
   generatePairings() {
-    this.pairingsService.createPairings(1, this.players).subscribe(() => {}, error => {
+    this.pairingService.createPairings(1, this.players).subscribe(() => {}, error => {
       // TODO Error handling.
       console.error(error);
     });
@@ -28,7 +32,7 @@ export class SwissPairingsComponent implements OnInit {
   ngOnInit() {
     this.playerService.players.subscribe(players => this.players = players);
     this.createForm();
-    this.pairingsService.get(this.pairingsForm.value.currentRound).subscribe(pairings => {
+    this.pairingService.get(this.pairingsForm.value.currentRound).subscribe(pairings => {
       this.activeRoundPairingsExist = pairings.length > 0;
     });
   }

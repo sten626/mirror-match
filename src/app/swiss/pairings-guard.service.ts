@@ -3,17 +3,17 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { PairingsService } from '../shared';
+import { PairingService } from '../shared';
 
 @Injectable()
 export class PairingsGuard implements CanActivate {
   constructor(
-    private pairingsService: PairingsService,
+    private pairingService: PairingService,
     private router: Router
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.pairingsService.hasBegunPairings().map(result => {
+    return this.pairingService.hasBegunPairings().map(result => {
       if (result) {
         return true;
       }
