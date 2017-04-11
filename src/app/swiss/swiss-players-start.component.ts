@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import {
   PlayerService,
@@ -11,17 +12,16 @@ import {
   templateUrl: './swiss-players-start.component.html'
 })
 export class SwissPlayersStartComponent implements OnInit {
-  // isFormDisabled = false;
-  canBeginTournement = false;
+  canBeginTournament = false;
+  hasBegunTournament = false;
   numberOfRounds = 3;
   swissPlayersStartForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    // private pairingsService: PairingsService,
     private playerService: PlayerService,
-    private roundService: RoundService
-    // private router: Router
+    private roundService: RoundService,
+    private router: Router
   ) {}
 
   // canBeginEvent(): boolean {
@@ -44,23 +44,22 @@ export class SwissPlayersStartComponent implements OnInit {
         numberOfRounds: this.numberOfRounds
       });
     });
-    this.roundService.canBeginTournament.subscribe(canBegin => this.canBeginTournement = canBegin);
-    // this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
-    //   this.isFormDisabled = hasBegunPairings;
+    this.roundService.canBeginTournament.subscribe((canBegin: boolean) => this.canBeginTournament = canBegin);
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
+      this.hasBegunTournament = hasBegun;
 
-    //   if (this.isFormDisabled) {
-    //     this.swissPlayersStartForm.get('numberOfRounds').disable();
-    //   } else {
-    //     this.swissPlayersStartForm.get('numberOfRounds').enable();
-    //   }
-    // });
+      if (hasBegun) {
+        this.swissPlayersStartForm.disable();
+      } else {
+        this.swissPlayersStartForm.enable();
+      }
+    });
   }
 
   onSubmit() {
-    // this.numRounds = this.swissPlayersStartForm.value.numberOfRounds;
-    // this.pairingsService.roundsTotal = this.numRounds;
-    // this.pairingsService.beginPairings();
-    // this.router.navigate(['/swiss/pairings']);
+    this.roundService.setTotalNumberOfRounds(this.swissPlayersStartForm.get('numberOfRounds').value);
+    this.roundService.createNextRound();
+    this.router.navigate(['/swiss/pairings']);
   }
 
   private createForm() {
