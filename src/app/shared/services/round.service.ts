@@ -4,16 +4,20 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
-import { PlayerService } from '../services';
+import { Player } from '../models';
+import { PlayerService } from './';
 
 @Injectable()
 export class RoundService {
     canBeginTournament: Observable<boolean>;
     hasBegunTournament: Observable<boolean>;
     rounds: Observable<number[]>;
+    selectedRound: Observable<number>;
 
+    private players: Player[];
     private _rounds: number[];
     private roundsSubject = new BehaviorSubject<number[]>([]);
+    private selectedRoundSubject: BehaviorSubject<number>;
     private totalNumberOfRounds: number;
 
     private readonly lsKeys = {
@@ -30,6 +34,9 @@ export class RoundService {
       this.canBeginTournament = this.playerService.numberOfPlayers.map((numPlayers: number) => numPlayers >= 4).distinctUntilChanged();
       this.rounds = this.roundsSubject.asObservable().distinctUntilChanged();
       this.hasBegunTournament = this.rounds.map((rounds: number[]) => rounds.length > 0).distinctUntilChanged();
+      this.selectedRoundSubject = new BehaviorSubject<number>(Math.max(...this._rounds));
+      this.selectedRound = this.selectedRoundSubject.asObservable().distinctUntilChanged();
+      this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
       this.roundsSubject.next(this._rounds);
     }
@@ -39,6 +46,19 @@ export class RoundService {
       this._rounds.push(nextRound);
       this.saveToLocalStorage();
       this.roundsSubject.next(this._rounds.slice());
+      this.selectedRoundSubject.next(nextRound);
+    }
+
+    createPairingsForSelectedRound(): void {
+      const players = this.players.slice();
+
+      // Copy and shuffle.
+      for (let i = players.length; i; i--) {
+        const j = Math.floor(Math.random() * i);
+        [players[i - 1], players[j]] = [players[j], players[i - 1]];
+      }
+
+      // TODO: Working here.
     }
 
     setTotalNumberOfRounds(numberOfRounds: number): void {

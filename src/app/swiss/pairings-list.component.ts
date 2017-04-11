@@ -34,10 +34,10 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    this.pairingService.get(this.roundNumber).subscribe(pairings => {
-      this.pairings = pairings;
-      this.filterPairings();
-    });
+    // this.pairingService.get(this.roundNumber).subscribe(pairings => {
+    //   this.pairings = pairings;
+    //   this.filterPairings();
+    // });
   }
 
   ngOnInit() {
