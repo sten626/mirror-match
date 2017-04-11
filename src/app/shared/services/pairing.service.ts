@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/every';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { Pairing, Player } from '../models';
@@ -9,8 +8,6 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingService {
-  canBeginTournament: Observable<boolean>;
-
   private begunPairings: boolean;
   private begunPairingsSubject = new BehaviorSubject<boolean>(false);
   private pairings: Pairing[][];
@@ -23,9 +20,7 @@ export class PairingService {
     roundsTotal: 'roundsTotal'
   };
 
-  constructor(private playerService: PlayerService) {
-    this.canBeginTournament = playerService.numberOfPlayers.every(numPlayers => numPlayers >= 4).distinctUntilChanged();
-  }
+  constructor(private playerService: PlayerService) {}
 
   beginPairings() {
     this.begunPairings = true;

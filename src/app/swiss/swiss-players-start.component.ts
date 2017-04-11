@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
-  PlayerService
+  PlayerService,
+  RoundService
 } from '../shared';
 
 @Component({
@@ -11,13 +12,15 @@ import {
 })
 export class SwissPlayersStartComponent implements OnInit {
   // isFormDisabled = false;
+  canBeginTournement = false;
   numberOfRounds = 3;
   swissPlayersStartForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     // private pairingsService: PairingsService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private roundService: RoundService
     // private router: Router
   ) {}
 
@@ -41,6 +44,7 @@ export class SwissPlayersStartComponent implements OnInit {
         numberOfRounds: this.numberOfRounds
       });
     });
+    this.roundService.canBeginTournament.subscribe(canBegin => this.canBeginTournement = canBegin);
     // this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
     //   this.isFormDisabled = hasBegunPairings;
 

@@ -13,6 +13,7 @@ import {
   HeaderComponent,
   PairingService,
   PlayerService,
+  RoundService,
   SharedModule
 } from './shared';
 
@@ -38,7 +39,8 @@ const routes: Routes = [{
   ],
   providers: [
     PairingService,
-    PlayerService
+    PlayerService,
+    RoundService
   ],
   bootstrap: [AppComponent]
 })
