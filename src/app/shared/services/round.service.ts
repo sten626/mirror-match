@@ -4,19 +4,21 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
-import { Player } from '../models';
-import { PlayerService } from './';
+import { Pairing, Player } from '../models';
+import { PairingService, PlayerService } from './';
 
 @Injectable()
 export class RoundService {
     canBeginTournament: Observable<boolean>;
     hasBegunTournament: Observable<boolean>;
+    pairingsForSelectedRound: Observable<Pairing[]>;
     rounds: Observable<number[]>;
     selectedRound: Observable<number>;
 
     private players: Player[];
     private _rounds: number[];
     private roundsSubject = new BehaviorSubject<number[]>([]);
+    private _selectedRound: number;
     private selectedRoundSubject: BehaviorSubject<number>;
     private totalNumberOfRounds: number;
 
@@ -26,6 +28,7 @@ export class RoundService {
     };
 
     constructor(
+      private pairingService: PairingService,
       private playerService: PlayerService
     ) {
       this.loadFromLocalStorage();
@@ -34,11 +37,19 @@ export class RoundService {
       this.canBeginTournament = this.playerService.numberOfPlayers.map((numPlayers: number) => numPlayers >= 4).distinctUntilChanged();
       this.rounds = this.roundsSubject.asObservable().distinctUntilChanged();
       this.hasBegunTournament = this.rounds.map((rounds: number[]) => rounds.length > 0).distinctUntilChanged();
-      this.selectedRoundSubject = new BehaviorSubject<number>(Math.max(...this._rounds));
+      this._selectedRound = Math.max(...this._rounds);
+      this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
       this.selectedRound = this.selectedRoundSubject.asObservable().distinctUntilChanged();
+      this.pairingsForSelectedRound = this.pairingService.pairings.map((pairings: Pairing[]) => {
+        return pairings.filter((pairing: Pairing) => pairing.round === this._selectedRound);
+      });
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
-      this.roundsSubject.next(this._rounds);
+      this.roundsSubject.next(this._rounds.slice());
+    }
+
+    clearResultsForSelectedRound(): void {
+      // TODO: Working here
     }
 
     createNextRound(): void {
@@ -46,19 +57,12 @@ export class RoundService {
       this._rounds.push(nextRound);
       this.saveToLocalStorage();
       this.roundsSubject.next(this._rounds.slice());
-      this.selectedRoundSubject.next(nextRound);
+      this._selectedRound = nextRound;
+      this.selectedRoundSubject.next(this._selectedRound);
     }
 
     createPairingsForSelectedRound(): void {
-      const players = this.players.slice();
-
-      // Copy and shuffle.
-      for (let i = players.length; i; i--) {
-        const j = Math.floor(Math.random() * i);
-        [players[i - 1], players[j]] = [players[j], players[i - 1]];
-      }
-
-      // TODO: Working here.
+      this.pairingService.createPairings(this._selectedRound);
     }
 
     setTotalNumberOfRounds(numberOfRounds: number): void {

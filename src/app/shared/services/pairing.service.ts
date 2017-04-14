@@ -8,19 +8,92 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingService {
-  // private begunPairings: boolean;
-  // private begunPairingsSubject = new BehaviorSubject<boolean>(false);
-  // private pairings: Pairing[][];
-  // private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
-  // private _roundsTotal: number;
+  pairings: Observable<Pairing[]>;
+
+  private _pairings: Pairing[];
+  private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
+  private players: Player[];
 
   private readonly lsKeys = {
-    hasBegunPairings: 'hasBegunPairings',
-    pairings: 'pairings',
-    roundsTotal: 'roundsTotal'
+    pairings: 'pairings'
   };
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private playerService: PlayerService) {
+    // Load data.
+    this.loadFromLocalStorage();
+    this.playerService.players.subscribe((players: Player[]) => this.players = players);
+
+    // Setup Observables.
+    this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
+
+    this.pairingsSubject.next(this._pairings.slice());
+  }
+
+  createPairings(round: number): void {
+    const players = this.players.slice();
+
+    // Shuffle players.
+    for (let i = players.length; i; i--) {
+      const j = Math.floor(Math.random() * i);
+      [players[i - 1], players[j]] = [players[j], players[i - 1]];
+    }
+
+    let table = 1;
+
+    while (players.length > 1) {
+      const pairing = new Pairing(round, table++, players.shift(), players.shift());
+      this._pairings.push(pairing);
+    }
+
+    if (players.length) {
+      const pairing = new Pairing(round, table, players.shift(), null);
+      this._pairings.push(pairing);
+    }
+
+    this.pairingsSubject.next(this._pairings.slice());
+    this.saveToLocalStorage();
+  }
+
+  private loadFromLocalStorage() {
+    const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+
+    if (pairingsData) {
+      const rawPairings = JSON.parse(pairingsData);
+
+      this._pairings = rawPairings.map(pairing => {
+        return new Pairing(
+          pairing.round,
+          pairing.table,
+          this.playerService.get(pairing.player1),
+          this.playerService.get(pairing.player2),
+          pairing.player1Wins,
+          pairing.player2Wins,
+          pairing.draws,
+          pairing.submitted
+        );
+      });
+    } else {
+      this._pairings = [];
+      localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this._pairings));
+    }
+  }
+
+  private saveToLocalStorage() {
+    const pairingsToLocalStorage = this._pairings.map((pairing: Pairing) => {
+      return {
+        round: pairing.round,
+        table: pairing.table,
+        player1: pairing.player1.id,
+        player2: pairing.player2.id,
+        player1Wins: pairing.player1Wins,
+        player2Wins: pairing.player2Wins,
+        draws: pairing.draws,
+        submitted: pairing.submitted
+      };
+    });
+
+    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
+  }
 
   // beginPairings() {
   //   this.begunPairings = true;
@@ -28,45 +101,7 @@ export class PairingService {
   //   this.begunPairingsSubject.next(this.begunPairings);
   // }
 
-  // createPairings(round: number, players: Player[]): Observable<boolean> {
-  //   if (!this.pairings) {
-  //     this.loadFromLocalStorage();
-  //   }
 
-  //   players = players.slice();
-  //   const index = round - 1;
-
-  //   if (this.pairings[index]) {
-  //     return Observable.create(observer => observer.error(`Pairings already exist for round ${round}.`));
-  //   }
-
-  //   for (let i = players.length; i; i--) {
-  //     const j = Math.floor(Math.random() * i);
-  //     [players[i - 1], players[j]] = [players[j], players[i - 1]];
-  //   }
-
-  //   const pairingsForRound = [];
-  //   let table = 1;
-
-  //   while (players.length > 1) {
-  //     const pairing = new Pairing(table++, players.shift(), players.shift());
-  //     pairingsForRound.push(pairing);
-  //   }
-
-  //   if (players.length) {
-  //     const pairing = new Pairing(table, players.shift(), null);
-  //     pairingsForRound.push(pairing);
-  //   }
-
-  //   this.pairings[index] = pairingsForRound;
-  //   this.pairingsSubject.next(pairingsForRound.slice());
-  //   this.saveToLocalStorage();
-
-  //   return new Observable(observer => {
-  //     observer.next(true);
-  //     observer.complete();
-  //   });
-  // }
 
   // deletePairings(round: number): Observable<boolean> {
   //   if (!this.pairings) {
@@ -146,53 +181,5 @@ export class PairingService {
   //     observer.next(this.pairings[round].slice());
   //     observer.complete();
   //   });
-  // }
-
-  // private loadFromLocalStorage() {
-  //   const pairingsData = localStorage.getItem(this.lsKeys.pairings);
-
-  //   if (pairingsData) {
-  //     const rawPairings = JSON.parse(pairingsData);
-
-  //     rawPairings.forEach((roundPairings, index) => {
-  //       rawPairings[index] = roundPairings.map(pairing => {
-  //         return new Pairing(
-  //           pairing.table,
-  //           this.playerService.get(pairing.player1),
-  //           this.playerService.get(pairing.player2),
-  //           pairing.player1Wins,
-  //           pairing.player2Wins,
-  //           pairing.draws,
-  //           pairing.submitted);
-  //       });
-  //     });
-
-  //     this.pairings = rawPairings;
-  //   } else {
-  //     this.pairings = [];
-  //     localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this.pairings));
-  //   }
-  // }
-
-  // private saveToLocalStorage() {
-  //   const pairingsToLocalStorage = [];
-
-  //   this.pairings.forEach(roundPairings => {
-  //     const newRoundPairings = roundPairings.map(pairing => {
-  //       return {
-  //         table: pairing.table,
-  //         player1: pairing.player1.id,
-  //         player2: pairing.player2.id,
-  //         player1Wins: pairing.player1Wins,
-  //         player2Wins: pairing.player2Wins,
-  //         draws: pairing.draws,
-  //         submitted: pairing.submitted
-  //       };
-  //     });
-
-  //     pairingsToLocalStorage.push(newRoundPairings);
-  //   });
-
-  //   localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   // }
 }
