@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  // PairingService,
+  PairingService,
   Player,
   // PlayerService,
   RoundService
@@ -13,28 +13,23 @@ import {
   templateUrl: './swiss-pairings.component.html'
 })
 export class SwissPairingsComponent implements OnInit {
-  // activeRoundPairingsExist = false;
   rounds: Observable<number[]>;
   pairingsForm: FormGroup;
   players: Player[];
   selectedRound: number;
+  selectedRoundHasPairings = false;
 
   constructor(
     private fb: FormBuilder,
-    // private pairingService: PairingService,
-    // private playerService: PlayerService,
+    private pairingService: PairingService,
     private roundService: RoundService
   ) {}
 
-  // generatePairings() {
-  //   this.pairingService.createPairings(1, this.players).subscribe(() => {}, error => {
-  //     // TODO Error handling.
-  //     console.error(error);
-  //   });
-  // }
+  generatePairings() {
+    this.pairingService.createPairings();
+  }
 
   ngOnInit() {
-    // this.playerService.players.subscribe(players => this.players = players);
     this.rounds = this.roundService.rounds;
     this.createForm();
     this.roundService.selectedRound.subscribe((round: number) => {
@@ -43,9 +38,7 @@ export class SwissPairingsComponent implements OnInit {
         currentRound: this.selectedRound
       });
     });
-    // this.pairingService.get(this.pairingsForm.value.currentRound).subscribe(pairings => {
-    //   this.activeRoundPairingsExist = pairings.length > 0;
-    // });
+    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.selectedRoundHasPairings = hasPairings);
   }
 
   private createForm() {

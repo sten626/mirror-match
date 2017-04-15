@@ -5,23 +5,31 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
+import { RoundService } from './round.service';
 
 @Injectable()
 export class PairingService {
   pairings: Observable<Pairing[]>;
 
   private _pairings: Pairing[];
+  private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
   private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
   private players: Player[];
+  private selectedPairing: Pairing;
+  private selectedRound: number;
 
   private readonly lsKeys = {
     pairings: 'pairings'
   };
 
-  constructor(private playerService: PlayerService) {
+  constructor(
+    private playerService: PlayerService,
+    private roundService: RoundService
+  ) {
     // Load data.
     this.loadFromLocalStorage();
     this.playerService.players.subscribe((players: Player[]) => this.players = players);
+    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
 
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
@@ -29,7 +37,21 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
-  createPairings(round: number): void {
+  clearResults(): void {
+    this.pairingsByRoundsMap[this.selectedRound].forEach(pairing => {
+      pairing.player1Wins = 0;
+      pairing.player2Wins = 0;
+      pairing.draws = 0;
+      pairing.submitted = false;
+    });
+
+    this.saveToLocalStorage();
+    this.pairingsSubject.next(this._pairings.slice());
+  }
+
+  createPairings(): void {
+    const round = this.selectedRound;
+    this.pairingsByRoundsMap[round] = [];
     const players = this.players.slice();
 
     // Shuffle players.
@@ -43,15 +65,21 @@ export class PairingService {
     while (players.length > 1) {
       const pairing = new Pairing(round, table++, players.shift(), players.shift());
       this._pairings.push(pairing);
+      this.pairingsByRoundsMap[round].push(pairing);
     }
 
     if (players.length) {
       const pairing = new Pairing(round, table, players.shift(), null);
       this._pairings.push(pairing);
+      this.pairingsByRoundsMap[round].push(pairing);
     }
 
     this.pairingsSubject.next(this._pairings.slice());
     this.saveToLocalStorage();
+  }
+
+  setSelectedPairing(pairing: Pairing) {
+    this.selectedPairing = pairing;
   }
 
   private loadFromLocalStorage() {
@@ -60,17 +88,26 @@ export class PairingService {
     if (pairingsData) {
       const rawPairings = JSON.parse(pairingsData);
 
-      this._pairings = rawPairings.map(pairing => {
-        return new Pairing(
-          pairing.round,
-          pairing.table,
-          this.playerService.get(pairing.player1),
-          this.playerService.get(pairing.player2),
-          pairing.player1Wins,
-          pairing.player2Wins,
-          pairing.draws,
-          pairing.submitted
+      this._pairings = rawPairings.map(rawPairing => {
+        const round = rawPairing.round;
+        const pairing = new Pairing(
+          round,
+          rawPairing.table,
+          this.playerService.get(rawPairing.player1),
+          this.playerService.get(rawPairing.player2),
+          rawPairing.player1Wins,
+          rawPairing.player2Wins,
+          rawPairing.draws,
+          rawPairing.submitted
         );
+
+        if (!this.pairingsByRoundsMap[round]) {
+          this.pairingsByRoundsMap[round] = [];
+        }
+
+        this.pairingsByRoundsMap[round].push(pairing);
+
+        return pairing;
       });
     } else {
       this._pairings = [];

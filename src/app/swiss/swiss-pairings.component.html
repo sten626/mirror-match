@@ -7,8 +7,8 @@
       </select>
     </div>
     <div class="col-sm-2">
-      <button class="btn btn-default" *ngIf="!activeRoundPairingsExist" (click)="generatePairings()">Generate Pairings</button>
+      <button class="btn btn-default" *ngIf="!selectedRoundHasPairings" (click)="generatePairings()">Generate Pairings</button>
     </div>
   </div>
 </form>
-<mm-pairings-list [roundNumber]="this.pairingsForm.value.currentRound"></mm-pairings-list>
+<mm-pairings-list></mm-pairings-list>

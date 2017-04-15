@@ -5,7 +5,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
 import { Pairing, Player } from '../models';
-import { PairingService, PlayerService } from './';
+import { PairingService } from './pairing.service';
+import { PlayerService } from './player.service';
 
 @Injectable()
 export class RoundService {
@@ -14,6 +15,7 @@ export class RoundService {
     pairingsForSelectedRound: Observable<Pairing[]>;
     rounds: Observable<number[]>;
     selectedRound: Observable<number>;
+    selectedRoundHasPairings: Observable<boolean>;
 
     private players: Player[];
     private _rounds: number[];
@@ -43,13 +45,12 @@ export class RoundService {
       this.pairingsForSelectedRound = this.pairingService.pairings.map((pairings: Pairing[]) => {
         return pairings.filter((pairing: Pairing) => pairing.round === this._selectedRound);
       });
+      this.selectedRoundHasPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
+        return pairings.length > 0;
+      }).distinctUntilChanged();
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
       this.roundsSubject.next(this._rounds.slice());
-    }
-
-    clearResultsForSelectedRound(): void {
-      // TODO: Working here
     }
 
     createNextRound(): void {
@@ -59,10 +60,6 @@ export class RoundService {
       this.roundsSubject.next(this._rounds.slice());
       this._selectedRound = nextRound;
       this.selectedRoundSubject.next(this._selectedRound);
-    }
-
-    createPairingsForSelectedRound(): void {
-      this.pairingService.createPairings(this._selectedRound);
     }
 
     setTotalNumberOfRounds(numberOfRounds: number): void {
