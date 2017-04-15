@@ -84,6 +84,12 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
+  saveAndClearSelected(): void {
+    this.saveToLocalStorage();
+    this._selectedPairing = null;
+    this.selectedPairingSubject.next(this._selectedPairing);
+  }
+
   setSelectedPairing(pairing: Pairing) {
     this._selectedPairing = pairing;
     this.selectedPairingSubject.next(this._selectedPairing);
@@ -138,76 +144,4 @@ export class PairingService {
 
     localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   }
-
-  // beginPairings() {
-  //   this.begunPairings = true;
-  //   localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this.begunPairings));
-  //   this.begunPairingsSubject.next(this.begunPairings);
-  // }
-
-  // get(round: number): Observable<Pairing[]> {
-  //   if (!this.pairings) {
-  //     this.loadFromLocalStorage();
-  //   }
-
-  //   const index = round - 1;
-  //   let pairingsForRound;
-
-  //   if (index < this.pairings.length) {
-  //     pairingsForRound = this.pairings[index];
-  //   } else {
-  //     pairingsForRound = [];
-  //   }
-
-  //   this.pairingsSubject.next(pairingsForRound.slice());
-
-  //   return this.pairingsSubject.asObservable().distinctUntilChanged();
-  // }
-
-  // hasBegunPairings(): Observable<boolean> {
-  //   if (this.begunPairings === undefined) {
-  //     const hasBegunPairingsData = localStorage.getItem(this.lsKeys.hasBegunPairings);
-
-  //     if (hasBegunPairingsData) {
-  //       this.begunPairings = JSON.parse(hasBegunPairingsData);
-  //     } else {
-  //       this.begunPairings = false;
-  //       localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this.begunPairings));
-  //     }
-  //   }
-
-  //   this.begunPairingsSubject.next(this.begunPairings);
-
-  //   return this.begunPairingsSubject.asObservable().distinctUntilChanged();
-  // }
-
-  // get roundsTotal(): number {
-  //   if (!this._roundsTotal) {
-  //     const roundsTotalData = localStorage.getItem(this.lsKeys.roundsTotal);
-
-  //     if (roundsTotalData) {
-  //       this._roundsTotal = JSON.parse(roundsTotalData);
-  //     } else {
-  //       this._roundsTotal = null;
-  //     }
-  //   }
-
-  //   return this._roundsTotal;
-  // }
-
-  // set roundsTotal(numRounds: number) {
-  //   this._roundsTotal = numRounds;
-  //   localStorage.setItem(this.lsKeys.roundsTotal, JSON.stringify(this._roundsTotal));
-  // }
-
-  // saveForRound(round: number, pairings: Pairing[]): Observable<Pairing[]> {
-  //   this.pairings[round] = pairings;
-  //   this.saveToLocalStorage();
-  //   this.pairingsSubject.next(this.pairings[round].slice());
-
-  //   return new Observable(observer => {
-  //     observer.next(this.pairings[round].slice());
-  //     observer.complete();
-  //   });
-  // }
 }

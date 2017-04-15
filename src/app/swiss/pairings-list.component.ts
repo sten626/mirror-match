@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
@@ -12,10 +12,7 @@ import {
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnChanges, OnInit {
-  // @Input() roundNumber: number;
-
-  // activePairing: Pairing;
+export class PairingsListComponent implements OnInit {
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
@@ -31,21 +28,14 @@ export class PairingsListComponent implements OnChanges, OnInit {
   ) {}
 
   deleteResults() {
-    // this.pairings.forEach(pairing => {
-    //   pairing.player1Wins = 0;
-    //   pairing.player2Wins = 0;
-    //   pairing.draws = 0;
-    //   pairing.submitted = false;
-    // });
+    this.pairings.forEach(pairing => {
+      pairing.player1Wins = 0;
+      pairing.player2Wins = 0;
+      pairing.draws = 0;
+      pairing.submitted = false;
+    });
 
-    // this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe();
-  }
-
-  ngOnChanges() {
-    // this.pairingService.get(this.roundNumber).subscribe(pairings => {
-    //   this.pairings = pairings;
-    //   this.filterPairings();
-    // });
+    this.pairingService.saveAndClearSelected();
   }
 
   ngOnInit() {
@@ -56,10 +46,13 @@ export class PairingsListComponent implements OnChanges, OnInit {
     });
 
     // Subscribe to services.
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => this.selectedPairing = pairing);
     this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
     this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
       this.pairings = pairings;
+      this.filterPairings();
+    });
+    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+      this.selectedPairing = pairing;
       this.filterPairings();
     });
 
@@ -67,16 +60,6 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
     // Filter pairings.
     this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
-  }
-
-  onClearResult() {
-    // this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe();
-  }
-
-  onSubmit() {
-    // this.pairingService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
-    //   this.activePairing = null;
-    // });
   }
 
   redoMatches() {
