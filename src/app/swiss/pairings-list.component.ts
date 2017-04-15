@@ -19,6 +19,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
+  selectedPairing: Pairing;
   selectedRound: number;
 
   private pairings: Pairing[];
@@ -55,6 +56,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
     });
 
     // Subscribe to services.
+    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => this.selectedPairing = pairing);
     this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
     this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
       this.pairings = pairings;

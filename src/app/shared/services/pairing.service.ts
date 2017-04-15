@@ -9,12 +9,14 @@ import { PlayerService } from './player.service';
 @Injectable()
 export class PairingService {
   pairings: Observable<Pairing[]>;
+  selectedPairing: Observable<Pairing>;
 
   private _pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
   private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
   private players: Player[];
-  private selectedPairing: Pairing;
+  private _selectedPairing: Pairing;
+  private selectedPairingSubject = new BehaviorSubject<Pairing>(null);
 
   private readonly lsKeys = {
     pairings: 'pairings'
@@ -27,6 +29,7 @@ export class PairingService {
 
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
+    this.selectedPairing = this.selectedPairingSubject.asObservable().distinctUntilChanged();
 
     this.pairingsSubject.next(this._pairings.slice());
   }
@@ -82,7 +85,8 @@ export class PairingService {
   }
 
   setSelectedPairing(pairing: Pairing) {
-    this.selectedPairing = pairing;
+    this._selectedPairing = pairing;
+    this.selectedPairingSubject.next(this._selectedPairing);
   }
 
   private loadFromLocalStorage() {
