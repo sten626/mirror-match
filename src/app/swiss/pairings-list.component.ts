@@ -1,7 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/combineLatest';
 
 import {
   Pairing,
@@ -18,10 +16,12 @@ export class PairingsListComponent implements OnChanges, OnInit {
   // @Input() roundNumber: number;
 
   // activePairing: Pairing;
-  filteredPairings: Observable<Pairing[]>;
+  filteredPairings: Pairing[];
+  pairingsExist = false;
   pairingsListForm: FormGroup;
+  selectedRound: number;
 
-  private pairings: Observable<Pairing[]>;
+  private pairings: Pairing[];
 
   constructor(
     private fb: FormBuilder,
@@ -48,28 +48,23 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    // Setup form.
     this.pairingsListForm = this.fb.group({
       pairingsSearch: '',
       showOutstandingOnly: true
     });
 
-    this.pairings = this.roundService.pairingsForSelectedRound;
-    this.filteredPairings = this.pairings.combineLatest(this.pairingsListForm.valueChanges, (pairings: Pairing[]) => {
-      const showOutstandingOnly = this.pairingsListForm.get('showOutstandingOnly').value;
-      const filterText = this.pairingsListForm.get('pairingsSearch').value.trim();
-
-      return pairings.filter((pairing: Pairing) => {
-        if (showOutstandingOnly && pairing.submitted) {
-          return false;
-        }
-
-        if (filterText) {
-          return pairing.table === filterText || pairing.player1.name.includes(filterText) || pairing.player2.name.includes(filterText);
-        }
-
-        return true;
-      });
+    // Subscribe to services.
+    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
+      this.pairings = pairings;
+      this.filterPairings();
     });
+
+    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
+
+    // Filter pairings.
+    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }
 
   onClearResult() {
@@ -83,7 +78,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   redoMatches() {
-    // this.pairingService.deletePairings(this.roundNumber).subscribe();
+    this.pairingService.deletePairings(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
@@ -100,5 +95,27 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   selectPairing(pairing: Pairing) {
     this.pairingService.setSelectedPairing(pairing);
+  }
+
+  private filterPairings() {
+    if (!this.pairingsListForm) {
+      return;
+    }
+
+    if (this.pairingsListForm.get('showOutstandingOnly').value) {
+      this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
+    } else {
+      this.filteredPairings = this.pairings.slice();
+    }
+
+    const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
+
+    if (filterText) {
+      this.filteredPairings = this.filteredPairings.filter(pairing => {
+        return pairing.table.toString() === filterText
+            || pairing.player1.name.toLowerCase().includes(filterText)
+            || pairing.player2.name.toLowerCase().includes(filterText);
+      });
+    }
   }
 }

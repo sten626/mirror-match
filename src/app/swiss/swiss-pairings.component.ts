@@ -26,7 +26,7 @@ export class SwissPairingsComponent implements OnInit {
   ) {}
 
   generatePairings() {
-    this.pairingService.createPairings();
+    this.pairingService.createPairings(this.selectedRound);
   }
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
@@ -42,9 +43,10 @@ export class RoundService {
       this._selectedRound = Math.max(...this._rounds);
       this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
       this.selectedRound = this.selectedRoundSubject.asObservable().distinctUntilChanged();
-      this.pairingsForSelectedRound = this.pairingService.pairings.map((pairings: Pairing[]) => {
-        return pairings.filter((pairing: Pairing) => pairing.round === this._selectedRound);
-      });
+      this.pairingsForSelectedRound = this.pairingService.pairings
+        .combineLatest(this.selectedRound, (pairings: Pairing[], round: number) => {
+          return pairings.filter((pairing: Pairing) => pairing.round === round);
+        });
       this.selectedRoundHasPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
         return pairings.length > 0;
       }).distinctUntilChanged();

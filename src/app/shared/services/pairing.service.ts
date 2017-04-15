@@ -5,7 +5,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
-import { RoundService } from './round.service';
 
 @Injectable()
 export class PairingService {
@@ -16,20 +15,15 @@ export class PairingService {
   private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
   private players: Player[];
   private selectedPairing: Pairing;
-  private selectedRound: number;
 
   private readonly lsKeys = {
     pairings: 'pairings'
   };
 
-  constructor(
-    private playerService: PlayerService,
-    private roundService: RoundService
-  ) {
+  constructor(private playerService: PlayerService) {
     // Load data.
     this.loadFromLocalStorage();
     this.playerService.players.subscribe((players: Player[]) => this.players = players);
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
 
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
@@ -37,8 +31,8 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
-  clearResults(): void {
-    this.pairingsByRoundsMap[this.selectedRound].forEach(pairing => {
+  clearResults(round: number): void {
+    this.pairingsByRoundsMap[round].forEach(pairing => {
       pairing.player1Wins = 0;
       pairing.player2Wins = 0;
       pairing.draws = 0;
@@ -49,8 +43,7 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
-  createPairings(): void {
-    const round = this.selectedRound;
+  createPairings(round: number): void {
     this.pairingsByRoundsMap[round] = [];
     const players = this.players.slice();
 
@@ -76,6 +69,16 @@ export class PairingService {
 
     this.pairingsSubject.next(this._pairings.slice());
     this.saveToLocalStorage();
+  }
+
+  deletePairings(round: number): void {
+    const pairingsForRound = this.pairingsByRoundsMap[round];
+    delete this.pairingsByRoundsMap[round];
+    this._pairings = this._pairings.filter((pairing: Pairing) => {
+      return pairingsForRound.indexOf(pairing) === -1;
+    });
+    this.saveToLocalStorage();
+    this.pairingsSubject.next(this._pairings.slice());
   }
 
   setSelectedPairing(pairing: Pairing) {
@@ -136,22 +139,6 @@ export class PairingService {
   //   this.begunPairings = true;
   //   localStorage.setItem(this.lsKeys.hasBegunPairings, JSON.stringify(this.begunPairings));
   //   this.begunPairingsSubject.next(this.begunPairings);
-  // }
-
-
-
-  // deletePairings(round: number): Observable<boolean> {
-  //   if (!this.pairings) {
-  //     this.loadFromLocalStorage();
-  //   }
-
-  //   const index = round - 1;
-  //   this.pairings.splice(index, 1);
-  //   console.log(this.pairings);
-  //   this.saveToLocalStorage();
-  //   this.pairingsSubject.next([]);
-
-  //   return Observable.create(observer => observer.next(true));
   // }
 
   // get(round: number): Observable<Pairing[]> {
