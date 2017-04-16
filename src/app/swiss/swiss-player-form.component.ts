@@ -1,52 +1,51 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import {
-  PairingsService,
-  Player
+  Player,
+  PlayerService,
+  RoundService
 } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
   templateUrl: 'swiss-player-form.component.html'
 })
-export class SwissPlayerFormComponent implements OnChanges, OnInit {
-  @Input() player: Player;
-  @Output() onSubmit = new EventEmitter<Player>();
-
+export class SwissPlayerFormComponent implements OnInit {
+  currentPlayer: Player;
+  hasBegunTournament = false;
   swissPlayerForm: FormGroup;
-
-  private isFormDisabled = false;
 
   constructor(
     private fb: FormBuilder,
-    private pairingsService: PairingsService
+    private playerService: PlayerService,
+    private roundService: RoundService
   ) {}
-
-  ngOnChanges() {
-    if (this.swissPlayerForm) {
-      this.swissPlayerForm.reset({
-        name: this.player.name
-      });
-    }
-  }
 
   ngOnInit() {
     this.createForm();
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
-      this.isFormDisabled = hasBegunPairings;
+    this.playerService.selectedPlayer.subscribe(player => {
+      this.currentPlayer = player;
+      this.swissPlayerForm.reset({
+        name: this.currentPlayer.name
+      });
+    });
 
-      if (this.isFormDisabled) {
-        this.swissPlayerForm.get('name').disable();
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
+      this.hasBegunTournament = hasBegun;
+
+      if (hasBegun) {
+        this.swissPlayerForm.disable();
       } else {
-        this.swissPlayerForm.get('name').enable();
+        this.swissPlayerForm.enable();
       }
     });
   }
 
   submit() {
     this.updatePlayer();
-    this.onSubmit.emit(this.player);
+    this.playerService.save(this.currentPlayer);
+    this.playerService.setSelectedPlayer(new Player());
   }
 
   private createForm() {
@@ -58,6 +57,6 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
   }
 
   private updatePlayer() {
-    Object.assign(this.player, this.swissPlayerForm.value);
+    Object.assign(this.currentPlayer, this.swissPlayerForm.value);
   }
 }

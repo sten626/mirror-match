@@ -1,29 +1,31 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Pairing } from '../shared';
+import {
+  Pairing,
+  PairingService
+} from '../shared';
 
 @Component({
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
-export class MatchResultsComponent implements OnChanges, OnInit {
-  @Input() activePairing: Pairing;
-  @Output() onClearResult = new EventEmitter();
-  @Output() onSubmit = new EventEmitter();
-
+export class MatchResultsComponent implements OnInit {
   matchResultsForm: FormGroup;
+  selectedPairing: Pairing;
   resultValid: boolean;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private pairingService: PairingService
+  ) {}
 
   clearMatchResult() {
-    this.activePairing.player1Wins = 0;
-    this.activePairing.player2Wins = 0;
-    this.activePairing.draws = 0;
-    this.activePairing.submitted = false;
-    this.resetForm();
-    this.onClearResult.emit();
+    this.selectedPairing.player1Wins = 0;
+    this.selectedPairing.player2Wins = 0;
+    this.selectedPairing.draws = 0;
+    this.selectedPairing.submitted = false;
+    this.pairingService.saveAndClearSelected();
   }
 
   incrementDraws() {
@@ -50,25 +52,23 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     }
   }
 
-  ngOnChanges() {
-    if (!this.matchResultsForm || !this.activePairing) {
-      return;
-    }
-
-    this.resetForm();
-  }
-
   ngOnInit() {
     this.createForm();
+
+    // Subscribe to data.
+    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+      this.selectedPairing = pairing;
+      this.resetForm();
+    });
   }
 
   submit() {
     const form = this.matchResultsForm;
-    this.activePairing.player1Wins = form.get('player1Wins').value;
-    this.activePairing.player2Wins = form.get('player2Wins').value;
-    this.activePairing.draws = form.get('draws').value;
-    this.activePairing.submitted = true;
-    this.onSubmit.emit();
+    this.selectedPairing.player1Wins = form.get('player1Wins').value;
+    this.selectedPairing.player2Wins = form.get('player2Wins').value;
+    this.selectedPairing.draws = form.get('draws').value;
+    this.selectedPairing.submitted = true;
+    this.pairingService.saveAndClearSelected();
   }
 
   private createForm() {
@@ -103,10 +103,18 @@ export class MatchResultsComponent implements OnChanges, OnInit {
   }
 
   private resetForm() {
-    this.matchResultsForm.reset({
-      player1Wins: this.activePairing.player1Wins,
-      player2Wins: this.activePairing.player2Wins,
-      draws: this.activePairing.draws
-    });
+    if (this.selectedPairing) {
+      this.matchResultsForm.reset({
+        player1Wins: this.selectedPairing.player1Wins,
+        player2Wins: this.selectedPairing.player2Wins,
+        draws: this.selectedPairing.draws
+      });
+    } else {
+      this.matchResultsForm.reset({
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0
+      });
+    }
   }
 }
