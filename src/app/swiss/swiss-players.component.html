@@ -1,20 +1,10 @@
 <div class="row">
   <div class="col-sm-6">
-    <mm-swiss-player-form
-        [player]="this.selectedPlayer"
-        (onSubmit)="onSubmit($event)">
-    </mm-swiss-player-form>
-    <mm-swiss-players-start
-        [numPlayers]=this.players.length
-        [numRounds]=this.numberOfRounds>
-    </mm-swiss-players-start>
+    <mm-swiss-player-form></mm-swiss-player-form>
+    <mm-swiss-players-start></mm-swiss-players-start>
   </div>
 
   <div class="col-sm-6">
-    <mm-swiss-player-list
-        [selectedPlayer]="this.selectedPlayer"
-        (onDeletePlayer)="onDeletePlayer($event)"
-        (onSelectPlayer)="onSelectPlayer($event)">
-    </mm-swiss-player-list>
+    <mm-swiss-player-list></mm-swiss-player-list>
   </div>
 </div>

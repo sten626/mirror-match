@@ -3,12 +3,12 @@
     <label for="selected-round" class="control-label col-sm-2">Round</label>
     <div class="col-sm-2">
       <select id="selected-round" class="form-control" formControlName="currentRound">
-        <option *ngFor="let round of rounds" [value]="round">{{round}}</option>
+        <option *ngFor="let round of rounds | async" [value]="round">{{round}}</option>
       </select>
     </div>
     <div class="col-sm-2">
-      <button class="btn btn-default" *ngIf="!activeRoundPairingsExist" (click)="generatePairings()">Generate Pairings</button>
+      <button class="btn btn-default" *ngIf="!selectedRoundHasPairings" (click)="generatePairings()">Generate Pairings</button>
     </div>
   </div>
 </form>
-<mm-pairings-list [roundNumber]="this.pairingsForm.value.currentRound"></mm-pairings-list>
+<mm-pairings-list></mm-pairings-list>

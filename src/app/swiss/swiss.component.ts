@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PairingsService } from '../shared';
+import { RoundService } from '../shared';
 
 @Component({
   templateUrl: './swiss.component.html'
 })
 export class SwissComponent implements OnInit {
-  isPairingsAvailable = false;
+  hasTournamentBegun = false;
 
-  constructor(private pairingsService: PairingsService) {}
+  constructor(private roundService: RoundService) {}
 
   ngOnInit() {
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => {
-      this.isPairingsAvailable = hasBegunPairings;
-    });
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasTournamentBegun = hasBegun);
   }
 }

@@ -2,6 +2,7 @@ import { Player } from './player.model';
 
 export class Pairing {
   constructor(
+    public round: number,
     public table: number,
     public player1: Player,
     public player2: Player,

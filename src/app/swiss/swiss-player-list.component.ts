@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import {
-  PairingsService,
   Player,
-  PlayerService
+  PlayerService,
+  RoundService
 } from '../shared';
 
 @Component({
@@ -11,28 +12,30 @@ import {
   templateUrl: './swiss-player-list.component.html'
 })
 export class SwissPlayerListComponent implements OnInit {
-  @Input() selectedPlayer: Player;
-  @Output() onDeletePlayer = new EventEmitter<Player>();
-  @Output() onSelectPlayer = new EventEmitter<Player>();
-
-  canDeletePlayers = true;
-  players: Player[];
+  hasBegunTournament = false;
+  players: Observable<Player[]>;
+  selectedPlayer: Player;
 
   constructor(
-    private pairingsService: PairingsService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private roundService: RoundService
   ) {}
 
   ngOnInit() {
-    this.playerService.getAll().subscribe(players => this.players = players);
-    this.pairingsService.hasBegunPairings().subscribe(hasBegunPairings => this.canDeletePlayers = !hasBegunPairings);
+    this.players = this.playerService.players;
+    this.playerService.selectedPlayer.subscribe((player: Player) => {
+      this.selectedPlayer = player;
+    });
+    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasBegunTournament = hasBegun);
   }
 
   deletePlayer(player: Player) {
-    this.onDeletePlayer.emit(player);
+    this.playerService.delete(player);
   }
 
   selectPlayer(player: Player) {
-    this.onSelectPlayer.emit(player);
+    if (!this.hasBegunTournament) {
+      this.playerService.setSelectedPlayer(player);
+    }
   }
 }

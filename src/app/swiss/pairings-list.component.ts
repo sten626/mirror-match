@@ -1,25 +1,30 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Pairing, PairingsService } from '../shared';
+import {
+  Pairing,
+  PairingService,
+  RoundService
+} from '../shared';
 
 @Component({
   selector: 'mm-pairings-list',
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnChanges, OnInit {
-  @Input() roundNumber: number;
-
-  activePairing: Pairing;
-  filteredPairings: Pairing[] = [];
+export class PairingsListComponent implements OnInit {
+  filteredPairings: Pairing[];
+  pairingsExist = false;
   pairingsListForm: FormGroup;
+  selectedPairing: Pairing;
+  selectedRound: number;
 
-  private pairings: Pairing[] = [];
+  private pairings: Pairing[];
 
   constructor(
     private fb: FormBuilder,
-    private pairingsService: PairingsService
+    private pairingService: PairingService,
+    private roundService: RoundService
   ) {}
 
   deleteResults() {
@@ -30,41 +35,35 @@ export class PairingsListComponent implements OnChanges, OnInit {
       pairing.submitted = false;
     });
 
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
-  }
-
-  ngOnChanges() {
-    this.pairingsService.get(this.roundNumber).subscribe(pairings => {
-      this.pairings = pairings;
-      this.filterPairings();
-    });
+    this.pairingService.saveAndClearSelected();
   }
 
   ngOnInit() {
+    // Setup form.
     this.pairingsListForm = this.fb.group({
       pairingsSearch: '',
       showOutstandingOnly: true
     });
 
-    this.pairingsListForm.valueChanges.subscribe(() => {
+    // Subscribe to services.
+    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
+      this.pairings = pairings;
+      this.filterPairings();
+    });
+    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+      this.selectedPairing = pairing;
       this.filterPairings();
     });
 
-    this.filterPairings();
-  }
+    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
 
-  onClearResult() {
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe();
-  }
-
-  onSubmit() {
-    this.pairingsService.saveForRound(this.roundNumber, this.pairings).subscribe(() => {
-      this.activePairing = null;
-    });
+    // Filter pairings.
+    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }
 
   redoMatches() {
-    this.pairingsService.deletePairings(this.roundNumber).subscribe();
+    this.pairingService.deletePairings(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
@@ -80,7 +79,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    this.activePairing = pairing;
+    this.pairingService.setSelectedPairing(pairing);
   }
 
   private filterPairings() {
@@ -94,11 +93,13 @@ export class PairingsListComponent implements OnChanges, OnInit {
       this.filteredPairings = this.pairings.slice();
     }
 
-    const filterText = this.pairingsListForm.get('pairingsSearch').value.trim();
+    const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
 
     if (filterText) {
       this.filteredPairings = this.filteredPairings.filter(pairing => {
-        return pairing.table === filterText || pairing.player1.name.includes(filterText) || pairing.player2.name.includes(filterText);
+        return pairing.table.toString() === filterText
+            || pairing.player1.name.toLowerCase().includes(filterText)
+            || pairing.player2.name.toLowerCase().includes(filterText);
       });
     }
   }
