@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
   Pairing,
-  PairingService
+  PairingService,
+  RoundService
 } from '../shared';
 
 @Component({
@@ -17,7 +18,8 @@ export class MatchResultsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private pairingService: PairingService
+    private pairingService: PairingService,
+    private roundService: RoundService
   ) {}
 
   clearMatchResult() {
@@ -59,6 +61,11 @@ export class MatchResultsComponent implements OnInit {
     this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
       this.selectedPairing = pairing;
       this.resetForm();
+    });
+    this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
+      if (complete) {
+
+      }
     });
   }
 

@@ -16,6 +16,7 @@ export class RoundService {
     pairingsForSelectedRound: Observable<Pairing[]>;
     rounds: Observable<number[]>;
     selectedRound: Observable<number>;
+    selectedRoundComplete: Observable<boolean>;
     selectedRoundHasPairings: Observable<boolean>;
 
     private players: Player[];
@@ -49,6 +50,11 @@ export class RoundService {
         });
       this.selectedRoundHasPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
         return pairings.length > 0;
+      }).distinctUntilChanged();
+      this.selectedRoundComplete = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
+        return pairings
+          .map((pairing: Pairing) => pairing.submitted)
+          .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);
       }).distinctUntilChanged();
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 

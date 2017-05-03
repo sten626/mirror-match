@@ -10,6 +10,7 @@ import { SwissPlayerFormComponent } from './swiss-player-form.component';
 import { SwissPlayerListComponent } from './swiss-player-list.component';
 import { SwissPlayersComponent } from './swiss-players.component';
 import { SwissPlayersStartComponent } from './swiss-players-start.component';
+import { SwissStandingsComponent } from './swiss-standings.component';
 import { SharedModule } from '../shared';
 
 const routes: Routes = [{
@@ -26,6 +27,9 @@ const routes: Routes = [{
     path: 'pairings',
     component: SwissPairingsComponent,
     canActivate: [PairingsGuard]
+  }, {
+    path: 'standings',
+    component: SwissStandingsComponent
   }]
 }];
 
@@ -42,7 +46,8 @@ const routes: Routes = [{
     SwissPlayerFormComponent,
     SwissPlayerListComponent,
     SwissPlayersComponent,
-    SwissPlayersStartComponent
+    SwissPlayersStartComponent,
+    SwissStandingsComponent
   ],
   providers: [
     PairingsGuard
