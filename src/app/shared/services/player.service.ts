@@ -92,7 +92,7 @@ export class PlayerService {
     if (playersData) {
       const playersRawArray = JSON.parse(playersData);
       this._players = playersRawArray.map(rawPlayer => {
-        const player = new Player(rawPlayer.id, rawPlayer.name);
+        const player = new Player(rawPlayer);
         this.playersLookup[rawPlayer.id] = player;
         return player;
       });
