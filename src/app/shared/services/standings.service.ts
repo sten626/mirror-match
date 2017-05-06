@@ -3,17 +3,24 @@ import { Injectable } from '@angular/core';
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
 import { Pairing, Player } from '../';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StandingsService {
+  standings: Observable<Player[]>;
+
   private pairings: Pairing[];
   private players: Player[];
   private playersMap: {[id: number]: Player};
+  private standingsSubject = new BehaviorSubject<Player[]>([]);
 
   constructor(
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
+    this.standings = this.standingsSubject.asObservable().distinctUntilChanged();
+
     this.playerService.players.subscribe((players: Player[]) => {
       this.players = players;
 
@@ -89,6 +96,36 @@ export class StandingsService {
 
         this.playerService.save(player);
       });
+
+      this.players.sort((a: Player, b: Player) => {
+        if (a.matchPoints > b.matchPoints) {
+          return 1;
+        } else if (a.matchPoints < b.matchPoints) {
+          return -1;
+        }
+
+        if (a.opponentMatchWinPercentage > b.opponentMatchWinPercentage) {
+          return 1;
+        } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
+          return -1;
+        }
+
+        if (a.gameWinPercentage > b.gameWinPercentage) {
+          return 1;
+        } else if (a.gameWinPercentage < b.gameWinPercentage) {
+          return -1;
+        }
+
+        if (a.opponentGameWinPercentage > b.opponentGameWinPercentage) {
+          return 1;
+        } else if (a.opponentGameWinPercentage < b.opponentGameWinPercentage) {
+          return -1;
+        }
+
+        return 0;
+      });
+
+      this.standingsSubject.next(this.players.slice());
     });
   }
 }

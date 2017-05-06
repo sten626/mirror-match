@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import {
   Pairing,
@@ -19,7 +20,8 @@ export class MatchResultsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private pairingService: PairingService,
-    private roundService: RoundService
+    private roundService: RoundService,
+    private router: Router
   ) {}
 
   clearMatchResult() {
@@ -64,7 +66,7 @@ export class MatchResultsComponent implements OnInit {
     });
     this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
       if (complete) {
-
+        this.router.navigate(['/swiss/standings']);
       }
     });
   }
