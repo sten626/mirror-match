@@ -52,6 +52,10 @@ export class RoundService {
         return pairings.length > 0;
       }).distinctUntilChanged();
       this.selectedRoundComplete = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
+        if (pairings.length === 0) {
+          return false;
+        }
+
         return pairings
           .map((pairing: Pairing) => pairing.submitted)
           .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);

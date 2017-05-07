@@ -1,17 +1,17 @@
 <div class="row">
   <div class="col-xs-12">
     <table class="table table-striped">
-      <th>
-        <td>Rank</td>
-        <td>Name</td>
-        <td>Match Points</td>
-        <td>Matches Play/Win/Draw/Bye</td>
-        <td>Opponent Match Win %</td>
-        <td>Game Win %</td>
-        <td>Opponent Game Win %</td>
-      </th>
-      <tr *ngFor="let player of standings; let rank = index + 1 | async">
-        <td>{{rank}}</td>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Match Points</th>
+        <th>Matches Play/Win/Draw/Bye</th>
+        <th>Opponent Match Win %</th>
+        <th>Game Win %</th>
+        <th>Opponent Game Win %</th>
+      </tr>
+      <tr *ngFor="let player of standings | async; let i = index;">
+        <td>{{i + 1}}</td>
         <td>{{player.name}}</td>
         <td>{{player.matchPoints}}</td>
         <td>{{player.matchesPlayed}}/{{player.matchesWon}}/{{player.matchesDrawn}}/{{player.byes}}</td>

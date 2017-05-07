@@ -92,6 +92,7 @@ export class PairingService {
     this.saveToLocalStorage();
     this._selectedPairing = null;
     this.selectedPairingSubject.next(this._selectedPairing);
+    this.pairingsSubject.next(this._pairings.slice());
   }
 
   setSelectedPairing(pairing: Pairing) {

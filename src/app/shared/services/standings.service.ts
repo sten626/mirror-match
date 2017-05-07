@@ -12,7 +12,7 @@ export class StandingsService {
 
   private pairings: Pairing[];
   private players: Player[];
-  private playersMap: {[id: number]: Player};
+  private playersMap: {[id: number]: Player} = {};
   private standingsSubject = new BehaviorSubject<Player[]>([]);
 
   constructor(
@@ -25,6 +25,7 @@ export class StandingsService {
       this.players = players;
 
       // Create map of players by ID.
+      this.playersMap = {};
       this.players.forEach((player: Player) => {
         this.playersMap[player.id] = player;
       });
@@ -37,9 +38,11 @@ export class StandingsService {
         player.matchesPlayed = 0;
         player.matchesWon = 0;
         player.matchesDrawn = 0;
+        player.matchPoints = 0;
         player.gamesPlayed = 0;
         player.gamesWon = 0;
         player.gamesDrawn = 0;
+        player.gamePoints = 0;
         player.byes = 0;
         player.opponentIds = [];
       });
@@ -81,45 +84,45 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = Math.max(0.33, player.gamePoints / (player.gamesPlayed * 3));
+        player.gameWinPercentage = Math.round(10000 * Math.max(0.3333, player.gamePoints / (player.gamesPlayed * 3))) / 100;
 
         player.opponentIds.forEach((oppId: number) => {
           const opponent = this.playersMap[oppId];
-          const opponentMwp = Math.max(0.33, opponent.matchPoints / (opponent.matchesPlayed * 3));
+          const opponentMwp = Math.round(10000 * Math.max(0.3333, opponent.matchPoints / (opponent.matchesPlayed * 3))) / 100;
           oppMwpSum += opponentMwp;
-          const opponentGwp = Math.max(0.33, opponent.gamePoints / (opponent.gamesPlayed * 3));
+          const opponentGwp = Math.round(10000 * Math.max(0.3333, opponent.gamePoints / (opponent.gamesPlayed * 3))) / 100;
           oppGwpSum += opponentGwp;
         });
 
         player.opponentMatchWinPercentage = oppMwpSum / player.opponentIds.length;
         player.opponentGameWinPercentage = oppGwpSum / player.opponentIds.length;
-
-        this.playerService.save(player);
       });
+
+      this.playerService.saveAll();
 
       this.players.sort((a: Player, b: Player) => {
         if (a.matchPoints > b.matchPoints) {
-          return 1;
-        } else if (a.matchPoints < b.matchPoints) {
           return -1;
+        } else if (a.matchPoints < b.matchPoints) {
+          return 1;
         }
 
         if (a.opponentMatchWinPercentage > b.opponentMatchWinPercentage) {
-          return 1;
-        } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
           return -1;
+        } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
+          return 1;
         }
 
         if (a.gameWinPercentage > b.gameWinPercentage) {
-          return 1;
-        } else if (a.gameWinPercentage < b.gameWinPercentage) {
           return -1;
+        } else if (a.gameWinPercentage < b.gameWinPercentage) {
+          return 1;
         }
 
         if (a.opponentGameWinPercentage > b.opponentGameWinPercentage) {
-          return 1;
-        } else if (a.opponentGameWinPercentage < b.opponentGameWinPercentage) {
           return -1;
+        } else if (a.opponentGameWinPercentage < b.opponentGameWinPercentage) {
+          return 1;
         }
 
         return 0;

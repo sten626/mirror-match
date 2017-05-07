@@ -72,6 +72,11 @@ export class PlayerService {
     this.playersSubject.next(this._players.slice());
   }
 
+  saveAll(): void {
+    this.saveToLocalStorage();
+    this.playersSubject.next(this._players.slice());
+  }
+
   setSelectedPlayer(player: Player): void {
     this._selectedPlayer = player;
     this.selectedPlayerSubject.next(this._selectedPlayer);
@@ -105,13 +110,6 @@ export class PlayerService {
   }
 
   private saveToLocalStorage() {
-    const playersToLocalStorage = this._players.map(player => {
-      return {
-        id: player.id,
-        name: player.name
-      };
-    });
-
-    localStorage.setItem(this.lsKeys.players, JSON.stringify(playersToLocalStorage));
+    localStorage.setItem(this.lsKeys.players, JSON.stringify(this._players));
   }
 }
