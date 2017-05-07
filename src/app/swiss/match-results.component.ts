@@ -17,6 +17,7 @@ export class MatchResultsComponent implements OnInit {
   selectedPairing: Pairing;
   resultValid: boolean;
 
+  private selectedRound: number;
   private selectedRoundComplete = false;
 
   constructor(
@@ -32,6 +33,7 @@ export class MatchResultsComponent implements OnInit {
     this.selectedPairing.draws = 0;
     this.selectedPairing.submitted = false;
     this.pairingService.saveAndClearSelected();
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   incrementDraws() {
@@ -62,6 +64,7 @@ export class MatchResultsComponent implements OnInit {
     this.createForm();
 
     // Subscribe to data.
+    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
     this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
       this.selectedPairing = pairing;
       this.resetForm();
@@ -78,6 +81,7 @@ export class MatchResultsComponent implements OnInit {
     this.pairingService.saveAndClearSelected();
 
     if (this.selectedRoundComplete) {
+      this.roundService.markRoundAsComplete(this.selectedRound);
       this.router.navigate(['/swiss/standings']);
     }
   }

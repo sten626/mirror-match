@@ -36,6 +36,7 @@ export class PairingsListComponent implements OnInit {
     });
 
     this.pairingService.saveAndClearSelected();
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   ngOnInit() {
@@ -64,6 +65,7 @@ export class PairingsListComponent implements OnInit {
 
   redoMatches() {
     this.pairingService.deletePairings(this.selectedRound);
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {

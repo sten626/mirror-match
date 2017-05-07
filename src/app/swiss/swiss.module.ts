@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatchResultsComponent } from './match-results.component';
 import { PairingsGuard } from './pairings-guard.service';
 import { PairingsListComponent } from './pairings-list.component';
+import { StandingsGuard } from './standings-guard.service';
 import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
 import { SwissPlayerFormComponent } from './swiss-player-form.component';
@@ -29,7 +30,8 @@ const routes: Routes = [{
     canActivate: [PairingsGuard]
   }, {
     path: 'standings',
-    component: SwissStandingsComponent
+    component: SwissStandingsComponent,
+    canActivate: [StandingsGuard]
   }]
 }];
 
@@ -50,7 +52,8 @@ const routes: Routes = [{
     SwissStandingsComponent
   ],
   providers: [
-    PairingsGuard
+    PairingsGuard,
+    StandingsGuard
   ]
 })
 export class SwissModule { }
