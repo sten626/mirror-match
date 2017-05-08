@@ -10,6 +10,7 @@ import { PlayerService } from './player.service';
 export class PairingService {
   pairings: Observable<Pairing[]>;
   selectedPairing: Observable<Pairing>;
+  submittedPairings: Observable<Pairing[]>;
 
   private _pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
@@ -30,6 +31,9 @@ export class PairingService {
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
     this.selectedPairing = this.selectedPairingSubject.asObservable().distinctUntilChanged();
+    this.submittedPairings = this.pairings.map((pairings: Pairing[]) => {
+      return pairings.filter((pairing: Pairing) => pairing.submitted);
+    }).distinctUntilChanged();
 
     this.pairingsSubject.next(this._pairings.slice());
   }
@@ -88,6 +92,7 @@ export class PairingService {
     this.saveToLocalStorage();
     this._selectedPairing = null;
     this.selectedPairingSubject.next(this._selectedPairing);
+    this.pairingsSubject.next(this._pairings.slice());
   }
 
   setSelectedPairing(pairing: Pairing) {
