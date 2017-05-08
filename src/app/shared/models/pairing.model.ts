@@ -1,6 +1,8 @@
 import { Player } from './player.model';
 
 export class Pairing {
+  bye = false;
+
   constructor(
     public round: number,
     public table: number,
@@ -10,5 +12,11 @@ export class Pairing {
     public player2Wins = 0,
     public draws = 0,
     public submitted = false
-  ) {}
+  ) {
+    if (!player2) {
+      this.bye = true;
+      this.player1Wins = 2;
+      this.submitted = true;
+    }
+  }
 }

@@ -52,21 +52,29 @@ export class StandingsService {
         const player1 = pairing.player1;
         const player2 = pairing.player2;
         const gamesPlayed = pairing.player1Wins + pairing.player2Wins + pairing.draws;
-        player1.matchesPlayed += 1;
         player1.gamesPlayed += gamesPlayed;
         player1.gamesWon += pairing.player1Wins;
         player1.gamesDrawn += pairing.draws;
         player1.gamePoints += pairing.player1Wins * 3 + pairing.draws;
-        player1.opponentIds.push(player2.id);
-        player2.matchesPlayed += 1;
-        player2.gamesPlayed += gamesPlayed;
-        player2.gamesWon += pairing.player2Wins;
-        player2.gamesDrawn += pairing.draws;
-        player2.gamePoints += pairing.player2Wins * 3 + pairing.draws;
-        player2.opponentIds.push(player1.id);
+
+        if (pairing.bye) {
+          player1.byes += 1;
+        } else {
+          player1.matchesPlayed += 1;
+          player1.opponentIds.push(player2.id);
+          player2.matchesPlayed += 1;
+          player2.gamesPlayed += gamesPlayed;
+          player2.gamesWon += pairing.player2Wins;
+          player2.gamesDrawn += pairing.draws;
+          player2.gamePoints += pairing.player2Wins * 3 + pairing.draws;
+          player2.opponentIds.push(player1.id);
+        }
 
         if (pairing.player1Wins > pairing.player2Wins) {
-          player1.matchesWon += 1;
+          if (!pairing.bye) {
+            player1.matchesWon += 1;
+          }
+
           player1.matchPoints += 3;
         } else if (pairing.player2Wins > pairing.player1Wins) {
           player2.matchesWon += 1;
@@ -86,16 +94,21 @@ export class StandingsService {
 
         player.gameWinPercentage = Math.round(10000 * Math.max(0.3333, player.gamePoints / (player.gamesPlayed * 3))) / 100;
 
-        player.opponentIds.forEach((oppId: number) => {
-          const opponent = this.playersMap[oppId];
-          const opponentMwp = Math.round(10000 * Math.max(0.3333, opponent.matchPoints / (opponent.matchesPlayed * 3))) / 100;
-          oppMwpSum += opponentMwp;
-          const opponentGwp = Math.round(10000 * Math.max(0.3333, opponent.gamePoints / (opponent.gamesPlayed * 3))) / 100;
-          oppGwpSum += opponentGwp;
-        });
+        if (player.opponentIds.length > 0) {
+          player.opponentIds.forEach((oppId: number) => {
+            const opponent = this.playersMap[oppId];
+            const opponentMwp = Math.round(10000 * Math.max(0.3333, opponent.matchPoints / (opponent.matchesPlayed * 3))) / 100;
+            oppMwpSum += opponentMwp;
+            const opponentGwp = Math.round(10000 * Math.max(0.3333, opponent.gamePoints / (opponent.gamesPlayed * 3))) / 100;
+            oppGwpSum += opponentGwp;
+          });
 
-        player.opponentMatchWinPercentage = oppMwpSum / player.opponentIds.length;
-        player.opponentGameWinPercentage = oppGwpSum / player.opponentIds.length;
+          player.opponentMatchWinPercentage = oppMwpSum / player.opponentIds.length;
+          player.opponentGameWinPercentage = oppGwpSum / player.opponentIds.length;
+        } else {
+          player.opponentMatchWinPercentage = 0;
+          player.opponentGameWinPercentage = 0;
+        }
       });
 
       this.playerService.saveAll();
