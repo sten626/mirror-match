@@ -139,7 +139,7 @@ export class PairingService {
         round: pairing.round,
         table: pairing.table,
         player1: pairing.player1.id,
-        player2: pairing.player2.id,
+        player2: pairing.bye ? null : pairing.player2.id,
         player1Wins: pairing.player1Wins,
         player2Wins: pairing.player2Wins,
         draws: pairing.draws,

@@ -20,6 +20,7 @@ export class RoundService {
     selectedRound: Observable<number>;
     selectedRoundComplete: Observable<boolean>;
     selectedRoundHasPairings: Observable<boolean>;
+    selectedRoundHasSubmittedPairings: Observable<boolean>;
 
     private _completedRounds: number[];
     private completedRoundsSubject = new BehaviorSubject<number[]>([]);
@@ -67,6 +68,12 @@ export class RoundService {
           .map((pairing: Pairing) => pairing.submitted)
           .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);
       }).distinctUntilChanged();
+      this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
+        const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
+
+        return submitted.length > 0;
+      });
+
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
       this.roundsSubject.next(this._rounds.slice());
