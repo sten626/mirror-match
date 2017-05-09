@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatchResultsComponent } from './match-results.component';
 import { PairingsGuard } from './pairings-guard.service';
 import { PairingsListComponent } from './pairings-list.component';
+import { StandingsGuard } from './standings-guard.service';
 import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
 import { SwissPlayerFormComponent } from './swiss-player-form.component';
 import { SwissPlayerListComponent } from './swiss-player-list.component';
 import { SwissPlayersComponent } from './swiss-players.component';
 import { SwissPlayersStartComponent } from './swiss-players-start.component';
+import { SwissStandingsComponent } from './swiss-standings.component';
 import { SharedModule } from '../shared';
 
 const routes: Routes = [{
@@ -26,6 +28,10 @@ const routes: Routes = [{
     path: 'pairings',
     component: SwissPairingsComponent,
     canActivate: [PairingsGuard]
+  }, {
+    path: 'standings',
+    component: SwissStandingsComponent,
+    canActivate: [StandingsGuard]
   }]
 }];
 
@@ -42,10 +48,12 @@ const routes: Routes = [{
     SwissPlayerFormComponent,
     SwissPlayerListComponent,
     SwissPlayersComponent,
-    SwissPlayersStartComponent
+    SwissPlayersStartComponent,
+    SwissStandingsComponent
   ],
   providers: [
-    PairingsGuard
+    PairingsGuard,
+    StandingsGuard
   ]
 })
 export class SwissModule { }

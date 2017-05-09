@@ -18,6 +18,7 @@ export class PairingsListComponent implements OnInit {
   pairingsListForm: FormGroup;
   selectedPairing: Pairing;
   selectedRound: number;
+  selectedRoundHasSubmittedPairings = false;
 
   private pairings: Pairing[];
 
@@ -36,6 +37,7 @@ export class PairingsListComponent implements OnInit {
     });
 
     this.pairingService.saveAndClearSelected();
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   ngOnInit() {
@@ -57,6 +59,9 @@ export class PairingsListComponent implements OnInit {
     });
 
     this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
+    this.roundService.selectedRoundHasSubmittedPairings.subscribe((hasSubmitted: boolean) => {
+      this.selectedRoundHasSubmittedPairings = hasSubmitted;
+    });
 
     // Filter pairings.
     this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
@@ -64,6 +69,7 @@ export class PairingsListComponent implements OnInit {
 
   redoMatches() {
     this.pairingService.deletePairings(this.selectedRound);
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {

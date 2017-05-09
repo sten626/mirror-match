@@ -28,6 +28,7 @@
 
           <button type="button"
               class="btn btn-default pull-right redo-matches"
+              [disabled]="selectedRoundHasSubmittedPairings"
               (click)="redoMatches()">
             Redo Matches
           </button>
@@ -51,7 +52,7 @@
           <td>{{pairing.table}}</td>
           <td>{{pairing.player1.name}}</td>
           <td>{{resultDisplayString(pairing)}}</td>
-          <td>{{pairing.player2.name}}</td>
+          <td>{{pairing.bye ? '***Bye***' : pairing.player2.name}}</td>
           <td>{{resultDisplayString(pairing, true)}}</td>
         </tr>
       </tbody>

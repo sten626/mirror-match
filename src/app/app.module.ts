@@ -14,7 +14,8 @@ import {
   PairingService,
   PlayerService,
   RoundService,
-  SharedModule
+  SharedModule,
+  StandingsService
 } from './shared';
 
 const routes: Routes = [{
@@ -40,7 +41,8 @@ const routes: Routes = [{
   providers: [
     PairingService,
     PlayerService,
-    RoundService
+    RoundService,
+    StandingsService
   ],
   bootstrap: [AppComponent]
 })
