@@ -12,6 +12,7 @@ import { PlayerService } from './player.service';
 @Injectable()
 export class RoundService {
     canBeginTournament: Observable<boolean>;
+    canStartNextRound: Observable<boolean>;
     completedRounds: Observable<number[]>;
     hasBegunTournament: Observable<boolean>;
     hasCompletedRounds: Observable<boolean>;
@@ -73,6 +74,9 @@ export class RoundService {
 
         return submitted.length > 0;
       });
+      this.canStartNextRound = this.rounds.combineLatest(this.completedRounds, (rounds: number[], completedRounds: number[]) => {
+        return rounds.length === completedRounds.length;
+      });
 
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
@@ -81,7 +85,7 @@ export class RoundService {
     }
 
     createNextRound(): void {
-      const nextRound = this._rounds.length > 0 ? Math.max(...this._rounds) : 1;
+      const nextRound = this._rounds.length > 0 ? Math.max(...this._rounds) + 1 : 1;
       this._rounds.push(nextRound);
       this.saveToLocalStorage();
       this.roundsSubject.next(this._rounds.slice());

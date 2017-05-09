@@ -52,30 +52,65 @@ export class PairingService {
 
   createPairings(round: number): void {
     this.pairingsByRoundsMap[round] = [];
-    const players = this.players.slice();
 
-    // Shuffle players.
-    for (let i = players.length; i; i--) {
-      const j = Math.floor(Math.random() * i);
-      [players[i - 1], players[j]] = [players[j], players[i - 1]];
+    if (round === 1) {
+      const players = this.shufflePlayers(this.players);
+      let table = 1;
+
+      while (players.length > 1) {
+        const pairing = new Pairing(round, table++, players.shift(), players.shift());
+        this._pairings.push(pairing);
+        this.pairingsByRoundsMap[round].push(pairing);
+      }
+
+      if (players.length) {
+        const pairing = new Pairing(round, table, players.shift(), null);
+        this._pairings.push(pairing);
+        this.pairingsByRoundsMap[round].push(pairing);
+      }
+    } else {
+      // Phase 1
+      const playerPreferenceMap = this.createPlayerPreferenceMap();
+      this.reducePlayerPreferenceMap(playerPreferenceMap);
+      console.log(playerPreferenceMap);
+
+      let done = true;
+
+      for (const player in playerPreferenceMap) {
+        if (playerPreferenceMap[player].length > 1) {
+          done = false;
+          break;
+        }
+      }
+
+      if (!done) {
+        // Phase 2
+      }
+
+      const players = this.players.slice();
+      let table = 1;
+
+      while (players.length > 0) {
+        const player1 = players.shift();
+        const player2Id = playerPreferenceMap[player1.id][0];
+        let pairing = null;
+
+        if (player2Id === -1) {
+          // player1 got a bye.
+          pairing = new Pairing(round, table++, player1, null);
+        } else {
+          const player2Index = players.findIndex((player: Player) => player.id === player2Id);
+          const player2 = players.splice(player2Index, 1)[0];
+          pairing = new Pairing(round, table++, player1, player2);
+        }
+
+        this._pairings.push(pairing);
+        this.pairingsByRoundsMap[round].push(pairing);
+      }
     }
 
-    let table = 1;
-
-    while (players.length > 1) {
-      const pairing = new Pairing(round, table++, players.shift(), players.shift());
-      this._pairings.push(pairing);
-      this.pairingsByRoundsMap[round].push(pairing);
-    }
-
-    if (players.length) {
-      const pairing = new Pairing(round, table, players.shift(), null);
-      this._pairings.push(pairing);
-      this.pairingsByRoundsMap[round].push(pairing);
-    }
-
-    this.pairingsSubject.next(this._pairings.slice());
     this.saveToLocalStorage();
+    this.pairingsSubject.next(this._pairings.slice());
   }
 
   deletePairings(round: number): void {
@@ -98,6 +133,39 @@ export class PairingService {
   setSelectedPairing(pairing: Pairing) {
     this._selectedPairing = pairing;
     this.selectedPairingSubject.next(this._selectedPairing);
+  }
+
+  private createPlayerPreferenceMap(): {[playerId: number]: number[]} {
+    const playerPreferenceMap = {};
+    const needsBye = this.players.length % 2 === 1;
+
+    this.players.forEach((player: Player) => {
+      const potentialOpps = this.players.filter((opp: Player) => {
+        return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
+      }).sort((a: Player, b: Player) => {
+        return b.matchPoints - a.matchPoints;
+      }).map((opp: Player) => {
+        return opp.id;
+      });
+
+      if (needsBye) {
+        potentialOpps.push(-1);
+      }
+
+      playerPreferenceMap[player.id] = potentialOpps;
+    });
+
+    if (needsBye) {
+      const potentialOpps = this.players.sort((a: Player, b: Player) => {
+        return b.matchPoints - a.matchPoints;
+      }).map((opp: Player) => {
+        return opp.id;
+      });
+
+      playerPreferenceMap[-1] = potentialOpps;
+    }
+
+    return playerPreferenceMap;
   }
 
   private loadFromLocalStorage() {
@@ -133,6 +201,59 @@ export class PairingService {
     }
   }
 
+  private reducePlayerPreferenceMap(playerPreferenceMap: {[player: number]: number[]}): void {
+    const proposedToMap = {};
+    const proposedToByMap = {};
+    const playersToProposeStack = this.players.map((player: Player) => player.id);
+
+    if (playersToProposeStack.length % 2 === 1) {
+      playersToProposeStack.push(-1);
+    }
+
+    while (playersToProposeStack.length > 0) {
+      const proposingPlayer = playersToProposeStack.pop();
+      const preferences = playerPreferenceMap[proposingPlayer];
+
+      for (let i = 0; i < preferences.length; i++) {
+        // Atempt to propose to i.
+        const proposedPlayer = preferences[i]
+        const proposingPlayerIndex = playerPreferenceMap[proposedPlayer].indexOf(proposingPlayer);
+
+        // Was proposedPlayer already proposed to?
+        if (proposedToByMap[proposedPlayer] !== undefined && proposedToByMap[proposedPlayer] !== null) {
+          // Already proposed to.
+          const otherSuitor = proposedToByMap[proposedPlayer];
+          const otherSuitorIndex = playerPreferenceMap[proposedPlayer].indexOf(otherSuitor);
+          if (proposingPlayerIndex < otherSuitorIndex) {
+            // Proposing player favoured, reject old one.
+            proposedToMap[otherSuitor] = null;
+            playersToProposeStack.push(otherSuitor);
+            proposedToMap[proposingPlayer] = proposedPlayer;
+            proposedToByMap[proposedPlayer] = proposingPlayer;
+          } else {
+            // Previous favoured. Reject proposingPlayer (should never happen).
+            console.error('Bad state in pairing algorithm.');
+          }
+        } else {
+          // proposedPlayer hasn't been proposed to yet.
+          proposedToMap[proposingPlayer] = proposedPlayer;
+          proposedToByMap[proposedPlayer] = proposingPlayer;
+        }
+
+        // Remove everyone lower than proposingPlayer on proposedPlayer's preferences.
+        const removedPlayers = playerPreferenceMap[proposedPlayer].splice(proposingPlayerIndex + 1);
+
+        // Remove proposedPlayer from the preferences of removedPlayers.
+        removedPlayers.forEach((player: number) => {
+          const proposedPlayerIndex = playerPreferenceMap[player].indexOf(proposedPlayer);
+          playerPreferenceMap[player].splice(proposedPlayerIndex, 1);
+        });
+
+        break;
+      }
+    }
+  }
+
   private saveToLocalStorage() {
     const pairingsToLocalStorage = this._pairings.map((pairing: Pairing) => {
       return {
@@ -148,5 +269,16 @@ export class PairingService {
     });
 
     localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
+  }
+
+  private shufflePlayers(players: any[]): any[] {
+    const shuffledPlayers = players.slice();
+
+    for (let i = shuffledPlayers.length; i; i--) {
+      const j = Math.floor(Math.random() * i);
+      [shuffledPlayers[i - 1], shuffledPlayers[j]] = [shuffledPlayers[j], shuffledPlayers[i - 1]];
+    }
+
+    return shuffledPlayers;
   }
 }

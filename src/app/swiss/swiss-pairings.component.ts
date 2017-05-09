@@ -13,6 +13,7 @@ import {
   templateUrl: './swiss-pairings.component.html'
 })
 export class SwissPairingsComponent implements OnInit {
+  canStartNextRound = false;
   rounds: Observable<number[]>;
   pairingsForm: FormGroup;
   players: Player[];
@@ -25,7 +26,11 @@ export class SwissPairingsComponent implements OnInit {
     private roundService: RoundService
   ) {}
 
-  generatePairings() {
+  createNextRound(): void {
+    this.roundService.createNextRound();
+  }
+
+  generatePairings(): void {
     this.pairingService.createPairings(this.selectedRound);
   }
 
@@ -39,9 +44,10 @@ export class SwissPairingsComponent implements OnInit {
       });
     });
     this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.selectedRoundHasPairings = hasPairings);
+    this.roundService.canStartNextRound.subscribe((canStart: boolean) => this.canStartNextRound = canStart);
   }
 
-  private createForm() {
+  private createForm(): void {
     this.pairingsForm = this.fb.group({
       currentRound: 1
     });
