@@ -143,7 +143,17 @@ export class PairingService {
       const potentialOpps = this.players.filter((opp: Player) => {
         return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
       }).sort((a: Player, b: Player) => {
-        return b.matchPoints - a.matchPoints;
+        const diff = b.matchPoints - a.matchPoints;
+
+        if (diff === 0) {
+          if (a.byes > 0) {
+            return -1;
+          } else if (b.byes > 0) {
+            return 1;
+          }
+        }
+
+        return diff;
       }).map((opp: Player) => {
         return opp.id;
       });
@@ -157,7 +167,7 @@ export class PairingService {
 
     if (needsBye) {
       const potentialOpps = this.players.sort((a: Player, b: Player) => {
-        return b.matchPoints - a.matchPoints;
+        return a.matchPoints - b.matchPoints;
       }).map((opp: Player) => {
         return opp.id;
       });
