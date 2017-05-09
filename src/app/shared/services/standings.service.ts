@@ -56,11 +56,11 @@ export class StandingsService {
         player1.gamesWon += pairing.player1Wins;
         player1.gamesDrawn += pairing.draws;
         player1.gamePoints += pairing.player1Wins * 3 + pairing.draws;
+        player1.matchesPlayed += 1;
 
         if (pairing.bye) {
           player1.byes += 1;
         } else {
-          player1.matchesPlayed += 1;
           player1.opponentIds.push(player2.id);
           player2.matchesPlayed += 1;
           player2.gamesPlayed += gamesPlayed;
@@ -92,19 +92,19 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = Math.round(10000 * Math.max(0.3333, player.gamePoints / (player.gamesPlayed * 3))) / 100;
+        player.gameWinPercentage = Math.round(10000 * Math.max(1 / 3, player.gamePoints / (player.gamesPlayed * 3))) / 100;
 
         if (player.opponentIds.length > 0) {
           player.opponentIds.forEach((oppId: number) => {
             const opponent = this.playersMap[oppId];
-            const opponentMwp = Math.round(10000 * Math.max(0.3333, opponent.matchPoints / (opponent.matchesPlayed * 3))) / 100;
+            const opponentMwp = Math.max(1 / 3, opponent.matchPoints / (opponent.matchesPlayed * 3));
             oppMwpSum += opponentMwp;
-            const opponentGwp = Math.round(10000 * Math.max(0.3333, opponent.gamePoints / (opponent.gamesPlayed * 3))) / 100;
+            const opponentGwp = Math.max(1 / 3, opponent.gamePoints / (opponent.gamesPlayed * 3));
             oppGwpSum += opponentGwp;
           });
 
-          player.opponentMatchWinPercentage = oppMwpSum / player.opponentIds.length;
-          player.opponentGameWinPercentage = oppGwpSum / player.opponentIds.length;
+          player.opponentMatchWinPercentage = Math.round(10000 * oppMwpSum / player.opponentIds.length) / 100;
+          player.opponentGameWinPercentage = Math.round(10000 * oppGwpSum / player.opponentIds.length) / 100;
         } else {
           player.opponentMatchWinPercentage = 0;
           player.opponentGameWinPercentage = 0;
