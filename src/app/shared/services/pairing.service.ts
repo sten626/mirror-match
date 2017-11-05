@@ -52,9 +52,9 @@ export class PairingService {
 
   createPairings(round: number): void {
     this.pairingsByRoundsMap[round] = [];
+    let players = this.shufflePlayers(this.players);
 
     if (round === 1) {
-      const players = this.shufflePlayers(this.players);
       let table = 1;
 
       while (players.length > 1) {
@@ -70,7 +70,12 @@ export class PairingService {
       }
     } else {
       // Phase 1
-      const playerPreferenceMap = this.createPlayerPreferenceMap();
+      players = players.sort((a: Player, b: Player) => {
+        // At this point only match points matter.
+        return b.matchPoints - a.matchPoints;
+      });
+
+      const playerPreferenceMap = this.createPlayerPreferenceMap(players);
       this.reducePlayerPreferenceMap(playerPreferenceMap);
       console.log(playerPreferenceMap);
 
@@ -87,7 +92,6 @@ export class PairingService {
         // Phase 2
       }
 
-      const players = this.players.slice();
       let table = 1;
 
       while (players.length > 0) {
@@ -135,25 +139,13 @@ export class PairingService {
     this.selectedPairingSubject.next(this._selectedPairing);
   }
 
-  private createPlayerPreferenceMap(): {[playerId: number]: number[]} {
+  private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
     const playerPreferenceMap = {};
-    const needsBye = this.players.length % 2 === 1;
+    const needsBye = players.length % 2 === 1;
 
-    this.players.forEach((player: Player) => {
-      const potentialOpps = this.players.filter((opp: Player) => {
+    players.forEach((player: Player) => {
+      const potentialOpps = players.filter((opp: Player) => {
         return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
-      }).sort((a: Player, b: Player) => {
-        const diff = b.matchPoints - a.matchPoints;
-
-        if (diff === 0) {
-          if (a.byes > 0) {
-            return -1;
-          } else if (b.byes > 0) {
-            return 1;
-          }
-        }
-
-        return diff;
       }).map((opp: Player) => {
         return opp.id;
       });
@@ -166,7 +158,7 @@ export class PairingService {
     });
 
     if (needsBye) {
-      const potentialOpps = this.players.sort((a: Player, b: Player) => {
+      const potentialOpps = players.sort((a: Player, b: Player) => {
         return a.matchPoints - b.matchPoints;
       }).map((opp: Player) => {
         return opp.id;
