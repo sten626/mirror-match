@@ -90,6 +90,14 @@ export class PairingService {
 
       if (!done) {
         // Phase 2
+        console.error('Phase 2 got hit!!');
+        while (true) {
+          // Identify a rotation.
+          let rotation = this.findRotation(playerPreferenceMap);
+          console.log(rotation);
+          break;
+          // TODO: Maybe stop shuffling players before making pairings.
+        }
       }
 
       let table = 1;
@@ -144,8 +152,10 @@ export class PairingService {
     const needsBye = players.length % 2 === 1;
 
     players.forEach((player: Player) => {
-      const potentialOpps = players.filter((opp: Player) => {
+      const potentialOpps = this.shufflePlayers(players).filter((opp: Player) => {
         return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
+      }).sort((a: Player, b: Player) => {
+        return b.matchPoints - a.matchPoints;
       }).map((opp: Player) => {
         return opp.id;
       });
@@ -168,6 +178,45 @@ export class PairingService {
     }
 
     return playerPreferenceMap;
+  }
+
+  private findRotation(playerPreferenceMap: {[playerId: number]: number[]}): number[][] {
+    // Find player with multiple opponents on reduced list.
+    let player = null;
+    const rotation = [];
+    const playersInRotation = [];
+
+    for (const playerId in playerPreferenceMap) {
+      if (playerPreferenceMap[playerId].length > 1) {
+        player = playerId;
+        break;
+      }
+    }
+
+    rotation.push([player, playerPreferenceMap[player][0]]);
+    playersInRotation.push(player);
+
+    return this.findRotationNext(playerPreferenceMap, rotation, playersInRotation);
+  }
+
+  private findRotationNext(
+      playerPreferenceMap: {[playerId: number]: number[]},
+      rotation: number[][],
+      playersInRotation: number[]): number[][] {
+    const previous = rotation[rotation.length - 1];
+    const previousPlayer = previous[0];
+    const nextOpponent = playerPreferenceMap[previousPlayer][1];
+    const nextOpponentsPreferenceList = playerPreferenceMap[nextOpponent];
+    const nextPlayer = nextOpponentsPreferenceList[nextOpponentsPreferenceList.length - 1];
+
+    if (playersInRotation.indexOf(nextPlayer) !== -1) {
+      return rotation;
+    }
+
+    rotation.push([nextPlayer, nextOpponent]);
+    playersInRotation.push(nextPlayer);
+
+    return this.findRotationNext(playerPreferenceMap, rotation, playersInRotation);
   }
 
   private loadFromLocalStorage() {
