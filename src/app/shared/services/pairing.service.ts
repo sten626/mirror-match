@@ -76,16 +76,14 @@ export class PairingService {
       });
 
       const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-      console.log(playerPreferenceMap);
       this.reducePlayerPreferenceMap(playerPreferenceMap);
-      console.log(playerPreferenceMap);
-
       let done = true;
 
       for (const player in playerPreferenceMap) {
         if (playerPreferenceMap[player].length > 1) {
           done = false;
-          break;
+        } else if (playerPreferenceMap[player].length === 0) {
+          throw new Error('Player preference list should always have at least 1 opponent.');
         }
       }
 
@@ -94,10 +92,25 @@ export class PairingService {
         console.error('Phase 2 got hit!!');
         while (true) {
           // Identify a rotation.
-          let rotation = this.findRotation(playerPreferenceMap);
+          const rotation = this.findRotation(playerPreferenceMap);
           console.log(rotation);
-          break;
-          // TODO: Maybe stop shuffling players before making pairings.
+
+          // Eliminate the rotation.
+          this.eliminateRotation(playerPreferenceMap, rotation);
+
+          done = true;
+
+          for (const player in playerPreferenceMap) {
+            if (playerPreferenceMap[player].length > 1) {
+              done = false;
+            } else if (playerPreferenceMap[player].length === 0) {
+              throw new Error('Eliminating rotation has reduced a preference list to zero.');
+            }
+          }
+
+          if (done) {
+            break;
+          }
         }
       }
 
@@ -153,10 +166,8 @@ export class PairingService {
     const needsBye = players.length % 2 === 1;
 
     players.forEach((player: Player) => {
-      const potentialOpps = this.shufflePlayers(players).filter((opp: Player) => {
+      const potentialOpps = players.filter((opp: Player) => {
         return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
-      }).sort((a: Player, b: Player) => {
-        return b.matchPoints - a.matchPoints;
       }).map((opp: Player) => {
         return opp.id;
       });
@@ -179,6 +190,17 @@ export class PairingService {
     }
 
     return playerPreferenceMap;
+  }
+
+  private eliminateRotation(playerPreferenceMap: {[playerId: number]: number[]}, rotation: number[][]): void {
+    for (const pair of rotation) {
+      const playerAId = pair[0];
+      const playerBId = pair[1];
+      const playerAIdIndex = playerPreferenceMap[playerBId].indexOf(playerAId);
+      playerPreferenceMap[playerBId].splice(playerAIdIndex, 1);
+      const playerBIdIndex = playerPreferenceMap[playerAId].indexOf(playerBId);
+      playerPreferenceMap[playerAId].splice(playerBIdIndex, 1);
+    }
   }
 
   private findRotation(playerPreferenceMap: {[playerId: number]: number[]}): number[][] {
