@@ -76,6 +76,7 @@ export class PairingService {
       });
 
       const playerPreferenceMap = this.createPlayerPreferenceMap(players);
+      console.log(playerPreferenceMap);
       this.reducePlayerPreferenceMap(playerPreferenceMap);
       console.log(playerPreferenceMap);
 
@@ -188,7 +189,7 @@ export class PairingService {
 
     for (const playerId in playerPreferenceMap) {
       if (playerPreferenceMap[playerId].length > 1) {
-        player = playerId;
+        player = parseInt(playerId);
         break;
       }
     }
