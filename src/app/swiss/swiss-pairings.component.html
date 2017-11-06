@@ -8,6 +8,7 @@
     </div>
     <div class="col-sm-2">
       <button class="btn btn-default" *ngIf="!selectedRoundHasPairings" (click)="generatePairings()">Generate Pairings</button>
+      <button class="btn btn-default" *ngIf="canStartNextRound" (click)="createNextRound()">Create Next Round</button>
     </div>
   </div>
 </form>
