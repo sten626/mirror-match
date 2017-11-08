@@ -38,10 +38,12 @@ export class SwissPairingsComponent implements OnInit {
     this.rounds = this.roundService.rounds;
     this.createForm();
     this.roundService.selectedRound.subscribe((round: number) => {
-      this.selectedRound = round;
-      this.pairingsForm.reset({
-        currentRound: this.selectedRound
-      });
+      if (round !== this.selectedRound) {
+        this.selectedRound = round;
+        this.pairingsForm.reset({
+          currentRound: this.selectedRound
+        });
+      }
     });
     this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.selectedRoundHasPairings = hasPairings);
     this.roundService.canStartNextRound.subscribe((canStart: boolean) => this.canStartNextRound = canStart);
@@ -50,6 +52,10 @@ export class SwissPairingsComponent implements OnInit {
   private createForm(): void {
     this.pairingsForm = this.fb.group({
       currentRound: 1
+    });
+
+    this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
+      this.roundService.setSelectedRound(parseInt(value));
     });
   }
 }

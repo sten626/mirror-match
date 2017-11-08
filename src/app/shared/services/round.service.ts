@@ -123,6 +123,11 @@ export class RoundService {
       this.completedRoundsSubject.next(this._completedRounds.slice());
     }
 
+    setSelectedRound(selectedRound: number): void {
+      this._selectedRound = selectedRound;
+      this.selectedRoundSubject.next(this._selectedRound);
+    }
+
     setTotalNumberOfRounds(numberOfRounds: number): void {
       this.totalNumberOfRounds = numberOfRounds;
       localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(this.totalNumberOfRounds));
