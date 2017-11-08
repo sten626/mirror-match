@@ -69,7 +69,15 @@ export class MatchResultsComponent implements OnInit {
       this.selectedPairing = pairing;
       this.resetForm();
     });
-    this.roundService.selectedRoundComplete.subscribe((complete: boolean) => this.selectedRoundComplete = complete);
+    this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
+      this.selectedRoundComplete = complete;
+
+      if (complete) {
+        this.matchResultsForm.disable();
+      } else {
+        this.matchResultsForm.enable();
+      }
+    });
   }
 
   submit() {
