@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/distinctUntilChanged';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
@@ -29,11 +29,11 @@ export class PairingService {
     this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
     // Setup Observables.
-    this.pairings = this.pairingsSubject.asObservable().distinctUntilChanged();
-    this.selectedPairing = this.selectedPairingSubject.asObservable().distinctUntilChanged();
-    this.submittedPairings = this.pairings.map((pairings: Pairing[]) => {
+    this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
+    this.selectedPairing = this.selectedPairingSubject.asObservable().pipe(distinctUntilChanged());
+    this.submittedPairings = this.pairings.pipe(map((pairings: Pairing[]) => {
       return pairings.filter((pairing: Pairing) => pairing.submitted);
-    }).distinctUntilChanged();
+    }), distinctUntilChanged());
 
     this.pairingsSubject.next(this._pairings.slice());
   }
