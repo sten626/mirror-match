@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
 import { Pairing, Player } from '../';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StandingsService {
@@ -19,7 +20,7 @@ export class StandingsService {
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
-    this.standings = this.standingsSubject.asObservable().distinctUntilChanged();
+    this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
 
     this.playerService.players.subscribe((players: Player[]) => {
       this.players = players.slice();
@@ -30,6 +31,7 @@ export class StandingsService {
         this.playersMap[player.id] = player;
       });
     });
+
     this.pairingService.submittedPairings.subscribe((pairings: Pairing[]) => {
       this.pairings = pairings;
 
