@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/combineLatest';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
+import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Pairing, Player } from '../models';
 import { PairingService } from './pairing.service';
@@ -45,38 +43,52 @@ export class RoundService {
       this.loadFromLocalStorage();
 
       // Setup Observables.
-      this.canBeginTournament = this.playerService.numberOfPlayers.map((numPlayers: number) => numPlayers >= 4).distinctUntilChanged();
-      this.rounds = this.roundsSubject.asObservable().distinctUntilChanged();
-      this.completedRounds = this.completedRoundsSubject.asObservable().distinctUntilChanged();
-      this.hasCompletedRounds = this.completedRounds.map((rounds: number[]) => rounds.length > 0).distinctUntilChanged();
-      this.hasBegunTournament = this.rounds.map((rounds: number[]) => rounds.length > 0).distinctUntilChanged();
+      this.canBeginTournament = this.playerService.numberOfPlayers.pipe(
+        map((numPlayers: number) => numPlayers >= 4),
+        distinctUntilChanged()
+      );
+      this.rounds = this.roundsSubject.asObservable().pipe(distinctUntilChanged());
+      this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
+      this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
+      this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
       this._selectedRound = Math.max(...this._rounds);
       this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
-      this.selectedRound = this.selectedRoundSubject.asObservable().distinctUntilChanged();
-      this.pairingsForSelectedRound = this.pairingService.pairings
-        .combineLatest(this.selectedRound, (pairings: Pairing[], round: number) => {
+      this.selectedRound = this.selectedRoundSubject.asObservable().pipe(distinctUntilChanged());
+      this.pairingsForSelectedRound = this.pairingService.pairings.pipe(
+        combineLatest(this.selectedRound, (pairings: Pairing[], round: number) => {
           return pairings.filter((pairing: Pairing) => pairing.round === round);
-        });
-      this.selectedRoundHasPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
-        return pairings.length > 0;
-      }).distinctUntilChanged();
-      this.selectedRoundComplete = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
-        if (pairings.length === 0) {
-          return false;
-        }
+        })
+      );
 
-        return pairings
-          .map((pairing: Pairing) => pairing.submitted)
-          .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);
-      }).distinctUntilChanged();
+      this.selectedRoundHasPairings = this.pairingsForSelectedRound.pipe(
+        map((pairings: Pairing[]) => {
+          return pairings.length > 0;
+        }),
+        distinctUntilChanged()
+      );
+
+      this.selectedRoundComplete = this.pairingsForSelectedRound.pipe(
+        map((pairings: Pairing[]) => {
+          if (pairings.length === 0) {
+            return false;
+          }
+
+          return pairings
+            .map((pairing: Pairing) => pairing.submitted)
+            .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);
+        }),
+        distinctUntilChanged()
+      );
+
       this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
         const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
 
         return submitted.length > 0;
       });
-      this.canStartNextRound = this.rounds.combineLatest(this.completedRounds, (rounds: number[], completedRounds: number[]) => {
+
+      this.canStartNextRound = this.rounds.pipe(combineLatest(this.completedRounds, (rounds: number[], completedRounds: number[]) => {
         return rounds.length === completedRounds.length;
-      });
+      }));
 
       this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
