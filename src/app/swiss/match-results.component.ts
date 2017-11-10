@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {
   Pairing,
   PairingService,
+  PlayerService,
   RoundService
 } from '../shared';
 
@@ -23,6 +24,7 @@ export class MatchResultsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private pairingService: PairingService,
+    private playerService: PlayerService,
     private roundService: RoundService,
     private router: Router
   ) {}
@@ -86,6 +88,26 @@ export class MatchResultsComponent implements OnInit {
     this.selectedPairing.player2Wins = form.get('player2Wins').value;
     this.selectedPairing.draws = form.get('draws').value;
     this.selectedPairing.submitted = true;
+    const player1 = this.selectedPairing.player1;
+    const player2 = this.selectedPairing.player2;
+    const player1Dropped = form.get('player1Dropped').value;
+    const player2Dropped = form.get('player2Dropped').value;
+    let shouldSavePlayers = false;
+
+    if (player1.dropped !== player1Dropped) {
+      player1.dropped = player1Dropped;
+      shouldSavePlayers = true;
+    }
+
+    if (player2.dropped !== player2Dropped) {
+      player2.dropped = player2Dropped;
+      shouldSavePlayers = true;
+    }
+
+    if (shouldSavePlayers) {
+      this.playerService.saveAll();
+    }
+
     this.pairingService.saveAndClearSelected();
 
     if (this.selectedRoundComplete) {
