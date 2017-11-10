@@ -42,6 +42,10 @@ export class SwissPlayerFormComponent implements OnInit {
     });
   }
 
+  reset() {
+    this.playerService.setSelectedPlayer(new Player());
+  }
+
   submit() {
     const nameControl = this.swissPlayerForm.get('name');
     let name = nameControl.value;
