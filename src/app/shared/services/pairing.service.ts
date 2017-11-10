@@ -290,7 +290,7 @@ export class PairingService {
 
       for (let i = 0; i < preferences.length; i++) {
         // Atempt to propose to i.
-        const proposedPlayer = preferences[i]
+        const proposedPlayer = preferences[i];
         const proposingPlayerIndex = playerPreferenceMap[proposedPlayer].indexOf(proposingPlayer);
 
         // Was proposedPlayer already proposed to?
