@@ -52,7 +52,7 @@ export class PairingService {
 
   createPairings(round: number): void {
     this.pairingsByRoundsMap[round] = [];
-    let players = this.shufflePlayers(this.activePlayers);
+    const players = this.shufflePlayers(this.activePlayers);
 
     if (round === 1) {
       let table = 1;
@@ -70,7 +70,7 @@ export class PairingService {
       }
     } else {
       // Phase 1
-      players = players.sort((a: Player, b: Player) => {
+      players.sort((a: Player, b: Player) => {
         // At this point only match points matter.
         return b.matchPoints - a.matchPoints;
       });
@@ -180,13 +180,14 @@ export class PairingService {
     });
 
     if (needsBye) {
-      const potentialOpps = players.sort((a: Player, b: Player) => {
+      const potentialOpps = players.slice();
+      const potentialOppIds = potentialOpps.sort((a: Player, b: Player) => {
         return a.matchPoints - b.matchPoints;
       }).map((opp: Player) => {
         return opp.id;
       });
 
-      playerPreferenceMap[-1] = potentialOpps;
+      playerPreferenceMap[-1] = potentialOppIds;
     }
 
     return playerPreferenceMap;
