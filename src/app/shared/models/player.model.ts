@@ -14,6 +14,7 @@ export class Player {
   gameWinPercentage: number;
   opponentGameWinPercentage: number;
   opponentIds: number[];
+  dropped: boolean;
 
   constructor(rawPlayer?: any) {
     this.id = rawPlayer && rawPlayer.id || null;
@@ -31,5 +32,6 @@ export class Player {
     this.gameWinPercentage = rawPlayer && rawPlayer.gameWinPercentage || 0;
     this.opponentGameWinPercentage = rawPlayer && rawPlayer.opponentGameWinPercentage || 0;
     this.opponentIds = rawPlayer && rawPlayer.opponentIds || [];
+    this.dropped = rawPlayer && rawPlayer.dropped || false;
   }
 }

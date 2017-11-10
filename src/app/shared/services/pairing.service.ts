@@ -15,7 +15,7 @@ export class PairingService {
   private _pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
   private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
-  private players: Player[];
+  private activePlayers: Player[];
   private _selectedPairing: Pairing;
   private selectedPairingSubject = new BehaviorSubject<Pairing>(null);
 
@@ -26,7 +26,7 @@ export class PairingService {
   constructor(private playerService: PlayerService) {
     // Load data.
     this.loadFromLocalStorage();
-    this.playerService.players.subscribe((players: Player[]) => this.players = players);
+    this.playerService.activePlayers.subscribe((players: Player[]) => this.activePlayers = players);
 
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
@@ -52,7 +52,7 @@ export class PairingService {
 
   createPairings(round: number): void {
     this.pairingsByRoundsMap[round] = [];
-    let players = this.shufflePlayers(this.players);
+    let players = this.shufflePlayers(this.activePlayers);
 
     if (round === 1) {
       let table = 1;
@@ -278,7 +278,7 @@ export class PairingService {
   private reducePlayerPreferenceMap(playerPreferenceMap: {[player: number]: number[]}): void {
     const proposedToMap = {};
     const proposedToByMap = {};
-    const playersToProposeStack = this.players.map((player: Player) => player.id);
+    const playersToProposeStack = this.activePlayers.map((player: Player) => player.id);
 
     if (playersToProposeStack.length % 2 === 1) {
       playersToProposeStack.push(-1);
