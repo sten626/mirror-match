@@ -9,6 +9,7 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class RoundService {
+  allRoundsCompleted: Observable<boolean>;
   canBeginTournament: Observable<boolean>;
   canStartNextRound: Observable<boolean>;
   completedRounds: Observable<number[]>;
@@ -50,6 +51,10 @@ export class RoundService {
     this.rounds = this.roundsSubject.asObservable().pipe(distinctUntilChanged());
     this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
     this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
+    this.allRoundsCompleted = this.completedRounds.pipe(
+      map((completedRounds: number[]) => completedRounds.length === this.totalNumberOfRounds),
+      distinctUntilChanged()
+    );
     this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
     this._selectedRound = Math.max(...this._rounds);
     this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
