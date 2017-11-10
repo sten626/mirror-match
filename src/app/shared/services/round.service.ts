@@ -163,6 +163,14 @@ export class RoundService {
       this._completedRounds = [];
       localStorage.setItem(this.lsKeys.completedRounds, JSON.stringify(this._completedRounds));
     }
+
+    const totalNumberOfRoundsData = localStorage.getItem(this.lsKeys.totalNumberOfRounds);
+
+    if (totalNumberOfRoundsData) {
+      this.totalNumberOfRounds = JSON.parse(totalNumberOfRoundsData);
+    } else {
+      this.totalNumberOfRounds = 0;
+    }
   }
 
   private saveToLocalStorage(): void {
