@@ -11,6 +11,7 @@ import { SwissModule } from './swiss/swiss.module';
 import {
   FooterComponent,
   HeaderComponent,
+  MessageService,
   PairingService,
   PlayerService,
   RoundService,
@@ -39,6 +40,7 @@ const routes: Routes = [{
     SwissModule
   ],
   providers: [
+    MessageService,
     PairingService,
     PlayerService,
     RoundService,
