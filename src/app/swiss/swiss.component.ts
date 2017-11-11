@@ -21,4 +21,9 @@ export class SwissComponent implements OnInit {
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasTournamentBegun = hasBegun);
     this.roundService.hasCompletedRounds.subscribe((hasCompletedRounds: boolean) => this.hasCompletedRounds = hasCompletedRounds);
   }
+
+  dismissMessage(message: Message): void {
+    const messageIndex = this.messages.indexOf(message);
+    this.messages.splice(messageIndex, 1);
+  }
 }

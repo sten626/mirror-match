@@ -16,7 +16,10 @@
       </div>
 
       <div class="col-md-10">
-        <div class="alert" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+        <div class="alert alert-dismissible" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+          <button type="button" class="close" aria-label="Close" (click)="dismissMessage(message)">
+            <span aria-hidden="true">&times;</span>
+          </button>
           {{message.message}}
         </div>
         <router-outlet></router-outlet>
