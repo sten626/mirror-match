@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Pairing, Player } from '../models';
+import { MessageService } from './message.service';
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
 
@@ -37,6 +38,7 @@ export class RoundService {
   };
 
   constructor(
+    private messageService: MessageService,
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
@@ -117,6 +119,10 @@ export class RoundService {
     this._completedRounds.push(round);
     this.saveToLocalStorage();
     this.completedRoundsSubject.next(this._completedRounds.slice());
+
+    if (round === this.totalNumberOfRounds) {
+      this.messageService.success('Last round complete. Final standings are posted.');
+    }
   }
 
   markRoundAsIncomplete(round: number): void {

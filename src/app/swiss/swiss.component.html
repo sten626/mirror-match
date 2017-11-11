@@ -16,6 +16,9 @@
       </div>
 
       <div class="col-md-10">
+        <div class="alert" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+          {{message.message}}
+        </div>
         <router-outlet></router-outlet>
       </div>
     </div>
