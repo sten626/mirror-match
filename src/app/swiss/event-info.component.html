@@ -1,1 +1,14 @@
-INFO!
+<div class="row">
+  <div class="col-xs-12">
+    <p>
+        <button type="button" class="btn btn-danger" (click)="endEventClicked()">End Event</button>
+    </p>
+    <div class="alert alert-danger" role="alert" *ngIf="showEndEventConfirmation">
+      <p>Ending the event will erase all currently entered data including players, pairings, and results. Are you sure you want to end the event?</p>
+      <p>
+        <button type="button" class="btn btn-danger">I'm done with this event</button>
+        <button type="button" class="btn btn-default" (click)="cancelEndEvent()">Not yet</button>
+      </p>
+    </div>
+  </div>
+</div>

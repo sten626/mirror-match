@@ -4,5 +4,13 @@ import { Component } from '@angular/core';
   templateUrl: './event-info.component.html'
 })
 export class EventInfoComponent {
+  showEndEventConfirmation = false;
 
+  cancelEndEvent(): void {
+    this.showEndEventConfirmation = false;
+  }
+
+  endEventClicked(): void {
+    this.showEndEventConfirmation = true;
+  }
 }
