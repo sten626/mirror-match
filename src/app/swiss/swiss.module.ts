@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { EventInfoComponent } from './event-info.component';
 import { MatchResultsComponent } from './match-results.component';
 import { PairingsGuard } from './pairings-guard.service';
 import { PairingsListComponent } from './pairings-list.component';
@@ -22,6 +23,9 @@ const routes: Routes = [{
     redirectTo: '/swiss/players',
     pathMatch: 'full'
   }, {
+    path: 'event',
+    component: EventInfoComponent
+  }, {
     path: 'players',
     component: SwissPlayersComponent
   }, {
@@ -41,6 +45,7 @@ const routes: Routes = [{
     SharedModule
   ],
   declarations: [
+    EventInfoComponent,
     MatchResultsComponent,
     PairingsListComponent,
     SwissComponent,
