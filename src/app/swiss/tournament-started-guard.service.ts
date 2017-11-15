@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import { RoundService } from '../shared';
 
 @Injectable()
-export class PairingsGuard implements CanActivate {
+export class TournamentStartedGuard implements CanActivate {
   constructor(
     private roundService: RoundService,
     private router: Router
