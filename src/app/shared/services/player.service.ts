@@ -8,6 +8,8 @@ import { Player } from '../models';
 @Injectable()
 export class PlayerService {
   activePlayers: Observable<Player[]>; // Players who haven't dropped.
+  numberOfActivePlayers: Observable<number>;
+  numberOfDroppedPlayers: Observable<number>;
   numberOfPlayers: Observable<number>;
   players: Observable<Player[]>;
   recommendedNumberOfRounds: Observable<number>;
@@ -35,9 +37,19 @@ export class PlayerService {
       }),
       distinctUntilChanged()
     );
+    this.numberOfActivePlayers = this.activePlayers.pipe(
+      map((players: Player[]) => players.length),
+      distinctUntilChanged()
+    );
     this.numberOfPlayers = this.players.pipe(map((players: Player[]) => players.length), distinctUntilChanged());
     this.recommendedNumberOfRounds = this.numberOfPlayers.pipe(map(num => Math.max(3, Math.ceil(Math.log2(num)))), distinctUntilChanged());
     this.selectedPlayer = this.selectedPlayerSubject.asObservable().pipe(distinctUntilChanged());
+    this.numberOfDroppedPlayers = this.players.pipe(
+      map((players: Player[]) => {
+        const droppedPlayers = players.filter((player: Player) => player.dropped);
+        return droppedPlayers.length;
+      })
+    );
 
     this.playersSubject.next(this._players.slice());
   }
