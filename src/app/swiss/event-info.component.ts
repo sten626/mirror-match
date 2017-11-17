@@ -42,6 +42,11 @@ export class EventInfoComponent implements OnInit {
     this.showEndEventConfirmation = false;
   }
 
+  endEventConfirm(): void {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   endEventClicked(): void {
     this.showEndEventConfirmation = true;
   }
