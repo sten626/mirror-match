@@ -13,8 +13,10 @@ export class RoundService {
   canBeginTournament: Observable<boolean>;
   canStartNextRound: Observable<boolean>;
   completedRounds: Observable<number[]>;
+  currentRound: Observable<number>;
   hasBegunTournament: Observable<boolean>;
   hasCompletedRounds: Observable<boolean>;
+  outstandingPairingsForCurrentRound: Observable<Pairing[]>;
   pairingsForSelectedRound: Observable<Pairing[]>;
   rounds: Observable<number[]>;
   selectedRound: Observable<number>;
@@ -50,6 +52,10 @@ export class RoundService {
       distinctUntilChanged()
     );
     this.rounds = this.roundsSubject.asObservable().pipe(distinctUntilChanged());
+    this.currentRound = this.rounds.pipe(
+      map((rounds: number[]) => rounds[rounds.length - 1]),
+      distinctUntilChanged()
+    );
     this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
     this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
     this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
@@ -59,6 +65,11 @@ export class RoundService {
     this.pairingsForSelectedRound = this.pairingService.pairings.pipe(
       combineLatest(this.selectedRound, (pairings: Pairing[], round: number) => {
         return pairings.filter((pairing: Pairing) => pairing.round === round);
+      })
+    );
+    this.outstandingPairingsForCurrentRound = this.pairingService.pairings.pipe(
+      combineLatest(this.currentRound, (pairings: Pairing[], round: number) => {
+        return pairings.filter((pairing: Pairing) => pairing.round === round && !pairing.submitted);
       })
     );
 
@@ -105,6 +116,10 @@ export class RoundService {
     this.roundsSubject.next(this._rounds.slice());
     this._selectedRound = nextRound;
     this.selectedRoundSubject.next(this._selectedRound);
+  }
+
+  getTotalNumberOfRounds(): number {
+    return this.totalNumberOfRounds;
   }
 
   markRoundAsComplete(round: number): void {
