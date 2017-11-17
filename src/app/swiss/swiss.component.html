@@ -7,6 +7,9 @@
             <a routerLink="/swiss/players">Players</a>
           </li>
           <li role="presentation" routerLinkActive="active" *ngIf="hasTournamentBegun">
+            <a routerLink="/swiss/event">Event Info</a>
+          </li>
+          <li role="presentation" routerLinkActive="active" *ngIf="hasTournamentBegun">
             <a routerLink="/swiss/pairings">Pairings</a>
           </li>
           <li role="presentation" routerLinkActive="active" *ngIf="hasCompletedRounds">
