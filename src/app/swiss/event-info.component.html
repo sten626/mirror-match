@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Rounds</h3>
+      </div>
+
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          <li>Number of rounds: {{numberOfRounds}}</li>
+          <li>Current round: {{currentRound}}</li>
+          <li>Completed round: {{completedRound}}</li>
+          <li>Ongoing matches: {{ongoingMatches}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Players</h3>
+      </div>
+
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          <li>Total players: {{totalPlayers}}</li>
+          <li>Active players: {{activePlayers}}</li>
+          <li>Dropped players: {{droppedPlayers}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <p>
+        <button type="button" class="btn btn-danger" (click)="endEventClicked()">End Event</button>
+    </p>
+    <div class="alert alert-danger" role="alert" *ngIf="showEndEventConfirmation">
+      <p>Ending the event will erase all currently entered data including players, pairings, and results. Are you sure you want to end the event?</p>
+      <p>
+        <button type="button" class="btn btn-danger" (click)="endEventConfirm()">I'm done with this event</button>
+        <button type="button" class="btn btn-default" (click)="cancelEndEvent()">Not yet</button>
+      </p>
+    </div>
+  </div>
+</div>
