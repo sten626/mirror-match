@@ -94,19 +94,19 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = Math.round(10000 * Math.max(1 / 3, player.gamePoints / (player.gamesPlayed * 3))) / 100;
+        player.gameWinPercentage = this.sigFigs(100 * player.gamePoints / (player.gamesPlayed * 3), 6);
 
         if (player.opponentIds.length > 0) {
           player.opponentIds.forEach((oppId: number) => {
             const opponent = this.playersMap[oppId];
-            const opponentMwp = Math.max(1 / 3, opponent.matchPoints / (opponent.matchesPlayed * 3));
+            const opponentMwp = opponent.matchPoints / (opponent.matchesPlayed * 3);
             oppMwpSum += opponentMwp;
-            const opponentGwp = Math.max(1 / 3, opponent.gamePoints / (opponent.gamesPlayed * 3));
+            const opponentGwp = opponent.gamePoints / (opponent.gamesPlayed * 3);
             oppGwpSum += opponentGwp;
           });
 
-          player.opponentMatchWinPercentage = Math.round(10000 * oppMwpSum / player.opponentIds.length) / 100;
-          player.opponentGameWinPercentage = Math.round(10000 * oppGwpSum / player.opponentIds.length) / 100;
+          player.opponentMatchWinPercentage = this.sigFigs(100 * oppMwpSum / player.opponentIds.length, 6);
+          player.opponentGameWinPercentage = this.sigFigs(100 * oppGwpSum / player.opponentIds.length, 6);
         } else {
           player.opponentMatchWinPercentage = 0;
           player.opponentGameWinPercentage = 0;
@@ -122,21 +122,30 @@ export class StandingsService {
           return 1;
         }
 
-        if (a.opponentMatchWinPercentage > b.opponentMatchWinPercentage) {
+        const aOMWP = Math.max(a.opponentMatchWinPercentage, 33.3333);
+        const bOMWP = Math.max(b.opponentMatchWinPercentage, 33.3333);
+
+        if (aOMWP > bOMWP) {
           return -1;
-        } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
+        } else if (aOMWP < bOMWP) {
           return 1;
         }
 
-        if (a.gameWinPercentage > b.gameWinPercentage) {
+        const aGWP = Math.max(a.gameWinPercentage, 33.3333);
+        const bGWP = Math.max(b.gameWinPercentage, 33.3333);
+
+        if (aGWP > bGWP) {
           return -1;
-        } else if (a.gameWinPercentage < b.gameWinPercentage) {
+        } else if (aGWP < bGWP) {
           return 1;
         }
 
-        if (a.opponentGameWinPercentage > b.opponentGameWinPercentage) {
+        const aOGWP = Math.max(a.opponentGameWinPercentage, 33.3333);
+        const bOGWP = Math.max(b.opponentGameWinPercentage, 33.3333);
+
+        if (aOGWP > bOGWP) {
           return -1;
-        } else if (a.opponentGameWinPercentage < b.opponentGameWinPercentage) {
+        } else if (aOGWP < bOGWP) {
           return 1;
         }
 
@@ -145,5 +154,10 @@ export class StandingsService {
 
       this.standingsSubject.next(this.players.slice());
     });
+  }
+
+  private sigFigs(num: number, numOfSigFigs: number): number {
+    const rounded = num.toPrecision(numOfSigFigs);
+    return Number.parseFloat(rounded);
   }
 }
