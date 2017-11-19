@@ -122,22 +122,30 @@ export class StandingsService {
           return 1;
         }
 
-        // TODO: Add minimum of 33% to comparing percentages.
-        if (a.opponentMatchWinPercentage > b.opponentMatchWinPercentage) {
+        const aOMWP = Math.max(a.opponentMatchWinPercentage, 33.3333);
+        const bOMWP = Math.max(b.opponentMatchWinPercentage, 33.3333);
+
+        if (aOMWP > bOMWP) {
           return -1;
-        } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
+        } else if (aOMWP < bOMWP) {
           return 1;
         }
 
-        if (a.gameWinPercentage > b.gameWinPercentage) {
+        const aGWP = Math.max(a.gameWinPercentage, 33.3333);
+        const bGWP = Math.max(b.gameWinPercentage, 33.3333);
+
+        if (aGWP > bGWP) {
           return -1;
-        } else if (a.gameWinPercentage < b.gameWinPercentage) {
+        } else if (aGWP < bGWP) {
           return 1;
         }
 
-        if (a.opponentGameWinPercentage > b.opponentGameWinPercentage) {
+        const aOGWP = Math.max(a.opponentGameWinPercentage, 33.3333);
+        const bOGWP = Math.max(b.opponentGameWinPercentage, 33.3333);
+
+        if (aOGWP > bOGWP) {
           return -1;
-        } else if (a.opponentGameWinPercentage < b.opponentGameWinPercentage) {
+        } else if (aOGWP < bOGWP) {
           return 1;
         }
 
