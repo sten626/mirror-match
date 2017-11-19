@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- Problems with bad match submission restrictions.
 
 ## 1.0.0-beta.1 - 2017-11-18
 ### Added
