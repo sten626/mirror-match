@@ -94,14 +94,14 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = Math.round(10000 * Math.max(1 / 3, player.gamePoints / (player.gamesPlayed * 3))) / 100;
+        player.gameWinPercentage = Math.round(10000 * player.gamePoints / (player.gamesPlayed * 3)) / 100;
 
         if (player.opponentIds.length > 0) {
           player.opponentIds.forEach((oppId: number) => {
             const opponent = this.playersMap[oppId];
-            const opponentMwp = Math.max(1 / 3, opponent.matchPoints / (opponent.matchesPlayed * 3));
+            const opponentMwp = opponent.matchPoints / (opponent.matchesPlayed * 3);
             oppMwpSum += opponentMwp;
-            const opponentGwp = Math.max(1 / 3, opponent.gamePoints / (opponent.gamesPlayed * 3));
+            const opponentGwp = opponent.gamePoints / (opponent.gamesPlayed * 3);
             oppGwpSum += opponentGwp;
           });
 
@@ -122,6 +122,7 @@ export class StandingsService {
           return 1;
         }
 
+        // TODO: Add minimum of 33% to comparing percentages.
         if (a.opponentMatchWinPercentage > b.opponentMatchWinPercentage) {
           return -1;
         } else if (a.opponentMatchWinPercentage < b.opponentMatchWinPercentage) {
