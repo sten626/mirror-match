@@ -94,7 +94,7 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = Math.round(10000 * player.gamePoints / (player.gamesPlayed * 3)) / 100;
+        player.gameWinPercentage = this.sigFigs(100 * player.gamePoints / (player.gamesPlayed * 3), 6);
 
         if (player.opponentIds.length > 0) {
           player.opponentIds.forEach((oppId: number) => {
@@ -105,8 +105,8 @@ export class StandingsService {
             oppGwpSum += opponentGwp;
           });
 
-          player.opponentMatchWinPercentage = Math.round(10000 * oppMwpSum / player.opponentIds.length) / 100;
-          player.opponentGameWinPercentage = Math.round(10000 * oppGwpSum / player.opponentIds.length) / 100;
+          player.opponentMatchWinPercentage = this.sigFigs(100 * oppMwpSum / player.opponentIds.length, 6);
+          player.opponentGameWinPercentage = this.sigFigs(100 * oppGwpSum / player.opponentIds.length, 6);
         } else {
           player.opponentMatchWinPercentage = 0;
           player.opponentGameWinPercentage = 0;
@@ -146,5 +146,10 @@ export class StandingsService {
 
       this.standingsSubject.next(this.players.slice());
     });
+  }
+
+  private sigFigs(num: number, numOfSigFigs: number): number {
+    const rounded = num.toPrecision(numOfSigFigs);
+    return Number.parseFloat(rounded);
   }
 }
