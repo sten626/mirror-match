@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- A link to the app's change log from the version number in the page footer.
+
 ### Changed
 - Displaying a player's true OMW%, GW%, and OGW% instead of the minimum of the 33% meant for tiebreaking.
 
