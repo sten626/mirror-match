@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.0-beta.2] - 2017-11-20
 ### Added
 - A link to the app's change log from the version number in the page footer.
 
@@ -21,4 +21,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...HEAD
+[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...HEAD
+[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2
