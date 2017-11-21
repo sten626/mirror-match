@@ -41,7 +41,7 @@ export class MatchResultsComponent implements OnInit {
   incrementDraws() {
     const draws = this.matchResultsForm.get('draws').value;
 
-    if (draws < 3) {
+    if (draws < 9) {
       this.matchResultsForm.patchValue({draws: draws + 1});
     }
   }
@@ -140,11 +140,8 @@ export class MatchResultsComponent implements OnInit {
     const draws = form.get('draws').value;
     const gamesPlayed = player1Wins + player2Wins + draws;
 
-    if (gamesPlayed > 0 && gamesPlayed <= 3) {
-      this.resultValid = true;
-    } else {
-      this.resultValid = false;
-    }
+    this.resultValid = gamesPlayed > 0 && player1Wins >= 0 && player1Wins <= 2 && player2Wins >= 0 && player2Wins <= 2 && draws >= 0
+      && player1Wins + player2Wins <= 3;
   }
 
   private resetForm() {
