@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Updated dependencies.
+  - @angular packages to 5.0.3
+  - @angular/cli to 1.5.4
+
 ## [1.0.0-beta.2] - 2017-11-20
 ### Added
 - A link to the app's change log from the version number in the page footer.
