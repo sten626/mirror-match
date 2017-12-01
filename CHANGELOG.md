@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- New window icon on the version number link to the change log.
+
 ## [1.0.0-beta.2] - 2017-11-20
 ### Added
 - A link to the app's change log from the version number in the page footer.
