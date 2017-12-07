@@ -5,10 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Unit tests for the PlayerService.
+
 ### Changed
 - Updated dependencies.
-  - @angular packages to 5.0.3
-  - @angular/cli to 1.5.4
+
+### Fixed
+- Minor fixes to the PlayerService.
 
 ## [1.0.0-beta.2] - 2017-11-20
 ### Added
