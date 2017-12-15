@@ -17,6 +17,14 @@ describe('PlayerService', () => {
     expect(deleteNull).toThrowError(TypeError, 'Can\'t delete when no player given.');
   });
 
+  it('#delete non-existent player when players empty should do nothing', () => {
+    const player = new Player({
+      name: 'Steven'
+    });
+
+    service.delete(player);
+  });
+
   it('#delete non-existent player should leave players unaffected', () => {
     const player1 = new Player({
       name: 'Steven'
@@ -38,6 +46,50 @@ describe('PlayerService', () => {
     subscription = service.players.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
       expect(players[0].name).toBe('Steven');
+    });
+  });
+
+  it('#delete only player in players should leave players empty.', () => {
+    const player = new Player({
+      name: 'Steven'
+    });
+
+    service.save(player);
+
+    let subscription = service.players.subscribe((players: Player[]) => {
+      expect(players.length).toBe(1);
+    });
+
+    subscription.unsubscribe();
+    service.delete(player);
+
+    subscription = service.players.subscribe((players: Player[]) => {
+      expect(players.length).toBe(0);
+    });
+  });
+
+  it('#delete player in players should leave remaining players.', () => {
+    const player1 = new Player({
+      name: 'Steven'
+    });
+
+    const player2 = new Player({
+      name: 'Esther'
+    });
+
+    service.save(player1);
+    service.save(player2);
+
+    let subscription = service.players.subscribe((players: Player[]) => {
+      expect(players.length).toBe(2);
+    });
+
+    subscription.unsubscribe();
+    service.delete(player1);
+
+    subscription = service.players.subscribe((players: Player[]) => {
+      expect(players.length).toBe(1);
+      expect(players[0].name).toBe('Esther');
     });
   });
 
