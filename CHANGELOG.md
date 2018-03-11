@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - New window icon on the version number link to the change log.
+- Unit tests for the PlayerService.
+
+### Changed
+- Updated dependencies.
+
+### Fixed
+- Minor fixes to the PlayerService.
 
 ## [1.0.0-beta.2] - 2017-11-20
 ### Added
