@@ -9,7 +9,8 @@ import {
 
 @Component({
   selector: 'mm-swiss-player-form',
-  templateUrl: 'swiss-player-form.component.html'
+  templateUrl: 'swiss-player-form.component.html',
+  styleUrls: ['swiss-player-form.component.css']
 })
 export class SwissPlayerFormComponent implements OnInit {
   currentPlayer: Player;
