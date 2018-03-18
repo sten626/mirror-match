@@ -40,7 +40,7 @@ export class SwissPlayerFormComponent implements OnInit {
     this.roundService.isTournamentOver.subscribe((isOver: boolean) => {
       this.isTournamentOver = isOver;
 
-      if (isOver) {
+      if (isOver && this.hasBegunTournament) {
         this.swissPlayerForm.disable();
       } else {
         this.swissPlayerForm.enable();
