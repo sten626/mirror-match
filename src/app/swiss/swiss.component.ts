@@ -9,7 +9,7 @@ export class SwissComponent implements OnInit {
   messages: Message[] = [];
   hasCompletedRounds = false;
   hasTournamentBegun = false;
-  numberOfPlayers: number;
+  numberOfActivePlayers: number;
 
   constructor(
     private messageService: MessageService,
@@ -22,7 +22,7 @@ export class SwissComponent implements OnInit {
     });
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasTournamentBegun = hasBegun);
     this.roundService.hasCompletedRounds.subscribe((hasCompletedRounds: boolean) => this.hasCompletedRounds = hasCompletedRounds);
-    this.playerService.numberOfPlayers.subscribe((numPlayers: number) => this.numberOfPlayers = numPlayers);
+    this.playerService.numberOfActivePlayers.subscribe((numPlayers: number) => this.numberOfActivePlayers = numPlayers);
   }
 
   dismissMessage(message: Message): void {

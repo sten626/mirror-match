@@ -34,8 +34,6 @@ export class SwissPlayerListComponent implements OnInit {
   }
 
   selectPlayer(player: Player) {
-    if (!this.hasBegunTournament) {
-      this.playerService.setSelectedPlayer(player);
-    }
+    this.playerService.setSelectedPlayer(player);
   }
 }

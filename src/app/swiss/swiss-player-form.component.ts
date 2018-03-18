@@ -9,7 +9,8 @@ import {
 
 @Component({
   selector: 'mm-swiss-player-form',
-  templateUrl: 'swiss-player-form.component.html'
+  templateUrl: 'swiss-player-form.component.html',
+  styleUrls: ['swiss-player-form.component.css']
 })
 export class SwissPlayerFormComponent implements OnInit {
   currentPlayer: Player;
@@ -33,12 +34,12 @@ export class SwissPlayerFormComponent implements OnInit {
 
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
       this.hasBegunTournament = hasBegun;
-
-      if (hasBegun) {
-        this.swissPlayerForm.disable();
-      } else {
-        this.swissPlayerForm.enable();
-      }
+      // TODO: Cleanup
+      // if (hasBegun) {
+      //   this.swissPlayerForm.disable();
+      // } else {
+      //   this.swissPlayerForm.enable();
+      // }
     });
   }
 
@@ -59,6 +60,11 @@ export class SwissPlayerFormComponent implements OnInit {
     this.updatePlayer();
     this.playerService.save(this.currentPlayer);
     this.playerService.setSelectedPlayer(new Player());
+  }
+
+  toggleCurrentPlayerDropped() {
+    this.currentPlayer.dropped = !this.currentPlayer.dropped;
+    this.playerService.save(this.currentPlayer);
   }
 
   private createForm() {
