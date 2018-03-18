@@ -31,7 +31,8 @@ export class SwissPairingsComponent implements OnInit {
   }
 
   generatePairings(): void {
-    this.pairingService.createPairings(this.selectedRound);
+    const lastRound = this.roundService.getTotalNumberOfRounds();
+    this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
   }
 
   ngOnInit() {

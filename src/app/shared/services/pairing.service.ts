@@ -50,7 +50,7 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
-  createPairings(round: number): void {
+  createPairings(round: number, isLastRound: boolean): void {
     this.pairingsByRoundsMap[round] = [];
     const players = this.shufflePlayers(this.activePlayers);
 
@@ -71,7 +71,20 @@ export class PairingService {
     } else {
       // Phase 1
       players.sort((a: Player, b: Player) => {
-        // At this point only match points matter.
+        if (isLastRound) {
+          if (a.matchPoints === b.matchPoints) {
+            if (a.opponentMatchWinPercentage === b.opponentMatchWinPercentage) {
+              if (a.gameWinPercentage === b.gameWinPercentage) {
+                return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+              }
+
+              return b.gameWinPercentage - a.gameWinPercentage;
+            }
+
+            return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+          }
+        }
+
         return b.matchPoints - a.matchPoints;
       });
 
