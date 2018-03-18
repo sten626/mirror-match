@@ -94,7 +94,11 @@ export class StandingsService {
         let oppMwpSum = 0;
         let oppGwpSum = 0;
 
-        player.gameWinPercentage = this.sigFigs(100 * player.gamePoints / (player.gamesPlayed * 3), 6);
+        if (player.gamesPlayed) {
+          player.gameWinPercentage = this.sigFigs(100 * player.gamePoints / (player.gamesPlayed * 3), 6);
+        } else {
+          player.gameWinPercentage = 0;
+        }
 
         if (player.opponentIds.length > 0) {
           player.opponentIds.forEach((oppId: number) => {
