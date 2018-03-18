@@ -35,11 +35,11 @@ export class SwissPlayerFormComponent implements OnInit {
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
       this.hasBegunTournament = hasBegun;
 
-      if (hasBegun) {
-        this.swissPlayerForm.disable();
-      } else {
-        this.swissPlayerForm.enable();
-      }
+      // if (hasBegun) {
+      //   this.swissPlayerForm.disable();
+      // } else {
+      //   this.swissPlayerForm.enable();
+      // }
     });
   }
 
@@ -60,6 +60,11 @@ export class SwissPlayerFormComponent implements OnInit {
     this.updatePlayer();
     this.playerService.save(this.currentPlayer);
     this.playerService.setSelectedPlayer(new Player());
+  }
+
+  toggleCurrentPlayerDropped() {
+    this.currentPlayer.dropped = !this.currentPlayer.dropped;
+    this.playerService.save(this.currentPlayer);
   }
 
   private createForm() {
