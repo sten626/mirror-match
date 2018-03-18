@@ -11,7 +11,8 @@
         <button type="submit" class="btn btn-default" [disabled]="!swissPlayerForm.valid || hasBegunTournament">{{currentPlayer.id ? 'Save' : 'Add'}} Player</button>
         <button type="reset" class="btn btn-default" (click)="reset()" [disabled]="!swissPlayerForm.valid">Cancel</button>
         <button type="button"
-          class="btn btn-default"
+          class="btn"
+          [ngClass]="{'btn-default': currentPlayer.dropped, 'btn-warning': !currentPlayer.dropped}"
           *ngIf="hasBegunTournament"
           [disabled]="!currentPlayer.id"
           (click)="toggleCurrentPlayerDropped()">{{currentPlayer.dropped ? 'Undrop' : 'Drop'}}</button>

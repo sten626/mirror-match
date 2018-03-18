@@ -34,7 +34,7 @@ export class SwissPlayerFormComponent implements OnInit {
 
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
       this.hasBegunTournament = hasBegun;
-
+      // TODO: Cleanup
       // if (hasBegun) {
       //   this.swissPlayerForm.disable();
       // } else {
