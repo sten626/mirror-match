@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - "New window" icon on the version number link to the change log.
 - Unit tests for the PlayerService.
 - Ability to drop/undrop players at any time during the event from the players page.
+- Ability to add players to the tournament at any time during the tournament.
 
 ### Changed
 - Updated dependencies.

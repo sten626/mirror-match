@@ -15,6 +15,7 @@ import {
 export class SwissPlayerFormComponent implements OnInit {
   currentPlayer: Player;
   hasBegunTournament = false;
+  isTournamentOver = false;
   swissPlayerForm: FormGroup;
 
   constructor(
@@ -34,12 +35,16 @@ export class SwissPlayerFormComponent implements OnInit {
 
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
       this.hasBegunTournament = hasBegun;
-      // TODO: Cleanup
-      // if (hasBegun) {
-      //   this.swissPlayerForm.disable();
-      // } else {
-      //   this.swissPlayerForm.enable();
-      // }
+    });
+
+    this.roundService.isTournamentOver.subscribe((isOver: boolean) => {
+      this.isTournamentOver = isOver;
+
+      if (isOver) {
+        this.swissPlayerForm.disable();
+      } else {
+        this.swissPlayerForm.enable();
+      }
     });
   }
 
