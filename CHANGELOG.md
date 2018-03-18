@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Minor fixes to the PlayerService.
+- Problem with MW% on players who dropped before the first round.
 
 ## [1.0.0-beta.2] - 2017-11-20
 ### Added
