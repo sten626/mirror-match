@@ -16,6 +16,7 @@ export class RoundService {
   currentRound: Observable<number>;
   hasBegunTournament: Observable<boolean>;
   hasCompletedRounds: Observable<boolean>;
+  isTournamentOver: Observable<boolean>;
   outstandingPairingsForCurrentRound: Observable<Pairing[]>;
   pairingsForSelectedRound: Observable<Pairing[]>;
   rounds: Observable<number[]>;
@@ -59,6 +60,10 @@ export class RoundService {
     this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
     this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
     this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
+    this.isTournamentOver = this.completedRounds.pipe(
+      map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
+      distinctUntilChanged()
+    );
     this._selectedRound = Math.max(...this._rounds);
     this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
     this.selectedRound = this.selectedRoundSubject.asObservable().pipe(distinctUntilChanged());

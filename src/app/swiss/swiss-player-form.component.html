@@ -8,12 +8,12 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-4 col-sm-8">
-        <button type="submit" class="btn btn-default" [disabled]="!swissPlayerForm.valid || hasBegunTournament">{{currentPlayer.id ? 'Save' : 'Add'}} Player</button>
+        <button type="submit" class="btn btn-default" [disabled]="!swissPlayerForm.valid">{{currentPlayer.id ? 'Save' : 'Add'}} Player</button>
         <button type="reset" class="btn btn-default" (click)="reset()" [disabled]="!swissPlayerForm.valid">Cancel</button>
         <button type="button"
           class="btn"
           [ngClass]="{'btn-default': currentPlayer.dropped, 'btn-warning': !currentPlayer.dropped}"
-          *ngIf="hasBegunTournament"
+          *ngIf="hasBegunTournament && !isTournamentOver"
           [disabled]="!currentPlayer.id"
           (click)="toggleCurrentPlayerDropped()">{{currentPlayer.dropped ? 'Undrop' : 'Drop'}}</button>
       </div>
