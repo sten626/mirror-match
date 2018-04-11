@@ -9,7 +9,7 @@ import { Pairing, Player } from '../';
 
 @Injectable()
 export class StandingsService {
-  standings: Observable<Player[]>;
+  readonly standings: Observable<Player[]>;
 
   private pairings: Pairing[];
   private players: Player[];
