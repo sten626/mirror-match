@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 export class Message {
@@ -9,23 +10,27 @@ export class Message {
 
 @Injectable()
 export class MessageService {
-  messages: Subject<Message> = new Subject<Message>();
+  readonly messages: Observable<Message>;
 
-  constructor() {}
+  private messagesSubject: Subject<Message> = new Subject<Message>();
+
+  constructor() {
+    this.messages = this.messagesSubject.asObservable();
+  }
 
   danger(message: string) {
-    this.messages.next(new Message(message, 'alert-danger'));
+    this.messagesSubject.next(new Message(message, 'alert-danger'));
   }
 
   info(message: string) {
-    this.messages.next(new Message(message, 'alert-info'));
+    this.messagesSubject.next(new Message(message, 'alert-info'));
   }
 
   success(message: string) {
-    this.messages.next(new Message(message, 'alert-success'));
+    this.messagesSubject.next(new Message(message, 'alert-success'));
   }
 
   warning(message: string) {
-    this.messages.next(new Message(message, 'alert-warning'));
+    this.messagesSubject.next(new Message(message, 'alert-warning'));
   }
 }
