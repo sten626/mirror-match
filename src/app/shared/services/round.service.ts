@@ -10,20 +10,20 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class RoundService {
-  canBeginTournament: Observable<boolean>;
-  canStartNextRound: Observable<boolean>;
-  completedRounds: Observable<number[]>;
-  currentRound: Observable<number>;
-  hasBegunTournament: Observable<boolean>;
-  hasCompletedRounds: Observable<boolean>;
-  isTournamentOver: Observable<boolean>;
-  outstandingPairingsForCurrentRound: Observable<Pairing[]>;
-  pairingsForSelectedRound: Observable<Pairing[]>;
-  rounds: Observable<number[]>;
-  selectedRound: Observable<number>;
-  selectedRoundComplete: Observable<boolean>;
-  selectedRoundHasPairings: Observable<boolean>;
-  selectedRoundHasSubmittedPairings: Observable<boolean>;
+  readonly canBeginTournament: Observable<boolean>;
+  readonly canStartNextRound: Observable<boolean>;
+  readonly completedRounds: Observable<number[]>;
+  readonly currentRound: Observable<number>;
+  readonly hasBegunTournament: Observable<boolean>;
+  readonly hasCompletedRounds: Observable<boolean>;
+  readonly isTournamentOver: Observable<boolean>;
+  readonly outstandingPairingsForCurrentRound: Observable<Pairing[]>;
+  readonly pairingsForSelectedRound: Observable<Pairing[]>;
+  readonly rounds: Observable<number[]>;
+  readonly selectedRound: Observable<number>;
+  readonly selectedRoundComplete: Observable<boolean>;
+  readonly selectedRoundHasPairings: Observable<boolean>;
+  readonly selectedRoundHasSubmittedPairings: Observable<boolean>;
 
   private _completedRounds: number[];
   private completedRoundsSubject = new BehaviorSubject<number[]>([]);
