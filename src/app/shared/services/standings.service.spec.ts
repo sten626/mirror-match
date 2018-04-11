@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PairingService, PlayerService } from '.';
 
 describe('StandingsService', () => {
+  let service: StandingsService;
   let players: Player[];
   let pairings: Pairing[];
 
@@ -46,7 +47,7 @@ describe('StandingsService', () => {
       submittedPairings: submittedPairingsSubject.asObservable()
     };
 
-    const service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
+    service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
   });
 
   it('#calculateStandings should round tiebreakers correctly', () => {
@@ -60,7 +61,7 @@ describe('StandingsService', () => {
       submittedPairings: submittedPairingsSubject.asObservable()
     };
 
-    const service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
+    service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
 
     expect(players[0].opponentMatchWinPercentage).toBeCloseTo(5 / 12 * 100);
     expect(players[0].opponentGameWinPercentage).toBeCloseTo(5 / 12 * 100);

@@ -112,9 +112,9 @@ export class StandingsService {
       if (player.opponentIds.length > 0) {
         player.opponentIds.forEach((oppId: number) => {
           const opponent = this.playersMap[oppId];
-          const opponentMwp = opponent.matchPoints / (opponent.matchesPlayed * 3);
+          const opponentMwp = Math.max(opponent.matchPoints / (opponent.matchesPlayed * 3), 1 / 3);
           oppMwpSum += opponentMwp;
-          const opponentGwp = opponent.gamePoints / (opponent.gamesPlayed * 3);
+          const opponentGwp = Math.max(opponent.gamePoints / (opponent.gamesPlayed * 3), 1 / 3);
           oppGwpSum += opponentGwp;
         });
 
