@@ -7,13 +7,13 @@ import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
-  activePlayers: Observable<Player[]>; // Players who haven't dropped.
-  numberOfActivePlayers: Observable<number>;
-  numberOfDroppedPlayers: Observable<number>;
-  numberOfPlayers: Observable<number>;
-  players: Observable<Player[]>;
-  recommendedNumberOfRounds: Observable<number>;
-  selectedPlayer: Observable<Player>;
+  readonly activePlayers: Observable<Player[]>; // Players who haven't dropped.
+  readonly numberOfActivePlayers: Observable<number>;
+  readonly numberOfDroppedPlayers: Observable<number>;
+  readonly numberOfPlayers: Observable<number>;
+  readonly players: Observable<Player[]>;
+  readonly recommendedNumberOfRounds: Observable<number>;
+  readonly selectedPlayer: Observable<Player>;
 
   private nextId: number;
   private _players: Player[];
