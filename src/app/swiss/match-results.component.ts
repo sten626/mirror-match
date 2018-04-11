@@ -6,7 +6,8 @@ import {
   Pairing,
   PairingService,
   PlayerService,
-  RoundService
+  RoundService,
+  StandingsService
 } from '../shared';
 
 @Component({
@@ -26,7 +27,8 @@ export class MatchResultsComponent implements OnInit {
     private pairingService: PairingService,
     private playerService: PlayerService,
     private roundService: RoundService,
-    private router: Router
+    private router: Router,
+    private standingsService: StandingsService
   ) {}
 
   clearMatchResult() {
@@ -112,6 +114,7 @@ export class MatchResultsComponent implements OnInit {
 
     if (this.selectedRoundComplete) {
       this.roundService.markRoundAsComplete(this.selectedRound);
+      this.standingsService.calculateStandings();
       this.router.navigate(['/swiss/standings']);
     }
   }
