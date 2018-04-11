@@ -40,6 +40,10 @@ export class StandingsService {
   }
 
   calculateStandings(): void {
+    if (this.players.length < 1) {
+      return;
+    }
+
     // Reset match and game points.
     this.players.forEach((player: Player) => {
       player.matchesPlayed = 0;
