@@ -8,9 +8,9 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingService {
-  pairings: Observable<Pairing[]>;
-  selectedPairing: Observable<Pairing>;
-  submittedPairings: Observable<Pairing[]>;
+  readonly pairings: Observable<Pairing[]>;
+  readonly selectedPairing: Observable<Pairing>;
+  readonly submittedPairings: Observable<Pairing[]>;
 
   private _pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
