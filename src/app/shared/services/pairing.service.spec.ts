@@ -74,64 +74,73 @@ describe('PairingService', () => {
       name: 'A',
       opponentIds: [2, 3],
       matchesPlayed: 2,
-      matchesWon: 2
+      matchesWon: 2,
+      matchPoints: 6
     });
     const playerB = new Player({
       id: 2,
       name: 'B',
       opponentIds: [1, 9],
       matchesPlayed: 2,
-      matchesWon: 1
+      matchesWon: 1,
+      matchPoints: 3
     });
     const playerC = new Player({
       id: 3,
       name: 'C',
       opponentIds: [1, 4],
       matchesPlayed: 2,
-      matchesWon: 1
+      matchesWon: 1,
+      matchPoints: 3
     });
     const playerD = new Player({
       id: 4,
       name: 'D',
       opponentIds: [3, 6],
       matchesPlayed: 2,
-      matchesWon: 1
+      matchesWon: 1,
+      matchPoints: 3
     });
     const playerE = new Player({
       id: 5,
       name: 'E',
       opponentIds: [6, 7],
       matchesPlayed: 2,
-      matchesWon: 2
+      matchesWon: 2,
+      matchPoints: 6
     });
-    // const playerF = new Player({
-    //   id: 6,
-    //   name: 'F',
-    //   opponentIds: [4, 5],
-    //   matchesPlayed: 2
-    // });
+    const playerF = new Player({
+      id: 6,
+      name: 'F',
+      opponentIds: [4, 5],
+      matchesPlayed: 2,
+      matchPoints: 0
+    });
     const playerG = new Player({
       id: 7,
       name: 'G',
       opponentIds: [5, 8],
       matchesPlayed: 2,
-      matchesWon: 1
+      matchesWon: 1,
+      matchPoints: 3
     });
     const playerH = new Player({
       id: 8,
       name: 'H',
       opponentIds: [7],
       matchesPlayed: 1,
-      byes: 1
+      byes: 1,
+      matchPoints: 3
     });
     const playerI = new Player({
       id: 9,
       name: 'I',
       opponentIds: [2],
       matchesPlayed: 1,
-      byes: 1
+      byes: 1,
+      matchPoints: 3
     });
-    const players = [playerA, playerB, playerC, playerD, playerE, playerG, playerH, playerI];
+    const players = [playerA, playerB, playerC, playerD, playerE, playerF, playerG, playerH, playerI];
     const playersSubject = new BehaviorSubject<Player[]>(players);
     const fakePlayerService = {
       activePlayers: playersSubject.asObservable()
@@ -139,7 +148,10 @@ describe('PairingService', () => {
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(3, false);
     pairingService.pairings.subscribe((pairings: Pairing[]) => {
-      expect(pairings.length).toBe(4);
+      expect(pairings.length).toBe(5);
+      const lastPairing = pairings[pairings.length - 1];
+      expect(lastPairing.player2).toBeNull();
+      expect(lastPairing.player1).toBe(playerF);
     });
   });
 });
