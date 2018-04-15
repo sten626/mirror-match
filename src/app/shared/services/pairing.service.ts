@@ -50,13 +50,19 @@ export class PairingService {
     this.pairingsSubject.next(this._pairings.slice());
   }
 
-  createPairings(round: number, isLastRound: boolean): void {
+  createPairings(round: number, isLastRound: boolean, shuffle = true): void {
     if (this.activePlayers.length < 1) {
       throw new Error('Trying to create pairings with zero active players.');
     }
 
     this.pairingsByRoundsMap[round] = [];
-    const players = this.shufflePlayers(this.activePlayers);
+    let players = null;
+
+    if (shuffle) {
+      players = this.shufflePlayers(this.activePlayers);
+    } else {
+      players = this.activePlayers.slice();
+    }
 
     if (round === 1) {
       let table = 1;

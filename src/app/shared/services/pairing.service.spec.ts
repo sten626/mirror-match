@@ -140,13 +140,13 @@ describe('PairingService', () => {
       byes: 1,
       matchPoints: 3
     });
-    const players = [playerA, playerB, playerC, playerD, playerE, playerF, playerG, playerH, playerI];
+    const players = [playerA, playerE, playerD, playerC, playerG, playerH, playerB, playerI, playerF];
     const playersSubject = new BehaviorSubject<Player[]>(players);
     const fakePlayerService = {
       activePlayers: playersSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
-    pairingService.createPairings(3, false);
+    pairingService.createPairings(3, false, false);
     pairingService.pairings.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(5);
       const lastPairing = pairings[pairings.length - 1];
