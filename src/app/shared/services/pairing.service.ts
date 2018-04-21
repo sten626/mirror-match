@@ -209,14 +209,11 @@ export class PairingService {
     });
 
     if (needsBye) {
-      const potentialOpps = players.slice();
-      const potentialOppIds = potentialOpps.sort((a: Player, b: Player) => {
-        return a.matchPoints - b.matchPoints;
-      }).map((opp: Player) => {
+      const potentialOpps = players.map((opp: Player) => {
         return opp.id;
       });
 
-      playerPreferenceMap[-1] = potentialOppIds;
+      playerPreferenceMap[-1] = potentialOpps;
     }
 
     return playerPreferenceMap;
@@ -252,13 +249,22 @@ export class PairingService {
       const playerId = player.id;
       playersById[playerId] = player;
       if (!(playerId in assignedPlayers) && playerPreferenceMap[playerId].length > 0) {
-        const opponentId = playerPreferenceMap[playerId][0];
-        assignedPlayers[playerId] = opponentId;
-        assignedPlayers[opponentId] = playerId;
+        let assignedOppId: number = null;
+
+        for (const oppId of playerPreferenceMap[playerId]) {
+          if (!(oppId in assignedPlayers)) {
+            assignedOppId = oppId;
+            break;
+          }
+        }
+
+        if (!assignedOppId) {
+          continue;
+        }
+
+        assignedPlayers[playerId] = assignedOppId;
+        assignedPlayers[assignedOppId] = playerId;
         assignedPlayersCount += 2;
-        playerPreferenceMap[playerId] = playerPreferenceMap[playerId].slice(0, 1);
-        const playerIndex = playerPreferenceMap[opponentId].indexOf(playerId);
-        playerPreferenceMap[opponentId] = playerPreferenceMap[opponentId].splice(playerIndex, 1);
       }
     }
 
@@ -268,6 +274,10 @@ export class PairingService {
       let table = 1;
 
       for (const player of players) {
+        if (!(player.id in assignedPlayers)) {
+          continue;
+        }
+
         const opponentId = assignedPlayers[player.id];
         let opponent: Player;
 
@@ -279,6 +289,8 @@ export class PairingService {
 
         // TODO: Stop making duplicate pairings.
         const pairing = new Pairing(round, table++, player, opponent);
+        delete assignedPlayers[player.id];
+        delete assignedPlayers[opponentId];
         pairings.push(pairing);
       }
 
