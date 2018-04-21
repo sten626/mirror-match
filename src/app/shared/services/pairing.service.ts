@@ -191,30 +191,23 @@ export class PairingService {
   }
 
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
+    if (players.length % 2 === 1) {
+      throw new Error('Creating player preference map expects an even number of players.');
+    }
+
     const playerPreferenceMap = {};
-    const needsBye = players.length % 2 === 1;
 
     players.forEach((player: Player) => {
-      const potentialOpps = players.filter((opp: Player) => {
-        return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
-      }).map((opp: Player) => {
-        return opp.id;
-      });
+      const potentialOpps = [];
 
-      if (needsBye) {
-        potentialOpps.push(-1);
-      }
+      players.forEach((opp: Player) => {
+        if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
+          potentialOpps.push(opp.id);
+        }
+      });
 
       playerPreferenceMap[player.id] = potentialOpps;
     });
-
-    if (needsBye) {
-      const potentialOpps = players.map((opp: Player) => {
-        return opp.id;
-      });
-
-      playerPreferenceMap[-1] = potentialOpps;
-    }
 
     return playerPreferenceMap;
   }
@@ -240,6 +233,15 @@ export class PairingService {
   private createWeaklyStablePairings(players: Player[], round: number): Pairing[] {
     players = this.shufflePlayers(players);
     this.sortPlayersByMatchPoints(players);
+
+    // If there are an odd number of players, pull out the bottom player and continue with an even number.
+    const needsBye = players.length % 2 === 1;
+    let playerForBye: Player = null;
+
+    if (needsBye) {
+      playerForBye = players.pop();
+    }
+
     const playerPreferenceMap = this.createPlayerPreferenceMap(players);
     let assignedPlayersCount = 0;
     const assignedPlayers = {};
@@ -287,16 +289,24 @@ export class PairingService {
           opponent = null;
         }
 
-        // TODO: Stop making duplicate pairings.
         const pairing = new Pairing(round, table++, player, opponent);
         delete assignedPlayers[player.id];
         delete assignedPlayers[opponentId];
         pairings.push(pairing);
       }
 
+      if (needsBye) {
+        const pairing = new Pairing(round, table++, playerForBye, null);
+        pairings.push(pairing);
+      }
+
       return pairings;
     } else {
       // Bad matching. Try again.
+      if (needsBye) {
+        players.push(playerForBye);
+      }
+
       return this.createWeaklyStablePairings(players, round);
     }
   }
