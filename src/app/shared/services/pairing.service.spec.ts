@@ -146,7 +146,7 @@ describe('PairingService', () => {
       activePlayers: playersSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
-    pairingService.createPairings(3, false, false);
+    pairingService.createPairings(3, false);
     pairingService.pairings.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(5);
       const lastPairing = pairings[pairings.length - 1];
