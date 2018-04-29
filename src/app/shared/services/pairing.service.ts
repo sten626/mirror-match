@@ -173,18 +173,24 @@ export class PairingService {
     const assignedPlayers = {};
 
     for (const tieGroup of masterList) {
-      const availablePlayers = tieGroup.filter((playerId: number) => {
+      const availablePlayerIds = tieGroup.filter((playerId: number) => {
         return playerPreferences.isListNonEmpty(playerId) && !(playerId in assignedPlayers);
       });
 
-      let availableOpps = [];
+      let availableOppIds = [];
 
-      availablePlayers.forEach((playerId: number) => {
-        const oppsForPlayer = playerPreferences.getFirstTieGroupForPlayerId(playerId);
-        availableOpps = availableOpps.concat(oppsForPlayer);
+      availablePlayerIds.forEach((playerId: number) => {
+        const oppIdsForPlayer = playerPreferences.getFirstTieGroupForPlayerId(playerId);
+        availableOppIds = availableOppIds.concat(oppIdsForPlayer);
       });
 
-      // TODO: Make availableOpps unique.
+      availableOppIds = availableOppIds.filter((oppId: number, index: number) => {
+        return availableOppIds.indexOf(oppId) === index;
+      });
+
+      if (availablePlayerIds.length !== availableOppIds.length) {
+        return null;
+      }
     }
   }
 
