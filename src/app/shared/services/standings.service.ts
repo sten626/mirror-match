@@ -4,7 +4,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
-import { Pairing, Player } from '../';
+import { Pairing, Player } from '../models';
 
 @Injectable()
 export class StandingsService {
