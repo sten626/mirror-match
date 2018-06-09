@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { Pairing, Player, PlayerPreferences } from '../models';
+import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
 
 @Injectable()
@@ -91,34 +91,6 @@ export class PairingService {
     this.selectedPairingSubject.next(this._selectedPairing);
   }
 
-  private createMasterListWithTies(players: Player[]): number[][] {
-    const result = [];
-    let prevPlayer: Player = null;
-    let currentGroup: number[] = null;
-
-    players.forEach((player: Player) => {
-      if (!prevPlayer) {
-        // First player.
-        currentGroup = [player.id];
-      } else if (player.matchPoints === prevPlayer.matchPoints) {
-        // Same group as previous player.
-        currentGroup.push(player.id);
-      } else {
-        // Player starts a new group.
-        result.push(currentGroup);
-        currentGroup = [player.id];
-      }
-
-      prevPlayer = player;
-    });
-
-    if (players.length % 2 === 1) {
-      result.push([-1]);
-    }
-
-    return result;
-  }
-
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
     if (players.length % 2 === 1) {
       throw new Error('Creating player preference map expects an even number of players.');
@@ -157,41 +129,6 @@ export class PairingService {
     }
 
     return pairings;
-  }
-
-  private createStrongStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-    players = players.slice();
-
-    if (isLastRound) {
-      this.sortPlayersByTiebreakers(players);
-    } else {
-      this.sortPlayersByMatchPoints(players);
-    }
-
-    const masterList = this.createMasterListWithTies(players);
-    const playerPreferences = new PlayerPreferences(players);
-    const assignedPlayers = {};
-
-    for (const tieGroup of masterList) {
-      const availablePlayerIds = tieGroup.filter((playerId: number) => {
-        return playerPreferences.isListNonEmpty(playerId) && !(playerId in assignedPlayers);
-      });
-
-      let availableOppIds = [];
-
-      availablePlayerIds.forEach((playerId: number) => {
-        const oppIdsForPlayer = playerPreferences.getFirstTieGroupForPlayerId(playerId);
-        availableOppIds = availableOppIds.concat(oppIdsForPlayer);
-      });
-
-      availableOppIds = availableOppIds.filter((oppId: number, index: number) => {
-        return availableOppIds.indexOf(oppId) === index;
-      });
-
-      if (availablePlayerIds.length !== availableOppIds.length) {
-        return null;
-      }
-    }
   }
 
   private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
