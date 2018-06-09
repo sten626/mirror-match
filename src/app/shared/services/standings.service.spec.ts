@@ -1,6 +1,6 @@
 import { Player, Pairing } from '../models';
 import { StandingsService } from './standings.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { PairingService, PlayerService } from '.';
 
 describe('StandingsService', () => {

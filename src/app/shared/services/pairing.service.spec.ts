@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 import { PairingService } from './pairing.service';
 import { Pairing, Player } from '../models';

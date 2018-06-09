@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Pairing, Player } from '../models';
@@ -98,11 +97,11 @@ export class RoundService {
       distinctUntilChanged()
     );
 
-    this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
+    this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.pipe(map((pairings: Pairing[]) => {
       const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
 
       return submitted.length > 0;
-    });
+    }));
 
     this.canStartNextRound = this.rounds.pipe(combineLatest(this.completedRounds, (rounds: number[], completedRounds: number[]) => {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;
