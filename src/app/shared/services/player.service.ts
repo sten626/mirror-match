@@ -7,13 +7,13 @@ import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
-  activePlayers: Observable<Player[]>; // Players who haven't dropped.
-  numberOfActivePlayers: Observable<number>;
-  numberOfDroppedPlayers: Observable<number>;
-  numberOfPlayers: Observable<number>;
-  players: Observable<Player[]>;
-  recommendedNumberOfRounds: Observable<number>;
-  selectedPlayer: Observable<Player>;
+  readonly activePlayers: Observable<Player[]>; // Players who haven't dropped.
+  readonly numberOfActivePlayers: Observable<number>;
+  readonly numberOfDroppedPlayers: Observable<number>;
+  readonly numberOfPlayers: Observable<number>;
+  readonly players: Observable<Player[]>;
+  readonly recommendedNumberOfRounds: Observable<number>;
+  readonly selectedPlayer: Observable<Player>;
 
   private nextId: number;
   private _players: Player[];
@@ -55,18 +55,25 @@ export class PlayerService {
   }
 
   delete(player: Player): void {
-    if (player) {
-      const playerIndex = this._players.indexOf(player);
-      this._players.splice(playerIndex, 1);
-      this.saveToLocalStorage();
-
-      if (player === this._selectedPlayer) {
-        this._selectedPlayer = new Player();
-        this.selectedPlayerSubject.next(this._selectedPlayer);
-      }
-
-      this.playersSubject.next(this._players.slice());
+    if (!player) {
+      throw new TypeError('Can\'t delete when no player given.');
     }
+
+    const playerIndex = this._players.indexOf(player);
+
+    if (playerIndex < 0) {
+      return;
+    }
+
+    this._players.splice(playerIndex, 1);
+    this.saveToLocalStorage();
+
+    if (player === this._selectedPlayer) {
+      this._selectedPlayer = new Player();
+      this.selectedPlayerSubject.next(this._selectedPlayer);
+    }
+
+    this.playersSubject.next(this._players.slice());
   }
 
   get(id: number): Player {
@@ -78,6 +85,10 @@ export class PlayerService {
   }
 
   save(player: Player): void {
+    if (!player) {
+      throw new TypeError('No Player given for saving.');
+    }
+
     if (!player.id) {
       // New player.
       player.id = this.nextId++;

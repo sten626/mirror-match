@@ -10,19 +10,20 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class RoundService {
-  canBeginTournament: Observable<boolean>;
-  canStartNextRound: Observable<boolean>;
-  completedRounds: Observable<number[]>;
-  currentRound: Observable<number>;
-  hasBegunTournament: Observable<boolean>;
-  hasCompletedRounds: Observable<boolean>;
-  outstandingPairingsForCurrentRound: Observable<Pairing[]>;
-  pairingsForSelectedRound: Observable<Pairing[]>;
-  rounds: Observable<number[]>;
-  selectedRound: Observable<number>;
-  selectedRoundComplete: Observable<boolean>;
-  selectedRoundHasPairings: Observable<boolean>;
-  selectedRoundHasSubmittedPairings: Observable<boolean>;
+  readonly canBeginTournament: Observable<boolean>;
+  readonly canStartNextRound: Observable<boolean>;
+  readonly completedRounds: Observable<number[]>;
+  readonly currentRound: Observable<number>;
+  readonly hasBegunTournament: Observable<boolean>;
+  readonly hasCompletedRounds: Observable<boolean>;
+  readonly isTournamentOver: Observable<boolean>;
+  readonly outstandingPairingsForCurrentRound: Observable<Pairing[]>;
+  readonly pairingsForSelectedRound: Observable<Pairing[]>;
+  readonly rounds: Observable<number[]>;
+  readonly selectedRound: Observable<number>;
+  readonly selectedRoundComplete: Observable<boolean>;
+  readonly selectedRoundHasPairings: Observable<boolean>;
+  readonly selectedRoundHasSubmittedPairings: Observable<boolean>;
 
   private _completedRounds: number[];
   private completedRoundsSubject = new BehaviorSubject<number[]>([]);
@@ -59,6 +60,10 @@ export class RoundService {
     this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
     this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
     this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
+    this.isTournamentOver = this.completedRounds.pipe(
+      map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
+      distinctUntilChanged()
+    );
     this._selectedRound = Math.max(...this._rounds);
     this.selectedRoundSubject = new BehaviorSubject<number>(this._selectedRound);
     this.selectedRound = this.selectedRoundSubject.asObservable().pipe(distinctUntilChanged());
