@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Updated dependencies.
+- New pairing algorithm; based on a weakly stable pairing algorithm for Stable Roommates Problem with master lists.
 
 ### Fixed
 - Minor fixes to the PlayerService.
