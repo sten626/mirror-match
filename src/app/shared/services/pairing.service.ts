@@ -55,101 +55,14 @@ export class PairingService {
       throw new Error('Trying to create pairings with zero active players.');
     }
 
-    this.pairingsByRoundsMap[round] = [];
-    const players = this.shufflePlayers(this.activePlayers);
-
     if (round === 1) {
-      let table = 1;
-
-      while (players.length > 1) {
-        const pairing = new Pairing(round, table++, players.shift(), players.shift());
-        this._pairings.push(pairing);
-        this.pairingsByRoundsMap[round].push(pairing);
-      }
-
-      if (players.length) {
-        const pairing = new Pairing(round, table, players.shift(), null);
-        this._pairings.push(pairing);
-        this.pairingsByRoundsMap[round].push(pairing);
-      }
+      const pairings = this.createRandomPairings(this.activePlayers, round);
+      this._pairings = this._pairings.concat(pairings);
+      this.pairingsByRoundsMap[round] = pairings;
     } else {
-      // Phase 1
-      players.sort((a: Player, b: Player) => {
-        if (isLastRound) {
-          if (a.matchPoints === b.matchPoints) {
-            if (a.opponentMatchWinPercentage === b.opponentMatchWinPercentage) {
-              if (a.gameWinPercentage === b.gameWinPercentage) {
-                return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
-              }
-
-              return b.gameWinPercentage - a.gameWinPercentage;
-            }
-
-            return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
-          }
-        }
-
-        return b.matchPoints - a.matchPoints;
-      });
-
-      const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-      this.reducePlayerPreferenceMap(playerPreferenceMap);
-      let done = true;
-
-      for (const player in playerPreferenceMap) {
-        if (playerPreferenceMap[player].length > 1) {
-          done = false;
-        } else if (playerPreferenceMap[player].length === 0) {
-          throw new Error('Player preference list should always have at least 1 opponent.');
-        }
-      }
-
-      if (!done) {
-        // Phase 2
-        console.error('Phase 2 got hit!!');
-        while (true) {
-          // Identify a rotation.
-          const rotation = this.findRotation(playerPreferenceMap);
-          console.log(rotation);
-
-          // Eliminate the rotation.
-          this.eliminateRotation(playerPreferenceMap, rotation);
-
-          done = true;
-
-          for (const player in playerPreferenceMap) {
-            if (playerPreferenceMap[player].length > 1) {
-              done = false;
-            } else if (playerPreferenceMap[player].length === 0) {
-              throw new Error('Eliminating rotation has reduced a preference list to zero.');
-            }
-          }
-
-          if (done) {
-            break;
-          }
-        }
-      }
-
-      let table = 1;
-
-      while (players.length > 0) {
-        const player1 = players.shift();
-        const player2Id = playerPreferenceMap[player1.id][0];
-        let pairing = null;
-
-        if (player2Id === -1) {
-          // player1 got a bye.
-          pairing = new Pairing(round, table++, player1, null);
-        } else {
-          const player2Index = players.findIndex((player: Player) => player.id === player2Id);
-          const player2 = players.splice(player2Index, 1)[0];
-          pairing = new Pairing(round, table++, player1, player2);
-        }
-
-        this._pairings.push(pairing);
-        this.pairingsByRoundsMap[round].push(pairing);
-      }
+      const pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
+      this._pairings = this._pairings.concat(pairings);
+      this.pairingsByRoundsMap[round] = pairings;
     }
 
     this.saveToLocalStorage();
@@ -179,85 +92,129 @@ export class PairingService {
   }
 
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
+    if (players.length % 2 === 1) {
+      throw new Error('Creating player preference map expects an even number of players.');
+    }
+
     const playerPreferenceMap = {};
-    const needsBye = players.length % 2 === 1;
 
     players.forEach((player: Player) => {
-      const potentialOpps = players.filter((opp: Player) => {
-        return player !== opp && player.opponentIds.indexOf(opp.id) === -1;
-      }).map((opp: Player) => {
-        return opp.id;
-      });
+      const potentialOpps = [];
 
-      if (needsBye) {
-        potentialOpps.push(-1);
-      }
+      players.forEach((opp: Player) => {
+        if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
+          potentialOpps.push(opp.id);
+        }
+      });
 
       playerPreferenceMap[player.id] = potentialOpps;
     });
 
-    if (needsBye) {
-      const potentialOpps = players.slice();
-      const potentialOppIds = potentialOpps.sort((a: Player, b: Player) => {
-        return a.matchPoints - b.matchPoints;
-      }).map((opp: Player) => {
-        return opp.id;
-      });
-
-      playerPreferenceMap[-1] = potentialOppIds;
-    }
-
     return playerPreferenceMap;
   }
 
-  private eliminateRotation(playerPreferenceMap: {[playerId: number]: number[]}, rotation: number[][]): void {
-    for (const pair of rotation) {
-      const playerAId = pair[0];
-      const playerBId = pair[1];
-      const playerAIdIndex = playerPreferenceMap[playerBId].indexOf(playerAId);
-      playerPreferenceMap[playerBId].splice(playerAIdIndex, 1);
-      const playerBIdIndex = playerPreferenceMap[playerAId].indexOf(playerBId);
-      playerPreferenceMap[playerAId].splice(playerBIdIndex, 1);
+  private createRandomPairings(players: Player[], round: number): Pairing[] {
+    let table = 1;
+    players = this.shufflePlayers(players);
+    const pairings = [];
+
+    while (players.length > 1) {
+      const pairing = new Pairing(round, table++, players.shift(), players.shift());
+      pairings.push(pairing);
     }
+
+    if (players.length) {
+      const pairing = new Pairing(round, table, players.shift(), null);
+      pairings.push(pairing);
+    }
+
+    return pairings;
   }
 
-  private findRotation(playerPreferenceMap: {[playerId: number]: number[]}): number[][] {
-    // Find player with multiple opponents on reduced list.
-    let player = null;
-    const rotation = [];
-    const playersInRotation = [];
+  private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
+    players = this.shufflePlayers(players);
 
-    for (const playerId in playerPreferenceMap) {
-      if (playerPreferenceMap[playerId].length > 1) {
-        player = parseInt(playerId);
-        break;
+    if (isLastRound) {
+      this.sortPlayersByTiebreakers(players);
+    } else {
+      this.sortPlayersByMatchPoints(players);
+    }
+
+    // If there are an odd number of players, pull out the bottom player and continue with an even number.
+    const needsBye = players.length % 2 === 1;
+    let playerForBye: Player = null;
+
+    if (needsBye) {
+      playerForBye = players.pop();
+    }
+
+    const playerPreferenceMap = this.createPlayerPreferenceMap(players);
+    let assignedPlayersCount = 0;
+    const assignedPlayers = {};
+    const playersById = {};
+
+    for (const player of players) {
+      const playerId = player.id;
+      playersById[playerId] = player;
+      if (!(playerId in assignedPlayers) && playerPreferenceMap[playerId].length > 0) {
+        let assignedOppId: number = null;
+
+        for (const oppId of playerPreferenceMap[playerId]) {
+          if (!(oppId in assignedPlayers)) {
+            assignedOppId = oppId;
+            break;
+          }
+        }
+
+        if (!assignedOppId) {
+          continue;
+        }
+
+        assignedPlayers[playerId] = assignedOppId;
+        assignedPlayers[assignedOppId] = playerId;
+        assignedPlayersCount += 2;
       }
     }
 
-    rotation.push([player, playerPreferenceMap[player][0]]);
-    playersInRotation.push(player);
+    if (assignedPlayersCount >= players.length) {
+      // Everyone was paired.
+      const pairings = [];
+      let table = 1;
 
-    return this.findRotationNext(playerPreferenceMap, rotation, playersInRotation);
-  }
+      for (const player of players) {
+        if (!(player.id in assignedPlayers)) {
+          continue;
+        }
 
-  private findRotationNext(
-      playerPreferenceMap: {[playerId: number]: number[]},
-      rotation: number[][],
-      playersInRotation: number[]): number[][] {
-    const previous = rotation[rotation.length - 1];
-    const previousPlayer = previous[0];
-    const nextOpponent = playerPreferenceMap[previousPlayer][1];
-    const nextOpponentsPreferenceList = playerPreferenceMap[nextOpponent];
-    const nextPlayer = nextOpponentsPreferenceList[nextOpponentsPreferenceList.length - 1];
+        const opponentId = assignedPlayers[player.id];
+        let opponent: Player;
 
-    if (playersInRotation.indexOf(nextPlayer) !== -1) {
-      return rotation;
+        if (opponentId > 0) {
+          opponent = playersById[opponentId];
+        } else {
+          opponent = null;
+        }
+
+        const pairing = new Pairing(round, table++, player, opponent);
+        delete assignedPlayers[player.id];
+        delete assignedPlayers[opponentId];
+        pairings.push(pairing);
+      }
+
+      if (needsBye) {
+        const pairing = new Pairing(round, table++, playerForBye, null);
+        pairings.push(pairing);
+      }
+
+      return pairings;
+    } else {
+      // Bad matching. Try again.
+      if (needsBye) {
+        players.push(playerForBye);
+      }
+
+      return this.createWeaklyStablePairings(players, round, isLastRound);
     }
-
-    rotation.push([nextPlayer, nextOpponent]);
-    playersInRotation.push(nextPlayer);
-
-    return this.findRotationNext(playerPreferenceMap, rotation, playersInRotation);
   }
 
   private loadFromLocalStorage() {
@@ -293,59 +250,6 @@ export class PairingService {
     }
   }
 
-  private reducePlayerPreferenceMap(playerPreferenceMap: {[player: number]: number[]}): void {
-    const proposedToMap = {};
-    const proposedToByMap = {};
-    const playersToProposeStack = this.activePlayers.map((player: Player) => player.id);
-
-    if (playersToProposeStack.length % 2 === 1) {
-      playersToProposeStack.push(-1);
-    }
-
-    while (playersToProposeStack.length > 0) {
-      const proposingPlayer = playersToProposeStack.pop();
-      const preferences = playerPreferenceMap[proposingPlayer];
-
-      for (let i = 0; i < preferences.length; i++) {
-        // Atempt to propose to i.
-        const proposedPlayer = preferences[i];
-        const proposingPlayerIndex = playerPreferenceMap[proposedPlayer].indexOf(proposingPlayer);
-
-        // Was proposedPlayer already proposed to?
-        if (proposedToByMap[proposedPlayer] !== undefined && proposedToByMap[proposedPlayer] !== null) {
-          // Already proposed to.
-          const otherSuitor = proposedToByMap[proposedPlayer];
-          const otherSuitorIndex = playerPreferenceMap[proposedPlayer].indexOf(otherSuitor);
-          if (proposingPlayerIndex < otherSuitorIndex) {
-            // Proposing player favoured, reject old one.
-            proposedToMap[otherSuitor] = null;
-            playersToProposeStack.push(otherSuitor);
-            proposedToMap[proposingPlayer] = proposedPlayer;
-            proposedToByMap[proposedPlayer] = proposingPlayer;
-          } else {
-            // Previous favoured. Reject proposingPlayer (should never happen).
-            console.error('Bad state in pairing algorithm.');
-          }
-        } else {
-          // proposedPlayer hasn't been proposed to yet.
-          proposedToMap[proposingPlayer] = proposedPlayer;
-          proposedToByMap[proposedPlayer] = proposingPlayer;
-        }
-
-        // Remove everyone lower than proposingPlayer on proposedPlayer's preferences.
-        const removedPlayers = playerPreferenceMap[proposedPlayer].splice(proposingPlayerIndex + 1);
-
-        // Remove proposedPlayer from the preferences of removedPlayers.
-        removedPlayers.forEach((player: number) => {
-          const proposedPlayerIndex = playerPreferenceMap[player].indexOf(proposedPlayer);
-          playerPreferenceMap[player].splice(proposedPlayerIndex, 1);
-        });
-
-        break;
-      }
-    }
-  }
-
   private saveToLocalStorage() {
     const pairingsToLocalStorage = this._pairings.map((pairing: Pairing) => {
       return {
@@ -363,7 +267,7 @@ export class PairingService {
     localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   }
 
-  private shufflePlayers(players: any[]): any[] {
+  private shufflePlayers(players: Player[]): Player[] {
     const shuffledPlayers = players.slice();
 
     for (let i = shuffledPlayers.length; i; i--) {
@@ -372,5 +276,33 @@ export class PairingService {
     }
 
     return shuffledPlayers;
+  }
+
+  private sortPlayersByMatchPoints(players: Player[]) {
+    players.sort((a: Player, b: Player) => {
+      return b.matchPoints - a.matchPoints;
+    });
+  }
+
+  private sortPlayersByTiebreakers(players: Player[]) {
+    players.sort((a: Player, b: Player) => {
+      if (a.matchPoints !== b.matchPoints) {
+        return b.matchPoints - a.matchPoints;
+      }
+
+      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+      }
+
+      if (a.gameWinPercentage !== b.gameWinPercentage) {
+        return b.gameWinPercentage - a.gameWinPercentage;
+      }
+
+      if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
+        return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+      }
+
+      return 0;
+    });
   }
 }
