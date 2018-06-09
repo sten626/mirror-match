@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Updated dependencies.
+  - @angular to 6.0.4
+  - @angular/cli to 6.0.8
+  - rxjs to 6.2.0
+  - typescript to 2.7.2
+
 ## [1.0.0-beta.3] -  2018-06-08
 ### Added
 - "New window" icon on the version number link to the change log.
@@ -37,6 +45,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...HEAD
+[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...HEAD
 [1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2
 [1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...1.0.0-beta.3

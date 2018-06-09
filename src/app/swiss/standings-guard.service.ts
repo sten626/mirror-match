@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { RoundService } from '../shared';
 
@@ -12,13 +13,13 @@ export class StandingsGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.roundService.hasCompletedRounds.map((hasCompletedRounds: boolean) => {
+    return this.roundService.hasCompletedRounds.pipe(map((hasCompletedRounds: boolean) => {
       if (hasCompletedRounds) {
         return true;
       }
 
       this.router.navigate(['/swiss/pairings']);
       return false;
-    });
+    }));
   }
 }

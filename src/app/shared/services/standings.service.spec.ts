@@ -1,6 +1,6 @@
 import { Player, Pairing } from '../models';
 import { StandingsService } from './standings.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { PairingService, PlayerService } from '.';
 
 describe('StandingsService', () => {
@@ -48,6 +48,7 @@ describe('StandingsService', () => {
     };
 
     service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
+    service = service as any; // Get around TSLint unused warning.
   });
 
   it('#calculateStandings should round tiebreakers correctly', () => {
