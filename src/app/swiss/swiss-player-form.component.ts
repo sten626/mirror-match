@@ -1,86 +1,85 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import {
-  Player,
-  PlayerService,
-  RoundService
-} from '../shared';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Player } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
   templateUrl: 'swiss-player-form.component.html',
   styleUrls: ['swiss-player-form.component.css']
 })
-export class SwissPlayerFormComponent implements OnInit {
-  currentPlayer: Player;
-  hasBegunTournament = false;
-  isTournamentOver = false;
-  swissPlayerForm: FormGroup;
+export class SwissPlayerFormComponent implements OnChanges {
+  // hasBegunTournament = false;
+  // isTournamentOver = false;
+  @Input() player: Player;
+  @Output() add = new EventEmitter<Player>();
+  @Output() unselect = new EventEmitter<string>(); // TODO: Does this need a type?
+  @Output() update = new EventEmitter<Player>();
 
-  constructor(
-    private fb: FormBuilder,
-    private playerService: PlayerService,
-    private roundService: RoundService
-  ) {}
+  addMode = false;
+  editingPlayer: Player;
 
-  ngOnInit() {
-    this.createForm();
-    this.playerService.selectedPlayer.subscribe(player => {
-      this.currentPlayer = player;
-      this.swissPlayerForm.reset({
-        name: this.currentPlayer.name
-      });
-    });
+  // TODO: Form validation.
 
-    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
-      this.hasBegunTournament = hasBegun;
-    });
+  // ngOnInit() {
+  //   this.createForm();
+  //   this.playerService.selectedPlayer.subscribe(player => {
+  //     this.currentPlayer = player;
+  //     this.swissPlayerForm.reset({
+  //       name: this.currentPlayer.name
+  //     });
+  //   });
 
-    this.roundService.isTournamentOver.subscribe((isOver: boolean) => {
-      this.isTournamentOver = isOver;
+  //   this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
+  //     this.hasBegunTournament = hasBegun;
+  //   });
 
-      if (isOver && this.hasBegunTournament) {
-        this.swissPlayerForm.disable();
-      } else {
-        this.swissPlayerForm.enable();
-      }
-    });
-  }
+  //   this.roundService.isTournamentOver.subscribe((isOver: boolean) => {
+  //     this.isTournamentOver = isOver;
 
-  reset() {
-    this.playerService.setSelectedPlayer(new Player());
-  }
+  //     if (isOver && this.hasBegunTournament) {
+  //       this.swissPlayerForm.disable();
+  //     } else {
+  //       this.swissPlayerForm.enable();
+  //     }
+  //   });
+  // }
 
-  submit() {
-    const nameControl = this.swissPlayerForm.get('name');
-    let name = nameControl.value;
-    name = name.trim();
-    nameControl.patchValue(name);
-
-    if (name.length === 0) {
-      return;
+  ngOnChanges(changes: SimpleChanges) {
+    // TODO: Focus?
+    if (this.player && this.player.id) {
+      this.editingPlayer = { ...this.player };
+      this.addMode = false;
+    } else {
+      this.editingPlayer = {
+        id: null,
+        name: ''
+      };
     }
-
-    this.updatePlayer();
-    this.playerService.save(this.currentPlayer);
-    this.playerService.setSelectedPlayer(new Player());
   }
 
-  toggleCurrentPlayerDropped() {
-    this.currentPlayer.dropped = !this.currentPlayer.dropped;
-    this.playerService.save(this.currentPlayer);
+  clear(): void {
+    this.unselect.emit();
   }
 
-  private createForm() {
-    this.swissPlayerForm = this.fb.group({
-      name: ['', [
-        Validators.required
-      ]]
-    });
+  savePlayer(): void {
+    if (this.addMode) {
+      this.addPlayer();
+    } else {
+      this.updatePlayer();
+    }
   }
 
-  private updatePlayer() {
-    Object.assign(this.currentPlayer, this.swissPlayerForm.value);
+  private addPlayer(): void {
+    this.add.emit(this.editingPlayer);
+    this.clear();
   }
+
+  private updatePlayer(): void {
+    this.update.emit(this.editingPlayer);
+    this.clear();
+  }
+
+  // toggleCurrentPlayerDropped() {
+  //   this.currentPlayer.dropped = !this.currentPlayer.dropped;
+  //   this.playerService.save(this.currentPlayer);
+  // }
 }
