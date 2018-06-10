@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'mm-swiss-players-start',
   templateUrl: './swiss-players-start.component.html'
 })
-export class SwissPlayersStartComponent {
-  canBeginTournament = false;
+export class SwissPlayersStartComponent implements OnChanges {
+  @Input() canBeginTournament: boolean;
+  @Input() recommendedNumOfRounds: number;
+
+  // TODO Do things with hasBegunTournament
   hasBegunTournament = false;
   numberOfRounds = 3;
+
+  ngOnChanges(): void {
+    // TODO Should I check the changes object?
+    this.numberOfRounds = this.recommendedNumOfRounds;
+  }
 
   // constructor(
   //   private playerService: PlayerService,

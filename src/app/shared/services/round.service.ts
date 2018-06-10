@@ -47,10 +47,6 @@ export class RoundService {
     this.loadFromLocalStorage();
 
     // Setup Observables.
-    this.canBeginTournament = this.playerService.numberOfPlayers.pipe(
-      map((numPlayers: number) => numPlayers >= 4),
-      distinctUntilChanged()
-    );
     this.rounds = this.roundsSubject.asObservable().pipe(distinctUntilChanged());
     this.currentRound = this.rounds.pipe(
       map((rounds: number[]) => rounds[rounds.length - 1]),

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Player, PlayerService } from '../shared';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './swiss-players.component.html'
@@ -9,10 +10,21 @@ export class SwissPlayersComponent implements OnInit {
   selectedPlayer: Player;
 
   // Observables
+  canBeginTournament$: Observable<boolean>;
   players$: Observable<Player[]>;
+  recommendedNumOfRounds$: Observable<number>;
 
   constructor(private playerService: PlayerService) {
     this.players$ = playerService.players$;
+    const numOfPlayers$ = this.players$.pipe(
+      map((players: Player[]) => players.length)
+    );
+    this.recommendedNumOfRounds$ = numOfPlayers$.pipe(
+      map((numOfPlayers: number) => Math.max(3, Math.ceil(Math.log2(numOfPlayers))))
+    );
+    this.canBeginTournament$ = numOfPlayers$.pipe(
+      map((numOfPlayers: number) => numOfPlayers >= 4)
+    );
   }
 
   ngOnInit() {

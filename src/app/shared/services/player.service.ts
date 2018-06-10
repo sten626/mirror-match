@@ -6,7 +6,7 @@ import { Player } from '../models';
 @Injectable()
 export class PlayerService {
 
-  players$ = new BehaviorSubject<Player[]>([]);
+  readonly players$ = new BehaviorSubject<Player[]>([]);
 
   private nextId: number;
   private players: Player[] = [];
