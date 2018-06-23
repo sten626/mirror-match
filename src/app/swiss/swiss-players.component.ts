@@ -59,7 +59,7 @@ export class SwissPlayersComponent implements OnInit {
    * Set the selected player to null.
    */
   unselect(): void {
-    this.selectedPlayer = null;
+    this.selectedPlayer = {id: null, name: ''};
   }
 
   /**

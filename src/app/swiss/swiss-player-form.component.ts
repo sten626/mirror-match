@@ -53,6 +53,7 @@ export class SwissPlayerFormComponent implements OnChanges {
         id: null,
         name: ''
       };
+      this.addMode = true;
     }
   }
 
