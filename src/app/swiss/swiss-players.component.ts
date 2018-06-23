@@ -44,6 +44,10 @@ export class SwissPlayersComponent implements OnInit {
    * @param player The player to be deleted.
    */
   deletePlayer(player: Player): void {
+    if (this.selectedPlayer === player) {
+      this.unselect();
+    }
+
     this.playerService.deletePlayer(player);
   }
 
