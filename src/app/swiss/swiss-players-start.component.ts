@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'mm-swiss-players-start',
@@ -7,6 +7,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 export class SwissPlayersStartComponent implements OnChanges {
   @Input() canBeginTournament: boolean;
   @Input() recommendedNumOfRounds: number;
+  @Output() startClicked = new EventEmitter<number>();
 
   // TODO Do things with hasBegunTournament
   hasBegunTournament = false;
@@ -17,6 +18,10 @@ export class SwissPlayersStartComponent implements OnChanges {
     this.numberOfRounds = this.recommendedNumOfRounds;
   }
 
+  start(): void {
+    this.startClicked.emit(this.numberOfRounds);
+  }
+
   // constructor(
   //   private playerService: PlayerService,
   //   private roundService: RoundService,
@@ -25,14 +30,6 @@ export class SwissPlayersStartComponent implements OnChanges {
 
   // canBeginEvent(): boolean {
   //   return this.swissPlayersStartForm.valid && this.numPlayers >= 4 && !this.isFormDisabled;
-  // }
-
-  // ngOnChanges() {
-  //   if (this.swissPlayersStartForm) {
-  //     this.swissPlayersStartForm.reset({
-  //       numberOfRounds: this.numRounds
-  //     });
-  //   }
   // }
 
   // ngOnInit() {

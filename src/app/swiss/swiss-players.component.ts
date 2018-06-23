@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Player, PlayerService } from '../shared';
 import { map } from 'rxjs/operators';
+import { Player, PlayerService, RoundService } from '../shared';
 
 @Component({
   templateUrl: './swiss-players.component.html'
@@ -14,7 +15,11 @@ export class SwissPlayersComponent implements OnInit {
   players$: Observable<Player[]>;
   recommendedNumOfRounds$: Observable<number>;
 
-  constructor(private playerService: PlayerService) {
+  constructor(
+    private playerService: PlayerService,
+    private roundService: RoundService,
+    private router: Router
+  ) {
     this.players$ = playerService.players$;
     const numOfPlayers$ = this.players$.pipe(
       map((players: Player[]) => players.length)
@@ -57,6 +62,16 @@ export class SwissPlayersComponent implements OnInit {
    */
   onSelect(player: Player): void {
     this.selectedPlayer = player;
+  }
+
+  /**
+   * Event handler for starting the tournament.
+   * @param numOfRounds The number of rounds for the tournament to have.
+   */
+  startClicked(numOfRounds: number): void {
+    this.roundService.setTotalNumOfRounds(numOfRounds);
+    this.roundService.createNextRound();
+    this.router.navigate(['/swiss/pairings']);
   }
 
   /**

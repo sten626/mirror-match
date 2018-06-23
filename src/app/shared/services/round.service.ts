@@ -175,6 +175,12 @@ export class RoundService {
     this.nextTotalNumOfRounds(totalNumOfRounds);
   }
 
+  setTotalNumOfRounds(numOfRounds: number): void {
+    // TODO validation.
+    this.nextTotalNumOfRounds(numOfRounds);
+    localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(numOfRounds));
+  }
+
   // markRoundAsComplete(round: number): void {
   //   if (!round || round < 1) {
   //     return;
