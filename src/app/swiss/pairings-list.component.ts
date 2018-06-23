@@ -30,49 +30,49 @@ export class PairingsListComponent implements OnInit {
   ) {}
 
   deleteResults() {
-    this.pairings.forEach(pairing => {
-      pairing.player1Wins = 0;
-      pairing.player2Wins = 0;
-      pairing.draws = 0;
-      pairing.submitted = false;
-    });
+    // this.pairings.forEach(pairing => {
+    //   pairing.player1Wins = 0;
+    //   pairing.player2Wins = 0;
+    //   pairing.draws = 0;
+    //   pairing.submitted = false;
+    // });
 
-    this.pairingService.saveAndClearSelected();
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    // this.pairingService.saveAndClearSelected();
+    // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   ngOnInit() {
     // Setup form.
-    this.pairingsListForm = this.fb.group({
-      pairingsSearch: '',
-      showOutstandingOnly: true
-    });
+    // this.pairingsListForm = this.fb.group({
+    //   pairingsSearch: '',
+    //   showOutstandingOnly: true
+    // });
 
-    // Subscribe to services.
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
-    this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
-      this.pairings = pairings;
-      this.filterPairings();
-    });
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-      this.selectedPairing = pairing;
-      this.filterPairings();
-    });
+    // // Subscribe to services.
+    // this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    // this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
+    //   this.pairings = pairings;
+    //   this.filterPairings();
+    // });
+    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+    //   this.selectedPairing = pairing;
+    //   this.filterPairings();
+    // });
 
-    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
-    this.roundService.selectedRoundHasSubmittedPairings.subscribe((hasSubmitted: boolean) => {
-      this.selectedRoundHasSubmittedPairings = hasSubmitted;
-    });
+    // this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
+    // this.roundService.selectedRoundHasSubmittedPairings.subscribe((hasSubmitted: boolean) => {
+    //   this.selectedRoundHasSubmittedPairings = hasSubmitted;
+    // });
 
-    this.roundService.selectedRoundComplete.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
+    // this.roundService.selectedRoundComplete.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
 
-    // Filter pairings.
-    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
+    // // Filter pairings.
+    // this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }
 
   redoMatches() {
-    this.pairingService.deletePairings(this.selectedRound);
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    // this.pairingService.deletePairings(this.selectedRound);
+    // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
@@ -88,7 +88,7 @@ export class PairingsListComponent implements OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    this.pairingService.setSelectedPairing(pairing);
+    // this.pairingService.setSelectedPairing(pairing);
   }
 
   private filterPairings() {

@@ -19,23 +19,23 @@ export class StandingsService {
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
-    this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
+    // this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
 
-    this.playerService.players.subscribe((players: Player[]) => {
-      this.players = players.slice();
+    // this.playerService.players.subscribe((players: Player[]) => {
+    //   this.players = players.slice();
 
-      // Create map of players by ID.
-      this.playersMap = {};
-      this.players.forEach((player: Player) => {
-        this.playersMap[player.id] = player;
-      });
-    });
+    //   // Create map of players by ID.
+    //   this.playersMap = {};
+    //   this.players.forEach((player: Player) => {
+    //     this.playersMap[player.id] = player;
+    //   });
+    // });
 
-    this.pairingService.submittedPairings.subscribe((pairings: Pairing[]) => {
-      this.allSubmittedPairings = pairings;
-    });
+    // this.pairingService.submittedPairings.subscribe((pairings: Pairing[]) => {
+    //   this.allSubmittedPairings = pairings;
+    // });
 
-    this.calculateStandings();
+    // this.calculateStandings();
   }
 
   calculateStandings(): void {
@@ -125,7 +125,7 @@ export class StandingsService {
       }
     });
 
-    this.playerService.saveAll();
+    // this.playerService.saveAll();
 
     this.players.sort((a: Player, b: Player) => {
       if (a.matchPoints > b.matchPoints) {

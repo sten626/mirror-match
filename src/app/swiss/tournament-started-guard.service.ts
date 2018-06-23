@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
@@ -14,13 +14,14 @@ export class TournamentStartedGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.roundService.hasBegunTournament.pipe(map((hasBegun: boolean) => {
-      if (hasBegun) {
-        return true;
-      }
+    return of(true);
+    // return this.roundService.hasBegunTournament.pipe(map((hasBegun: boolean) => {
+    //   if (hasBegun) {
+    //     return true;
+    //   }
 
-      this.router.navigate(['/swiss/players']);
-      return false;
-    }));
+    //   this.router.navigate(['/swiss/players']);
+    //   return false;
+    // }));
   }
 }

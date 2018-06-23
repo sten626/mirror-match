@@ -36,8 +36,8 @@ export class MatchResultsComponent implements OnInit {
     this.selectedPairing.player2Wins = 0;
     this.selectedPairing.draws = 0;
     this.selectedPairing.submitted = false;
-    this.pairingService.saveAndClearSelected();
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    // this.pairingService.saveAndClearSelected();
+    // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   incrementDraws() {
@@ -65,58 +65,58 @@ export class MatchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createForm();
+    // this.createForm();
 
-    // Subscribe to data.
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-      this.selectedPairing = pairing;
-      this.resetForm();
-    });
-    this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
-      this.selectedRoundComplete = complete;
+    // // Subscribe to data.
+    // this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+    //   this.selectedPairing = pairing;
+    //   this.resetForm();
+    // });
+    // this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
+    //   this.selectedRoundComplete = complete;
 
-      if (complete) {
-        this.matchResultsForm.disable();
-      } else {
-        this.matchResultsForm.enable();
-      }
-    });
+    //   if (complete) {
+    //     this.matchResultsForm.disable();
+    //   } else {
+    //     this.matchResultsForm.enable();
+    //   }
+    // });
   }
 
   submit() {
-    const form = this.matchResultsForm;
-    this.selectedPairing.player1Wins = form.get('player1Wins').value;
-    this.selectedPairing.player2Wins = form.get('player2Wins').value;
-    this.selectedPairing.draws = form.get('draws').value;
-    this.selectedPairing.submitted = true;
-    const player1 = this.selectedPairing.player1;
-    const player2 = this.selectedPairing.player2;
-    const player1Dropped = form.get('player1Dropped').value;
-    const player2Dropped = form.get('player2Dropped').value;
-    let shouldSavePlayers = false;
+    // const form = this.matchResultsForm;
+    // this.selectedPairing.player1Wins = form.get('player1Wins').value;
+    // this.selectedPairing.player2Wins = form.get('player2Wins').value;
+    // this.selectedPairing.draws = form.get('draws').value;
+    // this.selectedPairing.submitted = true;
+    // const player1 = this.selectedPairing.player1;
+    // const player2 = this.selectedPairing.player2;
+    // const player1Dropped = form.get('player1Dropped').value;
+    // const player2Dropped = form.get('player2Dropped').value;
+    // let shouldSavePlayers = false;
 
-    if (player1.dropped !== player1Dropped) {
-      player1.dropped = player1Dropped;
-      shouldSavePlayers = true;
-    }
+    // if (player1.dropped !== player1Dropped) {
+    //   player1.dropped = player1Dropped;
+    //   shouldSavePlayers = true;
+    // }
 
-    if (player2.dropped !== player2Dropped) {
-      player2.dropped = player2Dropped;
-      shouldSavePlayers = true;
-    }
+    // if (player2.dropped !== player2Dropped) {
+    //   player2.dropped = player2Dropped;
+    //   shouldSavePlayers = true;
+    // }
 
-    if (shouldSavePlayers) {
-      this.playerService.saveAll();
-    }
+    // if (shouldSavePlayers) {
+    //   this.playerService.saveAll();
+    // }
 
-    this.pairingService.saveAndClearSelected();
+    // this.pairingService.saveAndClearSelected();
 
-    if (this.selectedRoundComplete) {
-      this.roundService.markRoundAsComplete(this.selectedRound);
-      this.standingsService.calculateStandings();
-      this.router.navigate(['/swiss/standings']);
-    }
+    // if (this.selectedRoundComplete) {
+    //   this.roundService.markRoundAsComplete(this.selectedRound);
+    //   this.standingsService.calculateStandings();
+    //   this.router.navigate(['/swiss/standings']);
+    // }
   }
 
   private createForm() {
