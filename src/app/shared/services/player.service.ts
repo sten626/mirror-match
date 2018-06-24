@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
-
-  readonly players$ = new BehaviorSubject<Player[]>([]);
+  readonly activePlayers$: Observable<Player[]>; // Players who haven't dropped.
+  readonly players$: Observable<Player[]>;
 
   private nextId: number;
   private players: Player[] = [];
+  private playersSubject$ = new BehaviorSubject<Player[]>([]);
 
   // readonly activePlayers: Observable<Player[]>; // Players who haven't dropped.
   // readonly numberOfActivePlayers: Observable<number>;
@@ -31,6 +32,12 @@ export class PlayerService {
   };
 
   constructor() {
+    this.players$ = this.playersSubject$.asObservable();
+    this.activePlayers$ = this.players$.pipe(
+      map((players: Player[]) => {
+        return players.filter((player: Player) => !player.dropped);
+      })
+    );
     // this.loadFromLocalStorage();
 
     // // Setup Observables.
@@ -139,6 +146,6 @@ export class PlayerService {
    */
   private next(newPlayers: Player[]): void {
     this.players = newPlayers;
-    this.players$.next(newPlayers);
+    this.playersSubject$.next(newPlayers);
   }
 }

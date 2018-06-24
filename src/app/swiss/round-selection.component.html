@@ -1,0 +1,28 @@
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="selected-round" class="control-label col-sm-2">Round</label>
+    <div class="col-sm-2">
+      <select name="selected-round" class="form-control" [(ngModel)]="selectedRound">
+        <option *ngFor="let round of rounds" [ngValue]="round">{{round}}</option>
+      </select>
+    </div>
+
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-default" (click)="createPairings()">Create Pairings</button>
+    </div>
+  </div>
+</form>
+<!-- <form class="form-horizontal">
+  <div class="form-group">
+    <label for="selected-round" class="control-label col-sm-2">Round</label>
+    <div class="col-sm-2">
+      <select id="selected-round" class="form-control" name="selectedRound" [(ngModel)]="selectedRound" (change)="onRoundChange($event.target.value)">
+        <option *ngFor="let round of rounds$ | async" [ngValue]="round">{{round}}</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-default" *ngIf="canCreatePairings | async" (click)="createPairings()">Create Pairings</button>
+      <button class="btn btn-default" *ngIf="canStartNextRound$ | async" (click)="createNextRound()">Create Next Round</button>
+    </div>
+  </div>
+</form> -->

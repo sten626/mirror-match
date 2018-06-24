@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EventInfoComponent } from './event-info.component';
 import { MatchResultsComponent } from './match-results.component';
 import { PairingsListComponent } from './pairings-list.component';
+import { RoundSelectionComponent } from './round-selection.component';
 import { StandingsGuard } from './standings-guard.service';
 import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
@@ -49,6 +50,7 @@ const routes: Routes = [{
     EventInfoComponent,
     MatchResultsComponent,
     PairingsListComponent,
+    RoundSelectionComponent,
     SwissComponent,
     SwissPairingsComponent,
     SwissPlayerFormComponent,

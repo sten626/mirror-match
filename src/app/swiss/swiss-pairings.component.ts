@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import {
   Pairing,
   PairingService,
+  Player,
+  PlayerService,
   RoundService
 } from '../shared';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './swiss-pairings.component.html'
 })
-export class SwissPairingsComponent implements OnInit {
+export class SwissPairingsComponent implements OnDestroy, OnInit {
+  canCreatePairings$: Observable<boolean>;
   canStartNextRound$: Observable<boolean>;
   pairings$: Observable<Pairing[]>;
   rounds$: Observable<number[]>;
-  selectedRound: number;
+  selectedRound$: Observable<number>;
+  // totalNumOfRounds$: Observable<number>;
 
+  private activePlayers: Player[] = [];
+  private activePlayersSub: Subscription;
   private totalNumOfRounds: number;
+  private totalNumOfRoundsSub: Subscription;
 
   // canStartNextRound = false;
   // rounds: Observable<number[]>;
@@ -26,45 +34,58 @@ export class SwissPairingsComponent implements OnInit {
 
   constructor(
     private pairingService: PairingService,
+    private playerService: PlayerService,
     private roundService: RoundService
   ) {
     this.rounds$ = roundService.rounds$;
-    this.canStartNextRound$ = combineLatest(
-      roundService.rounds$,
-      roundService.completedRounds$,
-      roundService.totalNumOfRounds$,
-      (rounds: number[], completedRounds: number[], totalNumOfRounds: number) => {
-        return rounds.length === completedRounds.length && rounds.length < totalNumOfRounds;
-      }
-    );
-    this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+    this.selectedRound$ = roundService.selectedRound$;
+    // this.totalNumOfRounds$ = roundService.totalNumOfRounds$;
+    // this.canStartNextRound$ = combineLatest(
+    //   roundService.rounds$,
+    //   roundService.completedRounds$,
+    //   roundService.totalNumOfRounds$,
+    //   (rounds: number[], completedRounds: number[], totalNumOfRounds: number) => {
+    //     return rounds.length === completedRounds.length && rounds.length < totalNumOfRounds;
+    //   }
+    // );
+    // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+    // this.canCreatePairings$ = this.pairings$.pipe(
+    //   map((pairings: Pairing[]) => {
+    //     return pairings.length === 0;
+    //   })
+    // );
+    // this.selectedRound$ = this.roundService.selectedRound$;
   }
 
   ngOnInit() {
-    this.roundService.loadRounds();
-    this.pairingService.loadPairings();
-    // TODO
+    this.activePlayersSub = this.playerService.activePlayers$.subscribe((players: Player[]) => {
+      this.activePlayers = players;
+    });
+    this.totalNumOfRoundsSub = this.roundService.totalNumOfRounds$.subscribe((totalNumOfRounds: number) => {
+      this.totalNumOfRounds = totalNumOfRounds;
+    });
+  }
+
+  ngOnDestroy() {
+    this.activePlayersSub.unsubscribe();
+    this.totalNumOfRoundsSub.unsubscribe();
   }
 
   createNextRound(): void {
     const newRound = this.roundService.createNextRound();
-    this.selectedRound = newRound;
+  }
+
+  createPairings(selectedRound: number): void {
+    this.pairingService.createPairings(this.activePlayers, selectedRound, selectedRound === this.totalNumOfRounds);
   }
 
   /**
-   * Create pairings for the selected round.
-   */
-  createPairings(): void {
-
-  }
-
-  /**
-   * Update pairings via pairing service, for newly selected round.
+   * Update the currently selected round.
    * @param selectedRound The round being selected.
    */
-  onRoundChange(selectedRound: number): void {
-    this.selectedRound = selectedRound;
-    this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+  onSelectedRoundChanged(selectedRound: number): void {
+    this.roundService.updateSelectedRound(selectedRound);
+    // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
   }
 
   // generatePairings(): void {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Message, MessageService, PlayerService, RoundService } from '../shared';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './swiss.component.html'
@@ -8,13 +9,16 @@ import { Message, MessageService, PlayerService, RoundService } from '../shared'
 export class SwissComponent implements OnInit {
   messages: Message[] = [];
   hasCompletedRounds = false;
-  hasTournamentBegun = false;
+  isTournamentStarted$: Observable<boolean>;
   numberOfActivePlayers: number;
 
   constructor(
     private messageService: MessageService,
     private playerService: PlayerService,
-    private roundService: RoundService) {}
+    private roundService: RoundService
+  ) {
+    this.isTournamentStarted$ = roundService.isTournamentStarted$;
+  }
 
   ngOnInit() {
     this.messageService.messages.subscribe((message: Message) => {

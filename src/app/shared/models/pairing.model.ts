@@ -1,15 +1,15 @@
 import { Player } from './player.model';
 
-export class Pairing {
+export interface Pairing {
   round: number;
   table: number;
   player1: Player;
   player2: Player;
-  player1Wins: number;
-  player2Wins: number;
-  draws: number;
-  bye: boolean;
-  submitted: boolean;
+  player1Wins?: number;
+  player2Wins?: number;
+  draws?: number;
+  bye?: boolean;
+  submitted?: boolean;
 
   // constructor(
   //   public round: number,

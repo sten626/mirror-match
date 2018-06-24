@@ -6,10 +6,10 @@
           <li role="presentation" routerLinkActive="active">
             <a routerLink="/swiss/players">Players <span class="badge" *ngIf="numberOfActivePlayers > 0">{{numberOfActivePlayers}}</span></a>
           </li>
-          <li role="presentation" routerLinkActive="active" *ngIf="hasTournamentBegun">
+          <li role="presentation" routerLinkActive="active" *ngIf="isTournamentStarted$ | async">
             <a routerLink="/swiss/event">Event Info</a>
           </li>
-          <li role="presentation" routerLinkActive="active" *ngIf="hasTournamentBegun">
+          <li role="presentation" routerLinkActive="active" *ngIf="isTournamentStarted$ | async">
             <a routerLink="/swiss/pairings">Pairings</a>
           </li>
           <li role="presentation" routerLinkActive="active" *ngIf="hasCompletedRounds">

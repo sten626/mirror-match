@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 // import { MessageService } from './message.service';
 // import { PairingService } from './pairing.service';
 // import { PlayerService } from './player.service';
@@ -7,13 +8,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 export class RoundService {
   readonly completedRounds$: Observable<number[]>;
+  readonly isTournamentStarted$: Observable<boolean>;
   readonly rounds$: Observable<number[]>;
+  readonly selectedRound$: Observable<number>;
   readonly totalNumOfRounds$: Observable<number>;
 
   private completedRounds: number[] = [];
   private completedRoundsSubject$ = new BehaviorSubject<number[]>([]);
   private rounds: number[] = [];
   private roundsSubject$ = new BehaviorSubject<number[]>([]);
+  private selectedRoundSubject$ = new BehaviorSubject<number>(null);
   private totalNumOfRounds = 0;
   private totalNumOfRoundsSubject$ = new BehaviorSubject<number>(0);
 
@@ -54,7 +58,15 @@ export class RoundService {
   ) {
     this.rounds$ = this.roundsSubject$.asObservable();
     this.completedRounds$ = this.completedRoundsSubject$.asObservable();
+    this.selectedRound$ = this.selectedRoundSubject$.asObservable();
     this.totalNumOfRounds$ = this.totalNumOfRoundsSubject$.asObservable();
+
+    this.isTournamentStarted$ = this.rounds$.pipe(
+      map((rounds: number[]) => rounds.length > 0),
+      distinctUntilChanged()
+    );
+
+    this.loadRounds();
 
     // this.loadFromLocalStorage();
 
@@ -130,6 +142,8 @@ export class RoundService {
     const rounds = this.rounds.slice();
     rounds.push(nextRound);
     this.nextRounds(rounds);
+    localStorage.setItem(this.lsKeys.rounds, JSON.stringify(rounds));
+    this.selectedRoundSubject$.next(nextRound);
 
     return nextRound;
     // this._rounds.push(nextRound);
@@ -153,6 +167,7 @@ export class RoundService {
     }
 
     this.nextRounds(rounds);
+    this.selectedRoundSubject$.next(Math.max(...rounds));
 
     const completedRoundsData = localStorage.getItem(this.lsKeys.rounds);
     let completedRounds: number[] = [];
@@ -179,6 +194,14 @@ export class RoundService {
     // TODO validation.
     this.nextTotalNumOfRounds(numOfRounds);
     localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(numOfRounds));
+  }
+
+  /**
+   * Update the currently selected round.
+   * @param selectedRound The round being selected.
+   */
+  updateSelectedRound(selectedRound: number): void {
+    this.selectedRoundSubject$.next(selectedRound);
   }
 
   // markRoundAsComplete(round: number): void {
