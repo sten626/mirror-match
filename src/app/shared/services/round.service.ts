@@ -8,7 +8,9 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 @Injectable()
 export class RoundService {
   readonly completedRounds$: Observable<number[]>;
+  readonly currentRound$: Observable<number>;
   readonly isTournamentStarted$: Observable<boolean>;
+  readonly latestCompletedRound$: Observable<number | string>;
   readonly rounds$: Observable<number[]>;
   readonly selectedRound$: Observable<number>;
   readonly totalNumOfRounds$: Observable<number>;
@@ -23,15 +25,10 @@ export class RoundService {
 
   // readonly canBeginTournament: Observable<boolean>;
   // readonly canStartNextRound: Observable<boolean>;
-  // readonly completedRounds: Observable<number[]>;
-  // readonly currentRound: Observable<number>;
-  // readonly hasBegunTournament: Observable<boolean>;
   // readonly hasCompletedRounds: Observable<boolean>;
   // readonly isTournamentOver: Observable<boolean>;
   // readonly outstandingPairingsForCurrentRound: Observable<Pairing[]>;
   // readonly pairingsForSelectedRound: Observable<Pairing[]>;
-  // readonly rounds: Observable<number[]>;
-  // readonly selectedRound: Observable<number>;
   // readonly selectedRoundComplete: Observable<boolean>;
   // readonly selectedRoundHasPairings: Observable<boolean>;
   // readonly selectedRoundHasSubmittedPairings: Observable<boolean>;
@@ -61,8 +58,22 @@ export class RoundService {
     this.selectedRound$ = this.selectedRoundSubject$.asObservable();
     this.totalNumOfRounds$ = this.totalNumOfRoundsSubject$.asObservable();
 
+    this.currentRound$ = this.rounds$.pipe(
+      map((rounds: number[]) => rounds[rounds.length - 1]),
+      distinctUntilChanged()
+    );
     this.isTournamentStarted$ = this.rounds$.pipe(
       map((rounds: number[]) => rounds.length > 0),
+      distinctUntilChanged()
+    );
+    this.latestCompletedRound$ = this.completedRounds$.pipe(
+      map((rounds: number[]) => {
+        if (rounds.length > 0) {
+          return rounds[rounds.length - 1];
+        }
+
+        return 'None';
+      }),
       distinctUntilChanged()
     );
 
@@ -71,14 +82,7 @@ export class RoundService {
     // this.loadFromLocalStorage();
 
     // // Setup Observables.
-    // this.rounds = this.roundsSubject.asObservable().pipe(distinctUntilChanged());
-    // this.currentRound = this.rounds.pipe(
-    //   map((rounds: number[]) => rounds[rounds.length - 1]),
-    //   distinctUntilChanged()
-    // );
-    // this.completedRounds = this.completedRoundsSubject.asObservable().pipe(distinctUntilChanged());
     // this.hasCompletedRounds = this.completedRounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
-    // this.hasBegunTournament = this.rounds.pipe(map((rounds: number[]) => rounds.length > 0), distinctUntilChanged());
     // this.isTournamentOver = this.completedRounds.pipe(
     //   map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
     //   distinctUntilChanged()
@@ -169,7 +173,7 @@ export class RoundService {
     this.nextRounds(rounds);
     this.selectedRoundSubject$.next(Math.max(...rounds));
 
-    const completedRoundsData = localStorage.getItem(this.lsKeys.rounds);
+    const completedRoundsData = localStorage.getItem(this.lsKeys.completedRounds);
     let completedRounds: number[] = [];
 
     if (completedRoundsData) {

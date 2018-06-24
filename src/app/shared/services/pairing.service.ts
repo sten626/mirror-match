@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Pairing, Player } from '../models';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable()
 export class PairingService {
+  readonly ongoingPairingsCount$: Observable<number>;
+  readonly pairings$: Observable<Pairing[]>;
   // readonly pairings: Observable<Pairing[]>;
   // readonly selectedPairing: Observable<Pairing>;
   // readonly submittedPairings: Observable<Pairing[]>;
@@ -23,6 +25,17 @@ export class PairingService {
   private readonly lsKeys = {
     pairings: 'pairings'
   };
+
+  constructor() {
+    this.pairings$ = this.pairingsSubject$.asObservable();
+
+    this.ongoingPairingsCount$ = this.pairings$.pipe(
+      map((pairings: Pairing[]) => {
+        return pairings.filter((pairing: Pairing) => !pairing.submitted).length;
+      }),
+      distinctUntilChanged()
+    );
+  }
 
   createPairings(players: Player[], round: number, isLastRound: boolean): void {
     if (players.length < 1) {

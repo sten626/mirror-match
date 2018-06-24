@@ -7,10 +7,10 @@
 
       <div class="panel-body">
         <ul class="list-unstyled">
-          <li>Number of rounds: {{numberOfRounds}}</li>
-          <li>Current round: {{currentRound}}</li>
-          <li>Completed round: {{completedRound}}</li>
-          <li>Ongoing matches: {{ongoingMatches}}</li>
+          <li>Number of rounds: {{numOfRounds$ | async}}</li>
+          <li>Current round: {{currentRound$ | async}}</li>
+          <li>Completed round: {{completedRound$ | async}}</li>
+          <li>Ongoing matches: {{ongoingPairingsCount$ | async}}</li>
         </ul>
       </div>
     </div>
@@ -24,9 +24,9 @@
 
       <div class="panel-body">
         <ul class="list-unstyled">
-          <li>Total players: {{totalPlayers}}</li>
-          <li>Active players: {{activePlayers}}</li>
-          <li>Dropped players: {{droppedPlayers}}</li>
+          <li>Total players: {{playersCount$ | async}}</li>
+          <li>Active players: {{activePlayersCount$ | async}}</li>
+          <li>Dropped players: {{droppedPlayersCount$ | async}}</li>
         </ul>
       </div>
     </div>

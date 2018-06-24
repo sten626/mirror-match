@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
   readonly activePlayers$: Observable<Player[]>; // Players who haven't dropped.
+  readonly activePlayersCount$: Observable<number>;
+  readonly droppedPlayersCount$: Observable<number>;
   readonly players$: Observable<Player[]>;
+  readonly playersCount$: Observable<number>;
 
   private nextId: number;
   private players: Player[] = [];
@@ -33,26 +36,29 @@ export class PlayerService {
 
   constructor() {
     this.players$ = this.playersSubject$.asObservable();
+
     this.activePlayers$ = this.players$.pipe(
       map((players: Player[]) => {
         return players.filter((player: Player) => !player.dropped);
       })
     );
+    this.activePlayersCount$ = this.activePlayers$.pipe(
+      map((players: Player[]) => players.length),
+      distinctUntilChanged()
+    );
+    this.droppedPlayersCount$ = this.players$.pipe(
+      map((players: Player[]) => {
+        return players.filter((player: Player) => player.dropped).length;
+      }),
+      distinctUntilChanged()
+    );
+    this.playersCount$ = this.players$.pipe(
+      map((players: Player[]) => players.length),
+      distinctUntilChanged()
+    );
     // this.loadFromLocalStorage();
 
     // // Setup Observables.
-    // this.players = this.playersSubject.asObservable().pipe(distinctUntilChanged());
-    // this.activePlayers = this.players.pipe(
-    //   map((players: Player[]) => {
-    //     return players.filter((player: Player) => !player.dropped);
-    //   }),
-    //   distinctUntilChanged()
-    // );
-    // this.numberOfActivePlayers = this.activePlayers.pipe(
-    //   map((players: Player[]) => players.length),
-    //   distinctUntilChanged()
-    // );
-    // this.numberOfPlayers = this.players.pipe(map((players: Player[]) => players.length), distinctUntilChanged());
     // this.recommendedNumberOfRounds = this.numberOfPlayers.pipe(map(num => Math.max(3, Math.ceil(Math.log2(num)))),
     // distinctUntilChanged());
     // this.selectedPlayer = this.selectedPlayerSubject.asObservable().pipe(distinctUntilChanged());

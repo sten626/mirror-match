@@ -1,35 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Pairing, PlayerService, RoundService } from '../shared';
+import { Pairing, PlayerService, RoundService, PairingService } from '../shared';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './event-info.component.html'
 })
 export class EventInfoComponent implements OnInit {
-  activePlayers: number;
-  completedRound: string;
-  currentRound: number;
-  droppedPlayers: number;
-  numberOfRounds: number;
-  ongoingMatches: number;
-  showEndEventConfirmation = false;
-  totalPlayers: number;
+  activePlayersCount$: Observable<number>;
+  completedRound$: Observable<number | string>;
+  currentRound$: Observable<number>;
+  droppedPlayersCount$: Observable<number>;
+  numOfRounds$: Observable<number>;
+  ongoingPairingsCount$: Observable<number>;
+  playersCount$: Observable<number>;
+  // activePlayers: number;
+  // droppedPlayers: number;
+  // ongoingMatches: number;
+  // showEndEventConfirmation = false;
+  // totalPlayers: number;
 
   constructor(
+    private pairingService: PairingService,
     private playerService: PlayerService,
-    private roundService: RoundService) {}
+    private roundService: RoundService
+  ) {
+    this.activePlayersCount$ = this.playerService.activePlayersCount$;
+    this.completedRound$ = this.roundService.latestCompletedRound$;
+    this.currentRound$ = this.roundService.currentRound$;
+    this.droppedPlayersCount$ = this.playerService.droppedPlayersCount$;
+    this.numOfRounds$ = this.roundService.totalNumOfRounds$;
+    this.ongoingPairingsCount$ = this.pairingService.ongoingPairingsCount$;
+    this.playersCount$ = this.playerService.playersCount$;
+  }
 
   ngOnInit(): void {
+    this.pairingService.loadPairings();
+    this.playerService.loadPlayers();
     // Subscriptions for Rounds section.
-    // this.numberOfRounds = this.roundService.getTotalNumberOfRounds();
-    // this.roundService.currentRound.subscribe((currentRound: number) => this.currentRound = currentRound);
-    // this.roundService.completedRounds.subscribe((completedRounds: number[]) => {
-    //   if (completedRounds.length > 0) {
-    //     this.completedRound = completedRounds[completedRounds.length - 1].toString();
-    //   } else {
-    //     this.completedRound = 'None';
-    //   }
-    // });
     // this.roundService.outstandingPairingsForCurrentRound.subscribe((pairings: Pairing[]) => this.ongoingMatches = pairings.length);
 
     // // Subscriptions for Players section.
@@ -39,7 +48,7 @@ export class EventInfoComponent implements OnInit {
   }
 
   cancelEndEvent(): void {
-    this.showEndEventConfirmation = false;
+    // this.showEndEventConfirmation = false;
   }
 
   endEventConfirm(): void {
@@ -48,6 +57,6 @@ export class EventInfoComponent implements OnInit {
   }
 
   endEventClicked(): void {
-    this.showEndEventConfirmation = true;
+    // this.showEndEventConfirmation = true;
   }
 }
