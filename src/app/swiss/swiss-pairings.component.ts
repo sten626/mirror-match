@@ -58,6 +58,7 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.playerService.loadPlayers();
     this.activePlayersSub = this.playerService.activePlayers$.subscribe((players: Player[]) => {
       this.activePlayers = players;
     });

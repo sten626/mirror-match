@@ -17,7 +17,7 @@ export class PairingService {
   // private selectedPairingSubject = new BehaviorSubject<Pairing>(null);
 
   private pairings: Pairing[] = [];
-  private pairingsByRoundMap: {[round: number]: Pairing[]};
+  private pairingsByRoundMap: {[round: number]: Pairing[]} = {};
   private pairingsSubject$ = new BehaviorSubject<Pairing[]>(this.pairings);
 
   private readonly lsKeys = {
