@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Pairing, PlayerService, RoundService, PairingService } from '../shared';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { PlayerService, RoundService, PairingService } from '../shared';
 
 @Component({
   templateUrl: './event-info.component.html'
@@ -15,11 +13,7 @@ export class EventInfoComponent implements OnInit {
   numOfRounds$: Observable<number>;
   ongoingPairingsCount$: Observable<number>;
   playersCount$: Observable<number>;
-  // activePlayers: number;
-  // droppedPlayers: number;
-  // ongoingMatches: number;
-  // showEndEventConfirmation = false;
-  // totalPlayers: number;
+  showEndEventConfirmation = false;
 
   constructor(
     private pairingService: PairingService,
@@ -38,17 +32,10 @@ export class EventInfoComponent implements OnInit {
   ngOnInit(): void {
     this.pairingService.loadPairings();
     this.playerService.loadPlayers();
-    // Subscriptions for Rounds section.
-    // this.roundService.outstandingPairingsForCurrentRound.subscribe((pairings: Pairing[]) => this.ongoingMatches = pairings.length);
-
-    // // Subscriptions for Players section.
-    // this.playerService.numberOfPlayers.subscribe((numberOfPlayers: number) => this.totalPlayers = numberOfPlayers);
-    // this.playerService.numberOfActivePlayers.subscribe((numberOfPlayers: number) => this.activePlayers = numberOfPlayers);
-    // this.playerService.numberOfDroppedPlayers.subscribe((numberOfPlayers: number) => this.droppedPlayers = numberOfPlayers);
   }
 
   cancelEndEvent(): void {
-    // this.showEndEventConfirmation = false;
+    this.showEndEventConfirmation = false;
   }
 
   endEventConfirm(): void {
@@ -57,6 +44,6 @@ export class EventInfoComponent implements OnInit {
   }
 
   endEventClicked(): void {
-    // this.showEndEventConfirmation = true;
+    this.showEndEventConfirmation = true;
   }
 }
