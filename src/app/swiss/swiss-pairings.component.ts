@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 export class SwissPairingsComponent implements OnDestroy, OnInit {
   canCreatePairings$: Observable<boolean>;
   canStartNextRound$: Observable<boolean>;
-  pairings$: Observable<Pairing[]>;
+  pairingsForSelectedRound$: Observable<Pairing[]>;
   rounds$: Observable<number[]>;
   selectedRound$: Observable<number>;
   // totalNumOfRounds$: Observable<number>;
@@ -37,8 +37,17 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     private playerService: PlayerService,
     private roundService: RoundService
   ) {
-    this.rounds$ = roundService.rounds$;
-    this.selectedRound$ = roundService.selectedRound$;
+    this.rounds$ = this.roundService.rounds$;
+    this.selectedRound$ = this.roundService.selectedRound$;
+
+    // TODO Possibly a better way to do this.
+    this.pairingsForSelectedRound$ = combineLatest(
+      this.roundService.selectedRound$,
+      this.pairingService.pairings$,
+      (round: number, pairings: Pairing[]) => {
+        return pairings.filter((pairing: Pairing) => pairing.round === round);
+      }
+    );
     // this.totalNumOfRounds$ = roundService.totalNumOfRounds$;
     // this.canStartNextRound$ = combineLatest(
     //   roundService.rounds$,
@@ -65,6 +74,7 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.totalNumOfRoundsSub = this.roundService.totalNumOfRounds$.subscribe((totalNumOfRounds: number) => {
       this.totalNumOfRounds = totalNumOfRounds;
     });
+    this.pairingService.loadPairings();
   }
 
   ngOnDestroy() {
@@ -87,6 +97,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   onSelectedRoundChanged(selectedRound: number): void {
     this.roundService.updateSelectedRound(selectedRound);
     // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+  }
+
+  redoMatches(selectedRound: number): void {
+    this.pairingService.deletePairingsForRound(selectedRound);
   }
 
   // generatePairings(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
@@ -12,41 +12,33 @@ import {
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnInit {
+export class PairingsListComponent implements OnChanges, OnInit {
+  @Input() pairings: Pairing[];
+  @Input() selectedRound: number;
+  @Output() redoMatchesClicked = new EventEmitter<number>();
+
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
-  selectedPairing: Pairing;
-  selectedRound: number;
-  selectedRoundComplete = false;
-  selectedRoundHasSubmittedPairings = false;
+  // selectedPairing: Pairing;
+  // selectedRound: number;
+  // selectedRoundComplete = false;
+  // selectedRoundHasSubmittedPairings = false;
 
-  private pairings: Pairing[];
+  // private pairings: Pairing[];
 
   constructor(
-    private fb: FormBuilder,
-    private pairingService: PairingService,
-    private roundService: RoundService
+    private fb: FormBuilder
+    // private pairingService: PairingService,
+    // private roundService: RoundService
   ) {}
-
-  deleteResults() {
-    // this.pairings.forEach(pairing => {
-    //   pairing.player1Wins = 0;
-    //   pairing.player2Wins = 0;
-    //   pairing.draws = 0;
-    //   pairing.submitted = false;
-    // });
-
-    // this.pairingService.saveAndClearSelected();
-    // this.roundService.markRoundAsIncomplete(this.selectedRound);
-  }
 
   ngOnInit() {
     // Setup form.
-    // this.pairingsListForm = this.fb.group({
-    //   pairingsSearch: '',
-    //   showOutstandingOnly: true
-    // });
+    this.pairingsListForm = this.fb.group({
+      pairingsSearch: '',
+      showOutstandingOnly: true
+    });
 
     // // Subscribe to services.
     // this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
@@ -66,11 +58,30 @@ export class PairingsListComponent implements OnInit {
 
     // this.roundService.selectedRoundComplete.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
 
-    // // Filter pairings.
-    // this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
+    // Filter pairings.
+    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
+    this.filterPairings();
+  }
+
+  ngOnChanges() {
+    this.pairingsExist = this.pairings.length > 0;
+    this.filterPairings();
+  }
+
+  deleteResults() {
+    // this.pairings.forEach(pairing => {
+    //   pairing.player1Wins = 0;
+    //   pairing.player2Wins = 0;
+    //   pairing.draws = 0;
+    //   pairing.submitted = false;
+    // });
+
+    // this.pairingService.saveAndClearSelected();
+    // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   redoMatches() {
+    this.redoMatchesClicked.emit(this.selectedRound);
     // this.pairingService.deletePairings(this.selectedRound);
     // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }

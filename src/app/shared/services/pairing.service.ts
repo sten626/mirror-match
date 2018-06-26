@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Pairing, Player } from '../models';
 import { map, distinctUntilChanged } from 'rxjs/operators';
+import { Pairing, Player } from '../models';
 
 @Injectable()
 export class PairingService {
@@ -56,17 +56,33 @@ export class PairingService {
     this.next(this.pairings);
   }
 
+  deletePairingsForRound(round: number): void {
+    const newPairings = this.pairings.filter((pairing: Pairing) => pairing.round !== round);
+    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(newPairings));
+    this.next(newPairings);
+  }
+
+  // deletePairings(round: number): void {
+  //   const pairingsForRound = this.pairingsByRoundsMap[round];
+  //   delete this.pairingsByRoundsMap[round];
+  //   this._pairings = this._pairings.filter((pairing: Pairing) => {
+  //     return pairingsForRound.indexOf(pairing) === -1;
+  //   });
+  //   this.saveToLocalStorage();
+  //   this.pairingsSubject.next(this._pairings.slice());
+  // }
+
   /**
    * Get an observable of pairings for a given round.
    * @param round The round number to get pairings for.
    */
-  getPairingsForRound(round: number): Observable<Pairing[]> {
-    return this.pairingsSubject$.pipe(
-      map((pairings: Pairing[]) => {
-        return pairings.filter(p => p.round === round);
-      })
-    );
-  }
+  // getPairingsForRound(round: number): Observable<Pairing[]> {
+  //   return this.pairingsSubject$.pipe(
+  //     map((pairings: Pairing[]) => {
+  //       return pairings.filter(p => p.round === round);
+  //     })
+  //   );
+  // }
 
   /**
    * Loading pairings from storage.
@@ -311,15 +327,7 @@ export class PairingService {
   //   this.pairingsSubject.next(this._pairings.slice());
   // }
 
-  // deletePairings(round: number): void {
-  //   const pairingsForRound = this.pairingsByRoundsMap[round];
-  //   delete this.pairingsByRoundsMap[round];
-  //   this._pairings = this._pairings.filter((pairing: Pairing) => {
-  //     return pairingsForRound.indexOf(pairing) === -1;
-  //   });
-  //   this.saveToLocalStorage();
-  //   this.pairingsSubject.next(this._pairings.slice());
-  // }
+
 
   // saveAndClearSelected(): void {
   //   this.saveToLocalStorage();

@@ -1,3 +1,4 @@
 <mm-round-selection [rounds]="rounds$ | async" [selectedRound]="selectedRound$ | async"
     (createPairingsClicked)="createPairings($event)" (selectedRoundChanged)="onSelectedRoundChanged($event)"></mm-round-selection>
-<mm-pairings-list></mm-pairings-list>
+<mm-pairings-list [pairings]="pairingsForSelectedRound$ | async" [selectedRound]="selectedRound$ | async"
+  (redoMatchesClicked)="redoMatches($event)"></mm-pairings-list>
