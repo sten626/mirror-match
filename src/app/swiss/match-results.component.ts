@@ -1,22 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import {
-  Pairing,
-  PairingService,
-  PlayerService,
-  RoundService,
-  StandingsService
-} from '../shared';
+import { Pairing } from '../shared';
 
 @Component({
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
 export class MatchResultsComponent implements OnInit {
+  @Input() selectedPairing: Pairing;
+  @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
+
   matchResultsForm: FormGroup;
-  selectedPairing: Pairing;
   resultValid: boolean;
 
   private selectedRound: number;
@@ -24,20 +19,35 @@ export class MatchResultsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private pairingService: PairingService,
-    private playerService: PlayerService,
-    private roundService: RoundService,
-    private router: Router,
-    private standingsService: StandingsService
+    private router: Router
   ) {}
+
+  ngOnInit() {
+    this.createForm();
+
+    // // Subscribe to data.
+    // this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+    //   this.selectedPairing = pairing;
+    //   this.resetForm();
+    // });
+    // this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
+    //   this.selectedRoundComplete = complete;
+
+    //   if (complete) {
+    //     this.matchResultsForm.disable();
+    //   } else {
+    //     this.matchResultsForm.enable();
+    //   }
+    // });
+  }
 
   clearMatchResult() {
     this.selectedPairing.player1Wins = 0;
     this.selectedPairing.player2Wins = 0;
     this.selectedPairing.draws = 0;
     this.selectedPairing.submitted = false;
-    // this.pairingService.saveAndClearSelected();
-    // this.roundService.markRoundAsIncomplete(this.selectedRound);
+    this.clearMatchResultClicked.emit(this.selectedPairing);
   }
 
   incrementDraws() {
@@ -64,25 +74,7 @@ export class MatchResultsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    // this.createForm();
 
-    // // Subscribe to data.
-    // this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
-    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-    //   this.selectedPairing = pairing;
-    //   this.resetForm();
-    // });
-    // this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
-    //   this.selectedRoundComplete = complete;
-
-    //   if (complete) {
-    //     this.matchResultsForm.disable();
-    //   } else {
-    //     this.matchResultsForm.enable();
-    //   }
-    // });
-  }
 
   submit() {
     // const form = this.matchResultsForm;

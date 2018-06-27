@@ -15,12 +15,13 @@ import {
 export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
   @Input() selectedRound: number;
+  @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
   @Output() redoMatchesClicked = new EventEmitter<number>();
 
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
-  // selectedPairing: Pairing;
+  selectedPairing: Pairing;
   // selectedRound: number;
   // selectedRoundComplete = false;
   // selectedRoundHasSubmittedPairings = false;
@@ -68,6 +69,11 @@ export class PairingsListComponent implements OnChanges, OnInit {
     this.filterPairings();
   }
 
+  clearMatchResult(pairing: Pairing): void {
+    this.clearMatchResultClicked.emit(pairing);
+    this.selectedPairing = null;
+  }
+
   deleteResults() {
     // this.pairings.forEach(pairing => {
     //   pairing.player1Wins = 0;
@@ -99,7 +105,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    // this.pairingService.setSelectedPairing(pairing);
+    this.selectedPairing = pairing;
   }
 
   private filterPairings() {

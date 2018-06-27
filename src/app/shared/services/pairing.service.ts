@@ -97,6 +97,17 @@ export class PairingService {
     }
   }
 
+  /**
+   * Update a pairing in storage and emit the updated observable.
+   * @param pairing The pairing to update.
+   */
+  updatePairing(pairing: Pairing): void {
+    const pairings = this.pairings.map(p => p === pairing ? pairing : p);
+    // TODO: Move to indexedDB.
+    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairings));
+    this.next(pairings);
+  }
+
   private createRandomPairings(players: Player[], round: number): Pairing[] {
     let table = 1;
     players = this.shufflePlayers(players);

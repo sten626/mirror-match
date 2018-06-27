@@ -82,6 +82,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.totalNumOfRoundsSub.unsubscribe();
   }
 
+  clearMatchResult(pairing: Pairing): void {
+    this.pairingService.updatePairing(pairing);
+  }
+
   createNextRound(): void {
     const newRound = this.roundService.createNextRound();
   }
