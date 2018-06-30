@@ -1,4 +1,8 @@
 <mm-round-selection [rounds]="rounds$ | async" [selectedRound]="selectedRound$ | async"
     (createPairingsClicked)="createPairings($event)" (selectedRoundChanged)="onSelectedRoundChanged($event)"></mm-round-selection>
-<mm-pairings-list [pairings]="pairingsForSelectedRound$ | async" [selectedRound]="selectedRound$ | async"
-  (clearMatchResultClicked)="clearMatchResult($event)" (redoMatchesClicked)="redoMatches($event)"></mm-pairings-list>
+<mm-pairings-list [pairings]="pairingsForSelectedRound$ | async"
+  [selectedRound]="selectedRound$ | async"
+  (clearMatchResultClicked)="clearMatchResult($event)"
+  (pairingSubmitted)="onSubmitPairing($event)"
+  (playerChanged)="onPlayerChanged($event)"
+  (redoMatchesClicked)="redoMatches($event)"></mm-pairings-list>

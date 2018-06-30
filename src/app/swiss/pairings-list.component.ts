@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   Pairing,
   PairingService,
+  Player,
   RoundService
 } from '../shared';
 
@@ -16,6 +17,8 @@ export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
   @Input() selectedRound: number;
   @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
+  @Output() pairingSubmitted = new EventEmitter<Pairing>();
+  @Output() playerChanged = new EventEmitter<Player>();
   @Output() redoMatchesClicked = new EventEmitter<number>();
 
   filteredPairings: Pairing[];
@@ -86,8 +89,18 @@ export class PairingsListComponent implements OnChanges, OnInit {
     // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
+  onPlayerChanged(player: Player) {
+    this.playerChanged.emit(player);
+  }
+
+  onSubmitPairing(pairing: Pairing) {
+    this.pairingSubmitted.emit(pairing);
+    this.selectedPairing = null;
+  }
+
   redoMatches() {
     this.redoMatchesClicked.emit(this.selectedRound);
+    this.selectedPairing = null;
     // this.pairingService.deletePairings(this.selectedRound);
     // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }

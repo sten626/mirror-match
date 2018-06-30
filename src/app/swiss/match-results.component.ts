@@ -1,15 +1,17 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Pairing } from '../shared';
+import { Pairing, Player } from '../shared';
 
 @Component({
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
-export class MatchResultsComponent implements OnInit {
+export class MatchResultsComponent implements OnChanges, OnInit {
   @Input() selectedPairing: Pairing;
   @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
+  @Output() pairingSubmitted = new EventEmitter<Pairing>();
+  @Output() playerChanged = new EventEmitter<Player>();
 
   matchResultsForm: FormGroup;
   resultValid: boolean;
@@ -40,6 +42,12 @@ export class MatchResultsComponent implements OnInit {
     //     this.matchResultsForm.enable();
     //   }
     // });
+  }
+
+  ngOnChanges() {
+    if (this.matchResultsForm) {
+      this.resetForm();
+    }
   }
 
   clearMatchResult() {
@@ -77,38 +85,27 @@ export class MatchResultsComponent implements OnInit {
 
 
   submit() {
-    // const form = this.matchResultsForm;
-    // this.selectedPairing.player1Wins = form.get('player1Wins').value;
-    // this.selectedPairing.player2Wins = form.get('player2Wins').value;
-    // this.selectedPairing.draws = form.get('draws').value;
-    // this.selectedPairing.submitted = true;
-    // const player1 = this.selectedPairing.player1;
-    // const player2 = this.selectedPairing.player2;
-    // const player1Dropped = form.get('player1Dropped').value;
-    // const player2Dropped = form.get('player2Dropped').value;
-    // let shouldSavePlayers = false;
+    const form = this.matchResultsForm;
+    this.selectedPairing.player1Wins = form.get('player1Wins').value;
+    this.selectedPairing.player2Wins = form.get('player2Wins').value;
+    this.selectedPairing.draws = form.get('draws').value;
+    this.selectedPairing.submitted = true;
+    const player1 = this.selectedPairing.player1;
+    const player2 = this.selectedPairing.player2;
+    const player1Dropped = form.get('player1Dropped').value;
+    const player2Dropped = form.get('player2Dropped').value;
 
-    // if (player1.dropped !== player1Dropped) {
-    //   player1.dropped = player1Dropped;
-    //   shouldSavePlayers = true;
-    // }
+    if (player1.dropped !== player1Dropped) {
+      player1.dropped = player1Dropped;
+      this.playerChanged.emit(player1);
+    }
 
-    // if (player2.dropped !== player2Dropped) {
-    //   player2.dropped = player2Dropped;
-    //   shouldSavePlayers = true;
-    // }
+    if (player2.dropped !== player2Dropped) {
+      player2.dropped = player2Dropped;
+      this.playerChanged.emit(player2);
+    }
 
-    // if (shouldSavePlayers) {
-    //   this.playerService.saveAll();
-    // }
-
-    // this.pairingService.saveAndClearSelected();
-
-    // if (this.selectedRoundComplete) {
-    //   this.roundService.markRoundAsComplete(this.selectedRound);
-    //   this.standingsService.calculateStandings();
-    //   this.router.navigate(['/swiss/standings']);
-    // }
+    this.pairingSubmitted.emit(this.selectedPairing);
   }
 
   private createForm() {
@@ -142,9 +139,9 @@ export class MatchResultsComponent implements OnInit {
   private resetForm() {
     if (this.selectedPairing) {
       this.matchResultsForm.reset({
-        player1Wins: this.selectedPairing.player1Wins,
-        player2Wins: this.selectedPairing.player2Wins,
-        draws: this.selectedPairing.draws
+        player1Wins: this.selectedPairing.player1Wins || 0,
+        player2Wins: this.selectedPairing.player2Wins || 0,
+        draws: this.selectedPairing.draws || 0
       });
     } else {
       this.matchResultsForm.reset({

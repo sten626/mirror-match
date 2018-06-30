@@ -94,6 +94,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.pairingService.createPairings(this.activePlayers, selectedRound, selectedRound === this.totalNumOfRounds);
   }
 
+  onPlayerChanged(player: Player): void {
+    this.playerService.updatePlayer(player);
+  }
+
   /**
    * Update the currently selected round.
    * @param selectedRound The round being selected.
@@ -101,6 +105,17 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   onSelectedRoundChanged(selectedRound: number): void {
     this.roundService.updateSelectedRound(selectedRound);
     // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+  }
+
+  onSubmitPairing(pairing: Pairing): void {
+    this.pairingService.updatePairing(pairing);
+
+    // if (this.selectedRoundComplete) {
+    //   this.roundService.markRoundAsComplete(this.selectedRound);
+    //   this.standingsService.calculateStandings();
+    //   this.router.navigate(['/swiss/standings']);
+    // }
+    // TODO
   }
 
   redoMatches(selectedRound: number): void {
