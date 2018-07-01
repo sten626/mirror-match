@@ -7,7 +7,6 @@ import {
   PlayerService,
   RoundService
 } from '../shared';
-import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './swiss-pairings.component.html'
@@ -48,6 +47,7 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
         return pairings.filter((pairing: Pairing) => pairing.round === round);
       }
     );
+
     // this.totalNumOfRounds$ = roundService.totalNumOfRounds$;
     // this.canStartNextRound$ = combineLatest(
     //   roundService.rounds$,
