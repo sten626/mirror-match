@@ -82,8 +82,6 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     }
   }
 
-
-
   submit() {
     const form = this.matchResultsForm;
     this.selectedPairing.player1Wins = form.get('player1Wins').value;
@@ -141,7 +139,9 @@ export class MatchResultsComponent implements OnChanges, OnInit {
       this.matchResultsForm.reset({
         player1Wins: this.selectedPairing.player1Wins || 0,
         player2Wins: this.selectedPairing.player2Wins || 0,
-        draws: this.selectedPairing.draws || 0
+        draws: this.selectedPairing.draws || 0,
+        player1Dropped: this.selectedPairing.player1.dropped || false,
+        player2Dropped: this.selectedPairing.player2.dropped || false
       });
     } else {
       this.matchResultsForm.reset({

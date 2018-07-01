@@ -94,6 +94,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.pairingService.createPairings(this.activePlayers, selectedRound, selectedRound === this.totalNumOfRounds);
   }
 
+  deleteResults(selectedRound: number): void {
+    this.pairingService.clearResultsForRound(selectedRound);
+  }
+
   onPlayerChanged(player: Player): void {
     this.playerService.updatePlayer(player);
   }

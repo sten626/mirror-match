@@ -37,6 +37,22 @@ export class PairingService {
     );
   }
 
+  clearResultsForRound(round: number) {
+    const newPairings = this.pairings.map((pairing: Pairing) => {
+      if (pairing.round === round) {
+        pairing.player1Wins = 0;
+        pairing.player2Wins = 0;
+        pairing.draws = 0;
+        pairing.submitted = false;
+      }
+
+      return pairing;
+    });
+
+    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(newPairings));
+    this.next(newPairings);
+  }
+
   createPairings(players: Player[], round: number, isLastRound: boolean): void {
     if (players.length < 1) {
       throw new Error('Trying to create pairings with zero active players.');

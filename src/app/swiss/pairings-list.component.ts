@@ -17,6 +17,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
   @Input() selectedRound: number;
   @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
+  @Output() deleteResultsClicked = new EventEmitter<number>();
   @Output() pairingSubmitted = new EventEmitter<Pairing>();
   @Output() playerChanged = new EventEmitter<Player>();
   @Output() redoMatchesClicked = new EventEmitter<number>();
@@ -78,14 +79,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   deleteResults() {
-    // this.pairings.forEach(pairing => {
-    //   pairing.player1Wins = 0;
-    //   pairing.player2Wins = 0;
-    //   pairing.draws = 0;
-    //   pairing.submitted = false;
-    // });
-
-    // this.pairingService.saveAndClearSelected();
+    this.deleteResultsClicked.emit(this.selectedRound);
     // this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 

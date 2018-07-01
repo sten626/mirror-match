@@ -3,6 +3,7 @@
 <mm-pairings-list [pairings]="pairingsForSelectedRound$ | async"
   [selectedRound]="selectedRound$ | async"
   (clearMatchResultClicked)="clearMatchResult($event)"
+  (deleteResultsClicked)="deleteResults($event)"
   (pairingSubmitted)="onSubmitPairing($event)"
   (playerChanged)="onPlayerChanged($event)"
   (redoMatchesClicked)="redoMatches($event)"></mm-pairings-list>
