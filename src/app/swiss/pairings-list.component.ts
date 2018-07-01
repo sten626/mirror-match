@@ -27,7 +27,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   pairingsListForm: FormGroup;
   selectedPairing: Pairing;
   selectedRoundComplete = false;
-  // selectedRoundHasSubmittedPairings = false;
+  selectedRoundHasSubmittedPairings = false;
 
   // private pairings: Pairing[];
 
@@ -70,11 +70,17 @@ export class PairingsListComponent implements OnChanges, OnInit {
   ngOnChanges() {
     this.pairingsExist = this.pairings.length > 0;
     let selectedRoundComplete = true;
+    let selectedRoundHasSubmittedPairings = false;
 
     if (this.pairingsExist) {
       for (const pairing of this.pairings) {
-        if (!pairing.submitted) {
+        if (pairing.submitted) {
+          selectedRoundHasSubmittedPairings = true;
+        } else {
           selectedRoundComplete = false;
+        }
+
+        if (!selectedRoundComplete && selectedRoundHasSubmittedPairings) {
           break;
         }
       }
@@ -83,6 +89,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
     }
 
     this.selectedRoundComplete = selectedRoundComplete;
+    this.selectedRoundHasSubmittedPairings = selectedRoundHasSubmittedPairings;
     this.filterPairings();
   }
 
