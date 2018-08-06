@@ -7,6 +7,7 @@ import { Pairing, Player } from '../models';
 export class PairingService {
   readonly ongoingPairingsCount$: Observable<number>;
   readonly pairings$: Observable<Pairing[]>;
+  readonly submittedPairings$: Observable<Pairing[]>;
   // readonly pairings: Observable<Pairing[]>;
   // readonly selectedPairing: Observable<Pairing>;
   // readonly submittedPairings: Observable<Pairing[]>;
@@ -34,6 +35,12 @@ export class PairingService {
         return pairings.filter((pairing: Pairing) => !pairing.submitted).length;
       }),
       distinctUntilChanged()
+    );
+
+    this.submittedPairings$ = this.pairings$.pipe(
+      map((pairings: Pairing[]) => {
+        return pairings.filter((p: Pairing) => p.submitted);
+      })
     );
   }
 

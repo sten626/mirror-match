@@ -10,7 +10,7 @@
         <th>Game Win %</th>
         <th>Opponent Game Win %</th>
       </tr>
-      <tr *ngFor="let player of standings | async; let i = index;">
+      <tr *ngFor="let player of standings; let i = index;">
         <td>{{i + 1}}</td>
         <td>{{player.name}}</td>
         <td>{{player.matchPoints}}</td>

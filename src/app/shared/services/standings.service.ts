@@ -8,12 +8,12 @@ import { Pairing, Player } from '../models';
 
 @Injectable()
 export class StandingsService {
-  readonly standings: Observable<Player[]>;
+  // readonly standings: Observable<Player[]>;
 
-  private allSubmittedPairings: Pairing[];
-  private players: Player[];
-  private playersMap: {[id: number]: Player} = {};
-  private standingsSubject = new BehaviorSubject<Player[]>([]);
+  // private allSubmittedPairings: Pairing[];
+  // private players: Player[];
+  // private playersMap: {[id: number]: Player} = {};
+  // private standingsSubject = new BehaviorSubject<Player[]>([]);
 
   constructor(
     private pairingService: PairingService,
@@ -38,13 +38,21 @@ export class StandingsService {
     // this.calculateStandings();
   }
 
-  calculateStandings(): void {
-    if (this.players.length < 1) {
-      return;
+  /**
+   * Calculates all the tiebreakers and standings of all players.
+   * @param players An array of all players.
+   * @param submittedPairings An array of all pairings submitted so far.
+   * @returns Array of players ordered into standings.
+   */
+  getStandings(players: Player[], submittedPairings: Pairing[]): Player[] {
+    if (players.length < 1) {
+      return [];
     }
 
+    const playersById = {};
+
     // Reset match and game points.
-    this.players.forEach((player: Player) => {
+    players.forEach((player: Player) => {
       player.matchesPlayed = 0;
       player.matchesWon = 0;
       player.matchesDrawn = 0;
@@ -55,12 +63,14 @@ export class StandingsService {
       player.gamePoints = 0;
       player.byes = 0;
       player.opponentIds = [];
+      playersById[player.id] = player;
     });
 
     // Tally match and game points.
-    this.allSubmittedPairings.forEach((pairing: Pairing) => {
-      const player1 = pairing.player1;
-      const player2 = pairing.player2;
+    submittedPairings.forEach((pairing: Pairing) => {
+      // TODO: Stop storing actual player objects in pairings?
+      const player1 = playersById[pairing.player1.id];
+      const player2 = playersById[pairing.player2.id];
       const gamesPlayed = pairing.player1Wins + pairing.player2Wins + pairing.draws;
       player1.gamesPlayed += gamesPlayed;
       player1.gamesWon += pairing.player1Wins;
@@ -98,7 +108,7 @@ export class StandingsService {
     });
 
     // Calculate percentages.
-    this.players.forEach((player: Player) => {
+    players.forEach((player: Player) => {
       let oppMwpSum = 0;
       let oppGwpSum = 0;
 
@@ -110,7 +120,7 @@ export class StandingsService {
 
       if (player.opponentIds.length > 0) {
         player.opponentIds.forEach((oppId: number) => {
-          const opponent = this.playersMap[oppId];
+          const opponent = playersById[oppId];
           const opponentMwp = Math.max(opponent.matchPoints / (opponent.matchesPlayed * 3), 1 / 3);
           oppMwpSum += opponentMwp;
           const opponentGwp = Math.max(opponent.gamePoints / (opponent.gamesPlayed * 3), 1 / 3);
@@ -125,9 +135,8 @@ export class StandingsService {
       }
     });
 
-    // this.playerService.saveAll();
-
-    this.players.sort((a: Player, b: Player) => {
+    players.sort((a: Player, b: Player) => {
+      // TODO Revisit this sorting code.
       if (a.matchPoints > b.matchPoints) {
         return -1;
       } else if (a.matchPoints < b.matchPoints) {
@@ -164,7 +173,7 @@ export class StandingsService {
       return 0;
     });
 
-    this.standingsSubject.next(this.players.slice());
+    return players;
   }
 
   private sigFigs(num: number, numOfSigFigs: number): number {

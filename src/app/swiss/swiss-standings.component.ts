@@ -1,17 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { Player, StandingsService } from '../shared';
+import { Observable, combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Pairing, PairingService, Player, PlayerService, StandingsService } from '../shared';
 
 @Component({
   templateUrl: './swiss-standings.component.html'
 })
 export class SwissStandingsComponent implements OnInit {
-  standings: Observable<Player[]>;
+  standings: Player[];
 
-  constructor(private standingsService: StandingsService) {}
+  constructor(
+    private pairingService: PairingService,
+    private playerService: PlayerService,
+    private standingsService: StandingsService
+  ) {}
 
   ngOnInit() {
-    this.standings = this.standingsService.standings;
+    this.playerService.loadPlayers();
+    this.pairingService.loadPairings();
+    combineLatest(this.playerService.players$,
+      this.pairingService.submittedPairings$
+    ).subscribe(([players, pairings]) => {
+      this.standings = this.standingsService.getStandings(players, pairings);
+    });
   }
 }
