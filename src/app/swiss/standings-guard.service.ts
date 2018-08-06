@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { RoundService } from '../shared';
-
 
 @Injectable()
 export class StandingsGuard implements CanActivate {
@@ -12,14 +12,15 @@ export class StandingsGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return of(true);
-    // return this.roundService.hasCompletedRounds.pipe(map((hasCompletedRounds: boolean) => {
-    //   if (hasCompletedRounds) {
-    //     return true;
-    //   }
+    return this.roundService.hasCompletedRounds$.pipe(
+      map((hasCompletedRounds: boolean) => {
+        if (hasCompletedRounds) {
+          return true;
+        }
 
-    //   this.router.navigate(['/swiss/pairings']);
-    //   return false;
-    // }));
+        this.router.navigate(['/swiss/pairings']);
+        return false;
+      })
+    );
   }
 }

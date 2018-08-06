@@ -9,6 +9,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 export class RoundService {
   readonly completedRounds$: Observable<number[]>;
   readonly currentRound$: Observable<number>;
+  readonly hasCompletedRounds$: Observable<boolean>;
   readonly isTournamentStarted$: Observable<boolean>;
   readonly latestCompletedRound$: Observable<number | string>;
   readonly rounds$: Observable<number[]>;
@@ -61,6 +62,9 @@ export class RoundService {
     this.currentRound$ = this.rounds$.pipe(
       map((rounds: number[]) => rounds[rounds.length - 1]),
       distinctUntilChanged()
+    );
+    this.hasCompletedRounds$ = this.completedRounds$.pipe(
+      map((completedRounds: number[]) => completedRounds.length > 0)
     );
     this.isTournamentStarted$ = this.rounds$.pipe(
       map((rounds: number[]) => rounds.length > 0),
