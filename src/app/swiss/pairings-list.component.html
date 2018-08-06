@@ -61,6 +61,7 @@
   </div>
 </div>
 <mm-match-results [selectedPairing]="selectedPairing"
+  [selectedRoundComplete]="selectedRoundComplete"
   (clearMatchResultClicked)="clearMatchResult($event)"
   (pairingSubmitted)="onSubmitPairing($event)"
   (playerChanged)="onPlayerChanged($event)"></mm-match-results>

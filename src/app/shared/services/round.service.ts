@@ -194,18 +194,19 @@ export class RoundService {
     this.nextTotalNumOfRounds(totalNumOfRounds);
   }
 
-  setTotalNumOfRounds(numOfRounds: number): void {
-    // TODO validation.
-    this.nextTotalNumOfRounds(numOfRounds);
-    localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(numOfRounds));
-  }
+  markRoundAsComplete(round: number): void {
+    if (!round || round < 1) {
+      return;
+    }
 
-  /**
-   * Update the currently selected round.
-   * @param selectedRound The round being selected.
-   */
-  updateSelectedRound(selectedRound: number): void {
-    this.selectedRoundSubject$.next(selectedRound);
+    if (this.completedRounds.indexOf(round) !== -1) {
+      return;
+    }
+
+    const newCompletedRounds = this.completedRounds.slice();
+    newCompletedRounds.push(round);
+    localStorage.setItem(this.lsKeys.completedRounds, JSON.stringify(newCompletedRounds));
+    this.nextCompletedRounds(newCompletedRounds);
   }
 
   // markRoundAsComplete(round: number): void {
@@ -241,6 +242,24 @@ export class RoundService {
   //   this.saveToLocalStorage();
   //   this.completedRoundsSubject.next(this._completedRounds.slice());
   // }
+
+  setTotalNumOfRounds(numOfRounds: number): void {
+    // TODO validation.
+    this.nextTotalNumOfRounds(numOfRounds);
+    localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(numOfRounds));
+  }
+
+  /**
+   * Update the currently selected round.
+   * @param selectedRound The round being selected.
+   */
+  updateSelectedRound(selectedRound: number): void {
+    this.selectedRoundSubject$.next(selectedRound);
+  }
+
+
+
+
 
   // setSelectedRound(selectedRound: number): void {
   //   this._selectedRound = selectedRound;

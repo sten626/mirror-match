@@ -9,15 +9,13 @@ import { Pairing, Player } from '../shared';
 })
 export class MatchResultsComponent implements OnChanges, OnInit {
   @Input() selectedPairing: Pairing;
+  @Input() selectedRoundComplete: boolean;
   @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
   @Output() pairingSubmitted = new EventEmitter<Pairing>();
   @Output() playerChanged = new EventEmitter<Player>();
 
   matchResultsForm: FormGroup;
   resultValid: boolean;
-
-  private selectedRound: number;
-  private selectedRoundComplete = false;
 
   constructor(
     private fb: FormBuilder,

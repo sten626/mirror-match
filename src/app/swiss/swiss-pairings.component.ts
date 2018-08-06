@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, combineLatest, Subscription } from 'rxjs';
 import {
   Pairing,
@@ -34,7 +35,8 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   constructor(
     private pairingService: PairingService,
     private playerService: PlayerService,
-    private roundService: RoundService
+    private roundService: RoundService,
+    private router: Router
   ) {
     this.rounds$ = this.roundService.rounds$;
     this.selectedRound$ = this.roundService.selectedRound$;
@@ -96,6 +98,11 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
 
   deleteResults(selectedRound: number): void {
     this.pairingService.clearResultsForRound(selectedRound);
+  }
+
+  onLastPairingSubmitted(round: number): void {
+    this.roundService.markRoundAsComplete(round);
+    this.router.navigate(['/swiss/standings']);
   }
 
   onPlayerChanged(player: Player): void {
