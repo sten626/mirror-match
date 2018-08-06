@@ -14,14 +14,15 @@ export class TournamentStartedGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return of(true);
-    // return this.roundService.hasBegunTournament.pipe(map((hasBegun: boolean) => {
-    //   if (hasBegun) {
-    //     return true;
-    //   }
+    return this.roundService.isTournamentStarted$.pipe(
+      map((hasBegun: boolean) => {
+        if (hasBegun) {
+          return true;
+        }
 
-    //   this.router.navigate(['/swiss/players']);
-    //   return false;
-    // }));
+        this.router.navigate(['/swiss/players']);
+        return false;
+      }
+    ));
   }
 }
