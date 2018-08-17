@@ -18,7 +18,6 @@ export class PairingsListComponent implements OnChanges, OnInit {
   @Input() selectedRound: number;
   @Output() clearMatchResultClicked = new EventEmitter<Pairing>();
   @Output() deleteResultsClicked = new EventEmitter<number>();
-  @Output() lastPairingSubmitted = new EventEmitter<number>();
   @Output() pairingSubmitted = new EventEmitter<Pairing>();
   @Output() playerChanged = new EventEmitter<Player>();
   @Output() redoMatchesClicked = new EventEmitter<number>();
@@ -87,11 +86,6 @@ export class PairingsListComponent implements OnChanges, OnInit {
       }
     } else {
       selectedRoundComplete = false;
-    }
-
-    if (selectedRoundComplete && !this.selectedRoundComplete) {
-      this.lastPairingSubmitted.emit(this.selectedRound);
-      return;
     }
 
     this.selectedRoundComplete = selectedRoundComplete;

@@ -12,7 +12,7 @@
           <li role="presentation" routerLinkActive="active" *ngIf="isTournamentStarted$ | async">
             <a routerLink="/swiss/pairings">Pairings</a>
           </li>
-          <li role="presentation" routerLinkActive="active" *ngIf="hasCompletedRounds">
+          <li role="presentation" routerLinkActive="active" *ngIf="hasCompletedRounds$ | async">
             <a routerLink="/swiss/standings">Standings</a>
           </li>
         </ul>

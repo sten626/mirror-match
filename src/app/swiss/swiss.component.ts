@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class SwissComponent implements OnInit {
   messages: Message[] = [];
-  hasCompletedRounds = false;
+  hasCompletedRounds$: Observable<boolean>;
   isTournamentStarted$: Observable<boolean>;
   numberOfActivePlayers: number;
 
@@ -17,6 +17,7 @@ export class SwissComponent implements OnInit {
     private playerService: PlayerService,
     private roundService: RoundService
   ) {
+    this.hasCompletedRounds$ = roundService.hasCompletedRounds$;
     this.isTournamentStarted$ = roundService.isTournamentStarted$;
   }
 
@@ -24,8 +25,6 @@ export class SwissComponent implements OnInit {
     this.messageService.messages.subscribe((message: Message) => {
       this.messages.push(message);
     });
-    // this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasTournamentBegun = hasBegun);
-    // this.roundService.hasCompletedRounds.subscribe((hasCompletedRounds: boolean) => this.hasCompletedRounds = hasCompletedRounds);
     // this.playerService.numberOfActivePlayers.subscribe((numPlayers: number) => this.numberOfActivePlayers = numPlayers);
   }
 

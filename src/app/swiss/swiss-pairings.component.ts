@@ -22,6 +22,8 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
 
   private activePlayers: Player[] = [];
   private activePlayersSub: Subscription;
+  private allPairingsSubmitted = false;
+  private pairingsSub: Subscription;
   private totalNumOfRounds: number;
   private totalNumOfRoundsSub: Subscription;
 
@@ -77,10 +79,24 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
       this.totalNumOfRounds = totalNumOfRounds;
     });
     this.pairingService.loadPairings();
+
+    this.pairingsSub = this.pairingsForSelectedRound$.subscribe((pairings: Pairing[]) => {
+      let allSubmitted = true;
+
+      for (const pairing of pairings) {
+        if (!pairing.submitted) {
+          allSubmitted = false;
+          break;
+        }
+      }
+
+      this.allPairingsSubmitted = allSubmitted;
+    });
   }
 
   ngOnDestroy() {
     this.activePlayersSub.unsubscribe();
+    this.pairingsSub.unsubscribe();
     this.totalNumOfRoundsSub.unsubscribe();
   }
 
@@ -100,10 +116,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.pairingService.clearResultsForRound(selectedRound);
   }
 
-  onLastPairingSubmitted(round: number): void {
-    this.roundService.markRoundAsComplete(round);
-    this.router.navigate(['/swiss/standings']);
-  }
+  // onLastPairingSubmitted(round: number): void {
+  //   this.roundService.markRoundAsComplete(round);
+  //   this.router.navigate(['/swiss/standings']);
+  // }
 
   onPlayerChanged(player: Player): void {
     this.playerService.updatePlayer(player);
@@ -118,15 +134,13 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
   }
 
-  onSubmitPairing(pairing: Pairing): void {
-    this.pairingService.updatePairing(pairing);
+  onSubmitPairing(pairing: Pairing, round: number): void {
+    const allPairingsSubmitted = this.pairingService.submitPairing(pairing);
 
-    // if (this.selectedRoundComplete) {
-    //   this.roundService.markRoundAsComplete(this.selectedRound);
-    //   this.standingsService.calculateStandings();
-    //   this.router.navigate(['/swiss/standings']);
-    // }
-    // TODO
+    if (allPairingsSubmitted) {
+      this.roundService.markRoundAsComplete(round);
+      this.router.navigate(['/swiss/standings']);
+    }
   }
 
   redoMatches(selectedRound: number): void {

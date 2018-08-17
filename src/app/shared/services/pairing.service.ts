@@ -120,6 +120,22 @@ export class PairingService {
     }
   }
 
+  submitPairing(pairing: Pairing): boolean {
+    this.updatePairing(pairing);
+    const round = pairing.round;
+    const pairings = this.pairings.filter((p: Pairing) => {
+      return p.round = round;
+    });
+
+    for (const p of pairings) {
+      if (!p.submitted) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   /**
    * Update a pairing in storage and emit the updated observable.
    * @param pairing The pairing to update.
