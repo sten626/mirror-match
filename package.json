@@ -1,6 +1,6 @@
 {
   "name": "mirror-match",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
@@ -44,7 +44,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "^5.2.0",
+    "protractor": "^5.4.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "typescript": "~2.4.2"
