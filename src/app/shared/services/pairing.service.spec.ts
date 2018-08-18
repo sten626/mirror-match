@@ -68,7 +68,7 @@ describe('PairingService', () => {
     });
   });
 
-  it('#createPairings test bad case change this name', () => {
+  it('#createPairings test giving bye to wrong player', () => {
     const playerA = new Player({
       id: 1,
       name: 'A',
@@ -152,6 +152,85 @@ describe('PairingService', () => {
       const lastPairing = pairings[pairings.length - 1];
       expect(lastPairing.player2).toBeNull();
       expect(lastPairing.player1).toBe(playerF);
+    });
+  });
+
+  it('#createPairings fail to pair last round.', () => {
+    const playerA = new Player({
+      id: 1,
+      name: 'A',
+      opponentIds: [3, 6],
+      matchesPlayed: 2,
+      matchesWon: 1,
+      matchPoints: 3,
+      opponentMatchWinPercentage: 75,
+      gameWinPercentage: 50,
+      opponentGameWinPercentage: 75
+    });
+    const playerB = new Player({
+      id: 2,
+      name: 'B',
+      opponentIds: [4, 5],
+      matchesPlayed: 2,
+      matchesWon: 2,
+      matchPoints: 6,
+      opponentMatchWinPercentage: 33.3333,
+      gameWinPercentage: 100,
+      opponentGameWinPercentage: 33.3333
+    });
+    const playerC = new Player({
+      id: 3,
+      name: 'C',
+      opponentIds: [1, 4],
+      matchesPlayed: 2,
+      matchesWon: 1,
+      matchPoints: 3,
+      opponentMatchWinPercentage: 41.6667,
+      gameWinPercentage: 50,
+      opponentGameWinPercentage: 41.6667
+    });
+    const playerD = new Player({
+      id: 4,
+      name: 'D',
+      opponentIds: [2, 3],
+      matchesPlayed: 2,
+      matchesWon: 0,
+      matchPoints: 0,
+      opponentMatchWinPercentage: 75,
+      gameWinPercentage: 0,
+      opponentGameWinPercentage: 75
+    });
+    const playerE = new Player({
+      id: 5,
+      name: 'E',
+      opponentIds: [6, 2],
+      matchesPlayed: 2,
+      matchesWon: 0,
+      matchPoints: 0,
+      opponentMatchWinPercentage: 100,
+      gameWinPercentage: 0,
+      opponentGameWinPercentage: 100
+    });
+    const playerF = new Player({
+      id: 6,
+      name: 'F',
+      opponentIds: [1, 5],
+      matchesPlayed: 2,
+      matchesWon: 2,
+      matchPoints: 6,
+      opponentMatchWinPercentage: 41.6667,
+      gameWinPercentage: 100,
+      opponentGameWinPercentage: 41.6667
+    });
+    const players = [playerA, playerE, playerD, playerC, playerB, playerF];
+    const playersSubject = new BehaviorSubject<Player[]>(players);
+    const fakePlayerService = {
+      activePlayers: playersSubject.asObservable()
+    };
+    pairingService = new PairingService(fakePlayerService as PlayerService);
+    pairingService.createPairings(3, true);
+    pairingService.pairings.subscribe((pairings: Pairing[]) => {
+      expect(pairings.length).toBe(3);
     });
   });
 });

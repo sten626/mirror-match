@@ -148,34 +148,13 @@ export class PairingService {
     }
 
     const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-    let assignedPlayersCount = 0;
     const assignedPlayers = {};
     const playersById = {};
 
-    for (const player of players) {
-      const playerId = player.id;
-      playersById[playerId] = player;
-      if (!(playerId in assignedPlayers) && playerPreferenceMap[playerId].length > 0) {
-        let assignedOppId: number = null;
+    players.forEach(p => playersById[p.id] = p);
+    const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
 
-        for (const oppId of playerPreferenceMap[playerId]) {
-          if (!(oppId in assignedPlayers)) {
-            assignedOppId = oppId;
-            break;
-          }
-        }
-
-        if (!assignedOppId) {
-          continue;
-        }
-
-        assignedPlayers[playerId] = assignedOppId;
-        assignedPlayers[assignedOppId] = playerId;
-        assignedPlayersCount += 2;
-      }
-    }
-
-    if (assignedPlayersCount >= players.length) {
+    if (result) {
       // Everyone was paired.
       const pairings = [];
       let table = 1;
@@ -207,12 +186,7 @@ export class PairingService {
 
       return pairings;
     } else {
-      // Bad matching. Try again.
-      if (needsBye) {
-        players.push(playerForBye);
-      }
-
-      return this.createWeaklyStablePairings(players, round, isLastRound);
+      throw new Error('Pairings went terribly wrong.');
     }
   }
 
@@ -247,6 +221,54 @@ export class PairingService {
       this._pairings = [];
       localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this._pairings));
     }
+  }
+
+  /**
+   * Recursive function for pairing players. Removes players from players list and updated assignedPlayers in place.
+   * @param players List of players that still need to be paired.
+   * @param playerPreferenceMap The map of lists of player pairing preferences.
+   * @param assignedPlayers A mapping of players that have been paired.
+   * @returns True if players given have been paired successfully, false otherwise.
+   */
+  private pairPlayers(
+    players: Player[],
+    playerPreferenceMap: {[playerId: number]: number[]},
+    assignedPlayers: {[playerId: number]: number}
+  ): boolean {
+    if (players.length === 0) {
+      return true;
+    }
+
+    const player = players.shift();
+    const playerId = player.id;
+
+    if (!(playerId in assignedPlayers)) {
+      const playersPreferenceList = playerPreferenceMap[playerId];
+
+      for (const oppId of playersPreferenceList) {
+        if (!(oppId in assignedPlayers)) {
+          assignedPlayers[playerId] = oppId;
+          assignedPlayers[oppId] = playerId;
+          const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+
+          if (result) {
+            return result;
+          }
+
+          delete assignedPlayers[playerId];
+          delete assignedPlayers[oppId];
+        }
+      }
+    } else {
+      const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    players.unshift(player);
+    return false;
   }
 
   private saveToLocalStorage() {

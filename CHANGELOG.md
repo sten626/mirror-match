@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+<<<<<<< HEAD
 ## [Unreleased]
 ### Changed
 - Updated dependencies.
@@ -12,7 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - rxjs to 6.2.0
   - typescript to 2.7.2
 
-## [1.0.0-beta.3] -  2018-06-08
+## [1.0.0-beta.4] - 2018-08-17
+### Fixed
+- Bug where the app would sometimes crash when pairing the last round.
+
+## [1.0.0-beta.3] - 2018-06-08
 ### Added
 - "New window" icon on the version number link to the change log.
 - Unit tests for the PlayerService.
