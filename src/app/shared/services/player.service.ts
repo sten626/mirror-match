@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map} from 'rxjs/operators';
 
 import { Player } from '../models';
+import { IndexedDbService } from './indexedDb.service';
 
 @Injectable()
 export class PlayerService {
@@ -18,6 +19,7 @@ export class PlayerService {
   private players: Player[];
   private playersLookup = {};
   private playersSubject = new BehaviorSubject<Player[]>([]);
+  // TODO move selected player to the component level.
   private selectedPlayer: Player;
   private selectedPlayerSubject = new BehaviorSubject<Player>(new Player());
 
@@ -25,7 +27,7 @@ export class PlayerService {
     players: 'players'
   };
 
-  constructor() {
+  constructor(private indexedDbService: IndexedDbService) {
     this.loadFromLocalStorage();
 
     // Setup Observables.
