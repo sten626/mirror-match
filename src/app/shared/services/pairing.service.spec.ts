@@ -14,7 +14,7 @@ describe('PairingService', () => {
   it('#createPairings should give error with 0 players', () => {
     const fakeSubject = new BehaviorSubject<Player[]>([]);
     const fakePlayerService = {
-      activePlayers: fakeSubject.asObservable()
+      activePlayers$: fakeSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     const createPairings = function() {
@@ -31,7 +31,7 @@ describe('PairingService', () => {
 
     const fakeSubject = new BehaviorSubject<Player[]>([player]);
     const fakePlayerService = {
-      activePlayers: fakeSubject.asObservable()
+      activePlayers$: fakeSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(1, false);
@@ -55,7 +55,7 @@ describe('PairingService', () => {
     const fakeActivePlayers = [player1, player2];
     const fakeSubject = new BehaviorSubject<Player[]>(fakeActivePlayers);
     const fakePlayerService = {
-      activePlayers: fakeSubject.asObservable()
+      activePlayers$: fakeSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(1, false);
@@ -143,7 +143,7 @@ describe('PairingService', () => {
     const players = [playerA, playerE, playerD, playerC, playerG, playerH, playerB, playerI, playerF];
     const playersSubject = new BehaviorSubject<Player[]>(players);
     const fakePlayerService = {
-      activePlayers: playersSubject.asObservable()
+      activePlayers$: playersSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(3, false);
@@ -225,7 +225,7 @@ describe('PairingService', () => {
     const players = [playerA, playerE, playerD, playerC, playerB, playerF];
     const playersSubject = new BehaviorSubject<Player[]>(players);
     const fakePlayerService = {
-      activePlayers: playersSubject.asObservable()
+      activePlayers$: playersSubject.asObservable()
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(3, true);

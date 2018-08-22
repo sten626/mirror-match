@@ -40,7 +40,7 @@ describe('StandingsService', () => {
   it('#calculateStandings should do nothing if there aren\'t any players', () => {
     const playersSubject = new BehaviorSubject<Player[]>([]);
     const fakePlayerService = {
-      players: playersSubject.asObservable()
+      players$: playersSubject.asObservable()
     };
     const submittedPairingsSubject = new BehaviorSubject<Pairing[]>([]);
     const fakePairingService = {
@@ -54,7 +54,7 @@ describe('StandingsService', () => {
   it('#calculateStandings should round tiebreakers correctly', () => {
     const playersSubject = new BehaviorSubject<Player[]>(players);
     const fakePlayerService = {
-      players: playersSubject.asObservable(),
+      players$: playersSubject.asObservable(),
       saveAll: () => {}
     };
     const submittedPairingsSubject = new BehaviorSubject<Pairing[]>(pairings);
