@@ -21,7 +21,7 @@ export class StandingsService {
   ) {
     this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
 
-    this.playerService.players.subscribe((players: Player[]) => {
+    this.playerService.players$.subscribe((players: Player[]) => {
       this.players = players.slice();
 
       // Create map of players by ID.

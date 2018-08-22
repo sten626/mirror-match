@@ -26,7 +26,7 @@ export class SwissPlayerFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.playerService.selectedPlayer.subscribe(player => {
+    this.playerService.selectedPlayer$.subscribe(player => {
       this.currentPlayer = player;
       this.swissPlayerForm.reset({
         name: this.currentPlayer.name

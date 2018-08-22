@@ -38,7 +38,7 @@ export class SwissPlayersStartComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.playerService.recommendedNumberOfRounds.subscribe(numRounds => {
+    this.playerService.recommendedNumberOfRounds$.subscribe(numRounds => {
       this.numberOfRounds = numRounds;
       this.swissPlayersStartForm.reset({
         numberOfRounds: this.numberOfRounds

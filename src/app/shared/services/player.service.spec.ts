@@ -36,14 +36,14 @@ describe('PlayerService', () => {
 
     service.save(player1);
 
-    let subscription = service.players.subscribe((players: Player[]) => {
+    let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
     });
 
     subscription.unsubscribe();
     service.delete(player2);
 
-    subscription = service.players.subscribe((players: Player[]) => {
+    subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
       expect(players[0].name).toBe('Steven');
     });
@@ -56,14 +56,14 @@ describe('PlayerService', () => {
 
     service.save(player);
 
-    let subscription = service.players.subscribe((players: Player[]) => {
+    let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
     });
 
     subscription.unsubscribe();
     service.delete(player);
 
-    subscription = service.players.subscribe((players: Player[]) => {
+    subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(0);
     });
   });
@@ -80,14 +80,14 @@ describe('PlayerService', () => {
     service.save(player1);
     service.save(player2);
 
-    let subscription = service.players.subscribe((players: Player[]) => {
+    let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(2);
     });
 
     subscription.unsubscribe();
     service.delete(player1);
 
-    subscription = service.players.subscribe((players: Player[]) => {
+    subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
       expect(players[0].name).toBe('Esther');
     });
@@ -102,7 +102,7 @@ describe('PlayerService', () => {
   });
 
   it('#save should add a new player to active players', () => {
-    let subscription = service.players.subscribe((players: Player[]) => {
+    let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(0);
     });
 
@@ -114,7 +114,7 @@ describe('PlayerService', () => {
 
     service.save(player);
 
-    subscription = service.players.subscribe((players: Player[]) => {
+    subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
       const savedPlayer = players[0];
       expect(savedPlayer.name).toBe('Steven');

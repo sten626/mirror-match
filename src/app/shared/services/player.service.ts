@@ -6,19 +6,19 @@ import { Player } from '../models';
 
 @Injectable()
 export class PlayerService {
-  readonly activePlayers: Observable<Player[]>; // Players who haven't dropped.
-  readonly numberOfActivePlayers: Observable<number>;
-  readonly numberOfDroppedPlayers: Observable<number>;
-  readonly numberOfPlayers: Observable<number>;
-  readonly players: Observable<Player[]>;
-  readonly recommendedNumberOfRounds: Observable<number>;
-  readonly selectedPlayer: Observable<Player>;
+  readonly activePlayers$: Observable<Player[]>; // Players who haven't dropped.
+  readonly numberOfActivePlayers$: Observable<number>;
+  readonly numberOfDroppedPlayers$: Observable<number>;
+  readonly numberOfPlayers$: Observable<number>;
+  readonly players$: Observable<Player[]>;
+  readonly recommendedNumberOfRounds$: Observable<number>;
+  readonly selectedPlayer$: Observable<Player>;
 
   private nextId: number;
-  private _players: Player[];
+  private players: Player[];
   private playersLookup = {};
   private playersSubject = new BehaviorSubject<Player[]>([]);
-  private _selectedPlayer: Player;
+  private selectedPlayer: Player;
   private selectedPlayerSubject = new BehaviorSubject<Player>(new Player());
 
   private readonly lsKeys = {
@@ -29,28 +29,30 @@ export class PlayerService {
     this.loadFromLocalStorage();
 
     // Setup Observables.
-    this.players = this.playersSubject.asObservable().pipe(distinctUntilChanged());
-    this.activePlayers = this.players.pipe(
+    this.players$ = this.playersSubject.asObservable().pipe(distinctUntilChanged());
+    this.activePlayers$ = this.players$.pipe(
       map((players: Player[]) => {
         return players.filter((player: Player) => !player.dropped);
       }),
       distinctUntilChanged()
     );
-    this.numberOfActivePlayers = this.activePlayers.pipe(
+    this.numberOfActivePlayers$ = this.activePlayers$.pipe(
       map((players: Player[]) => players.length),
       distinctUntilChanged()
     );
-    this.numberOfPlayers = this.players.pipe(map((players: Player[]) => players.length), distinctUntilChanged());
-    this.recommendedNumberOfRounds = this.numberOfPlayers.pipe(map(num => Math.max(3, Math.ceil(Math.log2(num)))), distinctUntilChanged());
-    this.selectedPlayer = this.selectedPlayerSubject.asObservable().pipe(distinctUntilChanged());
-    this.numberOfDroppedPlayers = this.players.pipe(
+    this.numberOfPlayers$ = this.players$.pipe(map((players: Player[]) => players.length), distinctUntilChanged());
+    this.recommendedNumberOfRounds$ = this.numberOfPlayers$.pipe(
+      map(num => Math.max(3, Math.ceil(Math.log2(num)))), distinctUntilChanged()
+    );
+    this.selectedPlayer$ = this.selectedPlayerSubject.asObservable().pipe(distinctUntilChanged());
+    this.numberOfDroppedPlayers$ = this.players$.pipe(
       map((players: Player[]) => {
         const droppedPlayers = players.filter((player: Player) => player.dropped);
         return droppedPlayers.length;
       })
     );
 
-    this.playersSubject.next(this._players.slice());
+    this.playersSubject.next(this.players.slice());
   }
 
   delete(player: Player): void {
@@ -58,21 +60,21 @@ export class PlayerService {
       throw new TypeError('Can\'t delete when no player given.');
     }
 
-    const playerIndex = this._players.indexOf(player);
+    const playerIndex = this.players.indexOf(player);
 
     if (playerIndex < 0) {
       return;
     }
 
-    this._players.splice(playerIndex, 1);
+    this.players.splice(playerIndex, 1);
     this.saveToLocalStorage();
 
-    if (player === this._selectedPlayer) {
-      this._selectedPlayer = new Player();
-      this.selectedPlayerSubject.next(this._selectedPlayer);
+    if (player === this.selectedPlayer) {
+      this.selectedPlayer = new Player();
+      this.selectedPlayerSubject.next(this.selectedPlayer);
     }
 
-    this.playersSubject.next(this._players.slice());
+    this.playersSubject.next(this.players.slice());
   }
 
   get(id: number): Player {
@@ -91,27 +93,27 @@ export class PlayerService {
     if (!player.id) {
       // New player.
       player.id = this.nextId++;
-      this._players.push(player);
+      this.players.push(player);
     }
 
     // TODO: Save existing players?
     this.saveToLocalStorage();
-    this.playersSubject.next(this._players.slice());
+    this.playersSubject.next(this.players.slice());
   }
 
   saveAll(): void {
     this.saveToLocalStorage();
-    this.playersSubject.next(this._players.slice());
+    this.playersSubject.next(this.players.slice());
   }
 
   setSelectedPlayer(player: Player): void {
-    this._selectedPlayer = player;
-    this.selectedPlayerSubject.next(this._selectedPlayer);
+    this.selectedPlayer = player;
+    this.selectedPlayerSubject.next(this.selectedPlayer);
   }
 
   private initNextId() {
-    if (this._players.length > 0) {
-      const ids = this._players.map(player => player.id);
+    if (this.players.length > 0) {
+      const ids = this.players.map(player => player.id);
       this.nextId = Math.max(...ids) + 1;
     } else {
       this.nextId = 1;
@@ -123,20 +125,20 @@ export class PlayerService {
 
     if (playersData) {
       const playersRawArray = JSON.parse(playersData);
-      this._players = playersRawArray.map(rawPlayer => {
+      this.players = playersRawArray.map(rawPlayer => {
         const player = new Player(rawPlayer);
         this.playersLookup[rawPlayer.id] = player;
         return player;
       });
     } else {
-      this._players = [];
-      localStorage.setItem(this.lsKeys.players, JSON.stringify(this._players));
+      this.players = [];
+      localStorage.setItem(this.lsKeys.players, JSON.stringify(this.players));
     }
 
     this.initNextId();
   }
 
   private saveToLocalStorage() {
-    localStorage.setItem(this.lsKeys.players, JSON.stringify(this._players));
+    localStorage.setItem(this.lsKeys.players, JSON.stringify(this.players));
   }
 }

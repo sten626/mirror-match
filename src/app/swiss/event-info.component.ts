@@ -33,9 +33,9 @@ export class EventInfoComponent implements OnInit {
     this.roundService.outstandingPairingsForCurrentRound.subscribe((pairings: Pairing[]) => this.ongoingMatches = pairings.length);
 
     // Subscriptions for Players section.
-    this.playerService.numberOfPlayers.subscribe((numberOfPlayers: number) => this.totalPlayers = numberOfPlayers);
-    this.playerService.numberOfActivePlayers.subscribe((numberOfPlayers: number) => this.activePlayers = numberOfPlayers);
-    this.playerService.numberOfDroppedPlayers.subscribe((numberOfPlayers: number) => this.droppedPlayers = numberOfPlayers);
+    this.playerService.numberOfPlayers$.subscribe((numberOfPlayers: number) => this.totalPlayers = numberOfPlayers);
+    this.playerService.numberOfActivePlayers$.subscribe((numberOfPlayers: number) => this.activePlayers = numberOfPlayers);
+    this.playerService.numberOfDroppedPlayers$.subscribe((numberOfPlayers: number) => this.droppedPlayers = numberOfPlayers);
   }
 
   cancelEndEvent(): void {
