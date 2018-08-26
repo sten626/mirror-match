@@ -30,7 +30,7 @@ export class SwissPlayerListComponent implements OnInit {
   }
 
   deletePlayer(player: Player) {
-    this.playerService.delete(player);
+    this.playerService.deletePlayer(player);
   }
 
   selectPlayer(player: Player) {

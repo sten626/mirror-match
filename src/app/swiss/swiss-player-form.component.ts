@@ -63,13 +63,13 @@ export class SwissPlayerFormComponent implements OnInit {
     }
 
     this.updatePlayer();
-    this.playerService.save(this.currentPlayer);
+    this.playerService.addPlayer(this.currentPlayer);
     this.playerService.setSelectedPlayer(new Player());
   }
 
   toggleCurrentPlayerDropped() {
     this.currentPlayer.dropped = !this.currentPlayer.dropped;
-    this.playerService.save(this.currentPlayer);
+    this.playerService.updatePlayer(this.currentPlayer);
   }
 
   private createForm() {

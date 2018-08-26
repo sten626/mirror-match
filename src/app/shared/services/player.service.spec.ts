@@ -11,7 +11,7 @@ describe('PlayerService', () => {
 
   it('#delete should give error for null id.', () => {
     const deleteNull = function() {
-      service.delete(null);
+      service.deletePlayer(null);
     };
 
     expect(deleteNull).toThrowError(TypeError, 'Can\'t delete when no player given.');
@@ -22,7 +22,7 @@ describe('PlayerService', () => {
       name: 'Steven'
     });
 
-    service.delete(player);
+    service.deletePlayer(player);
   });
 
   it('#delete non-existent player should leave players unaffected', () => {
@@ -34,14 +34,14 @@ describe('PlayerService', () => {
       name: 'Esther'
     });
 
-    service.save(player1);
+    service.addPlayer(player1);
 
     let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
     });
 
     subscription.unsubscribe();
-    service.delete(player2);
+    service.deletePlayer(player2);
 
     subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
@@ -54,14 +54,14 @@ describe('PlayerService', () => {
       name: 'Steven'
     });
 
-    service.save(player);
+    service.addPlayer(player);
 
     let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
     });
 
     subscription.unsubscribe();
-    service.delete(player);
+    service.deletePlayer(player);
 
     subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(0);
@@ -77,15 +77,15 @@ describe('PlayerService', () => {
       name: 'Esther'
     });
 
-    service.save(player1);
-    service.save(player2);
+    service.addPlayer(player1);
+    service.addPlayer(player2);
 
     let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(2);
     });
 
     subscription.unsubscribe();
-    service.delete(player1);
+    service.deletePlayer(player1);
 
     subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
@@ -101,7 +101,7 @@ describe('PlayerService', () => {
     expect(service.get(1)).toBeNull();
   });
 
-  it('#save should add a new player to active players', () => {
+  it('#addPlayer should add a new player to active players', () => {
     let subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(0);
     });
@@ -112,7 +112,7 @@ describe('PlayerService', () => {
       name: 'Steven'
     });
 
-    service.save(player);
+    service.addPlayer(player);
 
     subscription = service.players$.subscribe((players: Player[]) => {
       expect(players.length).toBe(1);
@@ -124,9 +124,9 @@ describe('PlayerService', () => {
     subscription.unsubscribe();
   });
 
-  it('#save should throw an error for a null Player', () => {
+  it('#addPlayer should throw an error for a null Player', () => {
     const saveNull = function() {
-      service.save(null);
+      service.addPlayer(null);
     };
     expect(saveNull).toThrowError(TypeError, 'No Player given for saving.');
   });

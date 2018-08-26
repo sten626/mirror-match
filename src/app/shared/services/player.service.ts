@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map} from 'rxjs/operators';
 
 import { Player } from '../models';
-import { IndexedDbService } from './indexedDb.service';
 
 @Injectable()
 export class PlayerService {
@@ -17,36 +16,43 @@ export class PlayerService {
 
   private nextId: number;
   private players: Player[];
-  private playersLookup = {};
-  private playersSubject = new BehaviorSubject<Player[]>([]);
+  private playersById = {};
+  private playersSubject$ = new BehaviorSubject<Player[]>([]);
   // TODO move selected player to the component level.
   private selectedPlayer: Player;
-  private selectedPlayerSubject = new BehaviorSubject<Player>(new Player());
+  private selectedPlayerSubject$ = new BehaviorSubject<Player>(new Player());
 
   private readonly lsKeys = {
     players: 'players'
   };
 
-  constructor(private indexedDbService: IndexedDbService) {
-    this.loadFromLocalStorage();
-
+  constructor() {
     // Setup Observables.
-    this.players$ = this.playersSubject.asObservable().pipe(distinctUntilChanged());
+    this.players$ = this.playersSubject$.asObservable();
+
     this.activePlayers$ = this.players$.pipe(
       map((players: Player[]) => {
         return players.filter((player: Player) => !player.dropped);
-      }),
-      distinctUntilChanged()
+      })
     );
+
     this.numberOfActivePlayers$ = this.activePlayers$.pipe(
       map((players: Player[]) => players.length),
       distinctUntilChanged()
     );
-    this.numberOfPlayers$ = this.players$.pipe(map((players: Player[]) => players.length), distinctUntilChanged());
-    this.recommendedNumberOfRounds$ = this.numberOfPlayers$.pipe(
-      map(num => Math.max(3, Math.ceil(Math.log2(num)))), distinctUntilChanged()
+
+    this.numberOfPlayers$ = this.players$.pipe(
+      map((players: Player[]) => players.length),
+      distinctUntilChanged()
     );
-    this.selectedPlayer$ = this.selectedPlayerSubject.asObservable().pipe(distinctUntilChanged());
+
+    this.recommendedNumberOfRounds$ = this.numberOfPlayers$.pipe(
+      map(num => Math.max(3, Math.ceil(Math.log2(num)))),
+      distinctUntilChanged()
+    );
+
+    this.selectedPlayer$ = this.selectedPlayerSubject$.asObservable();
+
     this.numberOfDroppedPlayers$ = this.players$.pipe(
       map((players: Player[]) => {
         const droppedPlayers = players.filter((player: Player) => player.dropped);
@@ -54,93 +60,100 @@ export class PlayerService {
       })
     );
 
-    this.playersSubject.next(this.players.slice());
+    const newPlayers = this.loadFromLocalStorage();
+    this.next(newPlayers);
   }
 
-  delete(player: Player): void {
-    if (!player) {
-      throw new TypeError('Can\'t delete when no player given.');
-    }
-
-    const playerIndex = this.players.indexOf(player);
-
-    if (playerIndex < 0) {
-      return;
-    }
-
-    this.players.splice(playerIndex, 1);
-    this.saveToLocalStorage();
-
-    if (player === this.selectedPlayer) {
-      this.selectedPlayer = new Player();
-      this.selectedPlayerSubject.next(this.selectedPlayer);
-    }
-
-    this.playersSubject.next(this.players.slice());
-  }
-
-  get(id: number): Player {
-    if (!this.playersLookup[id]) {
-      return null;
-    }
-
-    return this.playersLookup[id];
-  }
-
-  save(player: Player): void {
+  /**
+   * Add a player to storage and update Observables.
+   * @param player The player to add.
+   */
+  addPlayer(player: Player): void {
     if (!player) {
       throw new TypeError('No Player given for saving.');
     }
 
-    if (!player.id) {
-      // New player.
-      player.id = this.nextId++;
-      this.players.push(player);
+    player.id = this.nextId++;
+    const players = this.players.concat(player);
+    this.next(players);
+  }
+
+  /**
+   * Remove a player from storage and update Observables.
+   * @param player The player delete.
+   */
+  deletePlayer(player: Player): void {
+    if (!player) {
+      throw new TypeError('Can\'t delete when no player given.');
     }
 
-    // TODO: Save existing players?
-    this.saveToLocalStorage();
-    this.playersSubject.next(this.players.slice());
+    const idToDelete = player && player.id;
+    const players = this.players.filter(p => p.id !== idToDelete);
+    this.next(players);
+    // TODO Handle selected player being deleted.
+  }
+
+  get(id: number): Player {
+    if (!this.playersById[id]) {
+      return null;
+    }
+
+    return this.playersById[id];
   }
 
   saveAll(): void {
     this.saveToLocalStorage();
-    this.playersSubject.next(this.players.slice());
   }
 
+  // TODO: Get selected player out of the service.
   setSelectedPlayer(player: Player): void {
     this.selectedPlayer = player;
-    this.selectedPlayerSubject.next(this.selectedPlayer);
+    this.selectedPlayerSubject$.next(this.selectedPlayer);
   }
 
-  private initNextId() {
-    if (this.players.length > 0) {
-      const ids = this.players.map(player => player.id);
-      this.nextId = Math.max(...ids) + 1;
-    } else {
-      this.nextId = 1;
-    }
+  updatePlayer(player: Player): void {
+    const id = player && player.id;
+    const players = this.players.map(p => p.id === id ? player : p);
+    this.next(players);
   }
 
-  private loadFromLocalStorage() {
+  /**
+   * Loads Players from localStorage into the cache, into the Subject, and populates the playersById map.
+   * @returns An array of Players loaded from localStorage, or an empty array.
+   */
+  private loadFromLocalStorage(): Player[] {
     const playersData = localStorage.getItem(this.lsKeys.players);
+    let players: Player[] = [];
+    this.nextId = 1;
 
     if (playersData) {
       const playersRawArray = JSON.parse(playersData);
-      this.players = playersRawArray.map(rawPlayer => {
+      players = playersRawArray.map(rawPlayer => {
         const player = new Player(rawPlayer);
-        this.playersLookup[rawPlayer.id] = player;
+        this.playersById[player.id] = player;
+        this.nextId = Math.max(this.nextId, player.id + 1);
         return player;
       });
-    } else {
-      this.players = [];
-      localStorage.setItem(this.lsKeys.players, JSON.stringify(this.players));
     }
 
-    this.initNextId();
+    return players;
   }
 
+  /**
+   * Loads a Players array into the cache and into the Subject.
+   * @param newPlayers The new array of players.
+   */
+  private next(newPlayers: Player[]): void {
+    this.players = newPlayers;
+    this.saveToLocalStorage();
+    this.playersSubject$.next(newPlayers);
+  }
+
+  /**
+   * Save the current Players cache into localStorage.
+   */
   private saveToLocalStorage() {
+    // TODO: Only save fields that need saving instead of everything on the Player object.
     localStorage.setItem(this.lsKeys.players, JSON.stringify(this.players));
   }
 }
