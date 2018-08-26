@@ -13,7 +13,7 @@ import {
 })
 export class SwissPlayerListComponent implements OnInit {
   @Input() selectedPlayer: Player;
-  @Output() playerSelected: EventEmitter<Player>;
+  @Output() playerSelected = new EventEmitter<Player>();
 
   hasBegunTournament = false;
   players: Observable<Player[]>;

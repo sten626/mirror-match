@@ -1,11 +1,7 @@
-import { Component, Input, OnChanges, OnInit  } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {
-  Player,
-  PlayerService,
-  RoundService
-} from '../shared';
+import { Player, RoundService } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
@@ -14,16 +10,18 @@ import {
 })
 export class SwissPlayerFormComponent implements OnChanges, OnInit {
   @Input() selectedPlayer: Player;
+  @Output() addPlayer = new EventEmitter<Player>();
+  @Output() playerFormReset = new EventEmitter<any>();
+  @Output() updatePlayer = new EventEmitter<Player>();
 
   addMode = false;
-  editingPlayer: Player;
   hasBegunTournament = false;
+  isPlayerDroppable = false;
   isTournamentOver = false;
   swissPlayerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private playerService: PlayerService,
     private roundService: RoundService
   ) {
     this.createForm();
@@ -33,23 +31,19 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
     // TODO: Focus on form field?
     if (this.selectedPlayer && this.selectedPlayer.id) {
       // Modifying an existing player.
-      this.editingPlayer = this.selectedPlayer.copy();
+      this.swissPlayerForm.reset({
+        name: this.selectedPlayer.name
+      });
       this.addMode = false;
+      this.isPlayerDroppable = !this.selectedPlayer.dropped;
     } else {
       // Adding a new player.
-      this.editingPlayer = new Player();
-      this.addMode = true;
+      this.clearForm();
     }
   }
 
   ngOnInit() {
-    this.playerService.selectedPlayer$.subscribe(player => {
-      this.currentPlayer = player;
-      this.swissPlayerForm.reset({
-        name: this.currentPlayer.name
-      });
-    });
-
+    // TODO: Cleanup subscriptions.
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
       this.hasBegunTournament = hasBegun;
     });
@@ -65,8 +59,8 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
     });
   }
 
-  reset() {
-    this.playerService.setSelectedPlayer(new Player());
+  reset(): void {
+    this.playerFormReset.emit();
   }
 
   submit() {
@@ -79,14 +73,24 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
       return;
     }
 
-    this.updatePlayer();
-    this.playerService.addPlayer(this.currentPlayer);
-    this.playerService.setSelectedPlayer(new Player());
+    if (this.addMode) {
+      const player = new Player({
+        name: name
+      });
+      this.addPlayer.emit(player);
+      this.clearForm();
+    } else {
+      const player = this.selectedPlayer.copy();
+      player.name = name;
+      this.updatePlayer.emit(player);
+      this.playerFormReset.emit();
+    }
   }
 
-  toggleCurrentPlayerDropped() {
-    this.currentPlayer.dropped = !this.currentPlayer.dropped;
-    this.playerService.updatePlayer(this.currentPlayer);
+  toggleSelectedPlayerDropped() {
+    const player = this.selectedPlayer.copy();
+    player.dropped = !player.dropped;
+    this.updatePlayer.emit(player);
   }
 
   private createForm() {
@@ -97,7 +101,11 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
     });
   }
 
-  private updatePlayer() {
-    Object.assign(this.currentPlayer, this.swissPlayerForm.value);
+  private clearForm(): void {
+    this.swissPlayerForm.reset({
+      name: ''
+    });
+    this.addMode = true;
+    this.isPlayerDroppable = false;
   }
 }
