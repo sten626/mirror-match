@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import {
@@ -12,8 +12,11 @@ import {
   templateUrl: 'swiss-player-form.component.html',
   styleUrls: ['swiss-player-form.component.css']
 })
-export class SwissPlayerFormComponent implements OnInit {
-  currentPlayer: Player;
+export class SwissPlayerFormComponent implements OnChanges, OnInit {
+  @Input() selectedPlayer: Player;
+
+  addMode = false;
+  editingPlayer: Player;
   hasBegunTournament = false;
   isTournamentOver = false;
   swissPlayerForm: FormGroup;
@@ -22,10 +25,24 @@ export class SwissPlayerFormComponent implements OnInit {
     private fb: FormBuilder,
     private playerService: PlayerService,
     private roundService: RoundService
-  ) {}
+  ) {
+    this.createForm();
+  }
+
+  ngOnChanges() {
+    // TODO: Focus on form field?
+    if (this.selectedPlayer && this.selectedPlayer.id) {
+      // Modifying an existing player.
+      this.editingPlayer = this.selectedPlayer.copy();
+      this.addMode = false;
+    } else {
+      // Adding a new player.
+      this.editingPlayer = new Player();
+      this.addMode = true;
+    }
+  }
 
   ngOnInit() {
-    this.createForm();
     this.playerService.selectedPlayer$.subscribe(player => {
       this.currentPlayer = player;
       this.swissPlayerForm.reset({

@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-sm-6">
-    <mm-swiss-player-form></mm-swiss-player-form>
+    <mm-swiss-player-form [selectedPlayer]="selectedPlayer"></mm-swiss-player-form>
     <mm-swiss-players-start></mm-swiss-players-start>
   </div>
 
   <div class="col-sm-6">
-    <mm-swiss-player-list></mm-swiss-player-list>
+    <mm-swiss-player-list [selectedPlayer]="selectedPlayer" (playerSelected)="onPlayerSelected()"></mm-swiss-player-list>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
@@ -12,9 +12,11 @@ import {
   templateUrl: './swiss-player-list.component.html'
 })
 export class SwissPlayerListComponent implements OnInit {
+  @Input() selectedPlayer: Player;
+  @Output() playerSelected: EventEmitter<Player>;
+
   hasBegunTournament = false;
   players: Observable<Player[]>;
-  selectedPlayer: Player;
 
   constructor(
     private playerService: PlayerService,
@@ -23,9 +25,6 @@ export class SwissPlayerListComponent implements OnInit {
 
   ngOnInit() {
     this.players = this.playerService.players$;
-    this.playerService.selectedPlayer$.subscribe((player: Player) => {
-      this.selectedPlayer = player;
-    });
     this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasBegunTournament = hasBegun);
   }
 
@@ -34,6 +33,6 @@ export class SwissPlayerListComponent implements OnInit {
   }
 
   selectPlayer(player: Player) {
-    this.playerService.setSelectedPlayer(player);
+    this.playerSelected.emit(player);
   }
 }

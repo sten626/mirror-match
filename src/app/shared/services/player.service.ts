@@ -12,15 +12,11 @@ export class PlayerService {
   readonly numberOfPlayers$: Observable<number>;
   readonly players$: Observable<Player[]>;
   readonly recommendedNumberOfRounds$: Observable<number>;
-  readonly selectedPlayer$: Observable<Player>;
 
   private nextId: number;
   private players: Player[];
   private playersById = {};
   private playersSubject$ = new BehaviorSubject<Player[]>([]);
-  // TODO move selected player to the component level.
-  private selectedPlayer: Player;
-  private selectedPlayerSubject$ = new BehaviorSubject<Player>(new Player());
 
   private readonly lsKeys = {
     players: 'players'
@@ -50,8 +46,6 @@ export class PlayerService {
       map(num => Math.max(3, Math.ceil(Math.log2(num)))),
       distinctUntilChanged()
     );
-
-    this.selectedPlayer$ = this.selectedPlayerSubject$.asObservable();
 
     this.numberOfDroppedPlayers$ = this.players$.pipe(
       map((players: Player[]) => {
@@ -103,12 +97,6 @@ export class PlayerService {
 
   saveAll(): void {
     this.saveToLocalStorage();
-  }
-
-  // TODO: Get selected player out of the service.
-  setSelectedPlayer(player: Player): void {
-    this.selectedPlayer = player;
-    this.selectedPlayerSubject$.next(this.selectedPlayer);
   }
 
   updatePlayer(player: Player): void {
