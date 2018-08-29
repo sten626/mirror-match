@@ -79,6 +79,7 @@ export class SwissPlayerFormComponent implements OnChanges {
     const player = this.selectedPlayer.copy();
     player.dropped = !player.dropped;
     this.updatePlayer.emit(player);
+    this.playerFormReset.emit();
   }
 
   private createForm() {
