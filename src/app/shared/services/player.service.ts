@@ -86,6 +86,11 @@ export class PlayerService {
     this.next(players);
   }
 
+  /**
+   * Get a single Player from the service by its ID.
+   * @param id The ID of the Player we want to get.
+   * @returns The Player matching id, or null of a Player isn't found.
+   */
   get(id: number): Player {
     if (!this.playersById[id]) {
       return null;
@@ -94,10 +99,17 @@ export class PlayerService {
     return this.playersById[id];
   }
 
+  /**
+   * Save all Players in the data service to localStorage.
+   */
   saveAll(): void {
     this.saveToLocalStorage();
   }
 
+  /**
+   * Save an updated version of an existing Player to the data store.
+   * @param player The Player to update.
+   */
   updatePlayer(player: Player): void {
     const id = player && player.id;
     const players = this.players.map(p => p.id === id ? player : p);
