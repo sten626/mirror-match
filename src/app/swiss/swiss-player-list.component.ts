@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 
-import { Player, PlayerService } from '../shared';
+import { Player } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-list',
@@ -10,14 +10,13 @@ export class SwissPlayerListComponent {
   @Input() hasBegunTournament: boolean;
   @Input() players: Player[];
   @Input() selectedPlayer: Player;
+  @Output() playerDeleted = new EventEmitter<Player>();
   @Output() playerSelected = new EventEmitter<Player>();
 
-  constructor(
-    private playerService: PlayerService
-  ) {}
+  constructor() {}
 
   deletePlayer(player: Player) {
-    this.playerService.deletePlayer(player);
+    this.playerDeleted.emit(player);
   }
 
   selectPlayer(player: Player) {

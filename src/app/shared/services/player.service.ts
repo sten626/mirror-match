@@ -84,7 +84,6 @@ export class PlayerService {
     const idToDelete = player && player.id;
     const players = this.players.filter(p => p.id !== idToDelete);
     this.next(players);
-    // TODO Handle selected player being deleted.
   }
 
   get(id: number): Player {

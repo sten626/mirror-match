@@ -29,6 +29,14 @@ export class SwissPlayersComponent {
     this.selectedPlayer = null;
   }
 
+  onPlayerDeleted(player: Player): void {
+    this.playerService.deletePlayer(player);
+
+    if (player === this.selectedPlayer) {
+      this.clearSelectedPlayer();
+    }
+  }
+
   onPlayerSelected(player: Player): void {
     this.selectedPlayer = player;
   }

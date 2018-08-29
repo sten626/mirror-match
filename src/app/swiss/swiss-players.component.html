@@ -15,6 +15,7 @@
       [hasBegunTournament]="hasBegunTournament$ | async"
       [players]="players$ | async"
       [selectedPlayer]="selectedPlayer"
+      (playerDeleted)="onPlayerDeleted($event)"
       (playerSelected)="onPlayerSelected($event)"></mm-swiss-player-list>
   </div>
 </div>
