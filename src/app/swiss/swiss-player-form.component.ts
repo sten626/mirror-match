@@ -27,7 +27,6 @@ export class SwissPlayerFormComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    // TODO: Focus on form field?
     if (this.selectedPlayer && this.selectedPlayer.id) {
       // Modifying an existing player.
       this.playerNameElement.nativeElement.focus();
