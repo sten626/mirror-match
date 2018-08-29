@@ -1,5 +1,5 @@
 <div class="list-group">
-  <a *ngFor="let player of players | async"
+  <a *ngFor="let player of players"
       class="list-group-item"
       [ngClass]="{'active': selectedPlayer === player, 'list-group-item-warning': player.dropped}"
       (click)="selectPlayer(player)">

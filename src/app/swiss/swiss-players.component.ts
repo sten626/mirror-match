@@ -9,6 +9,7 @@ import { Player, PlayerService, RoundService } from '../shared';
 export class SwissPlayersComponent {
   hasBegunTournament$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
+  players$: Observable<Player[]>;
   selectedPlayer: Player;
 
   constructor(
@@ -17,6 +18,7 @@ export class SwissPlayersComponent {
   ) {
     this.hasBegunTournament$ = this.roundService.hasBegunTournament;
     this.isTournamentOver$ = this.roundService.isTournamentOver;
+    this.players$ = this.playerService.players$;
   }
 
   addPlayer(player: Player): void {

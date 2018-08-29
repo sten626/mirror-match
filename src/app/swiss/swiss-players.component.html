@@ -11,6 +11,10 @@
   </div>
 
   <div class="col-sm-6">
-    <mm-swiss-player-list [selectedPlayer]="selectedPlayer" (playerSelected)="onPlayerSelected($event)"></mm-swiss-player-list>
+    <mm-swiss-player-list
+      [hasBegunTournament]="hasBegunTournament$ | async"
+      [players]="players$ | async"
+      [selectedPlayer]="selectedPlayer"
+      (playerSelected)="onPlayerSelected($event)"></mm-swiss-player-list>
   </div>
 </div>
