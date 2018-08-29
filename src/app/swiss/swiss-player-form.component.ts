@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Player } from '../shared';
@@ -16,6 +16,8 @@ export class SwissPlayerFormComponent implements OnChanges {
   @Output() playerFormReset = new EventEmitter<any>();
   @Output() updatePlayer = new EventEmitter<Player>();
 
+  @ViewChild('name') playerNameElement: ElementRef;
+
   addMode = false;
   isPlayerDroppable = false;
   swissPlayerForm: FormGroup;
@@ -28,6 +30,7 @@ export class SwissPlayerFormComponent implements OnChanges {
     // TODO: Focus on form field?
     if (this.selectedPlayer && this.selectedPlayer.id) {
       // Modifying an existing player.
+      this.playerNameElement.nativeElement.focus();
       this.swissPlayerForm.reset({
         name: this.selectedPlayer.name
       });
