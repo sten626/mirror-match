@@ -1,29 +1,26 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Player, RoundService } from '../shared';
+import { Player } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
   templateUrl: 'swiss-player-form.component.html',
   styleUrls: ['swiss-player-form.component.css']
 })
-export class SwissPlayerFormComponent implements OnChanges, OnInit {
+export class SwissPlayerFormComponent implements OnChanges {
+  @Input() hasBegunTournament: boolean;
+  @Input() isTournamentOver: boolean;
   @Input() selectedPlayer: Player;
   @Output() addPlayer = new EventEmitter<Player>();
   @Output() playerFormReset = new EventEmitter<any>();
   @Output() updatePlayer = new EventEmitter<Player>();
 
   addMode = false;
-  hasBegunTournament = false;
   isPlayerDroppable = false;
-  isTournamentOver = false;
   swissPlayerForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private roundService: RoundService
-  ) {
+  constructor(private fb: FormBuilder) {
     this.createForm();
   }
 
@@ -40,23 +37,12 @@ export class SwissPlayerFormComponent implements OnChanges, OnInit {
       // Adding a new player.
       this.clearForm();
     }
-  }
 
-  ngOnInit() {
-    // TODO: Cleanup subscriptions.
-    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => {
-      this.hasBegunTournament = hasBegun;
-    });
-
-    this.roundService.isTournamentOver.subscribe((isOver: boolean) => {
-      this.isTournamentOver = isOver;
-
-      if (isOver && this.hasBegunTournament) {
-        this.swissPlayerForm.disable();
-      } else {
-        this.swissPlayerForm.enable();
-      }
-    });
+    if (this.isTournamentOver && this.hasBegunTournament) {
+      this.swissPlayerForm.disable();
+    } else {
+      this.swissPlayerForm.enable();
+    }
   }
 
   reset(): void {

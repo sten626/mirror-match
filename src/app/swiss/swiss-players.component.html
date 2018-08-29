@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-sm-6">
     <mm-swiss-player-form
+      [hasBegunTournament]="hasBegunTournament$ | async"
+      [isTournamentOver]="isTournamentOver$ | async"
       [selectedPlayer]="selectedPlayer"
       (addPlayer)="addPlayer($event)"
       (playerFormReset)="clearSelectedPlayer()"
