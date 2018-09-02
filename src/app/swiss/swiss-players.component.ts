@@ -20,9 +20,9 @@ export class SwissPlayersComponent {
     private roundService: RoundService,
     private router: Router
   ) {
-    this.canBeginTournament$ = this.roundService.canBeginTournament;
-    this.hasBegunTournament$ = this.roundService.hasBegunTournament;
-    this.isTournamentOver$ = this.roundService.isTournamentOver;
+    this.canBeginTournament$ = this.roundService.canBeginTournament$;
+    this.hasBegunTournament$ = this.roundService.hasBegunTournament$;
+    this.isTournamentOver$ = this.roundService.isTournamentOver$;
     this.players$ = this.playerService.players$;
     this.recommendedNumberOfRounds$ = this.playerService.recommendedNumberOfRounds$;
   }

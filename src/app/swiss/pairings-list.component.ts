@@ -49,8 +49,8 @@ export class PairingsListComponent implements OnInit {
     });
 
     // Subscribe to services.
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
-    this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
+    this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
+    this.roundService.pairingsForSelectedRound$.subscribe((pairings: Pairing[]) => {
       this.pairings = pairings;
       this.filterPairings();
     });
@@ -59,12 +59,12 @@ export class PairingsListComponent implements OnInit {
       this.filterPairings();
     });
 
-    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
-    this.roundService.selectedRoundHasSubmittedPairings.subscribe((hasSubmitted: boolean) => {
+    this.roundService.selectedRoundHasPairings$.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
+    this.roundService.selectedRoundHasSubmittedPairings$.subscribe((hasSubmitted: boolean) => {
       this.selectedRoundHasSubmittedPairings = hasSubmitted;
     });
 
-    this.roundService.selectedRoundComplete.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
+    this.roundService.selectedRoundComplete$.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
 
     // Filter pairings.
     this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());

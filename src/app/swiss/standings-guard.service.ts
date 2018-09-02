@@ -13,7 +13,7 @@ export class StandingsGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.roundService.hasCompletedRounds.pipe(map((hasCompletedRounds: boolean) => {
+    return this.roundService.hasCompletedRounds$.pipe(map((hasCompletedRounds: boolean) => {
       if (hasCompletedRounds) {
         return true;
       }

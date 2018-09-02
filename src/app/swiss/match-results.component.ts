@@ -68,12 +68,12 @@ export class MatchResultsComponent implements OnInit {
     this.createForm();
 
     // Subscribe to data.
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
+    this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
     this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
       this.selectedPairing = pairing;
       this.resetForm();
     });
-    this.roundService.selectedRoundComplete.subscribe((complete: boolean) => {
+    this.roundService.selectedRoundComplete$.subscribe((complete: boolean) => {
       this.selectedRoundComplete = complete;
 
       if (complete) {

@@ -36,9 +36,9 @@ export class SwissPairingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rounds = this.roundService.rounds;
+    this.rounds = this.roundService.rounds$;
     this.createForm();
-    this.roundService.selectedRound.subscribe((round: number) => {
+    this.roundService.selectedRound$.subscribe((round: number) => {
       if (round !== this.selectedRound) {
         this.selectedRound = round;
         this.pairingsForm.reset({
@@ -46,8 +46,8 @@ export class SwissPairingsComponent implements OnInit {
         });
       }
     });
-    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.selectedRoundHasPairings = hasPairings);
-    this.roundService.canStartNextRound.subscribe((canStart: boolean) => this.canStartNextRound = canStart);
+    this.roundService.selectedRoundHasPairings$.subscribe((hasPairings: boolean) => this.selectedRoundHasPairings = hasPairings);
+    this.roundService.canStartNextRound$.subscribe((canStart: boolean) => this.canStartNextRound = canStart);
   }
 
   private createForm(): void {

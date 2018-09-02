@@ -14,7 +14,7 @@ export class TournamentStartedGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.roundService.hasBegunTournament.pipe(map((hasBegun: boolean) => {
+    return this.roundService.hasBegunTournament$.pipe(map((hasBegun: boolean) => {
       if (hasBegun) {
         return true;
       }
