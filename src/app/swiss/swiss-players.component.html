@@ -7,7 +7,11 @@
       (addPlayer)="addPlayer($event)"
       (playerFormReset)="clearSelectedPlayer()"
       (updatePlayer)="updatePlayer($event)"></mm-swiss-player-form>
-    <mm-swiss-players-start></mm-swiss-players-start>
+    <mm-swiss-players-start
+      [canBeginTournament]="canBeginTournament$ | async"
+      [hasBegunTournament]="hasBegunTournament$ | async"
+      [recommendedNumberOfRounds]="recommendedNumberOfRounds$ | async"
+      (startTournament)="onStartTournament($event)"></mm-swiss-players-start>
   </div>
 
   <div class="col-sm-6">
