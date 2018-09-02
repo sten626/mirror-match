@@ -4,14 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-<<<<<<< HEAD
 ## [Unreleased]
 ### Changed
 - Updated dependencies.
-  - @angular to 6.0.4
-  - @angular/cli to 6.0.8
-  - rxjs to 6.2.0
-  - typescript to 2.7.2
+- Refactoring of PlayerService and SwissPlayersComponent.
 
 ## [1.0.0-beta.4] - 2018-08-17
 ### Fixed
@@ -50,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...HEAD
-[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2
+[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.4...HEAD
+[1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...1.0.0-beta.3
+[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2

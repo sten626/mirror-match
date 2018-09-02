@@ -1,39 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 
-import {
-  Player,
-  PlayerService,
-  RoundService
-} from '../shared';
+import { Player } from '../shared';
 
 @Component({
   selector: 'mm-swiss-player-list',
   templateUrl: './swiss-player-list.component.html'
 })
-export class SwissPlayerListComponent implements OnInit {
-  hasBegunTournament = false;
-  players: Observable<Player[]>;
-  selectedPlayer: Player;
+export class SwissPlayerListComponent {
+  @Input() hasBegunTournament: boolean;
+  @Input() players: Player[];
+  @Input() selectedPlayer: Player;
+  @Output() playerDeleted = new EventEmitter<Player>();
+  @Output() playerSelected = new EventEmitter<Player>();
 
-  constructor(
-    private playerService: PlayerService,
-    private roundService: RoundService
-  ) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.players = this.playerService.players;
-    this.playerService.selectedPlayer.subscribe((player: Player) => {
-      this.selectedPlayer = player;
-    });
-    this.roundService.hasBegunTournament.subscribe((hasBegun: boolean) => this.hasBegunTournament = hasBegun);
-  }
-
+  /**
+   * Emit an event that a Player needs to be deleted.
+   * @param player The Player being deleted from the list.
+   */
   deletePlayer(player: Player) {
-    this.playerService.delete(player);
+    this.playerDeleted.emit(player);
   }
 
+  /**
+   * Emit an event that a Player has been selected.
+   * @param player The Player being selected from the list.
+   */
   selectPlayer(player: Player) {
-    this.playerService.setSelectedPlayer(player);
+    this.playerSelected.emit(player);
   }
 }

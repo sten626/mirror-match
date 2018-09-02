@@ -47,7 +47,7 @@ export class RoundService {
     this.loadFromLocalStorage();
 
     // Setup Observables.
-    this.canBeginTournament = this.playerService.numberOfPlayers.pipe(
+    this.canBeginTournament = this.playerService.numberOfPlayers$.pipe(
       map((numPlayers: number) => numPlayers >= 4),
       distinctUntilChanged()
     );
@@ -107,7 +107,7 @@ export class RoundService {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;
     }));
 
-    this.playerService.players.subscribe((players: Player[]) => this.players = players);
+    this.playerService.players$.subscribe((players: Player[]) => this.players = players);
 
     this.roundsSubject.next(this._rounds.slice());
     this.completedRoundsSubject.next(this._completedRounds.slice());

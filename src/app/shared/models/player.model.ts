@@ -34,4 +34,27 @@ export class Player {
     this.opponentIds = rawPlayer && rawPlayer.opponentIds || [];
     this.dropped = rawPlayer && rawPlayer.dropped || false;
   }
+
+  /**
+   * Copy a player and return.
+   * @returns A copy of the player.
+   */
+  copy(): Player {
+    const player = new Player();
+    player.id = this.id;
+    player.name = this.name;
+    player.matchesPlayed = this.matchesPlayed;
+    player.matchesWon = this.matchesWon;
+    player.matchesDrawn = this.matchesDrawn;
+    player.gamesPlayed = this.gamesPlayed;
+    player.gamesWon = this.gamesWon;
+    player.gamesDrawn = this.gamesDrawn;
+    player.byes = this.byes;
+    player.matchPoints = this.matchPoints;
+    player.gamePoints = this.gamePoints;
+    player.opponentIds = this.opponentIds;
+    player.dropped = this.dropped;
+
+    return player;
+  }
 }

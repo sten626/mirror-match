@@ -25,7 +25,7 @@ export class PairingService {
   constructor(private playerService: PlayerService) {
     // Load data.
     this.loadFromLocalStorage();
-    this.playerService.activePlayers.subscribe((players: Player[]) => this.activePlayers = players);
+    this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
 
     // Setup Observables.
     this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
