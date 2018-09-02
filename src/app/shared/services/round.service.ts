@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
 
-import { Pairing, Player } from '../models';
+import { Pairing } from '../models';
 import { MessageService } from './message.service';
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
@@ -27,7 +27,6 @@ export class RoundService {
 
   private completedRounds: number[];
   private completedRoundsSubject$ = new BehaviorSubject<number[]>([]);
-  private players: Player[];
   private rounds: number[];
   private roundsSubject$ = new BehaviorSubject<number[]>([]);
   private selectedRound: number;
@@ -45,8 +44,6 @@ export class RoundService {
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
-    this.loadFromLocalStorage();
-
     // Setup Observables.
     this.canBeginTournament$ = this.playerService.numberOfPlayers$.pipe(
       map((numPlayers: number) => numPlayers >= 4),
@@ -108,10 +105,7 @@ export class RoundService {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;
     }));
 
-    this.playerService.players$.subscribe((players: Player[]) => this.players = players);
-
-    this.roundsSubject$.next(this.rounds.slice());
-    this.completedRoundsSubject$.next(this.completedRounds.slice());
+    this.loadFromLocalStorage();
   }
 
   createNextRound(): void {
@@ -171,32 +165,44 @@ export class RoundService {
     localStorage.setItem(this.lsKeys.totalNumberOfRounds, JSON.stringify(this.totalNumberOfRounds));
   }
 
-  private loadFromLocalStorage(): void {
-    const roundsData = localStorage.getItem(this.lsKeys.rounds);
-
-    if (roundsData) {
-      this.rounds = JSON.parse(roundsData);
-    } else {
-      this.rounds = [];
-      localStorage.setItem(this.lsKeys.rounds, JSON.stringify(this.rounds));
-    }
-
+  /**
+   * Get the array of completed rounds from localStorage.
+   * @returns An array of the completed rounds.
+   */
+  private loadCompletedRounds(): number[] {
     const completedRoundsData = localStorage.getItem(this.lsKeys.completedRounds);
+    let completedRounds = [];
 
     if (completedRoundsData) {
-      this.completedRounds = JSON.parse(completedRoundsData);
-    } else {
-      this.completedRounds = [];
-      localStorage.setItem(this.lsKeys.completedRounds, JSON.stringify(this.completedRounds));
+      completedRounds = JSON.parse(completedRoundsData);
     }
 
-    const totalNumberOfRoundsData = localStorage.getItem(this.lsKeys.totalNumberOfRounds);
+    return completedRounds;
+  }
 
-    if (totalNumberOfRoundsData) {
-      this.totalNumberOfRounds = JSON.parse(totalNumberOfRoundsData);
-    } else {
-      this.totalNumberOfRounds = 0;
+  private loadFromLocalStorage(): void {
+    const rounds = this.loadRounds();
+    this.nextRounds(rounds);
+
+    const completedRounds = this.loadCompletedRounds();
+    this.nextCompletedRounds(completedRounds);
+
+    this.totalNumberOfRounds = this.loadTotalNumOfRounds();
+  }
+
+  /**
+   * Get the total number of rounds for the tournament from localStorage.
+   * @returns The total number of rounds for the tournament, or null if not set.
+   */
+  private loadTotalNumOfRounds(): number {
+    const totalNumOfRoundsData = localStorage.getItem(this.lsKeys.totalNumberOfRounds);
+    let totalNumOfRounds = null;
+
+    if (totalNumOfRoundsData) {
+      totalNumOfRounds = JSON.parse(totalNumOfRoundsData);
     }
+
+    return totalNumOfRounds;
   }
 
   /**
@@ -212,6 +218,40 @@ export class RoundService {
     }
 
     return rounds;
+  }
+
+  /**
+   * Update the existing completed rounds array in localStorage and the Observables.
+   * @param newCompletedRounds The new array of completed rounds.
+   */
+  private nextCompletedRounds(newCompletedRounds: number[]): void {
+    this.completedRounds = newCompletedRounds;
+    this.saveCompletedRoundsToLocalStorage();
+    this.completedRoundsSubject$.next(newCompletedRounds);
+  }
+
+  /**
+   * Update the existing rounds array in localStorage and the Observables.
+   * @param newRounds The new array of existing rounds.
+   */
+  private nextRounds(newRounds: number[]): void {
+    this.rounds = newRounds;
+    this.saveRoundsToLocalStorage();
+    this.roundsSubject$.next(newRounds);
+  }
+
+  /**
+   * Save the current value of this.completedRounds to localStorage.
+   */
+  private saveCompletedRoundsToLocalStorage(): void {
+    localStorage.setItem(this.lsKeys.completedRounds, JSON.stringify(this.completedRounds));
+  }
+
+  /**
+   * Save the current value of this.rounds to localStorage.
+   */
+  private saveRoundsToLocalStorage(): void {
+    localStorage.setItem(this.lsKeys.rounds, JSON.stringify(this.rounds));
   }
 
   private saveToLocalStorage(): void {
