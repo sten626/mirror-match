@@ -15,10 +15,18 @@ export class SwissPlayerListComponent {
 
   constructor() {}
 
+  /**
+   * Emit an event that a Player needs to be deleted.
+   * @param player The Player being deleted from the list.
+   */
   deletePlayer(player: Player) {
     this.playerDeleted.emit(player);
   }
 
+  /**
+   * Emit an event that a Player has been selected.
+   * @param player The Player being selected from the list.
+   */
   selectPlayer(player: Player) {
     this.playerSelected.emit(player);
   }
