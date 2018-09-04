@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,9 +14,10 @@ import {
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
-export class MatchResultsComponent implements OnInit {
+export class MatchResultsComponent implements OnChanges, OnInit {
+  @Input() selectedPairing: Pairing;
+
   matchResultsForm: FormGroup;
-  selectedPairing: Pairing;
   resultValid: boolean;
 
   private selectedRound: number;
@@ -29,7 +30,29 @@ export class MatchResultsComponent implements OnInit {
     private roundService: RoundService,
     private router: Router,
     private standingsService: StandingsService
-  ) {}
+  ) {
+    this.createForm();
+  }
+
+  ngOnInit() {
+
+
+    // Subscribe to data.
+    // this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
+    // this.roundService.selectedRoundComplete$.subscribe((complete: boolean) => {
+    //   this.selectedRoundComplete = complete;
+
+    //   if (complete) {
+    //     this.matchResultsForm.disable();
+    //   } else {
+    //     this.matchResultsForm.enable();
+    //   }
+    // });
+  }
+
+  ngOnChanges() {
+    this.resetForm();
+  }
 
   clearMatchResult() {
     this.selectedPairing.player1Wins = 0;
@@ -62,26 +85,6 @@ export class MatchResultsComponent implements OnInit {
     if (player2Wins < 2) {
       this.matchResultsForm.patchValue({player2Wins: player2Wins + 1});
     }
-  }
-
-  ngOnInit() {
-    this.createForm();
-
-    // Subscribe to data.
-    this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-      this.selectedPairing = pairing;
-      this.resetForm();
-    });
-    this.roundService.selectedRoundComplete$.subscribe((complete: boolean) => {
-      this.selectedRoundComplete = complete;
-
-      if (complete) {
-        this.matchResultsForm.disable();
-      } else {
-        this.matchResultsForm.enable();
-      }
-    });
   }
 
   submit() {

@@ -28,7 +28,7 @@ export class PairingService {
     this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
 
     // Setup Observables.
-    this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
+    this.pairings = this.pairingsSubject.asObservable();
     this.selectedPairing = this.selectedPairingSubject.asObservable().pipe(distinctUntilChanged());
     this.submittedPairings = this.pairings.pipe(map((pairings: Pairing[]) => {
       return pairings.filter((pairing: Pairing) => pairing.submitted);
@@ -50,6 +50,7 @@ export class PairingService {
   }
 
   createPairings(round: number, isLastRound: boolean): void {
+    // TODO Make sure pairings don't already exist for given round. Add unit test.
     if (this.activePlayers.length < 1) {
       throw new Error('Trying to create pairings with zero active players.');
     }
@@ -76,6 +77,14 @@ export class PairingService {
     });
     this.saveToLocalStorage();
     this.pairingsSubject.next(this._pairings.slice());
+  }
+
+  getPairingsForRound(round: number): Observable<Pairing[]> {
+    return this.pairings.pipe(
+      map((pairings: Pairing[]) => {
+        return pairings.filter(p => p.round === round);
+      })
+    );
   }
 
   saveAndClearSelected(): void {

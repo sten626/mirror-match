@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
@@ -12,7 +12,9 @@ import {
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnInit {
+export class PairingsListComponent implements OnChanges, OnInit {
+  @Input() pairings: Pairing[];
+
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
@@ -21,13 +23,46 @@ export class PairingsListComponent implements OnInit {
   selectedRoundComplete = false;
   selectedRoundHasSubmittedPairings = false;
 
-  private pairings: Pairing[];
-
   constructor(
     private fb: FormBuilder,
     private pairingService: PairingService,
     private roundService: RoundService
-  ) {}
+  ) {
+    // Setup form.
+    this.pairingsListForm = this.fb.group({
+      pairingsSearch: '',
+      showOutstandingOnly: true
+    });
+  }
+
+  ngOnInit() {
+    // Subscribe to services.
+    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
+    //   this.selectedPairing = pairing;
+    //   this.filterPairings();
+    // });
+
+    // Filter pairings.
+    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
+  }
+
+  ngOnChanges() {
+    if (this.pairings) {
+      if (this.pairings.length === 0) {
+        this.pairingsExist = false;
+        this.selectedRoundComplete = false;
+        this.selectedRoundHasSubmittedPairings = false;
+      } else {
+        this.filterPairings();
+        this.pairingsExist = true;
+        this.selectedRoundComplete = this.pairings
+          .map(p => p.submitted)
+          .reduce((prevSubmitted, curSubmitted) => prevSubmitted && curSubmitted);
+
+        this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted).length > 0;
+      }
+    }
+  }
 
   deleteResults() {
     this.pairings.forEach(pairing => {
@@ -39,35 +74,6 @@ export class PairingsListComponent implements OnInit {
 
     this.pairingService.saveAndClearSelected();
     this.roundService.markRoundAsIncomplete(this.selectedRound);
-  }
-
-  ngOnInit() {
-    // Setup form.
-    this.pairingsListForm = this.fb.group({
-      pairingsSearch: '',
-      showOutstandingOnly: true
-    });
-
-    // Subscribe to services.
-    this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
-    this.roundService.pairingsForSelectedRound$.subscribe((pairings: Pairing[]) => {
-      this.pairings = pairings;
-      this.filterPairings();
-    });
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-      this.selectedPairing = pairing;
-      this.filterPairings();
-    });
-
-    this.roundService.selectedRoundHasPairings$.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
-    this.roundService.selectedRoundHasSubmittedPairings$.subscribe((hasSubmitted: boolean) => {
-      this.selectedRoundHasSubmittedPairings = hasSubmitted;
-    });
-
-    this.roundService.selectedRoundComplete$.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
-
-    // Filter pairings.
-    this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }
 
   redoMatches() {
@@ -88,7 +94,7 @@ export class PairingsListComponent implements OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    this.pairingService.setSelectedPairing(pairing);
+    this.selectedPairing = pairing;
   }
 
   private filterPairings() {
