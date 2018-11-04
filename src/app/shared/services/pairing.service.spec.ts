@@ -35,7 +35,7 @@ describe('PairingService', () => {
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(1, false);
-    pairingService.pairings.subscribe((pairings: Pairing[]) => {
+    pairingService.pairings$.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(1);
       const pairing = pairings[0];
       expect(pairing.player1).toBe(player);
@@ -59,7 +59,7 @@ describe('PairingService', () => {
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(1, false);
-    pairingService.pairings.subscribe((pairings: Pairing[]) => {
+    pairingService.pairings$.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(1);
       const pairing = pairings[0];
       expect(fakeActivePlayers).toContain(pairing.player1);
@@ -147,7 +147,7 @@ describe('PairingService', () => {
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(3, false);
-    pairingService.pairings.subscribe((pairings: Pairing[]) => {
+    pairingService.pairings$.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(5);
       const lastPairing = pairings[pairings.length - 1];
       expect(lastPairing.player2).toBeNull();
@@ -229,7 +229,7 @@ describe('PairingService', () => {
     };
     pairingService = new PairingService(fakePlayerService as PlayerService);
     pairingService.createPairings(3, true);
-    pairingService.pairings.subscribe((pairings: Pairing[]) => {
+    pairingService.pairings$.subscribe((pairings: Pairing[]) => {
       expect(pairings.length).toBe(3);
     });
   });

@@ -1,10 +1,9 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
   Pairing,
-  PairingService,
-  RoundService
+  Player
 } from '../shared';
 
 @Component({
@@ -14,6 +13,10 @@ import {
 })
 export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
+  @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
+  @Output() playerDroppedChanged = new EventEmitter<Player>();
+  @Output() redoMatchesForRound = new EventEmitter<number>();
+  @Output() resultSubmitted = new EventEmitter<Pairing>();
 
   filteredPairings: Pairing[];
   pairingsExist = false;
@@ -24,9 +27,9 @@ export class PairingsListComponent implements OnChanges, OnInit {
   selectedRoundHasSubmittedPairings = false;
 
   constructor(
-    private fb: FormBuilder,
-    private pairingService: PairingService,
-    private roundService: RoundService
+    private fb: FormBuilder
+    // private pairingService: PairingService,
+    // private roundService: RoundService
   ) {
     // Setup form.
     this.pairingsListForm = this.fb.group({
@@ -72,13 +75,25 @@ export class PairingsListComponent implements OnChanges, OnInit {
       pairing.submitted = false;
     });
 
-    this.pairingService.saveAndClearSelected();
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    this.matchResultsCleared.emit(this.pairings);
+    this.selectedPairing = null;
+  }
+
+  onMatchResultCleared(pairing: Pairing): void {
+    this.matchResultsCleared.emit([pairing]);
+    this.selectedPairing = null;
+  }
+
+  onPlayerDroppedChanged(player: Player): void {
+    this.playerDroppedChanged.emit(player);
+  }
+
+  onResultSubmitted(pairing: Pairing): void {
+    this.resultSubmitted.emit(pairing);
   }
 
   redoMatches() {
-    this.pairingService.deletePairings(this.selectedRound);
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    this.redoMatchesForRound.emit(this.selectedRound);
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {

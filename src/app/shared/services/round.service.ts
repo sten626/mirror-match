@@ -29,8 +29,8 @@ export class RoundService {
   private completedRoundsSubject$ = new BehaviorSubject<number[]>([]);
   private rounds: number[];
   private roundsSubject$ = new BehaviorSubject<number[]>([]);
-  private selectedRound: number;
-  private selectedRoundSubject$: BehaviorSubject<number>;
+  // private selectedRound: number;
+  // private selectedRoundSubject$: BehaviorSubject<number>;
   private totalNumberOfRounds: number;
 
   private readonly lsKeys = {
@@ -61,15 +61,15 @@ export class RoundService {
       map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
       distinctUntilChanged()
     );
-    this.selectedRound = Math.max(...this.rounds);
-    this.selectedRoundSubject$ = new BehaviorSubject<number>(this.selectedRound);
+    // this.selectedRound = Math.max(...this.rounds);
+    // this.selectedRoundSubject$ = new BehaviorSubject<number>(this.selectedRound);
     // this.selectedRound$ = this.selectedRoundSubject$.asObservable().pipe(distinctUntilChanged());
     // this.pairingsForSelectedRound$ = this.pairingService.pairings.pipe(
     //   combineLatest(this.selectedRound$, (pairings: Pairing[], round: number) => {
     //     return pairings.filter((pairing: Pairing) => pairing.round === round);
     //   })
     // );
-    this.outstandingPairingsForCurrentRound$ = this.pairingService.pairings.pipe(
+    this.outstandingPairingsForCurrentRound$ = this.pairingService.pairings$.pipe(
       combineLatest(this.currentRound$, (pairings: Pairing[], round: number) => {
         return pairings.filter((pairing: Pairing) => pairing.round === round && !pairing.submitted);
       })
@@ -110,11 +110,14 @@ export class RoundService {
 
   createNextRound(): void {
     const nextRound = this.rounds.length > 0 ? Math.max(...this.rounds) + 1 : 1;
-    this.rounds.push(nextRound);
-    this.saveToLocalStorage();
-    this.roundsSubject$.next(this.rounds.slice());
-    this.selectedRound = nextRound;
-    this.selectedRoundSubject$.next(this.selectedRound);
+    const rounds = this.rounds.concat(nextRound);
+    this.nextRounds(rounds);
+
+    // this.rounds.push(nextRound);
+    // this.saveToLocalStorage();
+    // this.roundsSubject$.next(this.rounds.slice());
+    // this.selectedRound = nextRound;
+    // this.selectedRoundSubject$.next(this.selectedRound);
   }
 
   getTotalNumberOfRounds(): number {
@@ -155,10 +158,10 @@ export class RoundService {
     this.completedRoundsSubject$.next(this.completedRounds.slice());
   }
 
-  setSelectedRound(selectedRound: number): void {
-    this.selectedRound = selectedRound;
-    this.selectedRoundSubject$.next(this.selectedRound);
-  }
+  // setSelectedRound(selectedRound: number): void {
+  //   this.selectedRound = selectedRound;
+  //   this.selectedRoundSubject$.next(this.selectedRound);
+  // }
 
   setTotalNumberOfRounds(numberOfRounds: number): void {
     this.totalNumberOfRounds = numberOfRounds;

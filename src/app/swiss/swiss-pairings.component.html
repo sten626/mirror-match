@@ -13,4 +13,8 @@
   </div>
 </form>
 <mm-pairings-list
-  [pairings]="pairings$ | async"></mm-pairings-list>
+  [pairings]="pairings$ | async"
+  (matchResultsCleared)="onMatchResultsCleared($event)"
+  (playerDroppedChanged)="onPlayerDroppedChanged($event)"
+  (redoMatchesForRound)="onRedoMatchesForRound($event)"
+  (resultSubmitted)="onResultSubmitted($event)"></mm-pairings-list>

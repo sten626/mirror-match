@@ -1,13 +1,9 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import {
   Pairing,
-  PairingService,
-  PlayerService,
-  RoundService,
-  StandingsService
+  Player
 } from '../shared';
 
 @Component({
@@ -16,20 +12,18 @@ import {
 })
 export class MatchResultsComponent implements OnChanges, OnInit {
   @Input() selectedPairing: Pairing;
+  @Output() matchResultCleared = new EventEmitter<Pairing>();
+  @Output() playerDroppedChanged = new EventEmitter<Player>();
+  @Output() resultSubmitted = new EventEmitter<Pairing>();
 
   matchResultsForm: FormGroup;
   resultValid: boolean;
 
-  private selectedRound: number;
-  private selectedRoundComplete = false;
+  // private selectedRound: number;
+  // private selectedRoundComplete = false;
 
   constructor(
-    private fb: FormBuilder,
-    private pairingService: PairingService,
-    private playerService: PlayerService,
-    private roundService: RoundService,
-    private router: Router,
-    private standingsService: StandingsService
+    private fb: FormBuilder
   ) {
     this.createForm();
   }
@@ -59,8 +53,7 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     this.selectedPairing.player2Wins = 0;
     this.selectedPairing.draws = 0;
     this.selectedPairing.submitted = false;
-    this.pairingService.saveAndClearSelected();
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    this.matchResultCleared.emit(this.selectedPairing);
   }
 
   incrementDraws() {
@@ -97,29 +90,30 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     const player2 = this.selectedPairing.player2;
     const player1Dropped = form.get('player1Dropped').value;
     const player2Dropped = form.get('player2Dropped').value;
-    let shouldSavePlayers = false;
 
     if (player1.dropped !== player1Dropped) {
       player1.dropped = player1Dropped;
-      shouldSavePlayers = true;
+      this.playerDroppedChanged.emit(player1);
     }
 
     if (player2.dropped !== player2Dropped) {
       player2.dropped = player2Dropped;
-      shouldSavePlayers = true;
+      this.playerDroppedChanged.emit(player2);
     }
 
-    if (shouldSavePlayers) {
-      this.playerService.saveAll();
-    }
+    this.resultSubmitted.emit(this.selectedPairing);
 
-    this.pairingService.saveAndClearSelected();
+    // if (shouldSavePlayers) {
+    //   this.playerService.saveAll();
+    // }
 
-    if (this.selectedRoundComplete) {
-      this.roundService.markRoundAsComplete(this.selectedRound);
-      this.standingsService.calculateStandings();
-      this.router.navigate(['/swiss/standings']);
-    }
+    // this.pairingService.saveAndClearSelected();
+
+    // if (this.selectedRoundComplete) {
+    //   this.roundService.markRoundAsComplete(this.selectedRound);
+    //   this.standingsService.calculateStandings();
+    //   this.router.navigate(['/swiss/standings']);
+    // }
   }
 
   private createForm() {
