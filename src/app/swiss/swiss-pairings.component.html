@@ -14,6 +14,7 @@
 </form>
 <mm-pairings-list
   [pairings]="pairings$ | async"
+  (lastResultSubmitted)="onLastResultSubmitted()"
   (matchResultsCleared)="onMatchResultsCleared($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
   (redoMatchesForRound)="onRedoMatchesForRound()"

@@ -13,6 +13,7 @@ import {
 })
 export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
+  @Output() lastResultSubmitted = new EventEmitter<string>();
   @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   @Output() playerDroppedChanged = new EventEmitter<Player>();
   @Output() redoMatchesForRound = new EventEmitter<string>();
@@ -89,6 +90,11 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   onResultSubmitted(pairing: Pairing): void {
     this.resultSubmitted.emit(pairing);
+    const numUnsubmitted = this.pairings.filter((p: Pairing) => !p.submitted).length;
+
+    if (numUnsubmitted === 0) {
+      this.lastResultSubmitted.emit();
+    }
   }
 
   redoMatches() {

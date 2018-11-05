@@ -23,10 +23,8 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   pairingsForm: FormGroup;
   players: Player[];
   selectedRound = 1;
-  selectedRoundComplete$: Observable<boolean>;
   selectedRoundHasPairings$: Observable<boolean>;
 
-  private roundCompleteSub: Subscription;
   private roundsSub: Subscription;
 
   constructor(
@@ -53,10 +51,6 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    if (this.roundCompleteSub) {
-      this.roundCompleteSub.unsubscribe();
-    }
-
     this.roundsSub.unsubscribe();
   }
 
@@ -67,6 +61,12 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   generatePairings(): void {
     const lastRound = this.roundService.getTotalNumberOfRounds();
     this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
+  }
+
+  onLastResultSubmitted(): void {
+    this.roundService.markRoundAsComplete(this.selectedRound);
+    this.standingsService.calculateStandings();
+    this.router.navigate(['/swiss/standings']);
   }
 
   onMatchResultsCleared(pairings: Pairing[]): void {
@@ -101,27 +101,10 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   private selectedRoundChanged(round: number): void {
     this.selectedRound = round;
 
-    if (this.roundCompleteSub) {
-      this.roundCompleteSub.unsubscribe();
-    }
-
     this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
     this.selectedRoundHasPairings$ = this.pairings$.pipe(
       map(pairings => pairings.length > 0),
       distinctUntilChanged()
     );
-    this.selectedRoundComplete$ = this.pairings$.pipe(
-      map((pairings: Pairing[]) => {
-        return pairings.length > 0 && pairings.filter((pairing: Pairing) => !pairing.submitted).length === 0;
-      })
-    );
-
-    this.selectedRoundComplete$.subscribe((complete: boolean) => {
-      if (complete) {
-        this.roundService.markRoundAsComplete(this.selectedRound);
-        this.standingsService.calculateStandings();
-        this.router.navigate(['/swiss/standings']);
-      }
-    });
   }
 }
