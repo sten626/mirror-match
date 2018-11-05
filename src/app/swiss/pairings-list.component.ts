@@ -90,6 +90,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   onResultSubmitted(pairing: Pairing): void {
     this.resultSubmitted.emit(pairing);
+    this.selectedPairing = null;
     const numUnsubmitted = this.pairings.filter((p: Pairing) => !p.submitted).length;
 
     if (numUnsubmitted === 0) {
