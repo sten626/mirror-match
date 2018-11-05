@@ -78,9 +78,9 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     this.playerService.updatePlayer(player);
   }
 
-  onRedoPairingsForRound(round: number): void {
-    this.pairingService.deletePairings(round);
-    this.roundService.markRoundAsIncomplete(round);
+  onRedoMatchesForRound(): void {
+    this.pairingService.deletePairings(this.selectedRound);
+    this.roundService.markRoundAsIncomplete(this.selectedRound);
   }
 
   onResultSubmitted(pairing: Pairing): void {

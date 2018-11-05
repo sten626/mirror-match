@@ -15,14 +15,13 @@ export class PairingsListComponent implements OnChanges, OnInit {
   @Input() pairings: Pairing[];
   @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   @Output() playerDroppedChanged = new EventEmitter<Player>();
-  @Output() redoMatchesForRound = new EventEmitter<number>();
+  @Output() redoMatchesForRound = new EventEmitter<string>();
   @Output() resultSubmitted = new EventEmitter<Pairing>();
 
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
   selectedPairing: Pairing;
-  selectedRound: number;
   selectedRoundComplete = false;
   selectedRoundHasSubmittedPairings = false;
 
@@ -93,7 +92,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   redoMatches() {
-    this.redoMatchesForRound.emit(this.selectedRound);
+    this.redoMatchesForRound.emit();
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
