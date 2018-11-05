@@ -84,7 +84,6 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
   }
 
   onResultSubmitted(pairing: Pairing): void {
-    // this.pairingService.saveAndClearSelected();
     this.pairingService.updatePairing(pairing);
   }
 

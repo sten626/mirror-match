@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
@@ -10,7 +10,7 @@ import {
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
-export class MatchResultsComponent implements OnChanges, OnInit {
+export class MatchResultsComponent implements OnChanges {
   @Input() selectedPairing: Pairing;
   @Output() matchResultCleared = new EventEmitter<Pairing>();
   @Output() playerDroppedChanged = new EventEmitter<Player>();
@@ -19,29 +19,10 @@ export class MatchResultsComponent implements OnChanges, OnInit {
   matchResultsForm: FormGroup;
   resultValid: boolean;
 
-  // private selectedRound: number;
-  // private selectedRoundComplete = false;
-
   constructor(
     private fb: FormBuilder
   ) {
     this.createForm();
-  }
-
-  ngOnInit() {
-
-
-    // Subscribe to data.
-    // this.roundService.selectedRound$.subscribe((round: number) => this.selectedRound = round);
-    // this.roundService.selectedRoundComplete$.subscribe((complete: boolean) => {
-    //   this.selectedRoundComplete = complete;
-
-    //   if (complete) {
-    //     this.matchResultsForm.disable();
-    //   } else {
-    //     this.matchResultsForm.enable();
-    //   }
-    // });
   }
 
   ngOnChanges() {
@@ -102,18 +83,6 @@ export class MatchResultsComponent implements OnChanges, OnInit {
     }
 
     this.resultSubmitted.emit(this.selectedPairing);
-
-    // if (shouldSavePlayers) {
-    //   this.playerService.saveAll();
-    // }
-
-    // this.pairingService.saveAndClearSelected();
-
-    // if (this.selectedRoundComplete) {
-    //   this.roundService.markRoundAsComplete(this.selectedRound);
-    //   this.standingsService.calculateStandings();
-    //   this.router.navigate(['/swiss/standings']);
-    // }
   }
 
   private createForm() {

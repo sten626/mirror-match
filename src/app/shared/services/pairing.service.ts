@@ -8,16 +8,12 @@ import { PlayerService } from './player.service';
 @Injectable()
 export class PairingService {
   readonly pairings$: Observable<Pairing[]>;
-  // TODO: Move selected pairing to component level.
-  // readonly selectedPairing$: Observable<Pairing>;
   readonly submittedPairings$: Observable<Pairing[]>;
 
   private pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
   private pairingsSubject$ = new BehaviorSubject<Pairing[]>([]);
   private activePlayers: Player[];
-  // private selectedPairing: Pairing;
-  // private selectedPairingSubject$ = new BehaviorSubject<Pairing>(null);
 
   private readonly lsKeys = {
     pairings: 'pairings'
@@ -28,7 +24,6 @@ export class PairingService {
 
     // Setup Observables.
     this.pairings$ = this.pairingsSubject$.asObservable();
-    // this.selectedPairing$ = this.selectedPairingSubject$.asObservable().pipe(distinctUntilChanged());
     this.submittedPairings$ = this.pairings$.pipe(map((pairings: Pairing[]) => {
       return pairings.filter((pairing: Pairing) => pairing.submitted);
     }), distinctUntilChanged());
@@ -86,13 +81,6 @@ export class PairingService {
     );
   }
 
-  // saveAndClearSelected(): void {
-  //   this.saveToLocalStorage();
-  //   // this.selectedPairing = null;
-  //   // this.selectedPairingSubject$.next(this.selectedPairing);
-  //   this.pairingsSubject$.next(this.pairings.slice());
-  // }
-
   updatePairing(pairing: Pairing): void {
     const pairings = this.pairings.map(p => p === pairing ? pairing : p);
     this.next(pairings);
@@ -113,11 +101,6 @@ export class PairingService {
 
     this.next(pairings);
   }
-
-  // setSelectedPairing(pairing: Pairing) {
-  //   this.selectedPairing = pairing;
-  //   this.selectedPairingSubject$.next(this.selectedPairing);
-  // }
 
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
     if (players.length % 2 === 1) {

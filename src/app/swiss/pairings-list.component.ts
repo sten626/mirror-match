@@ -28,8 +28,6 @@ export class PairingsListComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder
-    // private pairingService: PairingService,
-    // private roundService: RoundService
   ) {
     // Setup form.
     this.pairingsListForm = this.fb.group({
@@ -39,12 +37,6 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    // Subscribe to services.
-    // this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-    //   this.selectedPairing = pairing;
-    //   this.filterPairings();
-    // });
-
     // Filter pairings.
     this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }

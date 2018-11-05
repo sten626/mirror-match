@@ -17,20 +17,12 @@ export class RoundService {
   readonly hasCompletedRounds$: Observable<boolean>;
   readonly isTournamentOver$: Observable<boolean>;
   readonly outstandingPairingsForCurrentRound$: Observable<Pairing[]>;
-  // readonly pairingsForSelectedRound$: Observable<Pairing[]>;
   readonly rounds$: Observable<number[]>;
-  // TODO Move selected round to component level.
-  // readonly selectedRound$: Observable<number>;
-  // readonly selectedRoundComplete$: Observable<boolean>;
-  // readonly selectedRoundHasPairings$: Observable<boolean>;
-  // readonly selectedRoundHasSubmittedPairings$: Observable<boolean>;
 
   private completedRounds: number[];
   private completedRoundsSubject$ = new BehaviorSubject<number[]>([]);
   private rounds: number[];
   private roundsSubject$ = new BehaviorSubject<number[]>([]);
-  // private selectedRound: number;
-  // private selectedRoundSubject$: BehaviorSubject<number>;
   private totalNumberOfRounds: number;
 
   private readonly lsKeys = {
@@ -61,45 +53,11 @@ export class RoundService {
       map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
       distinctUntilChanged()
     );
-    // this.selectedRound = Math.max(...this.rounds);
-    // this.selectedRoundSubject$ = new BehaviorSubject<number>(this.selectedRound);
-    // this.selectedRound$ = this.selectedRoundSubject$.asObservable().pipe(distinctUntilChanged());
-    // this.pairingsForSelectedRound$ = this.pairingService.pairings.pipe(
-    //   combineLatest(this.selectedRound$, (pairings: Pairing[], round: number) => {
-    //     return pairings.filter((pairing: Pairing) => pairing.round === round);
-    //   })
-    // );
     this.outstandingPairingsForCurrentRound$ = this.pairingService.pairings$.pipe(
       combineLatest(this.currentRound$, (pairings: Pairing[], round: number) => {
         return pairings.filter((pairing: Pairing) => pairing.round === round && !pairing.submitted);
       })
     );
-
-    // this.selectedRoundHasPairings$ = this.pairingsForSelectedRound$.pipe(
-    //   map((pairings: Pairing[]) => {
-    //     return pairings.length > 0;
-    //   }),
-    //   distinctUntilChanged()
-    // );
-
-    // this.selectedRoundComplete$ = this.pairingsForSelectedRound$.pipe(
-    //   map((pairings: Pairing[]) => {
-    //     if (pairings.length === 0) {
-    //       return false;
-    //     }
-
-    //     return pairings
-    //       .map((pairing: Pairing) => pairing.submitted)
-    //       .reduce((allSubmitted: boolean, submitted: boolean) => allSubmitted && submitted);
-    //   }),
-    //   distinctUntilChanged()
-    // );
-
-    // this.selectedRoundHasSubmittedPairings$ = this.pairingsForSelectedRound$.pipe(map((pairings: Pairing[]) => {
-    //   const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
-
-    //   return submitted.length > 0;
-    // }));
 
     this.canStartNextRound$ = this.rounds$.pipe(combineLatest(this.completedRounds$, (rounds: number[], completedRounds: number[]) => {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;
@@ -112,12 +70,6 @@ export class RoundService {
     const nextRound = this.rounds.length > 0 ? Math.max(...this.rounds) + 1 : 1;
     const rounds = this.rounds.concat(nextRound);
     this.nextRounds(rounds);
-
-    // this.rounds.push(nextRound);
-    // this.saveToLocalStorage();
-    // this.roundsSubject$.next(this.rounds.slice());
-    // this.selectedRound = nextRound;
-    // this.selectedRoundSubject$.next(this.selectedRound);
   }
 
   getTotalNumberOfRounds(): number {
@@ -157,11 +109,6 @@ export class RoundService {
     this.saveToLocalStorage();
     this.completedRoundsSubject$.next(this.completedRounds.slice());
   }
-
-  // setSelectedRound(selectedRound: number): void {
-  //   this.selectedRound = selectedRound;
-  //   this.selectedRoundSubject$.next(this.selectedRound);
-  // }
 
   setTotalNumberOfRounds(numberOfRounds: number): void {
     this.totalNumberOfRounds = numberOfRounds;
