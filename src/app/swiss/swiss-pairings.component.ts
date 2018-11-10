@@ -93,7 +93,7 @@ export class SwissPairingsComponent implements OnDestroy, OnInit {
     });
 
     this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
-      this.selectedRound = parseInt(value);
+      this.selectedRoundChanged(parseInt(value));
     });
   }
 
