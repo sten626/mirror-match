@@ -31,7 +31,7 @@ export class StandingsService {
       });
     });
 
-    this.pairingService.submittedPairings.subscribe((pairings: Pairing[]) => {
+    this.pairingService.submittedPairings$.subscribe((pairings: Pairing[]) => {
       this.allSubmittedPairings = pairings;
     });
 

@@ -7,34 +7,28 @@ import { PlayerService } from './player.service';
 
 @Injectable()
 export class PairingService {
-  readonly pairings: Observable<Pairing[]>;
-  readonly selectedPairing: Observable<Pairing>;
-  readonly submittedPairings: Observable<Pairing[]>;
+  readonly pairings$: Observable<Pairing[]>;
+  readonly submittedPairings$: Observable<Pairing[]>;
 
-  private _pairings: Pairing[];
+  private pairings: Pairing[];
   private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
-  private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
+  private pairingsSubject$ = new BehaviorSubject<Pairing[]>([]);
   private activePlayers: Player[];
-  private _selectedPairing: Pairing;
-  private selectedPairingSubject = new BehaviorSubject<Pairing>(null);
 
   private readonly lsKeys = {
     pairings: 'pairings'
   };
 
   constructor(private playerService: PlayerService) {
-    // Load data.
-    this.loadFromLocalStorage();
     this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
 
     // Setup Observables.
-    this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
-    this.selectedPairing = this.selectedPairingSubject.asObservable().pipe(distinctUntilChanged());
-    this.submittedPairings = this.pairings.pipe(map((pairings: Pairing[]) => {
+    this.pairings$ = this.pairingsSubject$.asObservable();
+    this.submittedPairings$ = this.pairings$.pipe(map((pairings: Pairing[]) => {
       return pairings.filter((pairing: Pairing) => pairing.submitted);
     }), distinctUntilChanged());
 
-    this.pairingsSubject.next(this._pairings.slice());
+    this.loadFromLocalStorage();
   }
 
   clearResults(round: number): void {
@@ -46,48 +40,66 @@ export class PairingService {
     });
 
     this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
+    this.pairingsSubject$.next(this.pairings.slice());
   }
 
   createPairings(round: number, isLastRound: boolean): void {
+    // TODO Make sure pairings don't already exist for given round. Add unit test.
     if (this.activePlayers.length < 1) {
       throw new Error('Trying to create pairings with zero active players.');
     }
 
     if (round === 1) {
       const pairings = this.createRandomPairings(this.activePlayers, round);
-      this._pairings = this._pairings.concat(pairings);
+      this.pairings = this.pairings.concat(pairings);
       this.pairingsByRoundsMap[round] = pairings;
     } else {
       const pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
-      this._pairings = this._pairings.concat(pairings);
+      this.pairings = this.pairings.concat(pairings);
       this.pairingsByRoundsMap[round] = pairings;
     }
 
     this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
+    this.pairingsSubject$.next(this.pairings.slice());
   }
 
   deletePairings(round: number): void {
     const pairingsForRound = this.pairingsByRoundsMap[round];
     delete this.pairingsByRoundsMap[round];
-    this._pairings = this._pairings.filter((pairing: Pairing) => {
+    this.pairings = this.pairings.filter((pairing: Pairing) => {
       return pairingsForRound.indexOf(pairing) === -1;
     });
     this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
+    this.pairingsSubject$.next(this.pairings.slice());
   }
 
-  saveAndClearSelected(): void {
-    this.saveToLocalStorage();
-    this._selectedPairing = null;
-    this.selectedPairingSubject.next(this._selectedPairing);
-    this.pairingsSubject.next(this._pairings.slice());
+  getPairingsForRound(round: number): Observable<Pairing[]> {
+    return this.pairings$.pipe(
+      map((pairings: Pairing[]) => {
+        return pairings.filter(p => p.round === round);
+      })
+    );
   }
 
-  setSelectedPairing(pairing: Pairing) {
-    this._selectedPairing = pairing;
-    this.selectedPairingSubject.next(this._selectedPairing);
+  updatePairing(pairing: Pairing): void {
+    const pairings = this.pairings.map(p => p === pairing ? pairing : p);
+    this.next(pairings);
+  }
+
+  updatePairings(updatedPairings: Pairing[]): void {
+    const pairings = [];
+
+    for (const pairing of this.pairings) {
+      const i = updatedPairings.indexOf(pairing);
+
+      if (i >= 0) {
+        pairings.push(updatedPairings[i]);
+      } else {
+        pairings.push(pairing);
+      }
+    }
+
+    this.next(pairings);
   }
 
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
@@ -190,13 +202,14 @@ export class PairingService {
     }
   }
 
-  private loadFromLocalStorage() {
+  private loadFromLocalStorage(): void {
     const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+    let pairings = [];
 
     if (pairingsData) {
       const rawPairings = JSON.parse(pairingsData);
 
-      this._pairings = rawPairings.map(rawPairing => {
+      pairings = rawPairings.map(rawPairing => {
         const round = rawPairing.round;
         const pairing = new Pairing(
           round,
@@ -217,10 +230,15 @@ export class PairingService {
 
         return pairing;
       });
-    } else {
-      this._pairings = [];
-      localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this._pairings));
     }
+
+    this.next(pairings);
+  }
+
+  private next(newPairings: Pairing[]): void {
+    this.pairings = newPairings;
+    this.saveToLocalStorage();
+    this.pairingsSubject$.next(newPairings);
   }
 
   /**
@@ -272,7 +290,7 @@ export class PairingService {
   }
 
   private saveToLocalStorage() {
-    const pairingsToLocalStorage = this._pairings.map((pairing: Pairing) => {
+    const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
       return {
         round: pairing.round,
         table: pairing.table,

@@ -44,11 +44,12 @@ describe('StandingsService', () => {
     };
     const submittedPairingsSubject = new BehaviorSubject<Pairing[]>([]);
     const fakePairingService = {
-      submittedPairings: submittedPairingsSubject.asObservable()
+      submittedPairings$: submittedPairingsSubject.asObservable()
     };
 
     service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
     service = service as any; // Get around TSLint unused warning.
+    expect(true);
   });
 
   it('#calculateStandings should round tiebreakers correctly', () => {
@@ -59,7 +60,7 @@ describe('StandingsService', () => {
     };
     const submittedPairingsSubject = new BehaviorSubject<Pairing[]>(pairings);
     const fakePairingService = {
-      submittedPairings: submittedPairingsSubject.asObservable()
+      submittedPairings$: submittedPairingsSubject.asObservable()
     };
 
     service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);

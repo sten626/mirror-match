@@ -60,4 +60,8 @@
     </table>
   </div>
 </div>
-<mm-match-results></mm-match-results>
+<mm-match-results
+  [selectedPairing]="selectedPairing"
+  (matchResultCleared)="onMatchResultCleared($event)"
+  (playerDroppedChanged)="onPlayerDroppedChanged($event)"
+  (resultSubmitted)="onResultSubmitted($event)"></mm-match-results>

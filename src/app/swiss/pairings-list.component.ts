@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
   Pairing,
-  PairingService,
-  RoundService
+  Player
 } from '../shared';
 
 @Component({
@@ -12,67 +11,90 @@ import {
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnInit {
+export class PairingsListComponent implements OnChanges, OnInit {
+  @Input() pairings: Pairing[];
+  @Output() lastResultSubmitted = new EventEmitter<string>();
+  @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
+  @Output() playerDroppedChanged = new EventEmitter<Player>();
+  @Output() redoMatchesForRound = new EventEmitter<string>();
+  @Output() resultSubmitted = new EventEmitter<Pairing>();
+
   filteredPairings: Pairing[];
   pairingsExist = false;
   pairingsListForm: FormGroup;
   selectedPairing: Pairing;
-  selectedRound: number;
   selectedRoundComplete = false;
   selectedRoundHasSubmittedPairings = false;
 
-  private pairings: Pairing[];
-
   constructor(
-    private fb: FormBuilder,
-    private pairingService: PairingService,
-    private roundService: RoundService
-  ) {}
-
-  deleteResults() {
-    this.pairings.forEach(pairing => {
-      pairing.player1Wins = 0;
-      pairing.player2Wins = 0;
-      pairing.draws = 0;
-      pairing.submitted = false;
-    });
-
-    this.pairingService.saveAndClearSelected();
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
-  }
-
-  ngOnInit() {
+    private fb: FormBuilder
+  ) {
     // Setup form.
     this.pairingsListForm = this.fb.group({
       pairingsSearch: '',
       showOutstandingOnly: true
     });
+  }
 
-    // Subscribe to services.
-    this.roundService.selectedRound.subscribe((round: number) => this.selectedRound = round);
-    this.roundService.pairingsForSelectedRound.subscribe((pairings: Pairing[]) => {
-      this.pairings = pairings;
-      this.filterPairings();
-    });
-    this.pairingService.selectedPairing.subscribe((pairing: Pairing) => {
-      this.selectedPairing = pairing;
-      this.filterPairings();
-    });
-
-    this.roundService.selectedRoundHasPairings.subscribe((hasPairings: boolean) => this.pairingsExist = hasPairings);
-    this.roundService.selectedRoundHasSubmittedPairings.subscribe((hasSubmitted: boolean) => {
-      this.selectedRoundHasSubmittedPairings = hasSubmitted;
-    });
-
-    this.roundService.selectedRoundComplete.subscribe((roundComplete: boolean) => this.selectedRoundComplete = roundComplete);
-
+  ngOnInit() {
     // Filter pairings.
     this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
   }
 
+  ngOnChanges() {
+    if (this.pairings) {
+      if (this.pairings.length === 0) {
+        this.pairingsExist = false;
+        this.selectedRoundComplete = false;
+        this.selectedRoundHasSubmittedPairings = false;
+      } else {
+        this.filterPairings();
+        this.pairingsExist = true;
+        this.selectedRoundComplete = this.pairings
+          .map(p => p.submitted)
+          .reduce((prevSubmitted, curSubmitted) => prevSubmitted && curSubmitted);
+
+        this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
+      }
+    }
+  }
+
+  deleteResults() {
+    this.pairings.forEach(pairing => {
+      if (!pairing.bye) {
+        pairing.player1Wins = 0;
+        pairing.player2Wins = 0;
+        pairing.draws = 0;
+        pairing.submitted = false;
+      }
+    });
+
+    this.matchResultsCleared.emit(this.pairings);
+    this.selectedPairing = null;
+  }
+
+  onMatchResultCleared(pairing: Pairing): void {
+    this.matchResultsCleared.emit([pairing]);
+    this.selectedPairing = null;
+  }
+
+  onPlayerDroppedChanged(player: Player): void {
+    this.playerDroppedChanged.emit(player);
+  }
+
+  onResultSubmitted(pairing: Pairing): void {
+    this.resultSubmitted.emit(pairing);
+    this.selectedPairing = null;
+    const numUnsubmitted = this.pairings.filter((p: Pairing) => !p.submitted).length;
+
+    if (numUnsubmitted === 0) {
+      this.lastResultSubmitted.emit();
+    }
+  }
+
   redoMatches() {
-    this.pairingService.deletePairings(this.selectedRound);
-    this.roundService.markRoundAsIncomplete(this.selectedRound);
+    this.selectedPairing = null;
+    this.redoMatchesForRound.emit();
   }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
@@ -88,7 +110,9 @@ export class PairingsListComponent implements OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    this.pairingService.setSelectedPairing(pairing);
+    if (!pairing.bye) {
+      this.selectedPairing = pairing;
+    }
   }
 
   private filterPairings() {
