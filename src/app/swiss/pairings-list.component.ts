@@ -54,17 +54,19 @@ export class PairingsListComponent implements OnChanges, OnInit {
           .map(p => p.submitted)
           .reduce((prevSubmitted, curSubmitted) => prevSubmitted && curSubmitted);
 
-        this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted).length > 0;
+        this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
       }
     }
   }
 
   deleteResults() {
     this.pairings.forEach(pairing => {
-      pairing.player1Wins = 0;
-      pairing.player2Wins = 0;
-      pairing.draws = 0;
-      pairing.submitted = false;
+      if (!pairing.bye) {
+        pairing.player1Wins = 0;
+        pairing.player2Wins = 0;
+        pairing.draws = 0;
+        pairing.submitted = false;
+      }
     });
 
     this.matchResultsCleared.emit(this.pairings);
@@ -91,6 +93,7 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   redoMatches() {
+    this.selectedPairing = null;
     this.redoMatchesForRound.emit();
   }
 
@@ -107,7 +110,9 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    this.selectedPairing = pairing;
+    if (!pairing.bye) {
+      this.selectedPairing = pairing;
+    }
   }
 
   private filterPairings() {
