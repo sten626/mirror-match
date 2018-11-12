@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - Updated dependencies.
-- Refactoring of PlayerService and SwissPlayersComponent.
+- Major refactoring of data services and all app components.
 
 ## [1.0.0-beta.4] - 2018-08-17
 ### Fixed
