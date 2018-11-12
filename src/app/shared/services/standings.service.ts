@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
@@ -8,18 +7,18 @@ import { Pairing, Player } from '../models';
 
 @Injectable()
 export class StandingsService {
-  readonly standings: Observable<Player[]>;
+  readonly standings$: Observable<Player[]>;
 
   private allSubmittedPairings: Pairing[];
   private players: Player[];
   private playersMap: {[id: number]: Player} = {};
-  private standingsSubject = new BehaviorSubject<Player[]>([]);
+  private standingsSubject$ = new BehaviorSubject<Player[]>([]);
 
   constructor(
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
-    this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
+    this.standings$ = this.standingsSubject$.asObservable();
 
     this.playerService.players$.subscribe((players: Player[]) => {
       this.players = players.slice();
@@ -164,7 +163,15 @@ export class StandingsService {
       return 0;
     });
 
-    this.standingsSubject.next(this.players.slice());
+    this.next(this.players);
+  }
+
+  /**
+   * Loads a Players array into the standings subject.
+   * @param newStandings The new array of players with standings calculated.
+   */
+  private next(newStandings: Player[]): void {
+    this.standingsSubject$.next(newStandings);
   }
 
   private sigFigs(num: number, numOfSigFigs: number): number {

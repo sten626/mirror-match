@@ -12,6 +12,6 @@ export class SwissStandingsComponent implements OnInit {
   constructor(private standingsService: StandingsService) {}
 
   ngOnInit() {
-    this.standings = this.standingsService.standings;
+    this.standings = this.standingsService.standings$;
   }
 }
