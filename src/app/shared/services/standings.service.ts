@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
-import { Pairing, Player } from '../models';
+import { Pairing, Player, Standing } from '../models';
 
 @Injectable()
 export class StandingsService {
-  readonly standings: Observable<Player[]>;
+  readonly standings$: Observable<Standing[]>;
 
   private allSubmittedPairings: Pairing[];
   private players: Player[];
   private playersMap: {[id: number]: Player} = {};
-  private standingsSubject = new BehaviorSubject<Player[]>([]);
+  private standingsSubject$ = new BehaviorSubject<Standing[]>([]);
 
   constructor(
     private pairingService: PairingService,
     private playerService: PlayerService
   ) {
-    this.standings = this.standingsSubject.asObservable().pipe(distinctUntilChanged());
+    this.standings$ = this.standingsSubject$.asObservable();
 
     this.playerService.players$.subscribe((players: Player[]) => {
       this.players = players.slice();
@@ -97,6 +96,8 @@ export class StandingsService {
       }
     });
 
+    const standings: Standing[] = [];
+
     // Calculate percentages.
     this.players.forEach((player: Player) => {
       let oppMwpSum = 0;
@@ -123,48 +124,47 @@ export class StandingsService {
         player.opponentMatchWinPercentage = 0;
         player.opponentGameWinPercentage = 0;
       }
+
+      standings.push(new Standing(
+        player.name,
+        player.matchPoints,
+        player.matchesPlayed,
+        player.matchesWon,
+        player.matchesDrawn,
+        player.byes,
+        player.opponentMatchWinPercentage,
+        player.gameWinPercentage,
+        player.opponentGameWinPercentage
+      ));
     });
 
     this.playerService.saveAll();
 
-    this.players.sort((a: Player, b: Player) => {
-      if (a.matchPoints > b.matchPoints) {
-        return -1;
-      } else if (a.matchPoints < b.matchPoints) {
-        return 1;
+    standings.sort((a: Standing, b: Standing) => {
+      if (a.matchPoints !== b.matchPoints) {
+        return b.matchPoints - a.matchPoints;
       }
 
-      const aOMWP = Math.max(a.opponentMatchWinPercentage, 33.3333);
-      const bOMWP = Math.max(b.opponentMatchWinPercentage, 33.3333);
-
-      if (aOMWP > bOMWP) {
-        return -1;
-      } else if (aOMWP < bOMWP) {
-        return 1;
+      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
       }
 
-      const aGWP = Math.max(a.gameWinPercentage, 33.3333);
-      const bGWP = Math.max(b.gameWinPercentage, 33.3333);
-
-      if (aGWP > bGWP) {
-        return -1;
-      } else if (aGWP < bGWP) {
-        return 1;
+      if (a.gameWinPercentage !== b.gameWinPercentage) {
+        return b.gameWinPercentage - a.gameWinPercentage;
       }
 
-      const aOGWP = Math.max(a.opponentGameWinPercentage, 33.3333);
-      const bOGWP = Math.max(b.opponentGameWinPercentage, 33.3333);
-
-      if (aOGWP > bOGWP) {
-        return -1;
-      } else if (aOGWP < bOGWP) {
-        return 1;
-      }
-
-      return 0;
+      return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
     });
 
-    this.standingsSubject.next(this.players.slice());
+    this.next(standings);
+  }
+
+  /**
+   * Loads a Standings array into the standings subject.
+   * @param newStandings The new array of ordered Standings.
+   */
+  private next(newStandings: Standing[]): void {
+    this.standingsSubject$.next(newStandings);
   }
 
   private sigFigs(num: number, numOfSigFigs: number): number {

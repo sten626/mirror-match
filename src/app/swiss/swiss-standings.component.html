@@ -10,14 +10,14 @@
         <th>Game Win %</th>
         <th>Opponent Game Win %</th>
       </tr>
-      <tr *ngFor="let player of standings | async; let i = index;">
+      <tr *ngFor="let standing of standings | async; let i = index;">
         <td>{{i + 1}}</td>
-        <td>{{player.name}}</td>
-        <td>{{player.matchPoints}}</td>
-        <td>{{player.matchesPlayed}}/{{player.matchesWon}}/{{player.matchesDrawn}}/{{player.byes}}</td>
-        <td>{{player.opponentMatchWinPercentage}}</td>
-        <td>{{player.gameWinPercentage}}</td>
-        <td>{{player.opponentGameWinPercentage}}</td>
+        <td>{{standing.playerName}}</td>
+        <td>{{standing.matchPoints}}</td>
+        <td>{{standing.matchesPlayed}}/{{standing.matchesWon}}/{{standing.matchesDrawn}}/{{standing.byes}}</td>
+        <td>{{standing.opponentMatchWinPercentage}}</td>
+        <td>{{standing.gameWinPercentage}}</td>
+        <td>{{standing.opponentGameWinPercentage}}</td>
       </tr>
     </table>
   </div>
