@@ -31,46 +31,34 @@ export class PairingService {
     this.loadFromLocalStorage();
   }
 
-  clearResults(round: number): void {
-    this.pairingsByRoundsMap[round].forEach(pairing => {
-      pairing.player1Wins = 0;
-      pairing.player2Wins = 0;
-      pairing.draws = 0;
-      pairing.submitted = false;
-    });
-
-    this.saveToLocalStorage();
-    this.pairingsSubject$.next(this.pairings.slice());
-  }
-
   createPairings(round: number, isLastRound: boolean): void {
     // TODO Make sure pairings don't already exist for given round. Add unit test.
     if (this.activePlayers.length < 1) {
       throw new Error('Trying to create pairings with zero active players.');
     }
 
+    let pairings: Pairing[] = null;
+
     if (round === 1) {
-      const pairings = this.createRandomPairings(this.activePlayers, round);
-      this.pairings = this.pairings.concat(pairings);
+      pairings = this.createRandomPairings(this.activePlayers, round);
       this.pairingsByRoundsMap[round] = pairings;
     } else {
-      const pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
-      this.pairings = this.pairings.concat(pairings);
+      pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
       this.pairingsByRoundsMap[round] = pairings;
     }
 
-    this.saveToLocalStorage();
-    this.pairingsSubject$.next(this.pairings.slice());
+    this.next(pairings);
   }
 
   deletePairings(round: number): void {
     const pairingsForRound = this.pairingsByRoundsMap[round];
     delete this.pairingsByRoundsMap[round];
-    this.pairings = this.pairings.filter((pairing: Pairing) => {
+
+    const pairings = this.pairings.filter((pairing: Pairing) => {
       return pairingsForRound.indexOf(pairing) === -1;
     });
-    this.saveToLocalStorage();
-    this.pairingsSubject$.next(this.pairings.slice());
+
+    this.next(pairings);
   }
 
   getPairingsForRound(round: number): Observable<Pairing[]> {
