@@ -9,7 +9,7 @@ import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
 import { SwissPlayerFormComponent } from './swiss-player-form.component';
 import { SwissPlayerListComponent } from './swiss-player-list.component';
-import { SwissPlayersComponent } from './swiss-players.component';
+import { PlayersPageComponent } from './containers/players-page.component';
 import { SwissPlayersStartComponent } from './swiss-players-start.component';
 import { SwissStandingsComponent } from './swiss-standings.component';
 import { TournamentStartedGuard } from './tournament-started-guard.service';
@@ -28,7 +28,7 @@ const routes: Routes = [{
     canActivate: [TournamentStartedGuard]
   }, {
     path: 'players',
-    component: SwissPlayersComponent
+    component: PlayersPageComponent
   }, {
     path: 'pairings',
     component: SwissPairingsComponent,
@@ -53,7 +53,7 @@ const routes: Routes = [{
     SwissPairingsComponent,
     SwissPlayerFormComponent,
     SwissPlayerListComponent,
-    SwissPlayersComponent,
+    PlayersPageComponent,
     SwissPlayersStartComponent,
     SwissStandingsComponent
   ],

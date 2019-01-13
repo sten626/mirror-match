@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Player, PlayerService, RoundService } from '../shared';
+import { Player, PlayerService, RoundService } from 'app/shared';
+import * as fromSwiss from '../reducers';
+import { PlayersPageActions } from '../actions';
 
 @Component({
-  templateUrl: './swiss-players.component.html'
+  templateUrl: './players-page.component.html'
 })
-export class SwissPlayersComponent {
+export class PlayersPageComponent {
   canBeginTournament$: Observable<boolean>;
   hasBegunTournament$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
@@ -16,6 +19,7 @@ export class SwissPlayersComponent {
   selectedPlayer: Player;
 
   constructor(
+    private store: Store<fromSwiss.State>,
     private playerService: PlayerService,
     private roundService: RoundService,
     private router: Router
@@ -32,7 +36,9 @@ export class SwissPlayersComponent {
    * @param player The new Player to add.
    */
   addPlayer(player: Player): void {
-    this.playerService.addPlayer(player);
+    // this.playerService.addPlayer(player);
+    // TODO: Update doc
+    this.store.dispatch(new PlayersPageActions.AddPlayer(player));
   }
 
   /**
