@@ -21,6 +21,7 @@ import {
 } from './shared';
 import { reducers } from './swiss/reducers';
 import { SwissModule } from './swiss/swiss.module';
+import { PlayerEffects } from './swiss/effects/player.effects';
 
 
 const routes: Routes = [{
@@ -36,7 +37,7 @@ const routes: Routes = [{
   ],
   imports: [
     BrowserModule,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([PlayerEffects]),
     FormsModule,
     HomeModule,
     HttpModule,
