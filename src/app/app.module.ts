@@ -3,14 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { DBModule } from '@ngrx/db';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
-import { schema } from './db';
 import { HomeComponent } from './home/home.component';
 import { HomeModule } from './home/home.module';
 import {
+  DbService,
   FooterComponent,
   HeaderComponent,
   MessageService,
@@ -37,7 +36,6 @@ const routes: Routes = [{
   ],
   imports: [
     BrowserModule,
-    DBModule.provideDB(schema),
     EffectsModule.forRoot([]),
     FormsModule,
     HomeModule,
@@ -48,6 +46,7 @@ const routes: Routes = [{
     SwissModule
   ],
   providers: [
+    DbService,
     MessageService,
     PairingService,
     PlayerService,

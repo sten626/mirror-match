@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Database } from '@ngrx/db';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { PlayersPageActions, PlayersApiActions } from '../actions';
+import { DbService } from '../../shared';
 
 @Injectable()
 export class PlayerEffects {
@@ -22,6 +22,6 @@ export class PlayerEffects {
 
   constructor(
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
-    private db: Database
+    private db: DbService
   ) {}
 }
