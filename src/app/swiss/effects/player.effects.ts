@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import { PlayersPageActions, PlayersApiActions } from '../actions';
-import { DbService } from '../../shared';
+import { catchError, map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { DbService, Player } from '../../shared';
+import { PlayersApiActions, PlayersPageActions } from '../actions';
 
 @Injectable()
 export class PlayerEffects {
@@ -14,8 +14,20 @@ export class PlayerEffects {
     map(action => action.payload),
     mergeMap(player =>
       this.db.insert('players', [player]).pipe(
-        map(() => new PlayersApiActions.AddPlayerSuccess(player)),
+        map((newPlayer) => new PlayersApiActions.AddPlayerSuccess(newPlayer)),
         catchError(() => of(new PlayersApiActions.AddPlayerFailure(player)))
+      )
+    )
+  );
+
+  @Effect()
+  loadPlayers$: Observable<Action> = this.actions$.pipe(
+    ofType(PlayersPageActions.PlayerPageActionTypes.LoadPlayers),
+    switchMap(() =>
+      this.db.query('players').pipe(
+        toArray(),
+        map((players: Player[]) => new PlayersApiActions.LoadPlayersSuccess(players)),
+        catchError((err) => of(new PlayersApiActions.LoadPlayersFailure(err)))
       )
     )
   );

@@ -7,7 +7,6 @@ export class DbService {
   constructor() {}
 
   insert(store: string, objects: any[]): Observable<any> {
-    console.log('Inserting');
     const open$ = this.open();
 
     return open$.pipe(
@@ -25,18 +24,15 @@ export class DbService {
           const requestSubscription = from(objects).pipe(
             mergeMap((object: any) => {
               return Observable.create((reqObserver: Observer<any>) => {
-                console.log('Adding: ', object);
                 const req = objectStore.add(object);
 
                 req.addEventListener('success', () => {
-                  console.log('add success');
                   const key = req.result;
                   const newObject = Object.assign({}, object, { id: key });
                   reqObserver.next(newObject);
                 });
 
                 req.addEventListener('error', (err: any) => {
-                  console.log('add error: ', err);
                   reqObserver.error(err);
                 });
               });
@@ -47,6 +43,42 @@ export class DbService {
             requestSubscription.unsubscribe();
             txn.removeEventListener('complete', onTxnComplete);
             txn.removeEventListener('error', onTxnError);
+          };
+        });
+      })
+    );
+  }
+
+  query(storeName: string): Observable<any> {
+    const open$ = this.open();
+
+    return open$.pipe(
+      mergeMap((db: IDBDatabase) => {
+        return Observable.create((txnObserver: Observer<any>) => {
+          const txn = db.transaction(storeName, 'readonly');
+          const objectStore = txn.objectStore(storeName);
+          const getRequest = objectStore.openCursor();
+
+          const onTxnError = (err: any) => txnObserver.error(err);
+          const onRecordFound = (ev: any) => {
+            const cursor = ev.target.result;
+
+            if (cursor) {
+              txnObserver.next(cursor.value);
+              cursor.continue();
+            } else {
+              txnObserver.complete();
+            }
+          };
+
+          txn.addEventListener('error', onTxnError);
+          getRequest.addEventListener('error', onTxnError);
+          getRequest.addEventListener('success', onRecordFound);
+
+          return () => {
+            txn.removeEventListener('error', onTxnError);
+            getRequest.removeEventListener('error', onTxnError);
+            getRequest.removeEventListener('success', onRecordFound);
           };
         });
       })

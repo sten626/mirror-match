@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { PlayersPageActions } from '../actions';
 @Component({
   templateUrl: './players-page.component.html'
 })
-export class PlayersPageComponent {
+export class PlayersPageComponent implements OnInit {
   canBeginTournament$: Observable<boolean>;
   hasBegunTournament$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
@@ -29,6 +29,10 @@ export class PlayersPageComponent {
     this.isTournamentOver$ = this.roundService.isTournamentOver$;
     this.players$ = this.playerService.players$;
     this.recommendedNumberOfRounds$ = this.playerService.recommendedNumberOfRounds$;
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(new PlayersPageActions.LoadPlayers());
   }
 
   /**

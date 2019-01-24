@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 import { Player } from 'app/shared';
 
 export enum PlayerPageActionTypes {
-  AddPlayer = '[Players Page] Add Player'
+  AddPlayer = '[Players Page] Add Player',
+  LoadPlayers = '[Players Page] Load Players'
 }
 
 export class AddPlayer implements Action {
@@ -26,4 +27,8 @@ export class AddPlayer implements Action {
   }
 }
 
-export type PlayersPageActionsUnion = AddPlayer;
+export class LoadPlayers implements Action {
+  readonly type = PlayerPageActionTypes.LoadPlayers;
+}
+
+export type PlayersPageActionsUnion = AddPlayer | LoadPlayers;
