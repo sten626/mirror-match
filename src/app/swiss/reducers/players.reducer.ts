@@ -7,7 +7,9 @@ export interface State extends EntityState<Player> {
 
 }
 
-export const adapter: EntityAdapter<Player> = createEntityAdapter<Player>();
+export const adapter: EntityAdapter<Player> = createEntityAdapter<Player>({
+  selectId: (player: Player) => player.id || null
+});
 
 export const initialState: State = adapter.getInitialState();
 

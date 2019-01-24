@@ -29,12 +29,14 @@ export class DbService {
                 const req = objectStore.add(object);
 
                 req.addEventListener('success', () => {
+                  console.log('add success');
                   const key = req.result;
-                  // TODO: Return the actual object.
-                  reqObserver.next(key);
+                  const newObject = Object.assign({}, object, { id: key });
+                  reqObserver.next(newObject);
                 });
 
                 req.addEventListener('error', (err: any) => {
+                  console.log('add error: ', err);
                   reqObserver.error(err);
                 });
               });
@@ -56,6 +58,7 @@ export class DbService {
       const openReq = indexedDB.open('mirrorMatch', 1);
 
       const onSuccess = (event: any) => {
+        console.log('open.onSuccess');
         observer.next(event.target.result);
         observer.complete();
       };
@@ -66,14 +69,14 @@ export class DbService {
       };
 
       const onUpgradeNeeded = (event: any) => {
+        console.log('open.onUpgradeNeeded');
         // TODO: Break out a schema?
-        const db = event.target.result;
-        db.createObjectStore('players', {
+        const db: IDBDatabase = event.target.result;
+        const objectStore = db.createObjectStore('players', {
           keyPath: 'id',
           autoIncrement: true
         });
-        observer.next(db);
-        observer.complete();
+        objectStore.createIndex('name', 'name', { unique: true });
       };
 
       openReq.addEventListener('success', onSuccess);

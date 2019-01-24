@@ -100,11 +100,11 @@ export class PairingService {
     players.forEach((player: Player) => {
       const potentialOpps = [];
 
-      players.forEach((opp: Player) => {
-        if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
-          potentialOpps.push(opp.id);
-        }
-      });
+      // players.forEach((opp: Player) => {
+      //   if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
+      //     potentialOpps.push(opp.id);
+      //   }
+      // });
 
       playerPreferenceMap[player.id] = potentialOpps;
     });
@@ -254,7 +254,7 @@ export class PairingService {
       for (const oppId of playersPreferenceList) {
         if (!(oppId in assignedPlayers)) {
           assignedPlayers[playerId] = oppId;
-          assignedPlayers[oppId] = playerId;
+          // assignedPlayers[oppId] = playerId;
           const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
 
           if (result) {
@@ -306,30 +306,32 @@ export class PairingService {
   }
 
   private sortPlayersByMatchPoints(players: Player[]) {
-    players.sort((a: Player, b: Player) => {
-      return b.matchPoints - a.matchPoints;
-    });
+    players = players;
+    // players.sort((a: Player, b: Player) => {
+    //   return b.matchPoints - a.matchPoints;
+    // });
   }
 
   private sortPlayersByTiebreakers(players: Player[]) {
-    players.sort((a: Player, b: Player) => {
-      if (a.matchPoints !== b.matchPoints) {
-        return b.matchPoints - a.matchPoints;
-      }
+    players = players;
+    // players.sort((a: Player, b: Player) => {
+    //   if (a.matchPoints !== b.matchPoints) {
+    //     return b.matchPoints - a.matchPoints;
+    //   }
 
-      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
-        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
-      }
+    //   if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+    //     return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+    //   }
 
-      if (a.gameWinPercentage !== b.gameWinPercentage) {
-        return b.gameWinPercentage - a.gameWinPercentage;
-      }
+    //   if (a.gameWinPercentage !== b.gameWinPercentage) {
+    //     return b.gameWinPercentage - a.gameWinPercentage;
+    //   }
 
-      if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
-        return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
-      }
+    //   if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
+    //     return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+    //   }
 
-      return 0;
-    });
+    //   return 0;
+    // });
   }
 }

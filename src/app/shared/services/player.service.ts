@@ -13,7 +13,7 @@ export class PlayerService {
   readonly players$: Observable<Player[]>;
   readonly recommendedNumberOfRounds$: Observable<number>;
 
-  private nextId: number;
+  // private nextId: number;
   private players: Player[];
   private playersById = {};
   private playersSubject$ = new BehaviorSubject<Player[]>([]);
@@ -67,7 +67,7 @@ export class PlayerService {
       throw new TypeError('No Player given for saving.');
     }
 
-    player.id = this.nextId++;
+    // player.id = this.nextId++;
     const players = this.players.concat(player);
     this.next(players);
   }
@@ -121,21 +121,22 @@ export class PlayerService {
    * @returns An array of Players loaded from localStorage, or an empty array.
    */
   private loadFromLocalStorage(): Player[] {
-    const playersData = localStorage.getItem(this.lsKeys.players);
-    let players: Player[] = [];
-    this.nextId = 1;
+    // const playersData = localStorage.getItem(this.lsKeys.players);
+    // let players: Player[] = [];
+    // this.nextId = 1;
 
-    if (playersData) {
-      const playersRawArray = JSON.parse(playersData);
-      players = playersRawArray.map(rawPlayer => {
-        const player = new Player(rawPlayer);
-        this.playersById[player.id] = player;
-        this.nextId = Math.max(this.nextId, player.id + 1);
-        return player;
-      });
-    }
+    // if (playersData) {
+    //   const playersRawArray = JSON.parse(playersData);
+    //   players = playersRawArray.map(rawPlayer => {
+    //     const player = new Player(rawPlayer);
+    //     this.playersById[player.id] = player;
+    //     this.nextId = Math.max(this.nextId, player.id + 1);
+    //     return player;
+    //   });
+    // }
 
-    return players;
+    // return players;
+    return [];
   }
 
   /**

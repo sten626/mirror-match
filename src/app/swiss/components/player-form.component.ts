@@ -1,14 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Player } from '../shared';
+import { Player } from '../../shared';
 
 @Component({
   selector: 'mm-swiss-player-form',
-  templateUrl: 'swiss-player-form.component.html',
-  styleUrls: ['swiss-player-form.component.css']
+  templateUrl: 'player-form.component.html',
+  styleUrls: ['player-form.component.css']
 })
-export class SwissPlayerFormComponent implements OnChanges {
+export class PlayerFormComponent implements OnChanges {
   @Input() hasBegunTournament: boolean;
   @Input() isTournamentOver: boolean;
   @Input() selectedPlayer: Player;
@@ -62,24 +62,28 @@ export class SwissPlayerFormComponent implements OnChanges {
     }
 
     if (this.addMode) {
-      const player = new Player({
+      const player: Player = {
         name: name
-      });
+      };
       this.addPlayer.emit(player);
       this.clearForm();
     } else {
-      const player = this.selectedPlayer.copy();
-      player.name = name;
-      this.updatePlayer.emit(player);
-      this.playerFormReset.emit();
+      // TODO: Fix
+      console.log('Need to fix.');
+      // const player = this.selectedPlayer.copy();
+      // player.name = name;
+      // this.updatePlayer.emit(player);
+      // this.playerFormReset.emit();
     }
   }
 
   toggleSelectedPlayerDropped() {
-    const player = this.selectedPlayer.copy();
-    player.dropped = !player.dropped;
-    this.updatePlayer.emit(player);
-    this.playerFormReset.emit();
+    // TODO: Fix
+    console.log('Need to fix.');
+    // const player = this.selectedPlayer.copy();
+    // player.dropped = !player.dropped;
+    // this.updatePlayer.emit(player);
+    // this.playerFormReset.emit();
   }
 
   private createForm() {
