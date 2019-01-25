@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import { Player, PlayerService, RoundService } from 'app/shared';
-import * as fromSwiss from '../reducers';
+import { Player, PlayerService, RoundService } from '../../shared';
 import { PlayersPageActions } from '../actions';
+import * as fromSwiss from '../reducers';
+
 
 @Component({
   templateUrl: './players-page.component.html'
@@ -24,10 +24,12 @@ export class PlayersPageComponent implements OnInit {
     private roundService: RoundService,
     private router: Router
   ) {
+    this.players$ = store.pipe(
+      select(fromSwiss.selectAllPlayers)
+    );
     this.canBeginTournament$ = this.roundService.canBeginTournament$;
     this.hasBegunTournament$ = this.roundService.hasBegunTournament$;
     this.isTournamentOver$ = this.roundService.isTournamentOver$;
-    this.players$ = this.playerService.players$;
     this.recommendedNumberOfRounds$ = this.playerService.recommendedNumberOfRounds$;
   }
 
