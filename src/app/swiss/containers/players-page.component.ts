@@ -16,7 +16,7 @@ export class PlayersPageComponent implements OnInit {
   isTournamentOver$: Observable<boolean>;
   players$: Observable<Player[]>;
   recommendedNumberOfRounds$: Observable<number>;
-  selectedPlayer: Player;
+  selectedPlayer$: Observable<Player>;
 
   constructor(
     private store: Store<fromSwiss.State>,
@@ -27,6 +27,9 @@ export class PlayersPageComponent implements OnInit {
     this.players$ = store.pipe(
       select(fromSwiss.selectAllPlayers)
     );
+    this.selectedPlayer$ = store.pipe(
+      select(fromSwiss.getSelectedPlayer)
+    ) as Observable<Player>;
     this.canBeginTournament$ = this.roundService.canBeginTournament$;
     this.hasBegunTournament$ = this.roundService.hasBegunTournament$;
     this.isTournamentOver$ = this.roundService.isTournamentOver$;
@@ -51,7 +54,8 @@ export class PlayersPageComponent implements OnInit {
    * Set the selected player to null.
    */
   clearSelectedPlayer(): void {
-    this.selectedPlayer = null;
+    // this.selectedPlayer = null;
+    // TODO
   }
 
   /**
@@ -59,19 +63,13 @@ export class PlayersPageComponent implements OnInit {
    * @param player The Player to be deleted.
    */
   onPlayerDeleted(player: Player): void {
-    this.playerService.deletePlayer(player);
+    player = player;
+    // this.playerService.deletePlayer(player);
 
-    if (player === this.selectedPlayer) {
-      this.clearSelectedPlayer();
-    }
-  }
-
-  /**
-   * Event handler for selecting a Player.
-   * @param player The Player being selected.
-   */
-  onPlayerSelected(player: Player): void {
-    this.selectedPlayer = player;
+    // if (player === this.selectedPlayer) {
+    //   this.clearSelectedPlayer();
+    // }
+    // TODO
   }
 
   /**
@@ -85,10 +83,19 @@ export class PlayersPageComponent implements OnInit {
   }
 
   /**
+   * Set the selected player.
+   * @param player The Player being selected.
+   */
+  selectPlayer(player: Player): void {
+    this.store.dispatch(new PlayersPageActions.SelectPlayer(player.id));
+  }
+
+  /**
    * Event handler for updating an existing Player.
    * @param player The Player being updated.
    */
   updatePlayer(player: Player): void {
-    this.playerService.updatePlayer(player);
+    // this.playerService.updatePlayer(player);
+    this.store.dispatch(new PlayersPageActions.UpdatePlayer(player));
   }
 }

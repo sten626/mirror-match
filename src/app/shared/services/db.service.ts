@@ -85,6 +85,25 @@ export class DbService {
     );
   }
 
+  update(store: string, objects: any[]): Observable<any> {
+    const open$ = this.open();
+
+    return open$.pipe(
+      mergeMap((db) => {
+        return Observable.create((txnObserver: Observer<any>) => {
+          const txn = db.transaction(store, 'readwrite');
+          const objectStore = txn.objectStore(store);
+
+          const onTxnError = (err: any) => txnObserver.error(err);
+          const onTxnComplete = () => txnObserver.complete();
+
+          txn.addEventListener('complete', onTxnComplete);
+          txn.addEventListener('error', onTxnError);
+        });
+      })
+    );
+  }
+
   private open(): Observable<IDBDatabase> {
     return Observable.create((observer: Observer<any>) => {
       const openReq = indexedDB.open('mirrorMatch', 1);

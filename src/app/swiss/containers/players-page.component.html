@@ -3,7 +3,7 @@
     <mm-swiss-player-form
       [hasBegunTournament]="hasBegunTournament$ | async"
       [isTournamentOver]="isTournamentOver$ | async"
-      [selectedPlayer]="selectedPlayer"
+      [selectedPlayer]="selectedPlayer$ | async"
       (addPlayer)="addPlayer($event)"
       (playerFormReset)="clearSelectedPlayer()"
       (updatePlayer)="updatePlayer($event)"></mm-swiss-player-form>
@@ -18,8 +18,8 @@
     <mm-swiss-player-list
       [hasBegunTournament]="hasBegunTournament$ | async"
       [players]="players$ | async"
-      [selectedPlayer]="selectedPlayer"
+      [selectedPlayer]="selectedPlayer$ | async"
       (playerDeleted)="onPlayerDeleted($event)"
-      (playerSelected)="onPlayerSelected($event)"></mm-swiss-player-list>
+      (playerSelected)="selectPlayer($event)"></mm-swiss-player-list>
   </div>
 </div>

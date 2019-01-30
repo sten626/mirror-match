@@ -68,12 +68,13 @@ export class PlayerFormComponent implements OnChanges {
       this.addPlayer.emit(player);
       this.clearForm();
     } else {
-      // TODO: Fix
-      console.log('Need to fix.');
       // const player = this.selectedPlayer.copy();
       // player.name = name;
       // this.updatePlayer.emit(player);
       // this.playerFormReset.emit();
+      const player: Player = Object.assign({}, this.selectedPlayer, {name: name});
+      this.updatePlayer.emit(player);
+      this.playerFormReset.emit();
     }
   }
 

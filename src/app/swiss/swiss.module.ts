@@ -8,7 +8,7 @@ import { StandingsGuard } from './standings-guard.service';
 import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
 import { PlayerFormComponent } from './components/player-form.component';
-import { SwissPlayerListComponent } from './swiss-player-list.component';
+import { PlayerListComponent } from './components/player-list.component';
 import { PlayersPageComponent } from './containers/players-page.component';
 import { SwissPlayersStartComponent } from './swiss-players-start.component';
 import { SwissStandingsComponent } from './swiss-standings.component';
@@ -52,7 +52,7 @@ const routes: Routes = [{
     SwissComponent,
     SwissPairingsComponent,
     PlayerFormComponent,
-    SwissPlayerListComponent,
+    PlayerListComponent,
     PlayersPageComponent,
     SwissPlayersStartComponent,
     SwissStandingsComponent
