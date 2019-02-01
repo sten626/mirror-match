@@ -6,7 +6,7 @@
       [selectedPlayer]="selectedPlayer$ | async"
       (addPlayer)="addPlayer($event)"
       (playerFormReset)="clearSelectedPlayer()"
-      (updatePlayer)="updatePlayer($event)"></mm-swiss-player-form>
+      (updatePlayerName)="updatePlayerName($event)"></mm-swiss-player-form>
     <mm-swiss-players-start
       [canBeginTournament]="canBeginTournament$ | async"
       [hasBegunTournament]="hasBegunTournament$ | async"

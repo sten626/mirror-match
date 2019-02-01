@@ -21,7 +21,7 @@ export class DbService {
           txn.addEventListener('complete', onTxnComplete);
           txn.addEventListener('error', onTxnError);
 
-          const requestSubscription = from(objects).pipe(
+          const requestSubscriper = from(objects).pipe(
             mergeMap((object: any) => {
               return Observable.create((reqObserver: Observer<any>) => {
                 const req = objectStore.add(object);
@@ -40,7 +40,7 @@ export class DbService {
           ).subscribe(txnObserver);
 
           return () => {
-            requestSubscription.unsubscribe();
+            requestSubscriper.unsubscribe();
             txn.removeEventListener('complete', onTxnComplete);
             txn.removeEventListener('error', onTxnError);
           };
@@ -99,6 +99,28 @@ export class DbService {
 
           txn.addEventListener('complete', onTxnComplete);
           txn.addEventListener('error', onTxnError);
+
+          const requestSubscriper = from(objects).pipe(
+            mergeMap((object: any) => {
+              return Observable.create((reqObserver: Observer<any>) => {
+                const req = objectStore.put(object);
+
+                req.addEventListener('success', () => {
+                  reqObserver.next(object);
+                });
+
+                req.addEventListener('error', (err: any) => {
+                  reqObserver.error(err);
+                });
+              });
+            })
+          ).subscribe(txnObserver);
+
+          return () => {
+            requestSubscriper.unsubscribe();
+            txn.removeEventListener('complete', onTxnComplete);
+            txn.removeEventListener('error', onTxnError);
+          };
         });
       })
     );

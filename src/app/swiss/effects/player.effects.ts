@@ -32,6 +32,20 @@ export class PlayerEffects {
     )
   );
 
+  @Effect()
+  updatePlayerName$: Observable<Action> = this.actions$.pipe(
+    ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayerName),
+    map(action => action.payload),
+    mergeMap(payload => {
+      const {player, name} = payload;
+      const updatedPlayer = Object.assign({}, player, {name: name});
+      return this.db.update('players', [updatedPlayer]).pipe(
+        map((newPlayer) => new PlayersApiActions.UpdatePlayerNameSuccess(newPlayer)),
+        catchError((err) => of(new PlayersApiActions.UpdatePlayerNameFailure(err)))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
     private db: DbService

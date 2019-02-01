@@ -1,4 +1,4 @@
-export interface Player {
+interface PlayerInterface {
   id?: string;
   name: string;
   matchesPlayed?: number;
@@ -11,3 +11,5 @@ export interface Player {
   opponentIds?: Set<string>;
   dropped?: boolean;
 }
+
+export type Player = Readonly<PlayerInterface>;

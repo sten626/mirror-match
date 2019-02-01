@@ -14,7 +14,7 @@ export class PlayerFormComponent implements OnChanges {
   @Input() selectedPlayer: Player;
   @Output() addPlayer = new EventEmitter<Player>();
   @Output() playerFormReset = new EventEmitter<any>();
-  @Output() updatePlayer = new EventEmitter<Player>();
+  @Output() updatePlayerName = new EventEmitter<{player: Player, name: string}>();
 
   @ViewChild('name') playerNameElement: ElementRef;
 
@@ -72,8 +72,10 @@ export class PlayerFormComponent implements OnChanges {
       // player.name = name;
       // this.updatePlayer.emit(player);
       // this.playerFormReset.emit();
-      const player: Player = Object.assign({}, this.selectedPlayer, {name: name});
-      this.updatePlayer.emit(player);
+      this.updatePlayerName.emit({
+        player: this.selectedPlayer,
+        name: name
+      });
       this.playerFormReset.emit();
     }
   }

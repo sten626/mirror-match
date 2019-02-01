@@ -6,25 +6,25 @@ export enum PlayerPageActionTypes {
   AddPlayer = '[Players Page] Add Player',
   LoadPlayers = '[Players Page] Load Players',
   SelectPlayer = '[Players Page] Select Player',
-  UpdatePlayer = '[Players Page] Update Player'
+  UpdatePlayerName = '[Players Page] Update Player Name'
 }
+
+const defaults = {
+  matchesPlayed: 0,
+  matchesWon: 0,
+  matchesDrawn: 0,
+  gamesPlayed: 0,
+  gamesWon: 0,
+  gamesDrawn: 0,
+  byes: 0,
+  opponentIds: new Set(),
+  dropped: false
+};
 
 export class AddPlayer implements Action {
   readonly type = PlayerPageActionTypes.AddPlayer;
 
   constructor(public payload: Player) {
-    const defaults = {
-      matchesPlayed: 0,
-      matchesWon: 0,
-      matchesDrawn: 0,
-      gamesPlayed: 0,
-      gamesWon: 0,
-      gamesDrawn: 0,
-      byes: 0,
-      opponentIds: new Set(),
-      dropped: false
-    };
-
     this.payload = Object.assign({}, defaults, payload);
   }
 }
@@ -39,24 +39,13 @@ export class SelectPlayer implements Action {
   constructor(public payload: string) {}
 }
 
-export class UpdatePlayer implements Action {
-  readonly type = PlayerPageActionTypes.UpdatePlayer;
+export class UpdatePlayerName implements Action {
+  readonly type = PlayerPageActionTypes.UpdatePlayerName;
+  payload: {player: Player, name: string};
 
-  constructor(public payload: Player) {
-    const defaults = {
-      matchesPlayed: 0,
-      matchesWon: 0,
-      matchesDrawn: 0,
-      gamesPlayed: 0,
-      gamesWon: 0,
-      gamesDrawn: 0,
-      byes: 0,
-      opponentIds: new Set(),
-      dropped: false
-    };
-
-    this.payload = Object.assign({}, defaults, payload);
+  constructor(player: Player, name: string) {
+    this.payload = {player, name};
   }
 }
 
-export type PlayersPageActionsUnion = AddPlayer | LoadPlayers | SelectPlayer | UpdatePlayer;
+export type PlayersPageActionsUnion = AddPlayer | LoadPlayers | SelectPlayer | UpdatePlayerName;

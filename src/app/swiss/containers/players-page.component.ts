@@ -90,12 +90,9 @@ export class PlayersPageComponent implements OnInit {
     this.store.dispatch(new PlayersPageActions.SelectPlayer(player.id));
   }
 
-  /**
-   * Event handler for updating an existing Player.
-   * @param player The Player being updated.
-   */
-  updatePlayer(player: Player): void {
+  updatePlayerName(event: {player: Player, name: string}): void {
     // this.playerService.updatePlayer(player);
-    this.store.dispatch(new PlayersPageActions.UpdatePlayer(player));
+    const {player, name} = event;
+    this.store.dispatch(new PlayersPageActions.UpdatePlayerName(player, name));
   }
 }
