@@ -23,9 +23,6 @@ export function reducer(
     PlayersPageActions.PlayersPageActionsUnion
 ): State {
   switch (action.type) {
-    case PlayersApiActions.PlayersApiActionTypes.LoadPlayersSuccess: {
-      return adapter.addMany(action.payload, state);
-    }
     case PlayersApiActions.PlayersApiActionTypes.AddPlayerSuccess: {
       return adapter.addOne(action.payload, state);
     }
@@ -33,6 +30,15 @@ export function reducer(
       return {
         ...state
       };
+    }
+    case PlayersApiActions.PlayersApiActionTypes.LoadPlayersSuccess: {
+      return adapter.addMany(action.payload, state);
+    }
+    case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameFailure: {
+      return state;
+    }
+    case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
+      return adapter.updateOne(action.payload.player, state);
     }
     case PlayersPageActions.PlayerPageActionTypes.SelectPlayer: {
       return {

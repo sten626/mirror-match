@@ -40,7 +40,14 @@ export class PlayerEffects {
       const {player, name} = payload;
       const updatedPlayer = Object.assign({}, player, {name: name});
       return this.db.update('players', [updatedPlayer]).pipe(
-        map((newPlayer) => new PlayersApiActions.UpdatePlayerNameSuccess(newPlayer)),
+        map(() => new PlayersApiActions.UpdatePlayerNameSuccess({
+          player: {
+            id: player.id,
+            changes: {
+              name: name
+            }
+          }
+        })),
         catchError((err) => of(new PlayersApiActions.UpdatePlayerNameFailure(err)))
       );
     })

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Player } from 'app/shared';
+import { Update } from '@ngrx/entity';
 
 export enum PlayersApiActionTypes {
   AddPlayerFailure = '[Players/API] Add Player Failure',
@@ -43,7 +44,7 @@ export class UpdatePlayerNameFailure implements Action {
 export class UpdatePlayerNameSuccess implements Action {
   readonly type = PlayersApiActionTypes.UpdatePlayerNameSuccess;
 
-  constructor(public payload: Player) {}
+  constructor(public payload: { player: Update<Player> }) {}
 }
 
 export type PlayersApiActionsUnion =

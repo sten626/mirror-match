@@ -67,20 +67,20 @@ export class MatchResultsComponent implements OnChanges {
     this.selectedPairing.player2Wins = form.get('player2Wins').value;
     this.selectedPairing.draws = form.get('draws').value;
     this.selectedPairing.submitted = true;
-    const player1 = this.selectedPairing.player1;
-    const player2 = this.selectedPairing.player2;
-    const player1Dropped = form.get('player1Dropped').value;
-    const player2Dropped = form.get('player2Dropped').value;
+    // const player1 = this.selectedPairing.player1;
+    // const player2 = this.selectedPairing.player2;
+    // const player1Dropped = form.get('player1Dropped').value;
+    // const player2Dropped = form.get('player2Dropped').value;
 
-    if (player1.dropped !== player1Dropped) {
-      player1.dropped = player1Dropped;
-      this.playerDroppedChanged.emit(player1);
-    }
+    // if (player1.dropped !== player1Dropped) {
+    //   player1.dropped = player1Dropped;
+    //   this.playerDroppedChanged.emit(player1);
+    // }
 
-    if (player2.dropped !== player2Dropped) {
-      player2.dropped = player2Dropped;
-      this.playerDroppedChanged.emit(player2);
-    }
+    // if (player2.dropped !== player2Dropped) {
+    //   player2.dropped = player2Dropped;
+    //   this.playerDroppedChanged.emit(player2);
+    // }
 
     this.resultSubmitted.emit(this.selectedPairing);
   }

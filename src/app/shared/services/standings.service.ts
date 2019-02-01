@@ -61,40 +61,40 @@ export class StandingsService {
 
     // Tally match and game points.
     this.allSubmittedPairings.forEach((pairing: Pairing) => {
-      const player1 = pairing.player1;
-      const player2 = pairing.player2;
-      const gamesPlayed = pairing.player1Wins + pairing.player2Wins + pairing.draws;
-      player1.gamesPlayed += gamesPlayed;
-      player1.gamesWon += pairing.player1Wins;
-      player1.gamesDrawn += pairing.draws;
-      // player1.gamePoints += pairing.player1Wins * 3 + pairing.draws;
-      player1.matchesPlayed += 1;
+      // const player1 = pairing.player1;
+      // const player2 = pairing.player2;
+      // const gamesPlayed = pairing.player1Wins + pairing.player2Wins + pairing.draws;
+      // player1.gamesPlayed += gamesPlayed;
+      // player1.gamesWon += pairing.player1Wins;
+      // player1.gamesDrawn += pairing.draws;
+      // // player1.gamePoints += pairing.player1Wins * 3 + pairing.draws;
+      // player1.matchesPlayed += 1;
 
-      if (pairing.bye) {
-        player1.byes += 1;
-      } else {
-        // player1.opponentIds.push(player2.id);
-        player2.matchesPlayed += 1;
-        player2.gamesPlayed += gamesPlayed;
-        player2.gamesWon += pairing.player2Wins;
-        player2.gamesDrawn += pairing.draws;
-        // player2.gamePoints += pairing.player2Wins * 3 + pairing.draws;
-        // player2.opponentIds.push(player1.id);
-      }
+      // if (pairing.bye) {
+      //   player1.byes += 1;
+      // } else {
+      //   // player1.opponentIds.push(player2.id);
+      //   player2.matchesPlayed += 1;
+      //   player2.gamesPlayed += gamesPlayed;
+      //   player2.gamesWon += pairing.player2Wins;
+      //   player2.gamesDrawn += pairing.draws;
+      //   // player2.gamePoints += pairing.player2Wins * 3 + pairing.draws;
+      //   // player2.opponentIds.push(player1.id);
+      // }
 
       if (pairing.player1Wins > pairing.player2Wins) {
         if (!pairing.bye) {
-          player1.matchesWon += 1;
+          // player1.matchesWon += 1;
         }
 
         // player1.matchPoints += 3;
       } else if (pairing.player2Wins > pairing.player1Wins) {
-        player2.matchesWon += 1;
+        // player2.matchesWon += 1;
         // player2.matchPoints += 3;
       } else {
-        player1.matchesDrawn += 1;
+        // player1.matchesDrawn += 1;
         // player1.matchPoints += 1;
-        player2.matchesDrawn += 1;
+        // player2.matchesDrawn += 1;
         // player2.matchPoints += 1;
       }
     });
