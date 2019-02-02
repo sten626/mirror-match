@@ -131,7 +131,6 @@ export class DbService {
       const openReq = indexedDB.open('mirrorMatch', 1);
 
       const onSuccess = (event: any) => {
-        console.log('open.onSuccess');
         observer.next(event.target.result);
         observer.complete();
       };

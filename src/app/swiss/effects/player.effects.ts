@@ -15,7 +15,7 @@ export class PlayerEffects {
     mergeMap(player =>
       this.db.insert('players', [player]).pipe(
         map((newPlayer) => new PlayersApiActions.AddPlayerSuccess(newPlayer)),
-        catchError(() => of(new PlayersApiActions.AddPlayerFailure(player)))
+        catchError(() => of(new PlayersApiActions.AddPlayerFailure({ player: player })))
       )
     )
   );
@@ -36,16 +36,12 @@ export class PlayerEffects {
   updatePlayerName$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayerName),
     map(action => action.payload),
-    mergeMap(payload => {
-      const {player, name} = payload;
-      const updatedPlayer = Object.assign({}, player, {name: name});
-      return this.db.update('players', [updatedPlayer]).pipe(
-        map(() => new PlayersApiActions.UpdatePlayerNameSuccess({
-          player: {
-            id: player.id,
-            changes: {
-              name: name
-            }
+    mergeMap(player => {
+      return this.db.update('players', [player]).pipe(
+        map((updatedPlayer: Player) => new PlayersApiActions.UpdatePlayerNameSuccess({
+          id: updatedPlayer.id,
+          changes: {
+            name: updatedPlayer.name
           }
         })),
         catchError((err) => of(new PlayersApiActions.UpdatePlayerNameFailure(err)))

@@ -41,10 +41,10 @@ export class SelectPlayer implements Action {
 
 export class UpdatePlayerName implements Action {
   readonly type = PlayerPageActionTypes.UpdatePlayerName;
-  payload: {player: Player, name: string};
+  payload: Player;
 
   constructor(player: Player, name: string) {
-    this.payload = {player, name};
+    this.payload = Object.assign({}, player, { name: name });
   }
 }
 

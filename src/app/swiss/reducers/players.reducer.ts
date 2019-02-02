@@ -38,7 +38,7 @@ export function reducer(
       return state;
     }
     case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
-      return adapter.updateOne(action.payload.player, state);
+      return adapter.updateOne(action.payload, state);
     }
     case PlayersPageActions.PlayerPageActionTypes.SelectPlayer: {
       return {
