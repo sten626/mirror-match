@@ -4,6 +4,6 @@
       [ngClass]="{'active': selectedPlayer === player, 'list-group-item-warning': player.dropped}"
       (click)="selectPlayer(player)">
     {{player.name}}<small><em>{{player.dropped ? ' (dropped)' : ''}}</em></small>
-    <button class="close" *ngIf="!hasBegunTournament" (click)="deletePlayer(player)">&times;</button>
+    <button class="close" *ngIf="!hasBegunTournament" (click)="deletePlayer(player, $event)">&times;</button>
   </a>
 </div>

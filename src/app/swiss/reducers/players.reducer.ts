@@ -25,6 +25,9 @@ export function reducer(
         ...state
       };
     }
+    case PlayersApiActions.PlayersApiActionTypes.DeletePlayerSuccess: {
+      return adapter.removeOne(action.payload.key, state);
+    }
     case PlayersApiActions.PlayersApiActionTypes.LoadPlayersSuccess: {
       return adapter.addMany(action.payload, state);
     }

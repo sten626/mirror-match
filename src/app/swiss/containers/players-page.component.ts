@@ -59,13 +59,11 @@ export class PlayersPageComponent implements OnInit {
    * @param player The Player to be deleted.
    */
   onPlayerDeleted(player: Player): void {
-    player = player;
-    // this.playerService.deletePlayer(player);
+    this.store.dispatch(new PlayersPageActions.DeletePlayer(player));
 
-    // if (player === this.selectedPlayer) {
-    //   this.clearSelectedPlayer();
-    // }
-    // TODO
+    if (player === this.selectedPlayer) {
+      this.clearSelectedPlayer();
+    }
   }
 
   /**

@@ -19,7 +19,8 @@ export class PlayerListComponent {
    * Emit an event that a Player needs to be deleted.
    * @param player The Player being deleted from the list.
    */
-  deletePlayer(player: Player) {
+  deletePlayer(player: Player, event: Event) {
+    event.stopPropagation();
     this.playerDeleted.emit(player);
   }
 

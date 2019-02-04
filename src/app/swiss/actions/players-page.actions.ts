@@ -3,6 +3,7 @@ import { Player } from 'app/shared';
 
 export enum PlayerPageActionTypes {
   AddPlayer = '[Players Page] Add Player',
+  DeletePlayer = '[Players Page] Delete Player',
   LoadPlayers = '[Players Page] Load Players',
   UpdatePlayerName = '[Players Page] Update Player Name'
 }
@@ -27,6 +28,15 @@ export class AddPlayer implements Action {
   }
 }
 
+export class DeletePlayer implements Action {
+  readonly type = PlayerPageActionTypes.DeletePlayer;
+  payload: string;
+
+  constructor(player: Player) {
+    this.payload = player.id;
+  }
+}
+
 export class LoadPlayers implements Action {
   readonly type = PlayerPageActionTypes.LoadPlayers;
 }
@@ -40,4 +50,4 @@ export class UpdatePlayerName implements Action {
   }
 }
 
-export type PlayersPageActionsUnion = AddPlayer | LoadPlayers | UpdatePlayerName;
+export type PlayersPageActionsUnion = AddPlayer | DeletePlayer | LoadPlayers | UpdatePlayerName;

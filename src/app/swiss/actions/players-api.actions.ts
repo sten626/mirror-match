@@ -5,6 +5,8 @@ import { Update } from '@ngrx/entity';
 export enum PlayersApiActionTypes {
   AddPlayerFailure = '[Players/API] Add Player Failure',
   AddPlayerSuccess = '[Players/API] Add Player Success',
+  DeletePlayerFailure = '[Players/API] Delete Player Failure',
+  DeletePlayerSuccess = '[Players/API] Delete Player Success',
   LoadPlayersFailure = '[Players/API] Load Players Failure',
   LoadPlayersSuccess = '[Players/API] Load Players Success',
   UpdatePlayerNameFailure = '[Players/API] Update Player Name Failure',
@@ -21,6 +23,18 @@ export class AddPlayerSuccess implements Action {
   readonly type = PlayersApiActionTypes.AddPlayerSuccess;
 
   constructor(public payload: Player) {}
+}
+
+export class DeletePlayerFailure implements Action {
+  readonly type = PlayersApiActionTypes.DeletePlayerFailure;
+
+  constructor(public payload: any) {}
+}
+
+export class DeletePlayerSuccess implements Action {
+  readonly type = PlayersApiActionTypes.DeletePlayerSuccess;
+
+  constructor(public payload: { key: string }) {}
 }
 
 export class LoadPlayersFailure implements Action {
@@ -50,6 +64,8 @@ export class UpdatePlayerNameSuccess implements Action {
 export type PlayersApiActionsUnion =
   AddPlayerFailure
   | AddPlayerSuccess
+  | DeletePlayerFailure
+  | DeletePlayerSuccess
   | LoadPlayersFailure
   | LoadPlayersSuccess
   | UpdatePlayerNameFailure

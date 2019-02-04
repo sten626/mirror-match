@@ -21,6 +21,18 @@ export class PlayerEffects {
   );
 
   @Effect()
+  deletePlayer$: Observable<Action> = this.actions$.pipe(
+    ofType(PlayersPageActions.PlayerPageActionTypes.DeletePlayer),
+    map(action => action.payload),
+    mergeMap(key =>
+      this.db.delete('players', [key]).pipe(
+        map((deletedKey) => new PlayersApiActions.DeletePlayerSuccess({ key: deletedKey })),
+        catchError((err) => of(new PlayersApiActions.AddPlayerFailure(err)))
+      )
+    )
+  );
+
+  @Effect()
   loadPlayers$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.LoadPlayers),
     switchMap(() =>
