@@ -1,20 +1,14 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Player } from '../../shared';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
-import { createSelector } from '@ngrx/store';
 
-
-export interface State extends EntityState<Player> {
-  selectedPlayerId: string | null;
-}
+export interface State extends EntityState<Player> {}
 
 export const adapter: EntityAdapter<Player> = createEntityAdapter<Player>({
   selectId: (player: Player) => player.id || null
 });
 
-export const initialState: State = adapter.getInitialState({
-  selectedPlayerId: null
-});
+export const initialState: State = adapter.getInitialState();
 
 export function reducer(
   state = initialState,
@@ -40,19 +34,11 @@ export function reducer(
     case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
       return adapter.updateOne(action.payload, state);
     }
-    case PlayersPageActions.PlayerPageActionTypes.SelectPlayer: {
-      return {
-        ...state,
-        selectedPlayerId: action.payload
-      };
-    }
     default: {
       return state;
     }
   }
 }
-
-export const getSelectedPlayerId = (state: State) => state.selectedPlayerId;
 
 const {
   selectIds,
@@ -65,11 +51,3 @@ export const selectPlayerIds = selectIds;
 export const selectPlayerEntities = selectEntities;
 export const selectAllPlayers = selectAll;
 export const selectPlayerTotal = selectTotal;
-
-export const getSelectedPlayer = createSelector(
-  selectPlayerEntities,
-  getSelectedPlayerId,
-  (players, selectedPlayerId) => {
-    return selectedPlayerId && players[selectedPlayerId];
-  }
-);

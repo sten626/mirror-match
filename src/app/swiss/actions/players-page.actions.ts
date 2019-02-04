@@ -1,11 +1,9 @@
 import { Action } from '@ngrx/store';
-
 import { Player } from 'app/shared';
 
 export enum PlayerPageActionTypes {
   AddPlayer = '[Players Page] Add Player',
   LoadPlayers = '[Players Page] Load Players',
-  SelectPlayer = '[Players Page] Select Player',
   UpdatePlayerName = '[Players Page] Update Player Name'
 }
 
@@ -33,12 +31,6 @@ export class LoadPlayers implements Action {
   readonly type = PlayerPageActionTypes.LoadPlayers;
 }
 
-export class SelectPlayer implements Action {
-  readonly type = PlayerPageActionTypes.SelectPlayer;
-
-  constructor(public payload: string) {}
-}
-
 export class UpdatePlayerName implements Action {
   readonly type = PlayerPageActionTypes.UpdatePlayerName;
   payload: Player;
@@ -48,4 +40,4 @@ export class UpdatePlayerName implements Action {
   }
 }
 
-export type PlayersPageActionsUnion = AddPlayer | LoadPlayers | SelectPlayer | UpdatePlayerName;
+export type PlayersPageActionsUnion = AddPlayer | LoadPlayers | UpdatePlayerName;

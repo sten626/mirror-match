@@ -16,7 +16,7 @@ export class PlayersPageComponent implements OnInit {
   isTournamentOver$: Observable<boolean>;
   players$: Observable<Player[]>;
   recommendedNumberOfRounds$: Observable<number>;
-  selectedPlayer$: Observable<Player>;
+  selectedPlayer: Player;
 
   constructor(
     private store: Store<fromSwiss.State>,
@@ -27,9 +27,6 @@ export class PlayersPageComponent implements OnInit {
     this.players$ = store.pipe(
       select(fromSwiss.selectAllPlayers)
     );
-    this.selectedPlayer$ = store.pipe(
-      select(fromSwiss.getSelectedPlayer)
-    ) as Observable<Player>;
     this.canBeginTournament$ = this.roundService.canBeginTournament$;
     this.hasBegunTournament$ = this.roundService.hasBegunTournament$;
     this.isTournamentOver$ = this.roundService.isTournamentOver$;
@@ -54,8 +51,7 @@ export class PlayersPageComponent implements OnInit {
    * Set the selected player to null.
    */
   clearSelectedPlayer(): void {
-    // this.selectedPlayer = null;
-    // TODO
+    this.selectedPlayer = null;
   }
 
   /**
@@ -87,11 +83,10 @@ export class PlayersPageComponent implements OnInit {
    * @param player The Player being selected.
    */
   selectPlayer(player: Player): void {
-    this.store.dispatch(new PlayersPageActions.SelectPlayer(player.id));
+    this.selectedPlayer = player;
   }
 
   updatePlayerName(event: {player: Player, name: string}): void {
-    // this.playerService.updatePlayer(player);
     const {player, name} = event;
     this.store.dispatch(new PlayersPageActions.UpdatePlayerName(player, name));
   }
