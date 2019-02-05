@@ -38,12 +38,10 @@ export class PlayersPageComponent implements OnInit {
   }
 
   /**
-   * Add a new Player via the PlayerService.
+   * Dispatch an AddPlayer action.
    * @param player The new Player to add.
    */
   addPlayer(player: Player): void {
-    // this.playerService.addPlayer(player);
-    // TODO: Update doc
     this.store.dispatch(new PlayersPageActions.AddPlayer(player));
   }
 
@@ -55,7 +53,7 @@ export class PlayersPageComponent implements OnInit {
   }
 
   /**
-   * Delete a Player via the PlayerService and clear it if it was the selected player.
+   * Dispath a DeletePlayer action and clear it if it was the selected player.
    * @param player The Player to be deleted.
    */
   onPlayerDeleted(player: Player): void {
