@@ -15,7 +15,7 @@ export class PlayerEffects {
     mergeMap(player =>
       this.db.insert('players', [player]).pipe(
         map((newPlayer) => new PlayersApiActions.AddPlayerSuccess(newPlayer)),
-        catchError(() => of(new PlayersApiActions.AddPlayerFailure({ player: player })))
+        catchError(() => of(new PlayersApiActions.AddPlayerFailure(player)))
       )
     )
   );
@@ -26,8 +26,8 @@ export class PlayerEffects {
     map(action => action.payload),
     mergeMap(key =>
       this.db.delete('players', [key]).pipe(
-        map((deletedKey) => new PlayersApiActions.DeletePlayerSuccess({ key: deletedKey })),
-        catchError((err) => of(new PlayersApiActions.AddPlayerFailure(err)))
+        map((deletedKey) => new PlayersApiActions.DeletePlayerSuccess(deletedKey)),
+        catchError((err) => of(new PlayersApiActions.DeletePlayerFailure(err)))
       )
     )
   );

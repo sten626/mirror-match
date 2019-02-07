@@ -16,7 +16,7 @@ export enum PlayersApiActionTypes {
 export class AddPlayerFailure implements Action {
   readonly type = PlayersApiActionTypes.AddPlayerFailure;
 
-  constructor(public payload: {player: Player}) {}
+  constructor(public payload: Player) {}
 }
 
 export class AddPlayerSuccess implements Action {
@@ -34,7 +34,7 @@ export class DeletePlayerFailure implements Action {
 export class DeletePlayerSuccess implements Action {
   readonly type = PlayersApiActionTypes.DeletePlayerSuccess;
 
-  constructor(public payload: { key: string }) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadPlayersFailure implements Action {
