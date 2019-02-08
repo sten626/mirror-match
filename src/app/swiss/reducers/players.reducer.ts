@@ -49,9 +49,6 @@ export function reducer(
         loading: false
       };
     }
-    case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameFailure: {
-      return state;
-    }
     case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
       return adapter.updateOne(action.payload, state);
     }
