@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Player } from '../../shared';
 
 @Component({
-  selector: 'mm-swiss-player-list',
+  selector: 'mm-player-list',
   templateUrl: './player-list.component.html'
 })
 export class PlayerListComponent {

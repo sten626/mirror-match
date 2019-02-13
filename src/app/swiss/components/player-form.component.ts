@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Player } from '../../shared';
 
 @Component({
-  selector: 'mm-swiss-player-form',
+  selector: 'mm-player-form',
   templateUrl: 'player-form.component.html',
   styleUrls: ['player-form.component.css']
 })
