@@ -2,7 +2,8 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { PlayerService, RoundService, SharedModule } from '../../shared';
+import { Player, PlayerService, RoundService, SharedModule } from '../../shared';
+import { PlayersPageActions, PlayersApiActions } from '../actions';
 import * as fromPlayers from '../reducers';
 import { PlayersPageComponent } from './players-page.component';
 
@@ -55,5 +56,40 @@ describe('Players Page Component', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should dispatch an action to load players when created', () => {
+    const action = new PlayersPageActions.LoadPlayers();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should have a list of players after loading data', () => {
+    const players: Player[] = [{
+      'id': '1',
+      'name': 'Sten'
+    }, {
+      'id': '2',
+      'name': 'Jasper'
+    }];
+
+    const action = new PlayersApiActions.LoadPlayersSuccess(players);
+
+    store.dispatch(action);
+
+    component.players$.subscribe(data => {
+      expect(data.length).toBe(players.length);
+    });
+  });
+
+  it('should dispatch an action to add a player when addPlayer called', () => {
+    const player: Player = {
+      'name': 'Sten'
+    };
+
+    const action = new PlayersPageActions.AddPlayer(player);
+
+    component.addPlayer(player);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });
