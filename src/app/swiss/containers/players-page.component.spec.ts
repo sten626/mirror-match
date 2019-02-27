@@ -11,6 +11,8 @@ describe('Players Page Component', () => {
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: Store<fromPlayers.State>;
+  let player1: Player;
+  let player2: Player;
 
   @Component({selector: 'mm-player-form', template: ''})
   class PlayerFormStubComponent {}
@@ -22,6 +24,16 @@ describe('Players Page Component', () => {
   class SwissPlayersStartStubComponent {}
 
   beforeEach(() => {
+    player1 = {
+      id: '1',
+      name: 'Sten'
+    };
+
+    player2 = {
+      id: '2',
+      name: 'Jasper'
+    };
+
     const playerServiceStub: Partial<PlayerService> = {};
     const roundServiceStub: Partial<RoundService> = {};
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -54,6 +66,8 @@ describe('Players Page Component', () => {
     fixture.detectChanges();
   });
 
+  /* Creation */
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
@@ -65,13 +79,7 @@ describe('Players Page Component', () => {
   });
 
   it('should have a list of players after loading data', () => {
-    const players: Player[] = [{
-      'id': '1',
-      'name': 'Sten'
-    }, {
-      'id': '2',
-      'name': 'Jasper'
-    }];
+    const players: Player[] = [player1, player2];
 
     const action = new PlayersApiActions.LoadPlayersSuccess(players);
 
@@ -82,14 +90,70 @@ describe('Players Page Component', () => {
     });
   });
 
+  /* addPlayer */
+
   it('should dispatch an action to add a player when addPlayer called', () => {
-    const player: Player = {
-      'name': 'Sten'
-    };
+    const action = new PlayersPageActions.AddPlayer(player1);
 
-    const action = new PlayersPageActions.AddPlayer(player);
+    component.addPlayer(player1);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 
-    component.addPlayer(player);
+  /* clearSelectedPlayer */
+
+  it('should clear the selected player when clearSelectedPlayer called', () => {
+    component.selectedPlayer = player1;
+
+    expect(component.selectedPlayer).toBeDefined();
+
+    component.clearSelectedPlayer();
+
+    expect(component.selectedPlayer).toBeNull();
+  });
+
+  /* onPlayerDeleted */
+
+  describe('onPlayerDeleted', () => {
+    it('should dispatch an action to delete a player and clear same selected player', () => {
+      component.selectedPlayer = player1;
+
+      expect(component.selectedPlayer).toBeDefined();
+
+      const action = new PlayersPageActions.DeletePlayer(player1);
+      component.onPlayerDeleted(player1);
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+      expect(component.selectedPlayer).toBeNull();
+    });
+
+    it('should dispatch an action to delete a player and leave different selected player alone', () => {
+      component.selectedPlayer = player1;
+
+      expect(component.selectedPlayer).toEqual(player1);
+
+      const action = new PlayersPageActions.DeletePlayer(player2);
+      component.onPlayerDeleted(player2);
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+      expect(component.selectedPlayer).toEqual(player1);
+    });
+  });
+
+  /* selectPlayer */
+
+  it('selectPlayer should set selectedPlayer', () => {
+    component.selectPlayer(player1);
+
+    expect(component.selectedPlayer).toEqual(player1);
+  });
+
+  /* updatePlayerName */
+
+  it('should dispatch an action to update a player\'s name when updatePlayerName called', () => {
+    const newName = 'Steven';
+    const action = new PlayersPageActions.UpdatePlayerName(player1, newName);
+    component.updatePlayerName({ player: player1, name: newName });
+
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });
