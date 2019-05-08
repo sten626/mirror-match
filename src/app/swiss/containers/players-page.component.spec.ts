@@ -141,19 +141,41 @@ describe('Players Page Component', () => {
 
   /* selectPlayer */
 
-  it('selectPlayer should set selectedPlayer', () => {
-    component.selectPlayer(player1);
+  describe('selectPlayer', () => {
+    it('should set selectedPlayer when calling selectPlayer', () => {
+      component.selectPlayer(player1);
 
-    expect(component.selectedPlayer).toEqual(player1);
+      expect(component.selectedPlayer).toEqual(player1);
+    });
+
+    it('should set selectedPlayer to null', () => {
+      component.selectPlayer(null);
+
+      expect(component.selectedPlayer).toBeNull();
+    });
   });
 
   /* updatePlayerName */
 
-  it('should dispatch an action to update a player\'s name when updatePlayerName called', () => {
-    const newName = 'Steven';
-    const action = new PlayersPageActions.UpdatePlayerName(player1, newName);
-    component.updatePlayerName({ player: player1, name: newName });
+  describe('updatePlayerName', () => {
+    it('should dispatch an action to update a player\'s name when called', () => {
+      const newName = 'Steven';
+      const action = new PlayersPageActions.UpdatePlayerName(player1, newName);
+      component.updatePlayerName({ player: player1, name: newName });
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+
+    it('should not dispatch an action when called with no player', () => {
+      component.updatePlayerName({player: null, name: 'Steven'});
+      // Seems to start at 1 instead of 0.
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not dispatch an action when called with no name', () => {
+      component.updatePlayerName({player: player1, name: null});
+      // Seems to start at 1 instead of 0.
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
   });
 });

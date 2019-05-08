@@ -84,6 +84,11 @@ export class PlayersPageComponent implements OnInit {
 
   updatePlayerName(event: {player: Player, name: string}): void {
     const {player, name} = event;
+
+    if (!player || !name) {
+      return;
+    }
+
     this.store.dispatch(new PlayersPageActions.UpdatePlayerName(player, name));
   }
 }
