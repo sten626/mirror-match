@@ -15,3 +15,8 @@ export const selectAllPlayers = createSelector(
   selectPlayersState,
   fromPlayers.selectAllPlayers
 );
+
+export const selectPlayerTotal = createSelector(
+  selectPlayersState,
+  fromPlayers.selectPlayerTotal
+);
