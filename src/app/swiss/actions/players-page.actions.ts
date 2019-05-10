@@ -3,8 +3,10 @@ import { Player } from 'app/shared';
 
 export enum PlayerPageActionTypes {
   AddPlayer = '[Players Page] Add Player',
+  BeginEvent = '[Players Page] Begin Event',
   DeletePlayer = '[Players Page] Delete Player',
   LoadPlayers = '[Players Page] Load Players',
+  LoadTournament = '[Players Page] Load Tournament',
   UpdatePlayerName = '[Players Page] Update Player Name'
 }
 
@@ -28,6 +30,12 @@ export class AddPlayer implements Action {
   }
 }
 
+export class BeginEvent implements Action {
+  readonly type = PlayerPageActionTypes.BeginEvent;
+
+  constructor(public payload: number) {}
+}
+
 export class DeletePlayer implements Action {
   readonly type = PlayerPageActionTypes.DeletePlayer;
   payload: string;
@@ -41,6 +49,10 @@ export class LoadPlayers implements Action {
   readonly type = PlayerPageActionTypes.LoadPlayers;
 }
 
+export class LoadTournament implements Action {
+  readonly type = PlayerPageActionTypes.LoadTournament;
+}
+
 export class UpdatePlayerName implements Action {
   readonly type = PlayerPageActionTypes.UpdatePlayerName;
   payload: Player;
@@ -50,4 +62,4 @@ export class UpdatePlayerName implements Action {
   }
 }
 
-export type PlayersPageActionsUnion = AddPlayer | DeletePlayer | LoadPlayers | UpdatePlayerName;
+export type PlayersPageActionsUnion = AddPlayer | BeginEvent | DeletePlayer | LoadPlayers | LoadTournament | UpdatePlayerName;

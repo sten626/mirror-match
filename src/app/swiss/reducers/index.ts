@@ -1,12 +1,19 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromPlayers from './players.reducer';
+import * as fromTournament from './tournament.reducer';
 
-export interface State {
+export interface SwissState {
   players: fromPlayers.State;
+  tournament: fromTournament.State;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  players: fromPlayers.reducer
+export interface State {
+  swiss: SwissState;
+}
+
+export const reducers: ActionReducerMap<SwissState> = {
+  players: fromPlayers.reducer,
+  tournament: fromTournament.reducer
 };
 
 export const selectPlayersState = createFeatureSelector<fromPlayers.State>('players');

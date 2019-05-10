@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Player, RoundService } from '../../shared';
 import { PlayersPageActions } from '../actions';
 import * as fromSwiss from '../reducers';
-import { map } from 'rxjs/operators';
-
 
 @Component({
   templateUrl: './players-page.component.html'
@@ -21,8 +19,7 @@ export class PlayersPageComponent implements OnInit {
 
   constructor(
     private store: Store<fromSwiss.State>,
-    private roundService: RoundService,
-    private router: Router
+    private roundService: RoundService
   ) {
     this.players$ = store.pipe(
       select(fromSwiss.selectAllPlayers)
@@ -41,6 +38,7 @@ export class PlayersPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new PlayersPageActions.LoadPlayers());
+    this.store.dispatch(new PlayersPageActions.LoadTournament());
   }
 
   /**
@@ -75,9 +73,7 @@ export class PlayersPageComponent implements OnInit {
    * @param numOfRounds The number of rounds for the tournmant to have.
    */
   onStartTournament(numOfRounds: number): void {
-    this.roundService.setTotalNumberOfRounds(numOfRounds);
-    this.roundService.createNextRound();
-    this.router.navigate(['/swiss/pairings']);
+    this.store.dispatch(new PlayersPageActions.BeginEvent(numOfRounds));
   }
 
   /**
