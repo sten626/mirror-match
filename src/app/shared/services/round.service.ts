@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
-
-import { Pairing, Player } from '../models';
+import { Pairing } from '../models';
 import { MessageService } from './message.service';
 import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
@@ -27,7 +25,6 @@ export class RoundService {
 
   private _completedRounds: number[];
   private completedRoundsSubject = new BehaviorSubject<number[]>([]);
-  private players: Player[];
   private _rounds: number[];
   private roundsSubject = new BehaviorSubject<number[]>([]);
   private _selectedRound: number;
@@ -98,17 +95,17 @@ export class RoundService {
       distinctUntilChanged()
     );
 
-    this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.map((pairings: Pairing[]) => {
-      const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
+    this.selectedRoundHasSubmittedPairings = this.pairingsForSelectedRound.pipe(
+      map((pairings: Pairing[]) => {
+        const submitted = pairings.filter((pairing: Pairing) => pairing.submitted);
 
-      return submitted.length > 0;
-    });
+        return submitted.length > 0;
+      })
+    );
 
     this.canStartNextRound = this.rounds.pipe(combineLatest(this.completedRounds, (rounds: number[], completedRounds: number[]) => {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;
     }));
-
-    this.playerService.players.subscribe((players: Player[]) => this.players = players);
 
     this.roundsSubject.next(this._rounds.slice());
     this.completedRoundsSubject.next(this._completedRounds.slice());
