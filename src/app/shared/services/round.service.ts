@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
-
 import { Pairing } from '../models';
 import { MessageService } from './message.service';
 import { PairingService } from './pairing.service';

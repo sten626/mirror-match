@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map} from 'rxjs/operators';
-
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Player } from '../models';
 
 @Injectable()
