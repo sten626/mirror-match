@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.0-beta.5] - 2019-05-13
 ### Changed
-- Updated dependencies to resolve security vulnerabilties.
+- Updated dependencies to resolve security vulnerabilities.
 
 ## [1.0.0-beta.4] - 2018-08-17
 ### Fixed
