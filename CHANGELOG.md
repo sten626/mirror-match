@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0-beta.5] - 2019-05-13
+### Changed
+- Updated dependencies to resolve security vulnerabilties.
+
 ## [1.0.0-beta.4] - 2018-08-17
 ### Fixed
 - Bug where the app would sometimes crash when pairing the last round.
@@ -41,6 +45,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...HEAD
-[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2
+[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.5...HEAD
+[1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.4...1.0.0-beta.5
+[1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...1.0.0-beta.3
+[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2

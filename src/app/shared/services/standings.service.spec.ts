@@ -1,7 +1,7 @@
-import { Player, Pairing } from '../models';
-import { StandingsService } from './standings.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { PairingService, PlayerService } from '.';
+import { Pairing, Player } from '../models';
+import { StandingsService } from './standings.service';
 
 describe('StandingsService', () => {
   let service: StandingsService;
@@ -62,6 +62,7 @@ describe('StandingsService', () => {
     };
 
     service = new StandingsService(fakePairingService as PairingService, fakePlayerService as PlayerService);
+    service = service;
 
     expect(players[0].opponentMatchWinPercentage).toBeCloseTo(5 / 12 * 100);
     expect(players[0].opponentGameWinPercentage).toBeCloseTo(5 / 12 * 100);
