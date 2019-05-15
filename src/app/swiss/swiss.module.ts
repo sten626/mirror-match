@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { SharedModule } from '../shared';
+import { PlayerFormComponent } from './components/player-form.component';
+import { PlayerListComponent } from './components/player-list.component';
+import { StartFormComponent } from './components/start-form.component';
+import { PlayersPageComponent } from './containers/players-page.component';
 import { EventInfoComponent } from './event-info.component';
+import { TournamentStartedGuard } from './guards/tournament-started-guard.service';
 import { MatchResultsComponent } from './match-results.component';
 import { PairingsListComponent } from './pairings-list.component';
 import { StandingsGuard } from './standings-guard.service';
-import { SwissComponent } from './swiss.component';
 import { SwissPairingsComponent } from './swiss-pairings.component';
-import { PlayerFormComponent } from './components/player-form.component';
-import { PlayerListComponent } from './components/player-list.component';
-import { PlayersPageComponent } from './containers/players-page.component';
-import { SwissPlayersStartComponent } from './swiss-players-start.component';
 import { SwissStandingsComponent } from './swiss-standings.component';
-import { TournamentStartedGuard } from './tournament-started-guard.service';
-import { SharedModule } from '../shared';
+import { SwissComponent } from './swiss.component';
 
 const routes: Routes = [{
   path: 'swiss',
@@ -54,7 +53,7 @@ const routes: Routes = [{
     PlayerFormComponent,
     PlayerListComponent,
     PlayersPageComponent,
-    SwissPlayersStartComponent,
+    StartFormComponent,
     SwissStandingsComponent
   ],
   providers: [

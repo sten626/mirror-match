@@ -31,3 +31,7 @@ export function reducer(state = initialState, action: TournamentApiActions.Tourn
     }
   }
 }
+
+export const selectHasTournamentStarted = (state: State) => state.numberOfRounds > 0;
+
+export const selectNumRounds = (state: State) => state.numberOfRounds;

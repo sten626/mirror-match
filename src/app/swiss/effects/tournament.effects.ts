@@ -16,7 +16,8 @@ export class TournamentEffects {
       localStorage.setItem('numberOfRounds', JSON.stringify(numOfRounds));
       localStorage.setItem('currentRound', '1');
       return of(new TournamentApiActions.BeginEventSuccess(numOfRounds));
-    })
+    }),
+    tap(() => this.router.navigate(['/swiss/pairings']))
   );
 
   @Effect()
@@ -29,8 +30,7 @@ export class TournamentEffects {
         currentRound: currentRound,
         numberOfRounds: numOfRounds
       }));
-    }),
-    tap(() => this.router.navigate(['/swiss/pairings']))
+    })
   );
 
   constructor(

@@ -17,10 +17,21 @@ export const reducers: ActionReducerMap<SwissState> = {
 };
 
 export const selectPlayersState = createFeatureSelector<fromPlayers.State>('players');
+export const selectTournamentState = createFeatureSelector<fromTournament.State>('tournament');
 
 export const selectAllPlayers = createSelector(
   selectPlayersState,
   fromPlayers.selectAllPlayers
+);
+
+export const selectHasTournamentStarted = createSelector(
+  selectTournamentState,
+  fromTournament.selectHasTournamentStarted
+);
+
+export const selectNumRounds = createSelector(
+  selectTournamentState,
+  fromTournament.selectNumRounds
 );
 
 export const selectPlayerTotal = createSelector(

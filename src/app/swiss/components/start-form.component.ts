@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'mm-swiss-players-start',
-  templateUrl: './swiss-players-start.component.html'
+  selector: 'mm-start-form',
+  templateUrl: './start-form.component.html'
 })
-export class SwissPlayersStartComponent implements OnChanges {
+export class StartFormComponent implements OnChanges {
   @Input() canBeginTournament: boolean;
   @Input() hasBegunTournament: boolean;
   @Input() recommendedNumberOfRounds: number;
