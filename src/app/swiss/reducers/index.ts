@@ -29,6 +29,11 @@ export const selectHasTournamentStarted = createSelector(
   fromTournament.selectHasTournamentStarted
 );
 
+export const selectIsTournamentOver = createSelector(
+  selectTournamentState,
+  fromTournament.selectIsTournamentOver
+);
+
 export const selectNumRounds = createSelector(
   selectTournamentState,
   fromTournament.selectNumRounds

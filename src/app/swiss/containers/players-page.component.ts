@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Player, RoundService } from '../../shared';
+import { Player } from '../../shared';
 import { PlayersPageActions } from '../actions';
 import * as fromSwiss from '../reducers';
 
@@ -18,8 +18,7 @@ export class PlayersPageComponent implements OnInit {
   selectedPlayer: Player;
 
   constructor(
-    private store: Store<fromSwiss.State>,
-    private roundService: RoundService
+    private store: Store<fromSwiss.State>
   ) {
     this.players$ = store.pipe(
       select(fromSwiss.selectAllPlayers)
@@ -28,8 +27,12 @@ export class PlayersPageComponent implements OnInit {
       select(fromSwiss.selectPlayerTotal),
       map((playerTotal: number) => playerTotal >= 4)
     );
-    this.hasBegunTournament$ = this.roundService.hasBegunTournament$;
-    this.isTournamentOver$ = this.roundService.isTournamentOver$;
+    this.hasBegunTournament$ = store.pipe(
+      select(fromSwiss.selectHasTournamentStarted)
+    );
+    this.isTournamentOver$ = store.pipe(
+      select(fromSwiss.selectIsTournamentOver)
+    );
     this.recommendedNumberOfRounds$ = store.pipe(
       select(fromSwiss.selectPlayerTotal),
       map((playerTotal: number) => Math.max(3, Math.ceil(Math.log2(playerTotal))))
