@@ -1,0 +1,21 @@
+<div class="swiss-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <mm-swiss-menu
+          [hasTournamentStarted]="hasTournamentStarted$ | async"
+          [numberOfActivePlayers]="numberOfActivePlayers$ | async"></mm-swiss-menu>
+      </div>
+
+      <div class="col-md-10">
+        <div class="alert alert-dismissible" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+          <button type="button" class="close" aria-label="Close" (click)="dismissMessage(message)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{message.message}}
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

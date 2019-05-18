@@ -27,7 +27,7 @@ export class TournamentStartedGuard implements CanActivate {
 
   private hasTournamentStarted(): Observable<boolean> {
     return this.store.pipe(
-      select(fromSwiss.selectHasTournamentStarted)
+      select(fromSwiss.hasTournamentStarted)
     );
   }
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, toArray, withLatestFrom, filter } from 'rxjs/operators';
 import { DbService, Player } from '../../shared';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
+import * as fromSwiss from '../reducers';
 
 @Injectable()
 export class PlayerEffects {
@@ -35,6 +36,8 @@ export class PlayerEffects {
   @Effect()
   loadPlayers$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.LoadPlayers),
+    withLatestFrom(this.store.select(fromSwiss.arePlayersLoaded)),
+    filter(([, isLoaded]) => !isLoaded),
     switchMap(() =>
       this.db.query('players').pipe(
         toArray(),
@@ -63,6 +66,7 @@ export class PlayerEffects {
 
   constructor(
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
-    private db: DbService
+    private db: DbService,
+    private store: Store<fromSwiss.State>
   ) {}
 }

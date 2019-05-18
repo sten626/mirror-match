@@ -21,20 +21,20 @@ export class PlayersPageComponent implements OnInit {
     private store: Store<fromSwiss.State>
   ) {
     this.players$ = store.pipe(
-      select(fromSwiss.selectAllPlayers)
+      select(fromSwiss.getAllPlayers)
     );
     this.canBeginTournament$ = store.pipe(
-      select(fromSwiss.selectPlayerTotal),
+      select(fromSwiss.getNumberOfPlayers),
       map((playerTotal: number) => playerTotal >= 4)
     );
     this.hasBegunTournament$ = store.pipe(
-      select(fromSwiss.selectHasTournamentStarted)
+      select(fromSwiss.hasTournamentStarted)
     );
     this.isTournamentOver$ = store.pipe(
-      select(fromSwiss.selectIsTournamentOver)
+      select(fromSwiss.isTournamentOver)
     );
     this.recommendedNumberOfRounds$ = store.pipe(
-      select(fromSwiss.selectPlayerTotal),
+      select(fromSwiss.getNumberOfPlayers),
       map((playerTotal: number) => Math.max(3, Math.ceil(Math.log2(playerTotal))))
     );
   }

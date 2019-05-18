@@ -75,3 +75,5 @@ export const selectPlayerIds = selectIds;
 export const selectPlayerEntities = selectEntities;
 export const selectAllPlayers = selectAll;
 export const selectPlayerTotal = selectTotal;
+
+export const arePlayersLoaded = (state: State) => state.loaded;
