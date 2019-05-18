@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Message, MessageService, RoundService } from '../../shared';
-import { SwissPageActions } from '../actions';
 import * as fromSwiss from '../reducers';
 
 @Component({
