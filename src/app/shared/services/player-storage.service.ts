@@ -42,9 +42,12 @@ export class PlayerStorageService {
 
   constructor(@Inject(LOCAL_STORAGE_TOKEN) private storage: Storage) {}
 
-  addPlayers(players: Player[]): Observable<Player[]> {
+  addPlayer(player: Player): Observable<Player[]> {
     return this.getPlayers().pipe(
-      map((value: Player[]) => [...value, ...players]),
+      map((value: Player[]) => [...value, {
+        ...player,
+        id: value.length > 0 ? value[value.length - 1].id + 1 : 0
+      }]),
       tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
     );
   }
@@ -62,7 +65,7 @@ export class PlayerStorageService {
     );
   }
 
-  removePlayers(ids: string[]): Observable<Player[]> {
+  removePlayers(ids: number[]): Observable<Player[]> {
     return this.getPlayers().pipe(
       map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
       tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))

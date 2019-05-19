@@ -24,7 +24,7 @@ describe('Player Form Component', () => {
     fixture.detectChanges();
 
     player = {
-      id: '1',
+      id: 1,
       name: 'Sten'
     };
   });

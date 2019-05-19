@@ -1,5 +1,5 @@
 interface PlayerInterface {
-  id?: string;
+  id?: number;
   name: string;
   matchesPlayed?: number;
   matchesWon?: number;

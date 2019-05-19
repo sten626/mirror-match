@@ -14,15 +14,15 @@ import * as fromPlayers from './players.reducer';
 
 describe('PlayersReducer', () => {
   const player1 = {
-    id: '1',
+    id: 1,
     name: 'Steven'
   };
   const player2 = {
-    id: '2',
+    id: 2,
     name: 'Jasper'
   };
   const player3 = {
-    id: '3',
+    id: 3,
     name: 'Spike'
   };
   const populatedState: fromPlayers.State = {

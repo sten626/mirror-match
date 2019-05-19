@@ -25,12 +25,12 @@ describe('Players Page Component', () => {
 
   beforeEach(() => {
     player1 = {
-      id: '1',
+      id: 1,
       name: 'Sten'
     };
 
     player2 = {
-      id: '2',
+      id: 2,
       name: 'Jasper'
     };
 

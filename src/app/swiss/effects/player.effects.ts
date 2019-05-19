@@ -13,9 +13,12 @@ export class PlayerEffects {
     ofType(PlayersPageActions.PlayerPageActionTypes.AddPlayer),
     map(action => action.payload),
     mergeMap(player =>
-      this.storageService.addPlayers([player]).pipe(
+      this.storageService.addPlayer(player).pipe(
         map(() => new PlayersApiActions.AddPlayerSuccess(player)),
-        catchError(() => of(new PlayersApiActions.AddPlayerFailure(player)))
+        catchError((err) => {
+          console.error(err);
+          return of(new PlayersApiActions.AddPlayerFailure(player));
+        })
       )
     )
   );
