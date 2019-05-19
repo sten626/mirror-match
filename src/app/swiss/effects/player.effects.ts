@@ -14,7 +14,7 @@ export class PlayerEffects {
     map(action => action.payload),
     mergeMap(player =>
       this.storageService.addPlayer(player).pipe(
-        map(() => new PlayersApiActions.AddPlayerSuccess(player)),
+        map((value: Player) => new PlayersApiActions.AddPlayerSuccess(value)),
         catchError((err) => {
           console.error(err);
           return of(new PlayersApiActions.AddPlayerFailure(player));
