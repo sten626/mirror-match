@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, toArray, withLatestFrom, filter } from 'rxjs/operators';
-import { DbService, Player, PlayerStorageService } from '../../shared';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { Player, PlayerStorageService } from '../../shared';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
-import * as fromSwiss from '../reducers';
 
 @Injectable()
 export class PlayerEffects {
@@ -25,10 +24,10 @@ export class PlayerEffects {
   deletePlayer$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.DeletePlayer),
     map(action => action.payload),
-    mergeMap(key =>
-      this.db.delete('players', [key]).pipe(
-        map((deletedKey) => new PlayersApiActions.DeletePlayerSuccess(deletedKey)),
-        catchError((err) => of(new PlayersApiActions.DeletePlayerFailure(err)))
+    mergeMap(player =>
+      this.storageService.removePlayers([player.id]).pipe(
+        map(() => new PlayersApiActions.DeletePlayerSuccess(player)),
+        catchError(() => of(new PlayersApiActions.DeletePlayerFailure(player)))
       )
     )
   );
@@ -49,14 +48,14 @@ export class PlayerEffects {
     ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayerName),
     map(action => action.payload),
     mergeMap(player => {
-      return this.db.update('players', [player]).pipe(
-        map((updatedPlayer: Player) => new PlayersApiActions.UpdatePlayerNameSuccess({
-          id: updatedPlayer.id,
+      return this.storageService.updatePlayer(player).pipe(
+        map(_ => new PlayersApiActions.UpdatePlayerNameSuccess({
+          id: player.id,
           changes: {
-            name: updatedPlayer.name
+            name: player.name
           }
         })),
-        catchError((err) => of(new PlayersApiActions.UpdatePlayerNameFailure(err)))
+        catchError(() => of(new PlayersApiActions.UpdatePlayerNameFailure(player)))
       );
     })
   );

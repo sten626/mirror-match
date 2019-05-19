@@ -28,13 +28,13 @@ export class AddPlayerSuccess implements Action {
 export class DeletePlayerFailure implements Action {
   readonly type = PlayersApiActionTypes.DeletePlayerFailure;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Player) {}
 }
 
 export class DeletePlayerSuccess implements Action {
   readonly type = PlayersApiActionTypes.DeletePlayerSuccess;
 
-  constructor(public payload: string) {}
+  constructor(public payload: Player) {}
 }
 
 export class LoadPlayersFailure implements Action {
@@ -52,7 +52,7 @@ export class LoadPlayersSuccess implements Action {
 export class UpdatePlayerNameFailure implements Action {
   readonly type = PlayersApiActionTypes.UpdatePlayerNameFailure;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Player) {}
 }
 
 export class UpdatePlayerNameSuccess implements Action {

@@ -19,7 +19,7 @@ export class TournamentStartedGuard implements CanActivate {
           return true;
         }
 
-        this.router.navigate(['/swiss/players']);
+        this.router.navigate(['/swiss']);
         return false;
       })
     );

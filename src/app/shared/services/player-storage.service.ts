@@ -62,6 +62,20 @@ export class PlayerStorageService {
     );
   }
 
+  removePlayers(ids: string[]): Observable<Player[]> {
+    return this.getPlayers().pipe(
+      map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
+      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+    );
+  }
+
+  updatePlayer(player: Player): Observable<Player[]> {
+    return this.getPlayers().pipe(
+      map((value: Player[]) => value.map((item: Player) => item.id === player.id ? player : item)),
+      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+    );
+  }
+
   private supported(): Observable<boolean> {
     return this.storage !== null ? of(true) : throwError('Local Storage not supported.');
   }

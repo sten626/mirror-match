@@ -76,7 +76,7 @@ describe('PlayersReducer', () => {
 
   describe('DELETE_PLAYER_SUCCESS', () => {
     it('should remove a player from the state', () => {
-      const action = new DeletePlayerSuccess(player1.id);
+      const action = new DeletePlayerSuccess(player1);
       const expectedResult: fromPlayers.State = {
         ids: [player2.id],
         entities: {
@@ -91,7 +91,7 @@ describe('PlayersReducer', () => {
     });
 
     it('should leave state unchanged when trying to delete a nonexistant player', () => {
-      const action = new DeletePlayerSuccess(player3.id);
+      const action = new DeletePlayerSuccess(player3);
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(populatedState);

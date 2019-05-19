@@ -32,7 +32,7 @@ export function reducer(
       };
     }
     case PlayersApiActions.PlayersApiActionTypes.DeletePlayerSuccess: {
-      return adapter.removeOne(action.payload, state);
+      return adapter.removeOne(action.payload.id, state);
     }
     case PlayersApiActions.PlayersApiActionTypes.LoadPlayersFailure: {
       return {

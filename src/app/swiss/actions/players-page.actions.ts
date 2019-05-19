@@ -38,11 +38,8 @@ export class BeginEvent implements Action {
 
 export class DeletePlayer implements Action {
   readonly type = PlayerPageActionTypes.DeletePlayer;
-  payload: string;
 
-  constructor(player: Player) {
-    this.payload = player.id;
-  }
+  constructor(public payload: Player) {}
 }
 
 export class LoadPlayers implements Action {
