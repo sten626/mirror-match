@@ -1,25 +1,44 @@
-<div class="row">
-  <div class="col-sm-6">
-    <mm-player-form
-      [hasBegunTournament]="hasBegunTournament$ | async"
-      [isTournamentOver]="isTournamentOver$ | async"
-      [selectedPlayer]="selectedPlayer"
-      (addPlayer)="addPlayer($event)"
-      (playerFormReset)="clearSelectedPlayer()"
-      (updatePlayerName)="updatePlayerName($event)"></mm-player-form>
-    <mm-start-form
-      [canBeginTournament]="canBeginTournament$ | async"
-      [hasBegunTournament]="hasBegunTournament$ | async"
-      [recommendedNumberOfRounds]="recommendedNumberOfRounds$ | async"
-      (startTournament)="onStartTournament($event)"></mm-start-form>
-  </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <mm-swiss-menu
+        [hasTournamentStarted]="hasTournamentStarted$ | async"
+        [numberOfActivePlayers]="numberOfActivePlayers$ | async"></mm-swiss-menu>
+    </div>
 
-  <div class="col-sm-6">
-    <mm-player-list
-      [hasBegunTournament]="hasBegunTournament$ | async"
-      [players]="players$ | async"
-      [selectedPlayer]="selectedPlayer"
-      (playerDeleted)="onPlayerDeleted($event)"
-      (playerSelected)="selectPlayer($event)"></mm-player-list>
+    <div class="col-md-10">
+      <div class="alert alert-dismissible" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+        <button type="button" class="close" aria-label="Close" (click)="dismissMessage(message)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{message.message}}
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <mm-player-form
+            [hasBegunTournament]="hasBegunTournament$ | async"
+            [isTournamentOver]="isTournamentOver$ | async"
+            [selectedPlayer]="selectedPlayer"
+            (addPlayer)="addPlayer($event)"
+            (playerFormReset)="clearSelectedPlayer()"
+            (updatePlayerName)="updatePlayerName($event)"></mm-player-form>
+          <mm-start-form
+            [canBeginTournament]="canBeginTournament$ | async"
+            [hasBegunTournament]="hasBegunTournament$ | async"
+            [recommendedNumberOfRounds]="recommendedNumberOfRounds$ | async"
+            (startTournament)="onStartTournament($event)"></mm-start-form>
+        </div>
+
+        <div class="col-sm-6">
+          <mm-player-list
+            [hasBegunTournament]="hasBegunTournament$ | async"
+            [players]="players$ | async"
+            [selectedPlayer]="selectedPlayer"
+            (playerDeleted)="onPlayerDeleted($event)"
+            (playerSelected)="selectPlayer($event)"></mm-player-list>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

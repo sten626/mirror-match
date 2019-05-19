@@ -13,6 +13,7 @@ export class PlayersPageComponent implements OnInit {
   canBeginTournament$: Observable<boolean>;
   hasBegunTournament$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
+  numberOfActivePlayers$: Observable<number>;
   players$: Observable<Player[]>;
   recommendedNumberOfRounds$: Observable<number>;
   selectedPlayer: Player;
@@ -32,6 +33,9 @@ export class PlayersPageComponent implements OnInit {
     );
     this.isTournamentOver$ = store.pipe(
       select(fromSwiss.isTournamentOver)
+    );
+    this.numberOfActivePlayers$ = store.pipe(
+      select(fromSwiss.getNumberOfActivePlayers)
     );
     this.recommendedNumberOfRounds$ = store.pipe(
       select(fromSwiss.getNumberOfPlayers),
