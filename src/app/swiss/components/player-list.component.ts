@@ -10,25 +10,8 @@ export class PlayerListComponent {
   @Input() hasBegunTournament: boolean;
   @Input() players: Player[];
   @Input() selectedPlayer: Player;
-  @Output() playerDeleted = new EventEmitter<Player>();
-  @Output() playerSelected = new EventEmitter<Player>();
+  @Output() delete = new EventEmitter<Player>();
+  @Output() select = new EventEmitter<Player>();
 
   constructor() {}
-
-  /**
-   * Emit an event that a Player needs to be deleted.
-   * @param player The Player being deleted from the list.
-   */
-  deletePlayer(player: Player, event: Event) {
-    event.stopPropagation();
-    this.playerDeleted.emit(player);
-  }
-
-  /**
-   * Emit an event that a Player has been selected.
-   * @param player The Player being selected from the list.
-   */
-  selectPlayer(player: Player) {
-    this.playerSelected.emit(player);
-  }
 }

@@ -47,7 +47,7 @@ export class PlayerStorageService {
       map((value: Player[]) => [
         ...value, {
           ...player,
-          id: value.length > 0 ? value[value.length - 1].id + 1 : 0
+          id: value.length > 0 ? value[value.length - 1].id + 1 : 1
         }
       ]),
       tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),

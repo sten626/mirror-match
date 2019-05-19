@@ -67,7 +67,7 @@ export class PlayersPageComponent implements OnInit {
    * Dispath a DeletePlayer action and clear it if it was the selected player.
    * @param player The Player to be deleted.
    */
-  onPlayerDeleted(player: Player): void {
+  deletePlayer(player: Player): void {
     this.store.dispatch(new PlayersPageActions.DeletePlayer(player));
 
     if (player === this.selectedPlayer) {

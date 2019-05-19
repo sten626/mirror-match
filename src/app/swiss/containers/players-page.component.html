@@ -34,11 +34,10 @@
             [hasBegunTournament]="hasBegunTournament$ | async"
             [players]="players$ | async"
             [selectedPlayer]="selectedPlayer"
-            (playerDeleted)="onPlayerDeleted($event)"
-            (playerSelected)="selectPlayer($event)"></mm-player-list>
+            (delete)="deletePlayer($event)"
+            (select)="selectPlayer($event)"></mm-player-list>
         </div>
       </div>
     </div>
   </div>
 </div>
-

@@ -111,16 +111,16 @@ describe('Players Page Component', () => {
     expect(component.selectedPlayer).toBeNull();
   });
 
-  /* onPlayerDeleted */
+  /* deletePlayer */
 
-  describe('onPlayerDeleted', () => {
+  describe('deletePlayer', () => {
     it('should dispatch an action to delete a player and clear same selected player', () => {
       component.selectedPlayer = player1;
 
       expect(component.selectedPlayer).toBeDefined();
 
       const action = new PlayersPageActions.DeletePlayer(player1);
-      component.onPlayerDeleted(player1);
+      component.deletePlayer(player1);
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
       expect(component.selectedPlayer).toBeNull();
@@ -132,7 +132,7 @@ describe('Players Page Component', () => {
       expect(component.selectedPlayer).toEqual(player1);
 
       const action = new PlayersPageActions.DeletePlayer(player2);
-      component.onPlayerDeleted(player2);
+      component.deletePlayer(player2);
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
       expect(component.selectedPlayer).toEqual(player1);
