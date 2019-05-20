@@ -1,0 +1,41 @@
+<div class="swiss-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <mm-swiss-menu
+          [hasTournamentStarted]="hasTournamentStarted$ | async"
+          [numberOfActivePlayers]="numberOfActivePlayers$ | async"></mm-swiss-menu>
+      </div>
+
+      <div class="col-md-10">
+        <div class="alert alert-dismissible" [ngClass]="message.type" role="alert" *ngFor="let message of messages">
+          <button type="button" class="close" aria-label="Close" (click)="dismissMessage(message)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{message.message}}
+        </div>
+        <form class="form-horizontal" [formGroup]="pairingsForm">
+          <div class="form-group">
+            <label for="selected-round" class="control-label col-sm-2">Round</label>
+            <div class="col-sm-2">
+              <select id="selected-round" class="form-control" formControlName="currentRound">
+                <option *ngFor="let round of rounds" [value]="round">{{round}}</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-default" *ngIf="!(selectedRoundHasPairings$ | async)" (click)="generatePairings()">Generate Pairings</button>
+              <button class="btn btn-default" *ngIf="canStartNextRound$ | async" (click)="createNextRound()">Create Next Round</button>
+            </div>
+          </div>
+        </form>
+        <mm-pairings-list
+          [pairings]="pairings$ | async"
+          (lastResultSubmitted)="onLastResultSubmitted()"
+          (matchResultsCleared)="onMatchResultsCleared($event)"
+          (playerDroppedChanged)="onPlayerDroppedChanged($event)"
+          (redoMatchesForRound)="onRedoMatchesForRound()"
+          (resultSubmitted)="onResultSubmitted($event)"></mm-pairings-list>
+      </div>
+    </div>
+  </div>
+</div>
