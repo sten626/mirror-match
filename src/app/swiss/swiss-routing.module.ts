@@ -3,7 +3,7 @@ import { PlayersPageComponent } from './containers/players-page.component';
 import { EventInfoComponent } from './event-info.component';
 import { TournamentStartedGuard } from './guards/tournament-started-guard.service';
 import { StandingsGuard } from './standings-guard.service';
-import { SwissPairingsComponent } from './swiss-pairings.component';
+import { PairingsPageComponent } from './containers/pairings-page.component';
 import { SwissStandingsComponent } from './swiss-standings.component';
 import { NgModule } from '@angular/core';
 
@@ -16,7 +16,7 @@ export const routes: Routes = [{
   canActivate: [TournamentStartedGuard]
 }, {
   path: 'pairings',
-  component: SwissPairingsComponent,
+  component: PairingsPageComponent,
   canActivate: [TournamentStartedGuard]
 }, {
   path: 'standings',
