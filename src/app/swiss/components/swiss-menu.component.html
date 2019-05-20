@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-stacked">
-  <li role="presentation" routerLinkActive="active">
+  <li role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <a routerLink="/swiss">Players <span class="badge" *ngIf="numberOfActivePlayers > 0">{{numberOfActivePlayers}}</span></a>
   </li>
   <li role="presentation" routerLinkActive="active" *ngIf="hasTournamentStarted">

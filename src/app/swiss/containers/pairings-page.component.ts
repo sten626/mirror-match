@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
+import * as fromSwiss from '../reducers';
 
 import {
   Pairing,
@@ -12,12 +13,15 @@ import {
   RoundService,
   StandingsService
 } from '../../shared';
+import { Store, select } from '@ngrx/store';
+import { PairingsPageActions } from '../actions';
 
 @Component({
   templateUrl: './pairings-page.component.html'
 })
 export class PairingsPageComponent implements OnDestroy, OnInit {
   canStartNextRound$: Observable<boolean>;
+  hasTournamentStarted$: Observable<boolean>;
   rounds: number[];
   pairings$: Observable<Pairing[]>;
   pairingsForm: FormGroup;
@@ -33,13 +37,18 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
     private playerService: PlayerService,
     private roundService: RoundService,
     private router: Router,
-    private standingsService: StandingsService
+    private standingsService: StandingsService,
+    private store: Store<fromSwiss.State>
   ) {
     this.canStartNextRound$ = this.roundService.canStartNextRound$;
+    this.hasTournamentStarted$ = store.pipe(
+      select(fromSwiss.hasTournamentStarted)
+    );
     this.createForm();
   }
 
   ngOnInit() {
+    this.store.dispatch(new PairingsPageActions.LoadTournament());
     this.roundsSub = this.roundService.rounds$.subscribe((rounds: number[]) => {
       this.rounds = rounds;
       const selectedRound = Math.max(...rounds);

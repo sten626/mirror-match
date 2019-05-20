@@ -47,7 +47,8 @@ export function reducer(
       return {
         ...state,
         ...action.payload,
-        loaded: true
+        loaded: true,
+        loading: false
       };
     }
     default: {
@@ -57,6 +58,8 @@ export function reducer(
 }
 
 export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
+
+export const isTournamentLoaded = (state: State) => state.loaded;
 
 export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
 

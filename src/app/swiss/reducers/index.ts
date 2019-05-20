@@ -42,6 +42,11 @@ export const hasTournamentStarted = createSelector(
   fromTournament.hasTournamentStarted
 );
 
+export const isTournamentLoaded = createSelector(
+  getTournamentState,
+  fromTournament.isTournamentLoaded
+);
+
 export const isTournamentOver = createSelector(
   getTournamentState,
   fromTournament.isTournamentOver
