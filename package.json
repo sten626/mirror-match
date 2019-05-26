@@ -1,6 +1,6 @@
 {
   "name": "mirror-match",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
@@ -29,7 +29,8 @@
     "bootstrap": "^3.4.1",
     "core-js": "^2.6.5",
     "jquery": "^3.4.1",
-    "rxjs": "^6.5.1",
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.0.0-rc.0",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.29"
   },
@@ -37,10 +38,10 @@
     "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "^7.3.9",
     "@angular/compiler-cli": "^7.2.15",
-    "@types/jasmine": "^2.8.16",
+    "@types/jasmine": "^3.3.12",
     "@types/jasminewd2": "^2.0.6",
-    "@types/node": "^10.14.6",
-    "codelyzer": "^4.5.0",
+    "@types/node": "^12.0.0",
+    "codelyzer": "^5.0.1",
     "jasmine": "^3.4.0",
     "jasmine-core": "^3.4.0",
     "jasmine-spec-reporter": "^4.2.1",
