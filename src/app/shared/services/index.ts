@@ -1,4 +1,3 @@
-export * from './db.service';
 export * from './message.service';
 export * from './pairing.service';
 export * from './player.service';

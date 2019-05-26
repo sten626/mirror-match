@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import {
-  DbService,
   FooterComponent,
   HeaderComponent,
   MessageService,
@@ -40,7 +39,6 @@ import { reducers } from './swiss/reducers';
     StoreModule.forRoot(reducers)
   ],
   providers: [
-    DbService,
     MessageService,
     PairingService,
     PlayerService,
