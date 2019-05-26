@@ -10,6 +10,7 @@ import { PlayersPageComponent } from './players-page.component';
 describe('Players Page Component', () => {
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
+  const numberOfDispatchesInInit = 2;
   let store: Store<fromPlayers.State>;
   let player1: Player;
   let player2: Player;
@@ -169,13 +170,13 @@ describe('Players Page Component', () => {
     it('should not dispatch an action when called with no player', () => {
       component.updatePlayerName({player: null, name: 'Steven'});
       // Seems to start at 1 instead of 0.
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(numberOfDispatchesInInit);
     });
 
     it('should not dispatch an action when called with no name', () => {
       component.updatePlayerName({player: player1, name: null});
       // Seems to start at 1 instead of 0.
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(numberOfDispatchesInInit);
     });
   });
 });
