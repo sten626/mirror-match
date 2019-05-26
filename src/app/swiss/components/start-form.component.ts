@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class StartFormComponent implements OnChanges {
   @Input() canBeginTournament: boolean;
-  @Input() hasBegunTournament: boolean;
+  @Input() hasTournamentStarted: boolean;
   @Input() recommendedNumberOfRounds: number;
   @Output() startTournament = new EventEmitter<number>();
 
@@ -22,7 +22,7 @@ export class StartFormComponent implements OnChanges {
       numberOfRounds: this.recommendedNumberOfRounds
     });
 
-    if (this.hasBegunTournament) {
+    if (this.hasTournamentStarted) {
       this.swissPlayersStartForm.disable();
     } else {
       this.swissPlayersStartForm.enable();

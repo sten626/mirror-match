@@ -33,8 +33,8 @@ describe('Player Form Component', () => {
 
   it('should emit event when reset() called', () => {
     let called = false;
-    component.playerFormReset.subscribe(() => called = true);
-    component.reset();
+    component.reset.subscribe(() => called = true);
+    component.reset.emit();
 
     expect(called).toBeTruthy();
   });

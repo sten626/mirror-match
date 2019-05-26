@@ -7,7 +7,7 @@ import { Player } from '../../shared';
   templateUrl: './player-list.component.html'
 })
 export class PlayerListComponent {
-  @Input() hasBegunTournament: boolean;
+  @Input() hasTournamentStarted: boolean;
   @Input() players: Player[];
   @Input() selectedPlayer: Player;
   @Output() delete = new EventEmitter<Player>();

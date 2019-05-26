@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-2">
       <mm-swiss-menu
-        [hasTournamentStarted]="hasBegunTournament$ | async"
+        [hasTournamentStarted]="hasTournamentStarted$ | async"
         [numberOfActivePlayers]="numberOfActivePlayers$ | async"></mm-swiss-menu>
     </div>
 
@@ -16,7 +16,7 @@
       <div class="row">
         <div class="col-sm-6">
           <mm-player-form
-            [hasBegunTournament]="hasBegunTournament$ | async"
+            [hasTournamentStarted]="hasTournamentStarted$ | async"
             [isTournamentOver]="isTournamentOver$ | async"
             [selectedPlayer]="selectedPlayer"
             (addPlayer)="addPlayer($event)"
@@ -24,14 +24,14 @@
             (updatePlayerName)="updatePlayerName($event)"></mm-player-form>
           <mm-start-form
             [canBeginTournament]="canBeginTournament$ | async"
-            [hasBegunTournament]="hasBegunTournament$ | async"
+            [hasTournamentStarted]="hasTournamentStarted$ | async"
             [recommendedNumberOfRounds]="recommendedNumberOfRounds$ | async"
             (startTournament)="onStartTournament($event)"></mm-start-form>
         </div>
 
         <div class="col-sm-6">
           <mm-player-list
-            [hasBegunTournament]="hasBegunTournament$ | async"
+            [hasTournamentStarted]="hasTournamentStarted$ | async"
             [players]="players$ | async"
             [selectedPlayer]="selectedPlayer"
             (delete)="deletePlayer($event)"

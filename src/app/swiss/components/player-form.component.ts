@@ -9,11 +9,11 @@ import { Player } from '../../shared';
   styleUrls: ['player-form.component.css']
 })
 export class PlayerFormComponent implements OnChanges {
-  @Input() hasBegunTournament: boolean;
+  @Input() hasTournamentStarted: boolean;
   @Input() isTournamentOver: boolean;
   @Input() selectedPlayer: Player;
   @Output() addPlayer = new EventEmitter<Player>();
-  @Output() playerFormReset = new EventEmitter<any>();
+  @Output() reset = new EventEmitter<any>();
   @Output() updatePlayerName = new EventEmitter<{player: Player, name: string}>();
 
   @ViewChild('name') playerNameElement: ElementRef;
@@ -40,15 +40,11 @@ export class PlayerFormComponent implements OnChanges {
       this.clearForm();
     }
 
-    if (this.isTournamentOver && this.hasBegunTournament) {
+    if (this.isTournamentOver && this.hasTournamentStarted) {
       this.swissPlayerForm.disable();
     } else {
       this.swissPlayerForm.enable();
     }
-  }
-
-  reset(): void {
-    this.playerFormReset.emit();
   }
 
   submit() {
@@ -72,7 +68,7 @@ export class PlayerFormComponent implements OnChanges {
         player: this.selectedPlayer,
         name: name
       });
-      this.playerFormReset.emit();
+      this.reset.emit();
     }
   }
 
