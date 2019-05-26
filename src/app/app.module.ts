@@ -16,7 +16,8 @@ import {
   RoundService,
   SharedModule,
   StandingsService,
-  PlayerStorageService
+  PlayerStorageService,
+  TournamentStorageService
 } from './shared';
 import { PlayerEffects } from './swiss/effects/player.effects';
 import { TournamentEffects } from './swiss/effects/tournament.effects';
@@ -44,7 +45,8 @@ import { reducers } from './swiss/reducers';
     PlayerService,
     PlayerStorageService,
     RoundService,
-    StandingsService
+    StandingsService,
+    TournamentStorageService
   ],
   bootstrap: [AppComponent]
 })

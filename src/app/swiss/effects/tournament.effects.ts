@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
+import { TournamentInfo, TournamentStorageService } from 'app/shared';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { PlayersPageActions, TournamentApiActions } from '../actions';
 
 @Injectable()
@@ -12,29 +13,38 @@ export class TournamentEffects {
   beginEvent$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
     map(action => action.payload),
-    mergeMap(numOfRounds => {
-      localStorage.setItem('numberOfRounds', JSON.stringify(numOfRounds));
-      localStorage.setItem('currentRound', '1');
-      return of(new TournamentApiActions.BeginEventSuccess(numOfRounds));
+    map(numberOfRounds => {
+      return {
+        currentRound: 1,
+        numberOfRounds: numberOfRounds
+      };
     }),
+    mergeMap((tournamentInfo: TournamentInfo) =>
+      this.storageService.setTournamentInfo(tournamentInfo).pipe(
+        map(() => new TournamentApiActions.BeginEventSuccess(tournamentInfo.numberOfRounds)),
+        catchError((err) => {
+          console.error(err);
+          return of(new TournamentApiActions.BeginEventFailure());
+        })
+      )
+    ),
     tap(() => this.router.navigate(['/swiss/pairings']))
   );
 
   @Effect()
   loadTournament$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.LoadTournament),
-    switchMap(() => {
-      const numOfRounds = JSON.parse(localStorage.getItem('numberOfRounds'));
-      const currentRound = JSON.parse(localStorage.getItem('currentRound'));
-      return of(new TournamentApiActions.LoadTournamentSuccess({
-        currentRound: currentRound,
-        numberOfRounds: numOfRounds
-      }));
-    })
+    switchMap(() =>
+      this.storageService.getTournamentInfo().pipe(
+        map((tournamentInfo: TournamentInfo) => new TournamentApiActions.LoadTournamentSuccess(tournamentInfo)),
+        catchError((err) => of(new TournamentApiActions.LoadTournamentFailure(err)))
+      )
+    )
   );
 
   constructor(
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
-    private router: Router
+    private router: Router,
+    private storageService: TournamentStorageService
   ) {}
 }
