@@ -5,6 +5,7 @@
       [isTournamentOver]="isTournamentOver$ | async"
       [selectedPlayer]="selectedPlayer"
       (addPlayer)="addPlayer($event)"
+      (dropPlayer)="dropPlayer($event)"
       (reset)="clearSelectedPlayer()"
       (updatePlayerName)="updatePlayerName($event)"></mm-player-form>
     <mm-start-form

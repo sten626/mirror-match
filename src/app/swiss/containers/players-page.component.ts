@@ -56,6 +56,10 @@ export class PlayersPageComponent implements OnInit {
     this.store.dispatch(new PlayersPageActions.AddPlayer(player));
   }
 
+  dropPlayer(player: Player): void {
+    this.store.dispatch(new PlayersPageActions.DropPlayer(player));
+  }
+
   /**
    * Set the selected player to null.
    */

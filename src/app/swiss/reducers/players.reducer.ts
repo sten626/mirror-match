@@ -34,6 +34,9 @@ export function reducer(
     case PlayersApiActions.PlayersApiActionTypes.DeletePlayerSuccess: {
       return adapter.removeOne(action.payload.id, state);
     }
+    case PlayersApiActions.PlayersApiActionTypes.DropPlayerSuccess: {
+      return adapter.updateOne(action.payload, state);
+    }
     case PlayersApiActions.PlayersApiActionTypes.LoadPlayersFailure: {
       return {
         ...state,

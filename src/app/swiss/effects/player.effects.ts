@@ -36,6 +36,23 @@ export class PlayerEffects implements OnInitEffects {
   );
 
   @Effect()
+  dropPlayer$: Observable<Action> = this.actions$.pipe(
+    ofType(PlayersPageActions.PlayerPageActionTypes.DropPlayer),
+    map(action => action.payload),
+    mergeMap(player =>
+      this.storageService.updatePlayer(player).pipe(
+        map(() => new PlayersApiActions.DropPlayerSuccess({
+          id: player.id,
+          changes: {
+            dropped: true
+          }
+        })),
+        catchError((err) => of(new PlayersApiActions.DropPlayerFailure(err)))
+      )
+    )
+  );
+
+  @Effect()
   loadPlayers$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersApiActions.PlayersApiActionTypes.LoadPlayers),
     switchMap(() =>
@@ -50,8 +67,8 @@ export class PlayerEffects implements OnInitEffects {
   updatePlayerName$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayerName),
     map(action => action.payload),
-    mergeMap(player => {
-      return this.storageService.updatePlayer(player).pipe(
+    mergeMap(player =>
+      this.storageService.updatePlayer(player).pipe(
         map(_ => new PlayersApiActions.UpdatePlayerNameSuccess({
           id: player.id,
           changes: {
@@ -59,8 +76,8 @@ export class PlayerEffects implements OnInitEffects {
           }
         })),
         catchError(() => of(new PlayersApiActions.UpdatePlayerNameFailure(player)))
-      );
-    })
+      )
+    )
   );
 
   constructor(
