@@ -13,7 +13,7 @@
         <button type="button"
           class="btn"
           [ngClass]="{'btn-default': !isPlayerDroppable, 'btn-warning': isPlayerDroppable}"
-          *ngIf="hasBegunTournament && !isTournamentOver"
+          *ngIf="hasTournamentStarted && !isTournamentOver"
           [disabled]="!selectedPlayer || !selectedPlayer.id"
           (click)="toggleSelectedPlayerDropped()">{{isPlayerDroppable ? 'Drop' : 'Undrop'}}</button>
       </div>

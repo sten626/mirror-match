@@ -11,7 +11,7 @@ import * as fromSwiss from '../reducers';
 })
 export class PlayersPageComponent implements OnInit {
   canBeginTournament$: Observable<boolean>;
-  hasBegunTournament$: Observable<boolean>;
+  hasTournamentStarted$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
   numberOfActivePlayers$: Observable<number>;
   players$: Observable<Player[]>;
@@ -28,7 +28,7 @@ export class PlayersPageComponent implements OnInit {
       select(fromSwiss.getNumberOfPlayers),
       map((playerTotal: number) => playerTotal >= 4)
     );
-    this.hasBegunTournament$ = store.pipe(
+    this.hasTournamentStarted$ = store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
     this.isTournamentOver$ = store.pipe(
