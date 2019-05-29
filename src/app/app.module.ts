@@ -19,9 +19,7 @@ import {
   PlayerStorageService,
   TournamentStorageService
 } from './shared';
-import { PlayerEffects } from './swiss/effects/player.effects';
-import { TournamentEffects } from './swiss/effects/tournament.effects';
-import { reducers } from './swiss/reducers';
+import { reducers } from './reducers';
 
 @NgModule({
   declarations: [
@@ -32,7 +30,7 @@ import { reducers } from './swiss/reducers';
   imports: [
     AppRoutingModule,
     BrowserModule,
-    EffectsModule.forRoot([PlayerEffects, TournamentEffects]),
+    EffectsModule.forRoot([]),
     FormsModule,
     HomeModule,
     HttpModule,

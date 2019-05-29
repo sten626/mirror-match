@@ -1,14 +1,15 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import { Player } from '../../shared';
 import * as fromPlayers from './players.reducer';
 import * as fromTournament from './tournament.reducer';
-import { Player } from '../../shared';
 
 export interface SwissState {
   players: fromPlayers.State;
   tournament: fromTournament.State;
 }
 
-export interface State {
+export interface State extends fromRoot.State {
   swiss: SwissState;
 }
 
@@ -17,8 +18,17 @@ export const reducers: ActionReducerMap<SwissState> = {
   tournament: fromTournament.reducer
 };
 
-export const getPlayersState = createFeatureSelector<fromPlayers.State>('players');
-export const getTournamentState = createFeatureSelector<fromTournament.State>('tournament');
+export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
+
+export const getPlayersState = createSelector(
+  getSwissState,
+  state => state.players
+);
+
+export const getTournamentState = createSelector(
+  getSwissState,
+  state => state.tournament
+);
 
 export const arePlayersLoaded = createSelector(
   getPlayersState,

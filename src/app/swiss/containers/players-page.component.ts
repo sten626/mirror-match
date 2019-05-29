@@ -44,8 +44,8 @@ export class PlayersPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new PlayersPageActions.LoadPlayers());
-    this.store.dispatch(new PlayersPageActions.LoadTournament());
+    // this.store.dispatch(new PlayersPageActions.LoadPlayers());
+    // this.store.dispatch(new PlayersPageActions.LoadTournament());
   }
 
   /**

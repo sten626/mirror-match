@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Player, PlayerStorageService } from '../../shared';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
+
+@Injectable()
+export class PlayerInitEffects implements OnInitEffects {
+  ngrxOnInitEffects() {
+    return new PlayersPageActions.LoadPlayers();
+  }
+}
 
 @Injectable()
 export class PlayerEffects {
