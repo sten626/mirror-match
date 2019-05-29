@@ -73,11 +73,11 @@ describe('Players Page Component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch an action to load players when created', () => {
-    const action = new PlayersPageActions.LoadPlayers();
+  // it('should dispatch an action to load players when created', () => {
+  //   const action = new PlayersPageActions.LoadPlayers();
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
+  //   expect(store.dispatch).toHaveBeenCalledWith(action);
+  // });
 
   it('should have a list of players after loading data', () => {
     const players: Player[] = [player1, player2];

@@ -7,14 +7,7 @@ import { Player, PlayerStorageService } from '../../shared';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
 
 @Injectable()
-export class PlayerInitEffects implements OnInitEffects {
-  ngrxOnInitEffects() {
-    return new PlayersPageActions.LoadPlayers();
-  }
-}
-
-@Injectable()
-export class PlayerEffects {
+export class PlayerEffects implements OnInitEffects {
   @Effect()
   addPlayer$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.AddPlayer),
@@ -44,7 +37,7 @@ export class PlayerEffects {
 
   @Effect()
   loadPlayers$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.LoadPlayers),
+    ofType(PlayersApiActions.PlayersApiActionTypes.LoadPlayers),
     switchMap(() =>
       this.storageService.getPlayers().pipe(
         map((players: Player[]) => new PlayersApiActions.LoadPlayersSuccess(players)),
@@ -74,4 +67,8 @@ export class PlayerEffects {
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
     private storageService: PlayerStorageService
   ) {}
+
+  ngrxOnInitEffects() {
+    return new PlayersApiActions.LoadPlayers();
+  }
 }

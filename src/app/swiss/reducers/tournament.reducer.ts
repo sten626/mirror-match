@@ -1,4 +1,4 @@
-import { TournamentApiActions, SwissPageActions, PlayersPageActions } from '../actions';
+import { TournamentApiActions, PlayersPageActions } from '../actions';
 
 export interface State {
   completedRound: number;
@@ -19,28 +19,21 @@ export const initialState: State = {
 export function reducer(
   state = initialState,
   action: PlayersPageActions.PlayersPageActionsUnion
-  | SwissPageActions.SwissPageActionsUnion
   | TournamentApiActions.TournamentApiActionsUnion
 ): State {
   switch (action.type) {
-    case PlayersPageActions.PlayerPageActionTypes.LoadTournament: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-    case SwissPageActions.SwissPageActionTypes.LoadTournament: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
     case TournamentApiActions.TournamentApiActionTypes.BeginEventSuccess: {
       const numOfRounds = action.payload;
       return {
         ...state,
         currentRound: 1,
         numberOfRounds: numOfRounds
+      };
+    }
+    case TournamentApiActions.TournamentApiActionTypes.LoadTournament: {
+      return {
+        ...state,
+        loading: true
       };
     }
     case TournamentApiActions.TournamentApiActionTypes.LoadTournamentSuccess: {

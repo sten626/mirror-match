@@ -14,7 +14,6 @@ import {
   StandingsService
 } from '../../shared';
 import { Store, select } from '@ngrx/store';
-import { PairingsPageActions } from '../actions';
 
 @Component({
   templateUrl: './pairings-page.component.html'
@@ -40,6 +39,7 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
     private standingsService: StandingsService,
     private store: Store<fromSwiss.State>
   ) {
+    this.store = this.store;
     this.canStartNextRound$ = this.roundService.canStartNextRound$;
     this.hasTournamentStarted$ = store.pipe(
       select(fromSwiss.hasTournamentStarted)
@@ -48,7 +48,6 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new PairingsPageActions.LoadTournament());
     this.roundsSub = this.roundService.rounds$.subscribe((rounds: number[]) => {
       this.rounds = rounds;
       const selectedRound = Math.max(...rounds);

@@ -7,6 +7,7 @@ export enum PlayersApiActionTypes {
   AddPlayerSuccess = '[Players/API] Add Player Success',
   DeletePlayerFailure = '[Players/API] Delete Player Failure',
   DeletePlayerSuccess = '[Players/API] Delete Player Success',
+  LoadPlayers = '[Players/API] Load Players',
   LoadPlayersFailure = '[Players/API] Load Players Failure',
   LoadPlayersSuccess = '[Players/API] Load Players Success',
   UpdatePlayerNameFailure = '[Players/API] Update Player Name Failure',
@@ -35,6 +36,10 @@ export class DeletePlayerSuccess implements Action {
   readonly type = PlayersApiActionTypes.DeletePlayerSuccess;
 
   constructor(public payload: Player) {}
+}
+
+export class LoadPlayers implements Action {
+  readonly type = PlayersApiActionTypes.LoadPlayers;
 }
 
 export class LoadPlayersFailure implements Action {
@@ -66,6 +71,7 @@ export type PlayersApiActionsUnion =
   | AddPlayerSuccess
   | DeletePlayerFailure
   | DeletePlayerSuccess
+  | LoadPlayers
   | LoadPlayersFailure
   | LoadPlayersSuccess
   | UpdatePlayerNameFailure

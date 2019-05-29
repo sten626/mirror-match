@@ -7,9 +7,9 @@ import {
   DeletePlayerSuccess,
   LoadPlayersFailure,
   LoadPlayersSuccess,
-  UpdatePlayerNameSuccess
+  UpdatePlayerNameSuccess,
+  LoadPlayers
 } from '../actions/players-api.actions';
-import { LoadPlayers } from '../actions/players-page.actions';
 import * as fromPlayers from './players.reducer';
 
 describe('PlayersReducer', () => {

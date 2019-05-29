@@ -4,6 +4,7 @@ import { TournamentInfo } from 'app/shared';
 export enum TournamentApiActionTypes {
   BeginEventFailure = '[Tournament/API] Begin Event Failure',
   BeginEventSuccess = '[Tournament/API] Begin Event Success',
+  LoadTournament = '[Tournament/API] Load Tournament',
   LoadTournamentFailure = '[Tournament/API] Load Tournament Failure',
   LoadTournamentSuccess = '[Tournament/API] Load Tournament Success'
 }
@@ -18,6 +19,10 @@ export class BeginEventSuccess implements Action {
   constructor(public payload: number) {}
 }
 
+export class LoadTournament implements Action {
+  readonly type = TournamentApiActionTypes.LoadTournament;
+}
+
 export class LoadTournamentFailure implements Action {
   readonly type = TournamentApiActionTypes.LoadTournamentFailure;
 
@@ -30,4 +35,9 @@ export class LoadTournamentSuccess implements Action {
   constructor(public payload: TournamentInfo) {}
 }
 
-export type TournamentApiActionsUnion = BeginEventFailure | BeginEventSuccess | LoadTournamentSuccess;
+export type TournamentApiActionsUnion =
+  BeginEventFailure
+  | BeginEventSuccess
+  | LoadTournament
+  | LoadTournamentFailure
+  | LoadTournamentSuccess;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { TournamentInfo, TournamentStorageService } from 'app/shared';
 import { Observable, of } from 'rxjs';
@@ -8,7 +8,7 @@ import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { PlayersPageActions, TournamentApiActions } from '../actions';
 
 @Injectable()
-export class TournamentEffects {
+export class TournamentEffects implements OnInitEffects {
   @Effect()
   beginEvent$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
@@ -33,7 +33,7 @@ export class TournamentEffects {
 
   @Effect()
   loadTournament$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.LoadTournament),
+    ofType(TournamentApiActions.TournamentApiActionTypes.LoadTournament),
     switchMap(() =>
       this.storageService.getTournamentInfo().pipe(
         map((tournamentInfo: TournamentInfo) => new TournamentApiActions.LoadTournamentSuccess(tournamentInfo)),
@@ -47,4 +47,8 @@ export class TournamentEffects {
     private router: Router,
     private storageService: TournamentStorageService
   ) {}
+
+  ngrxOnInitEffects() {
+    return new TournamentApiActions.LoadTournament();
+  }
 }

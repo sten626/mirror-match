@@ -52,7 +52,7 @@ export function reducer(
     case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
       return adapter.updateOne(action.payload, state);
     }
-    case PlayersPageActions.PlayerPageActionTypes.LoadPlayers: {
+    case PlayersApiActions.PlayersApiActionTypes.LoadPlayers: {
       return {
         ...state,
         loading: true
