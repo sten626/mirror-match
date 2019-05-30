@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { TournamentInfo, TournamentStorageService } from 'app/shared';
+import { PlayersPageActions, TournamentApiActions } from 'app/swiss/actions';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { PlayersPageActions, TournamentApiActions } from '../actions';
 
 @Injectable()
 export class TournamentEffects implements OnInitEffects {

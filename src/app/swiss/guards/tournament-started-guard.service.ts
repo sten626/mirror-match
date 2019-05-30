@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
+import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
-import { map, filter, take, switchMap } from 'rxjs/operators';
-import * as fromSwiss from '../reducers';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class TournamentStartedGuard implements CanActivate {

@@ -1,4 +1,4 @@
-import { TournamentApiActions, PlayersPageActions } from '../actions';
+import { TournamentApiActions, PlayersPageActions } from 'app/swiss/actions';
 
 export interface State {
   completedRound: number;

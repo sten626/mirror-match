@@ -1,19 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Pairing, PairingService, Player, PlayerService, RoundService, StandingsService } from 'app/shared';
+import * as fromSwiss from 'app/swiss/reducers';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import * as fromSwiss from '../reducers';
-
-import {
-  Pairing,
-  PairingService,
-  Player,
-  PlayerService,
-  RoundService,
-  StandingsService
-} from '../../shared';
-import { Store, select } from '@ngrx/store';
 
 @Component({
   templateUrl: './pairings-page.component.html'

@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Player } from '../../shared';
-import { PlayersApiActions, PlayersPageActions } from '../actions';
+import { Player } from 'app/shared';
+import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 
 export interface State extends EntityState<Player> {
   loaded: boolean;

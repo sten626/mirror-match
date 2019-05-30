@@ -1,6 +1,6 @@
+import { Update } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 import { Player } from 'app/shared';
-import { Update } from '@ngrx/entity';
 
 export enum PlayersApiActionTypes {
   AddPlayerFailure = '[Players/API] Add Player Failure',

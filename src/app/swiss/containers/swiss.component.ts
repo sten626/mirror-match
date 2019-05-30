@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Message, MessageService, RoundService } from 'app/shared';
+import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
-import { Message, MessageService, RoundService } from '../../shared';
-import * as fromSwiss from '../reducers';
 
 @Component({
   templateUrl: './swiss.component.html'

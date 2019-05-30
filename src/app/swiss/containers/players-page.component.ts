@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Player } from 'app/shared';
+import { PlayersPageActions } from 'app/swiss/actions';
+import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Player } from '../../shared';
-import { PlayersPageActions } from '../actions';
-import * as fromSwiss from '../reducers';
 
 @Component({
   templateUrl: './players-page.component.html'

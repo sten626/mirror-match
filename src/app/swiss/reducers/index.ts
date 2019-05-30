@@ -1,6 +1,6 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRoot from '../../reducers';
-import { Player } from '../../shared';
+import * as fromRoot from 'app/reducers';
+import { Player } from 'app/shared';
 import * as fromPlayers from './players.reducer';
 import * as fromTournament from './tournament.reducer';
 

@@ -7,10 +7,10 @@ import {
   DeletePlayerSuccess,
   LoadPlayersFailure,
   LoadPlayersSuccess,
-  UpdatePlayerNameSuccess,
-  LoadPlayers
-} from '../actions/players-api.actions';
-import * as fromPlayers from './players.reducer';
+  LoadPlayers,
+  UpdatePlayerSuccess
+} from 'app/swiss/actions/players-api.actions';
+import * as fromPlayers from 'app/swiss/reducers/players.reducer';
 
 describe('PlayersReducer', () => {
   const player1 = {
@@ -152,7 +152,7 @@ describe('PlayersReducer', () => {
           name: 'Sten'
         }
       };
-      const action = new UpdatePlayerNameSuccess(playerChanges);
+      const action = new UpdatePlayerSuccess(playerChanges);
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state.entities['1'].name).toEqual('Sten');
