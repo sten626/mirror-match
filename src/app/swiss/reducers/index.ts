@@ -62,6 +62,11 @@ export const isTournamentOver = createSelector(
   fromTournament.isTournamentOver
 );
 
+export const getCurrentRound = createSelector(
+  getTournamentState,
+  fromTournament.getCurrentRound
+);
+
 export const getNumberOfPlayers = createSelector(
   getPlayersState,
   fromPlayers.selectPlayerTotal

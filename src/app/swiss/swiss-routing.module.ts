@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PairingsPageComponent, PlayersPageComponent, SwissComponent } from './containers';
-import { EventInfoComponent } from './event-info.component';
-import { TournamentStartedGuard } from './guards/tournament-started-guard.service';
-import { StandingsGuard } from './standings-guard.service';
+import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
+import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
+import { StandingsGuard } from 'app/swiss/standings-guard.service';
 import { SwissStandingsComponent } from './swiss-standings.component';
 
 export const routes: Routes = [{

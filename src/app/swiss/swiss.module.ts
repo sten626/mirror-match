@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { SharedModule } from '../shared';
-import { PlayerFormComponent, PlayerListComponent, StartFormComponent, SwissMenuComponent } from './components';
-import { PairingsPageComponent, PlayersPageComponent, SwissComponent } from './containers';
-import { PlayerEffects } from './effects/player.effects';
-import { TournamentEffects } from './effects/tournament.effects';
-import { EventInfoComponent } from './event-info.component';
-import { TournamentStartedGuard } from './guards/tournament-started-guard.service';
-import { MatchResultsComponent } from './match-results.component';
-import { PairingsListComponent } from './pairings-list.component';
-import { reducers } from './reducers';
-import { StandingsGuard } from './standings-guard.service';
-import { SwissRoutingModule } from './swiss-routing.module';
-import { SwissStandingsComponent } from './swiss-standings.component';
+import { SharedModule } from 'app/shared';
+import { PlayerFormComponent, PlayerListComponent, RoundInfoComponent, StartFormComponent, SwissMenuComponent } from 'app/swiss/components';
+import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
+import { PlayerEffects, TournamentEffects } from 'app/swiss/effects';
+import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
+import { MatchResultsComponent } from 'app/swiss/match-results.component';
+import { PairingsListComponent } from 'app/swiss/pairings-list.component';
+import { reducers } from 'app/swiss/reducers';
+import { StandingsGuard } from 'app/swiss/standings-guard.service';
+import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
+import { SwissStandingsComponent } from 'app/swiss/swiss-standings.component';
 
 @NgModule({
   imports: [
@@ -30,6 +28,7 @@ import { SwissStandingsComponent } from './swiss-standings.component';
     PlayerFormComponent,
     PlayerListComponent,
     PlayersPageComponent,
+    RoundInfoComponent,
     StartFormComponent,
     SwissComponent,
     SwissMenuComponent,

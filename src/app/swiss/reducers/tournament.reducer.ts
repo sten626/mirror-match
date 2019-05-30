@@ -56,4 +56,6 @@ export const isTournamentLoaded = (state: State) => state.loaded;
 
 export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
 
+export const getCurrentRound = (state: State) => state.currentRound;
+
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
