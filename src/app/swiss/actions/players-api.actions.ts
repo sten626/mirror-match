@@ -12,8 +12,8 @@ export enum PlayersApiActionTypes {
   LoadPlayers = '[Players/API] Load Players',
   LoadPlayersFailure = '[Players/API] Load Players Failure',
   LoadPlayersSuccess = '[Players/API] Load Players Success',
-  UpdatePlayerNameFailure = '[Players/API] Update Player Name Failure',
-  UpdatePlayerNameSuccess = '[Players/API] Update Player Name Success'
+  UpdatePlayerFailure = '[Players/API] Update Player Failure',
+  UpdatePlayerSuccess = '[Players/API] Update Player Success'
 }
 
 export class AddPlayerFailure implements Action {
@@ -68,14 +68,14 @@ export class LoadPlayersSuccess implements Action {
   constructor(public payload: Player[]) {}
 }
 
-export class UpdatePlayerNameFailure implements Action {
-  readonly type = PlayersApiActionTypes.UpdatePlayerNameFailure;
+export class UpdatePlayerFailure implements Action {
+  readonly type = PlayersApiActionTypes.UpdatePlayerFailure;
 
   constructor(public payload: Player) {}
 }
 
-export class UpdatePlayerNameSuccess implements Action {
-  readonly type = PlayersApiActionTypes.UpdatePlayerNameSuccess;
+export class UpdatePlayerSuccess implements Action {
+  readonly type = PlayersApiActionTypes.UpdatePlayerSuccess;
 
   constructor(public payload: Update<Player>) {}
 }
@@ -90,5 +90,5 @@ export type PlayersApiActionsUnion =
   | LoadPlayers
   | LoadPlayersFailure
   | LoadPlayersSuccess
-  | UpdatePlayerNameFailure
-  | UpdatePlayerNameSuccess;
+  | UpdatePlayerFailure
+  | UpdatePlayerSuccess;

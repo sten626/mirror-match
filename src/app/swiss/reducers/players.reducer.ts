@@ -52,7 +52,7 @@ export function reducer(
         loading: false
       };
     }
-    case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerNameSuccess: {
+    case PlayersApiActions.PlayersApiActionTypes.UpdatePlayerSuccess: {
       return adapter.updateOne(action.payload, state);
     }
     case PlayersApiActions.PlayersApiActionTypes.LoadPlayers: {

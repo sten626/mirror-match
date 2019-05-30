@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
+import { Player, PlayerStorageService } from 'app/shared';
+import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { Player, PlayerStorageService } from '../../shared';
-import { PlayersApiActions, PlayersPageActions } from '../actions';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
@@ -64,20 +64,22 @@ export class PlayerEffects implements OnInitEffects {
   );
 
   @Effect()
-  updatePlayerName$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayerName),
+  updatePlayer$: Observable<Action> = this.actions$.pipe(
+    ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayer),
     map(action => action.payload),
-    mergeMap(player =>
-      this.storageService.updatePlayer(player).pipe(
-        map(_ => new PlayersApiActions.UpdatePlayerNameSuccess({
+    mergeMap(({player, changes}) => {
+      const updatedPlayer: Player = {
+        ...player,
+        ...changes
+      };
+      return this.storageService.updatePlayer(updatedPlayer).pipe(
+        map(() => new PlayersApiActions.UpdatePlayerSuccess({
           id: player.id,
-          changes: {
-            name: player.name
-          }
+          changes: changes
         })),
-        catchError(() => of(new PlayersApiActions.UpdatePlayerNameFailure(player)))
-      )
-    )
+        catchError(() => of(new PlayersApiActions.UpdatePlayerFailure(player)))
+      );
+    })
   );
 
   constructor(

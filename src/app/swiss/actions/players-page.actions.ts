@@ -6,7 +6,7 @@ export enum PlayerPageActionTypes {
   BeginEvent = '[Players Page] Begin Event',
   DeletePlayer = '[Players Page] Delete Player',
   DropPlayer = '[Players Page] Drop Player',
-  UpdatePlayerName = '[Players Page] Update Player Name'
+  UpdatePlayer = '[Players Page] Update Player'
 }
 
 const defaults = {
@@ -50,13 +50,10 @@ export class DropPlayer implements Action {
   }
 }
 
-export class UpdatePlayerName implements Action {
-  readonly type = PlayerPageActionTypes.UpdatePlayerName;
-  payload: Player;
+export class UpdatePlayer implements Action {
+  readonly type = PlayerPageActionTypes.UpdatePlayer;
 
-  constructor(player: Player, name: string) {
-    this.payload = Object.assign({}, player, { name: name });
-  }
+  constructor(public payload: {player: Player, changes: any}) {}
 }
 
-export type PlayersPageActionsUnion = AddPlayer | BeginEvent | DeletePlayer | DropPlayer | UpdatePlayerName;
+export type PlayersPageActionsUnion = AddPlayer | BeginEvent | DeletePlayer | DropPlayer | UpdatePlayer;

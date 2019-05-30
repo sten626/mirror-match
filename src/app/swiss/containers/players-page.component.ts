@@ -56,10 +56,6 @@ export class PlayersPageComponent implements OnInit {
     this.store.dispatch(new PlayersPageActions.AddPlayer(player));
   }
 
-  dropPlayer(player: Player): void {
-    this.store.dispatch(new PlayersPageActions.DropPlayer(player));
-  }
-
   /**
    * Set the selected player to null.
    */
@@ -95,6 +91,16 @@ export class PlayersPageComponent implements OnInit {
     this.selectedPlayer = player;
   }
 
+  togglePlayerDropped(player: Player): void {
+    this.store.dispatch(new PlayersPageActions.UpdatePlayer({
+      player: player,
+      changes: {
+        dropped: !player.dropped
+      }
+    }));
+    this.selectedPlayer = null;
+  }
+
   updatePlayerName(event: {player: Player, name: string}): void {
     const {player, name} = event;
 
@@ -102,6 +108,11 @@ export class PlayersPageComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new PlayersPageActions.UpdatePlayerName(player, name));
+    this.store.dispatch(new PlayersPageActions.UpdatePlayer({
+      player: player,
+      changes: {
+        name: name
+      }
+    }));
   }
 }

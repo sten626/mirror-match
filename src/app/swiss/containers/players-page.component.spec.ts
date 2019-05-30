@@ -161,7 +161,12 @@ describe('Players Page Component', () => {
   describe('updatePlayerName', () => {
     it('should dispatch an action to update a player\'s name when called', () => {
       const newName = 'Steven';
-      const action = new PlayersPageActions.UpdatePlayerName(player1, newName);
+      const action = new PlayersPageActions.UpdatePlayer({
+        player: player1,
+        changes: {
+          name: newName
+        }
+      });
       component.updatePlayerName({ player: player1, name: newName });
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
