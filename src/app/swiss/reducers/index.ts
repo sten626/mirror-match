@@ -42,9 +42,17 @@ export const getAllPlayers = createSelector(
 
 export const getActivePlayers = createSelector(
   getAllPlayers,
-  (players: Player[]) => {
-    return players.filter((player: Player) => !player.dropped);
-  }
+  (players) => players.filter((player) => !player.dropped)
+);
+
+export const getDroppedPlayers = createSelector(
+  getAllPlayers,
+  (players) => players.filter((player) => player.dropped)
+);
+
+export const getNumberOfDroppedPlayers = createSelector(
+  getDroppedPlayers,
+  (players) => players.length
 );
 
 export const hasTournamentStarted = createSelector(

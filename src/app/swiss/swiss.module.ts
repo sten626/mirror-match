@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'app/shared';
-import { PlayerFormComponent, PlayerListComponent, RoundInfoComponent, StartFormComponent, SwissMenuComponent } from 'app/swiss/components';
+import { PlayerFormComponent, PlayerListComponent, RoundInfoComponent, StartFormComponent, SwissMenuComponent, PlayersInfoComponent } from 'app/swiss/components';
 import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
 import { PlayerEffects, TournamentEffects } from 'app/swiss/effects';
 import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
@@ -27,6 +27,7 @@ import { SwissStandingsComponent } from 'app/swiss/swiss-standings.component';
     PairingsPageComponent,
     PlayerFormComponent,
     PlayerListComponent,
+    PlayersInfoComponent,
     PlayersPageComponent,
     RoundInfoComponent,
     StartFormComponent,
