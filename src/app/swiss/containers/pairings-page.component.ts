@@ -1,33 +1,28 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Pairing, Player } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
-import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './pairings-page.component.html'
 })
-export class PairingsPageComponent implements OnDestroy, OnInit {
+export class PairingsPageComponent {
   canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
-  rounds: number[];
+  rounds$: Observable<number[]>;
   pairings$: Observable<Pairing[]>;
-  pairingsForm: FormGroup;
+  // pairingsForm: FormGroup;
   players: Player[];
   selectedRound = 1;
   selectedRoundHasPairings$: Observable<boolean>;
 
-  private currentRoundSub: Subscription;
-
   constructor(
-    private fb: FormBuilder,
     // private pairingService: PairingService,
     // private playerService: PlayerService,
     // private roundService: RoundService,
-    private router: Router,
+    // private router: Router,
     // private standingsService: StandingsService,
     private store: Store<fromSwiss.State>
   ) {
@@ -35,22 +30,20 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
-    this.createForm();
-  }
+    this.rounds$ = this.store.pipe(
+      select(fromSwiss.getCurrentRound),
+      map(currentRound => {
+        const rounds = [];
+        let i = 1;
 
-  ngOnInit() {
-    this.currentRoundSub = this.store.pipe(
-      select(fromSwiss.getCurrentRound)
-    ).subscribe((currentRound) => {
-      const rounds = [];
-      let i = 1;
+        while (i <= currentRound) {
+          rounds.push(i++);
+        }
 
-      while (i <= currentRound) {
-        rounds.push(i++);
-      }
-
-      this.rounds = rounds;
-    });
+        return rounds;
+      })
+    );
+    // this.createForm();
   }
 
   // ngOnInit() {
@@ -63,18 +56,19 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
   //     this.selectedRoundChanged(selectedRound);
   //   });
   // }
-  ngOnDestroy() {
-    this.currentRoundSub.unsubscribe();
-  }
 
   createNextRound(): void {
     // this.roundService.createNextRound();
   }
 
-  generatePairings(): void {
+  createPairings(round: number): void {
+    console.log(round);
+  }
+
+  // generatePairings(): void {
     // const lastRound = this.roundService.getTotalNumberOfRounds();
     // this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
-  }
+  // }
 
   onLastResultSubmitted(): void {
     // this.roundService.markRoundAsComplete(this.selectedRound);
@@ -100,23 +94,23 @@ export class PairingsPageComponent implements OnDestroy, OnInit {
   //   this.pairingService.updatePairing(pairing);
   // }
 
-  private createForm(): void {
-    this.pairingsForm = this.fb.group({
-      currentRound: 1
-    });
+  // private createForm(): void {
+  //   this.pairingsForm = this.fb.group({
+  //     currentRound: 1
+  //   });
 
-    this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
-      this.selectedRoundChanged(parseInt(value));
-    });
-  }
+  //   this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
+  //     this.selectedRoundChanged(parseInt(value));
+  //   });
+  // }
 
-  private selectedRoundChanged(round: number): void {
-    this.selectedRound = round;
+  // private selectedRoundChanged(round: number): void {
+  //   this.selectedRound = round;
 
-    // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
-    this.selectedRoundHasPairings$ = this.pairings$.pipe(
-      map(pairings => pairings.length > 0),
-      distinctUntilChanged()
-    );
-  }
+  //   // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
+  //   this.selectedRoundHasPairings$ = this.pairings$.pipe(
+  //     map(pairings => pairings.length > 0),
+  //     distinctUntilChanged()
+  //   );
+  // }
 }
