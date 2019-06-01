@@ -7,9 +7,10 @@ import { Subscription } from 'rxjs';
   templateUrl: './pairings-menu.component.html'
 })
 export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
+  @Input() numberOfRounds: number;
   @Input() selectedRound: number;
   @Input() rounds: number[];
-  @Output() createPairings = new EventEmitter<any>();
+  @Output() createPairings = new EventEmitter<number>();
   @Output() roundChanged = new EventEmitter<number>();
 
   selectedRoundControl = new FormControl(1);
@@ -31,19 +32,7 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
     this.selectedRoundControlSub.unsubscribe();
   }
 
-  // pairingsForm: FormGroup;
-
-  // constructor(private fb: FormBuilder) {
-  //   this.createForm();
-  // }
-
-  // private createForm(): void {
-  //   this.pairingsForm = this.fb.group({
-  //     currentRound: 1
-  //   });
-
-  //   // this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
-  //   //   this.selectedRoundChanged(parseInt(value));
-  //   // });
-  // }
+  createPairingsClicked() {
+    this.createPairings.emit(this.selectedRound);
+  }
 }

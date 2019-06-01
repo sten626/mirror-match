@@ -7,7 +7,7 @@
       </select>
     </div>
     <div class="col-sm-2">
-      <button class="btn btn-default" *ngIf="!(selectedRoundHasPairings$ | async)" (click)="createPairings.emit(selectedRoundControl.value)">Create Pairings</button>
+      <button class="btn btn-default" *ngIf="!(selectedRoundHasPairings$ | async)" (click)="createPairingsClicked()">Create Pairings</button>
       <button class="btn btn-default" *ngIf="canStartNextRound$ | async" (click)="createNextRound()">Create Next Round</button>
     </div>
   </div>

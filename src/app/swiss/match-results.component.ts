@@ -30,11 +30,11 @@ export class MatchResultsComponent implements OnChanges {
   }
 
   clearMatchResult() {
-    this.selectedPairing.player1Wins = 0;
-    this.selectedPairing.player2Wins = 0;
-    this.selectedPairing.draws = 0;
-    this.selectedPairing.submitted = false;
-    this.matchResultCleared.emit(this.selectedPairing);
+    // this.selectedPairing.player1Wins = 0;
+    // this.selectedPairing.player2Wins = 0;
+    // this.selectedPairing.draws = 0;
+    // this.selectedPairing.submitted = false;
+    // this.matchResultCleared.emit(this.selectedPairing);
   }
 
   incrementDraws() {
@@ -62,11 +62,11 @@ export class MatchResultsComponent implements OnChanges {
   }
 
   submit() {
-    const form = this.matchResultsForm;
-    this.selectedPairing.player1Wins = form.get('player1Wins').value;
-    this.selectedPairing.player2Wins = form.get('player2Wins').value;
-    this.selectedPairing.draws = form.get('draws').value;
-    this.selectedPairing.submitted = true;
+    // const form = this.matchResultsForm;
+    // this.selectedPairing.player1Wins = form.get('player1Wins').value;
+    // this.selectedPairing.player2Wins = form.get('player2Wins').value;
+    // this.selectedPairing.draws = form.get('draws').value;
+    // this.selectedPairing.submitted = true;
     // const player1 = this.selectedPairing.player1;
     // const player2 = this.selectedPairing.player2;
     // const player1Dropped = form.get('player1Dropped').value;

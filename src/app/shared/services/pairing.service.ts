@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Pairing, Player } from '../models';
 import { PlayerService } from './player.service';
@@ -30,24 +30,31 @@ export class PairingService {
     this.loadFromLocalStorage();
   }
 
-  createPairings(round: number, isLastRound: boolean): void {
-    // TODO Make sure pairings don't already exist for given round. Add unit test.
-    if (this.activePlayers.length < 1) {
-      throw new Error('Trying to create pairings with zero active players.');
-    }
-
-    let pairings: Pairing[] = null;
-
-    if (round === 1) {
-      pairings = this.createRandomPairings(this.activePlayers, round);
-      this.pairingsByRoundsMap[round] = pairings;
-    } else {
-      pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
-      this.pairingsByRoundsMap[round] = pairings;
-    }
-
-    this.next(pairings);
+  createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
+    round = round;
+    isLastRound = isLastRound;
+    players = players;
+    return of([]);
   }
+
+  // createPairings(round: number, isLastRound: boolean): void {
+  //   // TODO Make sure pairings don't already exist for given round. Add unit test.
+  //   if (this.activePlayers.length < 1) {
+  //     throw new Error('Trying to create pairings with zero active players.');
+  //   }
+
+  //   let pairings: Pairing[] = null;
+
+  //   if (round === 1) {
+  //     pairings = this.createRandomPairings(this.activePlayers, round);
+  //     this.pairingsByRoundsMap[round] = pairings;
+  //   } else {
+  //     pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
+  //     this.pairingsByRoundsMap[round] = pairings;
+  //   }
+
+  //   this.next(pairings);
+  // }
 
   deletePairings(round: number): void {
     const pairingsForRound = this.pairingsByRoundsMap[round];
@@ -112,114 +119,116 @@ export class PairingService {
   }
 
   private createRandomPairings(players: Player[], round: number): Pairing[] {
-    let table = 1;
-    players = this.shufflePlayers(players);
-    const pairings = [];
+    return [];
+    // let table = 1;
+    // players = this.shufflePlayers(players);
+    // const pairings = [];
 
-    while (players.length > 1) {
-      const pairing = new Pairing(round, table++, players.shift(), players.shift());
-      pairings.push(pairing);
-    }
+    // while (players.length > 1) {
+    //   const pairing = new Pairing(round, table++, players.shift(), players.shift());
+    //   pairings.push(pairing);
+    // }
 
-    if (players.length) {
-      const pairing = new Pairing(round, table, players.shift(), null);
-      pairings.push(pairing);
-    }
+    // if (players.length) {
+    //   const pairing = new Pairing(round, table, players.shift(), null);
+    //   pairings.push(pairing);
+    // }
 
-    return pairings;
+    // return pairings;
   }
 
   private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-    players = this.shufflePlayers(players);
+    return [];
+    // players = this.shufflePlayers(players);
 
-    if (isLastRound) {
-      this.sortPlayersByTiebreakers(players);
-    } else {
-      this.sortPlayersByMatchPoints(players);
-    }
+    // if (isLastRound) {
+    //   this.sortPlayersByTiebreakers(players);
+    // } else {
+    //   this.sortPlayersByMatchPoints(players);
+    // }
 
-    // If there are an odd number of players, pull out the bottom player and continue with an even number.
-    const needsBye = players.length % 2 === 1;
-    let playerForBye: Player = null;
+    // // If there are an odd number of players, pull out the bottom player and continue with an even number.
+    // const needsBye = players.length % 2 === 1;
+    // let playerForBye: Player = null;
 
-    if (needsBye) {
-      playerForBye = players.pop();
-    }
+    // if (needsBye) {
+    //   playerForBye = players.pop();
+    // }
 
-    const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-    const assignedPlayers = {};
-    const playersById = {};
+    // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
+    // const assignedPlayers = {};
+    // const playersById = {};
 
-    players.forEach(p => playersById[p.id] = p);
-    const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
+    // players.forEach(p => playersById[p.id] = p);
+    // const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
 
-    if (result) {
-      // Everyone was paired.
-      const pairings = [];
-      let table = 1;
+    // if (result) {
+    //   // Everyone was paired.
+    //   const pairings = [];
+    //   let table = 1;
 
-      for (const player of players) {
-        if (!(player.id in assignedPlayers)) {
-          continue;
-        }
+    //   for (const player of players) {
+    //     if (!(player.id in assignedPlayers)) {
+    //       continue;
+    //     }
 
-        const opponentId = assignedPlayers[player.id];
-        let opponent: Player;
+    //     const opponentId = assignedPlayers[player.id];
+    //     let opponent: Player;
 
-        if (opponentId > 0) {
-          opponent = playersById[opponentId];
-        } else {
-          opponent = null;
-        }
+    //     if (opponentId > 0) {
+    //       opponent = playersById[opponentId];
+    //     } else {
+    //       opponent = null;
+    //     }
 
-        const pairing = new Pairing(round, table++, player, opponent);
-        delete assignedPlayers[player.id];
-        delete assignedPlayers[opponentId];
-        pairings.push(pairing);
-      }
+    //     const pairing = new Pairing(round, table++, player, opponent);
+    //     delete assignedPlayers[player.id];
+    //     delete assignedPlayers[opponentId];
+    //     pairings.push(pairing);
+    //   }
 
-      if (needsBye) {
-        const pairing = new Pairing(round, table++, playerForBye, null);
-        pairings.push(pairing);
-      }
+    //   if (needsBye) {
+    //     const pairing = new Pairing(round, table++, playerForBye, null);
+    //     pairings.push(pairing);
+    //   }
 
-      return pairings;
-    } else {
-      throw new Error('Pairings went terribly wrong.');
-    }
+    //   return pairings;
+    // } else {
+    //   throw new Error('Pairings went terribly wrong.');
+    // }
   }
 
   private loadFromLocalStorage(): void {
-    const pairingsData = localStorage.getItem(this.lsKeys.pairings);
-    let pairings = [];
+    // const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+    // let pairings = [];
 
-    if (pairingsData) {
-      const rawPairings = JSON.parse(pairingsData);
+    // if (pairingsData) {
+    //   const rawPairings = JSON.parse(pairingsData);
 
-      pairings = rawPairings.map(rawPairing => {
-        const round = rawPairing.round;
-        const pairing = new Pairing(
-          round,
-          rawPairing.table,
-          this.playerService.get(rawPairing.player1),
-          this.playerService.get(rawPairing.player2),
-          rawPairing.player1Wins,
-          rawPairing.player2Wins,
-          rawPairing.draws,
-          rawPairing.submitted
-        );
+    //   pairings = rawPairings.map(rawPairing => {
+    //     const round = rawPairing.round;
+    //     const pairing = new Pairing(
+    //       round,
+    //       rawPairing.table,
+    //       this.playerService.get(rawPairing.player1),
+    //       this.playerService.get(rawPairing.player2),
+    //       rawPairing.player1Wins,
+    //       rawPairing.player2Wins,
+    //       rawPairing.draws,
+    //       rawPairing.submitted
+    //     );
 
-        if (!this.pairingsByRoundsMap[round]) {
-          this.pairingsByRoundsMap[round] = [];
-        }
+    //     if (!this.pairingsByRoundsMap[round]) {
+    //       this.pairingsByRoundsMap[round] = [];
+    //     }
 
-        this.pairingsByRoundsMap[round].push(pairing);
+    //     this.pairingsByRoundsMap[round].push(pairing);
 
-        return pairing;
-      });
-    }
+    //     return pairing;
+    //   });
+    // }
 
-    this.next(pairings);
+    // this.next(pairings);
   }
 
   private next(newPairings: Pairing[]): void {
@@ -277,20 +286,20 @@ export class PairingService {
   }
 
   private saveToLocalStorage() {
-    const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
-      return {
-        round: pairing.round,
-        table: pairing.table,
-        player1: pairing.player1.id,
-        player2: pairing.bye ? null : pairing.player2.id,
-        player1Wins: pairing.player1Wins,
-        player2Wins: pairing.player2Wins,
-        draws: pairing.draws,
-        submitted: pairing.submitted
-      };
-    });
+    // const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
+    //   return {
+    //     round: pairing.round,
+    //     table: pairing.table,
+    //     player1: pairing.player1.id,
+    //     player2: pairing.bye ? null : pairing.player2.id,
+    //     player1Wins: pairing.player1Wins,
+    //     player2Wins: pairing.player2Wins,
+    //     draws: pairing.draws,
+    //     submitted: pairing.submitted
+    //   };
+    // });
 
-    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
+    // localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   }
 
   private shufflePlayers(players: Player[]): Player[] {

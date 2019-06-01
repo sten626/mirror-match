@@ -54,23 +54,23 @@ export class PairingsListComponent implements OnChanges, OnInit {
           .map(p => p.submitted)
           .reduce((prevSubmitted, curSubmitted) => prevSubmitted && curSubmitted);
 
-        this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
+        // this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
       }
     }
   }
 
   deleteResults() {
-    this.pairings.forEach(pairing => {
-      if (!pairing.bye) {
-        pairing.player1Wins = 0;
-        pairing.player2Wins = 0;
-        pairing.draws = 0;
-        pairing.submitted = false;
-      }
-    });
+    // this.pairings.forEach(pairing => {
+    //   if (!pairing.bye) {
+    //     pairing.player1Wins = 0;
+    //     pairing.player2Wins = 0;
+    //     pairing.draws = 0;
+    //     pairing.submitted = false;
+    //   }
+    // });
 
-    this.matchResultsCleared.emit(this.pairings);
-    this.selectedPairing = null;
+    // this.matchResultsCleared.emit(this.pairings);
+    // this.selectedPairing = null;
   }
 
   onMatchResultCleared(pairing: Pairing): void {
@@ -110,30 +110,31 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   selectPairing(pairing: Pairing) {
-    if (!pairing.bye) {
-      this.selectedPairing = pairing;
-    }
+    pairing = pairing;
+    // if (!pairing.bye) {
+    //   this.selectedPairing = pairing;
+    // }
   }
 
   private filterPairings() {
-    if (!this.pairingsListForm) {
-      return;
-    }
+    // if (!this.pairingsListForm) {
+    //   return;
+    // }
 
-    if (this.pairingsListForm.get('showOutstandingOnly').value) {
-      this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
-    } else {
-      this.filteredPairings = this.pairings.slice();
-    }
+    // if (this.pairingsListForm.get('showOutstandingOnly').value) {
+    //   this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
+    // } else {
+    //   this.filteredPairings = this.pairings.slice();
+    // }
 
-    const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
+    // const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
 
-    if (filterText) {
-      this.filteredPairings = this.filteredPairings.filter(pairing => {
-        return pairing.table.toString() === filterText
-            || pairing.player1.name.toLowerCase().includes(filterText)
-            || pairing.player2.name.toLowerCase().includes(filterText);
-      });
-    }
+    // if (filterText) {
+    //   this.filteredPairings = this.filteredPairings.filter(pairing => {
+    //     return pairing.table.toString() === filterText
+    //         || pairing.player1.name.toLowerCase().includes(filterText)
+    //         || pairing.player2.name.toLowerCase().includes(filterText);
+    //   });
+    // }
   }
 }

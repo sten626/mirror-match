@@ -83,9 +83,9 @@ export class StandingsService {
       // }
 
       if (pairing.player1Wins > pairing.player2Wins) {
-        if (!pairing.bye) {
-          // player1.matchesWon += 1;
-        }
+        // if (!pairing.bye) {
+        //   // player1.matchesWon += 1;
+        // }
 
         // player1.matchPoints += 3;
       } else if (pairing.player2Wins > pairing.player1Wins) {

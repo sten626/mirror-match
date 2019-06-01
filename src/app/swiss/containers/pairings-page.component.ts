@@ -12,10 +12,10 @@ import { PairingsPageActions } from '../actions';
 export class PairingsPageComponent {
   canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
-  rounds$: Observable<number[]>;
+  numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
-  // pairingsForm: FormGroup;
   players: Player[];
+  rounds$: Observable<number[]>;
   selectedRound$: Observable<number>;
   selectedRoundHasPairings$: Observable<boolean>;
 
@@ -30,6 +30,9 @@ export class PairingsPageComponent {
     // this.canStartNextRound$ = this.roundService.canStartNextRound$;
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
+    );
+    this.numberOfRounds$ = this.store.pipe(
+      select(fromSwiss.getNumberOfRounds)
     );
     this.rounds$ = this.store.pipe(
       select(fromSwiss.getCurrentRound),
@@ -61,12 +64,12 @@ export class PairingsPageComponent {
   //   });
   // }
 
-  createNextRound(): void {
-    // this.roundService.createNextRound();
-  }
+  // createNextRound(): void {
+  //   // this.roundService.createNextRound();
+  // }
 
   createPairings(round: number): void {
-    console.log(round);
+    this.store.dispatch(new PairingsPageActions.CreatePairings(round));
   }
 
   // generatePairings(): void {

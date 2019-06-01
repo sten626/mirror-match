@@ -1,10 +1,12 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Player } from 'app/shared';
+import * as fromPairings from './pairings.reducer';
 import * as fromPlayers from './players.reducer';
 import * as fromTournament from './tournament.reducer';
 
 export interface SwissState {
+  pairings: fromPairings.State;
   players: fromPlayers.State;
   tournament: fromTournament.State;
 }
@@ -14,11 +16,17 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers: ActionReducerMap<SwissState> = {
+  pairings: fromPairings.reducer,
   players: fromPlayers.reducer,
   tournament: fromTournament.reducer
 };
 
 export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
+
+export const getPairingsState = createSelector(
+  getSwissState,
+  state => state.pairings
+);
 
 export const getPlayersState = createSelector(
   getSwissState,

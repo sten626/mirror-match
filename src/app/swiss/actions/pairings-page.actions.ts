@@ -13,6 +13,8 @@ export class ChangeSelectedRound implements Action {
 
 export class CreatePairings implements Action {
   readonly type = PairingsPageActionTypes.CreatePairings;
+
+  constructor(public payload: number) {}
 }
 
 export type PairingsPageActionsUnion = ChangeSelectedRound | CreatePairings;
