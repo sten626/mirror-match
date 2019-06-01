@@ -1,6 +1,8 @@
 <mm-pairings-menu
   [rounds]="rounds$ | async"
-  (createPairings)="createPairings($event)"></mm-pairings-menu>
+  [selectedRound]="selectedRound$ | async"
+  (createPairings)="createPairings($event)"
+  (roundChanged)="roundChanged($event)"></mm-pairings-menu>
 <mm-pairings-list
   [pairings]="pairings$ | async"
   (lastResultSubmitted)="onLastResultSubmitted()"

@@ -6,7 +6,9 @@ export enum TournamentApiActionTypes {
   BeginEventSuccess = '[Tournament/API] Begin Event Success',
   LoadTournament = '[Tournament/API] Load Tournament',
   LoadTournamentFailure = '[Tournament/API] Load Tournament Failure',
-  LoadTournamentSuccess = '[Tournament/API] Load Tournament Success'
+  LoadTournamentSuccess = '[Tournament/API] Load Tournament Success',
+  SetSelectedRoundFailure = '[Tournament/API] Set Selected Round Failure',
+  SetSelectedRoundSuccess = '[Tournament/API] Set Selected Round Success'
 }
 
 export class BeginEventFailure implements Action {
@@ -35,9 +37,23 @@ export class LoadTournamentSuccess implements Action {
   constructor(public payload: TournamentInfo) {}
 }
 
+export class SetSelectedRoundFailure implements Action {
+  readonly type = TournamentApiActionTypes.SetSelectedRoundFailure;
+
+  constructor(public payload: any) {}
+}
+
+export class SetSelectedRoundSuccess implements Action {
+  readonly type = TournamentApiActionTypes.SetSelectedRoundSuccess;
+
+  constructor(public payload: number) {}
+}
+
 export type TournamentApiActionsUnion =
   BeginEventFailure
   | BeginEventSuccess
   | LoadTournament
   | LoadTournamentFailure
-  | LoadTournamentSuccess;
+  | LoadTournamentSuccess
+  | SetSelectedRoundFailure
+  | SetSelectedRoundSuccess;

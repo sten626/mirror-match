@@ -3,7 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Pairing, Player } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { PairingsPageActions } from '../actions';
 
 @Component({
   templateUrl: './pairings-page.component.html'
@@ -15,7 +16,7 @@ export class PairingsPageComponent {
   pairings$: Observable<Pairing[]>;
   // pairingsForm: FormGroup;
   players: Player[];
-  selectedRound = 1;
+  selectedRound$: Observable<number>;
   selectedRoundHasPairings$: Observable<boolean>;
 
   constructor(
@@ -43,7 +44,10 @@ export class PairingsPageComponent {
         return rounds;
       })
     );
-    // this.createForm();
+    this.selectedRound$ = this.store.pipe(
+      tap(state => console.log(state)),
+      select(fromSwiss.getSelectedRound)
+    );
   }
 
   // ngOnInit() {
@@ -88,6 +92,10 @@ export class PairingsPageComponent {
   onRedoMatchesForRound(): void {
     // this.pairingService.deletePairings(this.selectedRound);
     // this.roundService.markRoundAsIncomplete(this.selectedRound);
+  }
+
+  roundChanged(round: number): void {
+    this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(round));
   }
 
   // onResultSubmitted(pairing: Pairing): void {

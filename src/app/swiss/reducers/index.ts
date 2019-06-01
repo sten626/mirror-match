@@ -91,3 +91,8 @@ export const getNumberOfRounds = createSelector(
   getTournamentState,
   fromTournament.getNumberOfRounds
 );
+
+export const getSelectedRound = createSelector(
+  getTournamentState,
+  fromTournament.getSelectedRound
+);

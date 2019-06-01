@@ -1,20 +1,34 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'mm-pairings-menu',
   templateUrl: './pairings-menu.component.html'
 })
-export class PairingsMenuComponent implements OnChanges {
+export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
+  @Input() selectedRound: number;
   @Input() rounds: number[];
   @Output() createPairings = new EventEmitter<any>();
+  @Output() roundChanged = new EventEmitter<number>();
 
-  currentRound = new FormControl(1);
+  selectedRoundControl = new FormControl(1);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const rounds: number[] = changes.rounds.currentValue;
-    const roundToSelect = rounds[rounds.length - 1];
-    this.currentRound.setValue(roundToSelect);
+  private selectedRoundControlSub: Subscription;
+
+  ngOnInit(): void {
+    this.selectedRoundControlSub = this.selectedRoundControl.valueChanges.subscribe(round => {
+      const roundInt = parseInt(round);
+      this.roundChanged.emit(roundInt);
+    });
+  }
+
+  ngOnChanges(): void {
+    this.selectedRoundControl.setValue(this.selectedRound, { emitEvent: false });
+  }
+
+  ngOnDestroy(): void {
+    this.selectedRoundControlSub.unsubscribe();
   }
 
   // pairingsForm: FormGroup;

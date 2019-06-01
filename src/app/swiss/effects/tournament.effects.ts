@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { TournamentInfo, TournamentStorageService } from 'app/shared';
-import { PlayersPageActions, TournamentApiActions } from 'app/swiss/actions';
+import { PlayersPageActions, TournamentApiActions, PairingsPageActions } from 'app/swiss/actions';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -32,6 +32,18 @@ export class TournamentEffects implements OnInitEffects {
   );
 
   @Effect()
+  changeSelectedRound$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsPageActions.PairingsPageActionTypes.ChangeSelectedRound),
+    map(action => action.payload),
+    mergeMap(round =>
+      this.storageService.setSelectedRound(round).pipe(
+        map(() => new TournamentApiActions.SetSelectedRoundSuccess(round)),
+        catchError(err => of(new TournamentApiActions.SetSelectedRoundFailure(err)))
+      )
+    )
+  );
+
+  @Effect()
   loadTournament$: Observable<Action> = this.actions$.pipe(
     ofType(TournamentApiActions.TournamentApiActionTypes.LoadTournament),
     switchMap(() =>
@@ -43,7 +55,7 @@ export class TournamentEffects implements OnInitEffects {
   );
 
   constructor(
-    private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
+    private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion | PairingsPageActions.PairingsPageActionsUnion>,
     private router: Router,
     private storageService: TournamentStorageService
   ) {}

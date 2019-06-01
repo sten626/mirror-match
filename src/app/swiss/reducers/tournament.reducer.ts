@@ -1,4 +1,4 @@
-import { TournamentApiActions, PlayersPageActions } from 'app/swiss/actions';
+import { TournamentApiActions } from 'app/swiss/actions';
 
 export interface State {
   completedRound: number;
@@ -6,6 +6,7 @@ export interface State {
   loaded: boolean;
   loading: boolean;
   numberOfRounds: number;
+  selectedRound: number;
 }
 
 export const initialState: State = {
@@ -13,13 +14,13 @@ export const initialState: State = {
   currentRound: 0,
   loaded: false,
   loading: false,
-  numberOfRounds: 0
+  numberOfRounds: 0,
+  selectedRound: 1
 };
 
 export function reducer(
   state = initialState,
-  action: PlayersPageActions.PlayersPageActionsUnion
-  | TournamentApiActions.TournamentApiActionsUnion
+  action: TournamentApiActions.TournamentApiActionsUnion
 ): State {
   switch (action.type) {
     case TournamentApiActions.TournamentApiActionTypes.BeginEventSuccess: {
@@ -36,12 +37,25 @@ export function reducer(
         loading: true
       };
     }
+    case TournamentApiActions.TournamentApiActionTypes.LoadTournamentFailure: {
+      return {
+        ...state,
+        loaded: false,
+        loading: false
+      };
+    }
     case TournamentApiActions.TournamentApiActionTypes.LoadTournamentSuccess: {
       return {
         ...state,
         ...action.payload,
         loaded: true,
         loading: false
+      };
+    }
+    case TournamentApiActions.TournamentApiActionTypes.SetSelectedRoundSuccess: {
+      return {
+        ...state,
+        selectedRound: action.payload
       };
     }
     default: {
@@ -59,3 +73,5 @@ export const isTournamentOver = (state: State) => state.completedRound >= state.
 export const getCurrentRound = (state: State) => state.currentRound;
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
+
+export const getSelectedRound = (state: State) => state.selectedRound;
