@@ -36,6 +36,14 @@ export function reducer(
     case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
       return adapter.addOne(action.payload, state);
     }
+    case RoundApiActions.RoundApiActionTypes.LoadRoundsSuccess: {
+      const {rounds, numberOfRounds} = action.payload;
+
+      return {
+        ...adapter.addAll(rounds, state),
+        numberOfRounds: numberOfRounds
+      };
+    }
     default: {
       return state;
     }

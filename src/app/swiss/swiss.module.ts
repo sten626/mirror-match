@@ -12,7 +12,7 @@ import {
   SwissMenuComponent,
 } from 'app/swiss/components';
 import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
-import { PairingEffects, PlayerEffects, RoundEffects, TournamentEffects } from 'app/swiss/effects';
+import { PlayerEffects, RoundEffects, TournamentEffects } from 'app/swiss/effects';
 import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
 import { MatchResultsComponent } from 'app/swiss/match-results.component';
 import { PairingsListComponent } from 'app/swiss/pairings-list.component';
@@ -23,7 +23,7 @@ import { SwissStandingsComponent } from 'app/swiss/swiss-standings.component';
 
 @NgModule({
   imports: [
-    EffectsModule.forFeature([PairingEffects, PlayerEffects, RoundEffects, TournamentEffects]),
+    EffectsModule.forFeature([PlayerEffects, RoundEffects, TournamentEffects]),
     SharedModule,
     StoreModule.forFeature('swiss', reducers),
     SwissRoutingModule

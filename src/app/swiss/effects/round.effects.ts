@@ -67,6 +67,22 @@ export class RoundEffects implements OnInitEffects {
     })
   );
 
+  @Effect()
+  loadRounds$: Observable<Action> = this.actions$.pipe(
+    ofType(RoundApiActions.RoundApiActionTypes.LoadRounds),
+    mergeMap(() => {
+      const rounds$ = this.storageService.getRounds();
+      const numberOfRounds$ = this.storageService.getNumberOfRounds();
+
+      return combineLatest(rounds$, numberOfRounds$);
+    }),
+    map(([rounds, numberOfRounds]) => new RoundApiActions.LoadRoundsSuccess({
+      rounds: rounds,
+      numberOfRounds: numberOfRounds
+    })),
+    catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
+  );
+
   constructor(
     private actions$: Actions<
       PairingsPageActions.PairingsPageActionsUnion
@@ -80,6 +96,6 @@ export class RoundEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects(): Action {
-
+    return new RoundApiActions.LoadRounds();
   }
 }

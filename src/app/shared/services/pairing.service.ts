@@ -5,8 +5,7 @@ import { Pairing, Player } from 'app/shared/models';
 import { StorageService } from './storage.service';
 
 @Injectable()
-export class PairingService extends StorageService {
-  private pairingsKey = 'mm-pairings';
+export class PairingService {
   // readonly pairings$: Observable<Pairing[]>;
   // readonly submittedPairings$: Observable<Pairing[]>;
 
@@ -34,23 +33,10 @@ export class PairingService extends StorageService {
   createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
     if (round === 1) {
       const pairings = this.createRandomPairings(players, round);
-      return this.addPairings(pairings);
+      return of(pairings);
     }
+
     return of([]);
-  }
-
-  private addPairings(pairings: Pairing[]): Observable<Pairing[]> {
-    return this.getPairings().pipe(
-      map(value => [
-        ...value,
-        ...pairings
-      ]),
-      tap(value => this.storage.setItem(this.pairingsKey, JSON.stringify(value)))
-    );
-  }
-
-  private getPairings(): Observable<Pairing[]> {
-    return this.getArray(this.pairingsKey);
   }
 
   // createPairings(round: number, isLastRound: boolean): void {

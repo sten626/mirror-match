@@ -20,6 +20,10 @@ export class RoundStorageService extends StorageService {
     );
   }
 
+  getNumberOfRounds(): Observable<number> {
+    return this.getNumber(this.numberOfRoundsKey);
+  }
+
   getRounds(): Observable<Round[]> {
     return this.getArray(this.roundsKey);
   }
