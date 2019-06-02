@@ -25,21 +25,17 @@ export function reducer(
         numberOfRounds: action.payload
       };
     }
+    case RoundApiActions.RoundApiActionTypes.CreatePairingsSuccess: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          pairings: action.payload.pairings
+        }
+      }, state);
+    }
     case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
       return adapter.addOne(action.payload, state);
     }
-    // case PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess: {
-    //   const {round, pairings} = action.payload;
-    //   const newPairings = {
-    //     ...state.pairings,
-    //   };
-    //   newPairings[round] = pairings;
-
-    //   return {
-    //     ...state,
-    //     pairings: newPairings
-    //   };
-    // }
     default: {
       return state;
     }
@@ -50,7 +46,7 @@ export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
 
 export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
 
-export const getCurrentRound = (state: State) => state.ids[state.ids.length - 1];
+export const getCurrentRound = (state: State) => state.ids[state.ids.length - 1] as number;
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 

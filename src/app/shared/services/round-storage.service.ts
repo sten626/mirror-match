@@ -28,28 +28,12 @@ export class RoundStorageService extends StorageService {
     return this.setNumber(this.numberOfRoundsKey, numberOfRounds);
   }
 
-  setPairings(round: number, pairings: Pairing[]): Observable<Round> {
+  updateRound(round: Round): Observable<Round[]> {
     return this.getRounds().pipe(
-      map((rounds: Round[]) => rounds.map((r: Round) => {
-        if (r.id === round) {
-          return {
-            ...r,
-            pairings: pairings
-          };
-        }
-
-        return r;
-      })),
+      map((rounds: Round[]) => rounds.map(r => r.id === round.id ? round : r)),
       tap((rounds: Round[]) =>
         this.storage.setItem(this.roundsKey, JSON.stringify(rounds))
-      ),
-      map((rounds: Round[]) => {
-        for (const r of rounds) {
-          if (r.id === round) {
-            return r;
-          }
-        }
-      })
+      )
     );
   }
 }

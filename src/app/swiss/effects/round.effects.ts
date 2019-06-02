@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { PairingService, Round, RoundStorageService, Pairing } from 'app/shared';
+import { Pairing, PairingService, Round, RoundStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class RoundEffects {
+export class RoundEffects implements OnInitEffects {
   @Effect()
   beginEvent$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
@@ -53,7 +53,16 @@ export class RoundEffects {
 
       return combineLatest(isLastRound$, activePlayers$).pipe(
         mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(round, isLastRound, players)),
-        tap((pairings: Pairing[]) => this.storageService.setPairings(round, pairings))
+        map((pairings: Pairing[]) => ({
+          id: round,
+          pairings: pairings
+        })),
+        mergeMap((r: Round) =>
+          this.storageService.updateRound(r).pipe(
+            map(() => new RoundApiActions.CreatePairingsSuccess(r)),
+            catchError(err => of(new RoundApiActions.CreatePairingsFailure(err)))
+          )
+        )
       );
     })
   );
@@ -69,4 +78,8 @@ export class RoundEffects {
     private storageService: RoundStorageService,
     private store: Store<fromSwiss.State>
   ) {}
+
+  ngrxOnInitEffects(): Action {
+
+  }
 }
