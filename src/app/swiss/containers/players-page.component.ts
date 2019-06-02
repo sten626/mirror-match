@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Player } from 'app/shared';
 import { PlayersPageActions } from 'app/swiss/actions';
@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 @Component({
   templateUrl: './players-page.component.html'
 })
-export class PlayersPageComponent implements OnInit {
+export class PlayersPageComponent {
   canBeginTournament$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
@@ -41,11 +41,6 @@ export class PlayersPageComponent implements OnInit {
       select(fromSwiss.getNumberOfPlayers),
       map((playerTotal: number) => Math.max(3, Math.ceil(Math.log2(playerTotal))))
     );
-  }
-
-  ngOnInit(): void {
-    // this.store.dispatch(new PlayersPageActions.LoadPlayers());
-    // this.store.dispatch(new PlayersPageActions.LoadTournament());
   }
 
   /**

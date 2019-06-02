@@ -15,7 +15,7 @@ export class PairingsPageComponent {
   numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
   players: Player[];
-  rounds$: Observable<number[]>;
+  rounds$: Observable<number[] | string[]>;
   selectedRound$: Observable<number>;
   selectedRoundHasPairings$: Observable<boolean>;
 
@@ -35,17 +35,7 @@ export class PairingsPageComponent {
       select(fromSwiss.getNumberOfRounds)
     );
     this.rounds$ = this.store.pipe(
-      select(fromSwiss.getCurrentRound),
-      map(currentRound => {
-        const rounds = [];
-        let i = 1;
-
-        while (i <= currentRound) {
-          rounds.push(i++);
-        }
-
-        return rounds;
-      })
+      select(fromSwiss.getRoundIds)
     );
     this.selectedRound$ = this.store.pipe(
       select(fromSwiss.getSelectedRound)

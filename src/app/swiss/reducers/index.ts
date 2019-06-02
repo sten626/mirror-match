@@ -1,13 +1,13 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Player } from 'app/shared';
-import * as fromPairings from './pairings.reducer';
 import * as fromPlayers from './players.reducer';
+import * as fromRounds from './rounds.reducer';
 import * as fromTournament from './tournament.reducer';
 
 export interface SwissState {
-  pairings: fromPairings.State;
   players: fromPlayers.State;
+  rounds: fromRounds.State;
   tournament: fromTournament.State;
 }
 
@@ -16,21 +16,21 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers: ActionReducerMap<SwissState> = {
-  pairings: fromPairings.reducer,
   players: fromPlayers.reducer,
+  rounds: fromRounds.reducer,
   tournament: fromTournament.reducer
 };
 
 export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
 
-export const getPairingsState = createSelector(
-  getSwissState,
-  state => state.pairings
-);
-
 export const getPlayersState = createSelector(
   getSwissState,
   state => state.players
+);
+
+export const getRoundsState = createSelector(
+  getSwissState,
+  state => state.rounds
 );
 
 export const getTournamentState = createSelector(
@@ -64,8 +64,8 @@ export const getNumberOfDroppedPlayers = createSelector(
 );
 
 export const hasTournamentStarted = createSelector(
-  getTournamentState,
-  fromTournament.hasTournamentStarted
+  getRoundsState,
+  fromRounds.hasTournamentStarted
 );
 
 export const isTournamentLoaded = createSelector(
@@ -74,14 +74,14 @@ export const isTournamentLoaded = createSelector(
 );
 
 export const isTournamentOver = createSelector(
-  getTournamentState,
-  fromTournament.isTournamentOver
+  getRoundsState,
+  fromRounds.isTournamentOver
 );
 
-export const getCurrentRound = createSelector(
-  getTournamentState,
-  fromTournament.getCurrentRound
-);
+// export const getCurrentRound = createSelector(
+//   getTournamentState,
+//   fromTournament.getCurrentRound
+// );
 
 export const getNumberOfPlayers = createSelector(
   getPlayersState,
@@ -96,8 +96,13 @@ export const getNumberOfActivePlayers = createSelector(
 );
 
 export const getNumberOfRounds = createSelector(
-  getTournamentState,
-  fromTournament.getNumberOfRounds
+  getRoundsState,
+  fromRounds.getNumberOfRounds
+);
+
+export const getRoundIds = createSelector(
+  getRoundsState,
+  fromRounds.getRoundIds
 );
 
 export const getSelectedRound = createSelector(

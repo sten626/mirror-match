@@ -5,7 +5,6 @@ export interface State {
   currentRound: number;
   loaded: boolean;
   loading: boolean;
-  numberOfRounds: number;
   selectedRound: number;
 }
 
@@ -14,7 +13,6 @@ export const initialState: State = {
   currentRound: 0,
   loaded: false,
   loading: false,
-  numberOfRounds: 0,
   selectedRound: 1
 };
 
@@ -27,8 +25,7 @@ export function reducer(
       const numOfRounds = action.payload;
       return {
         ...state,
-        currentRound: 1,
-        numberOfRounds: numOfRounds
+        currentRound: 1
       };
     }
     case TournamentApiActions.TournamentApiActionTypes.LoadTournament: {
@@ -64,14 +61,8 @@ export function reducer(
   }
 }
 
-export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
-
 export const isTournamentLoaded = (state: State) => state.loaded;
 
-export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
-
 export const getCurrentRound = (state: State) => state.currentRound;
-
-export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 
 export const getSelectedRound = (state: State) => state.selectedRound;

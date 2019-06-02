@@ -9,27 +9,27 @@ import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class TournamentEffects implements OnInitEffects {
-  @Effect()
-  beginEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
-    map(action => action.payload),
-    map(numberOfRounds => {
-      return {
-        currentRound: 1,
-        numberOfRounds: numberOfRounds
-      };
-    }),
-    mergeMap((tournamentInfo: TournamentInfo) =>
-      this.storageService.setTournamentInfo(tournamentInfo).pipe(
-        map(() => new TournamentApiActions.BeginEventSuccess(tournamentInfo.numberOfRounds)),
-        catchError((err) => {
-          console.error(err);
-          return of(new TournamentApiActions.BeginEventFailure());
-        })
-      )
-    ),
-    tap(() => this.router.navigate(['/swiss/pairings']))
-  );
+  // @Effect()
+  // beginEvent$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
+  //   map(action => action.payload),
+  //   map(numberOfRounds => {
+  //     return {
+  //       currentRound: 1,
+  //       numberOfRounds: numberOfRounds
+  //     };
+  //   }),
+  //   mergeMap((tournamentInfo: TournamentInfo) =>
+  //     this.storageService.setTournamentInfo(tournamentInfo).pipe(
+  //       map(() => new TournamentApiActions.BeginEventSuccess(tournamentInfo.numberOfRounds)),
+  //       catchError((err) => {
+  //         console.error(err);
+  //         return of(new TournamentApiActions.BeginEventFailure());
+  //       })
+  //     )
+  //   ),
+  //   tap(() => this.router.navigate(['/swiss/pairings']))
+  // );
 
   @Effect()
   changeSelectedRound$: Observable<Action> = this.actions$.pipe(

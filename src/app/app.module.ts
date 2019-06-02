@@ -14,6 +14,7 @@ import {
   PairingService,
   PlayerService,
   RoundService,
+  RoundStorageService,
   SharedModule,
   StandingsService,
   PlayerStorageService,
@@ -43,6 +44,7 @@ import { reducers } from './reducers';
     PlayerService,
     PlayerStorageService,
     RoundService,
+    RoundStorageService,
     StandingsService,
     TournamentStorageService
   ],
