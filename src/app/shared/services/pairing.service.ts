@@ -31,13 +31,13 @@ export class PairingService extends StorageService {
   //   // this.loadFromLocalStorage();
   // }
 
-  // createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<{round: number, pairings: Pairing[]}> {
-  //   if (round === 1) {
-  //     const pairings = this.createRandomPairings(players, round);
-  //     return this.addPairings(pairings);
-  //   }
-  //   return of([]);
-  // }
+  createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
+    if (round === 1) {
+      const pairings = this.createRandomPairings(players, round);
+      return this.addPairings(pairings);
+    }
+    return of([]);
+  }
 
   private addPairings(pairings: Pairing[]): Observable<Pairing[]> {
     return this.getPairings().pipe(

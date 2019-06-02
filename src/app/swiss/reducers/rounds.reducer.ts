@@ -50,7 +50,7 @@ export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
 
 export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
 
-export const getCurrentRound = (state: State) => Math.max(...state.ids);
+export const getCurrentRound = (state: State) => state.ids[state.ids.length - 1];
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 

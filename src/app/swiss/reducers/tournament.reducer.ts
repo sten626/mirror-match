@@ -2,7 +2,6 @@ import { TournamentApiActions } from 'app/swiss/actions';
 
 export interface State {
   completedRound: number;
-  currentRound: number;
   loaded: boolean;
   loading: boolean;
   selectedRound: number;
@@ -10,7 +9,6 @@ export interface State {
 
 export const initialState: State = {
   completedRound: 0,
-  currentRound: 0,
   loaded: false,
   loading: false,
   selectedRound: 1
@@ -21,13 +19,13 @@ export function reducer(
   action: TournamentApiActions.TournamentApiActionsUnion
 ): State {
   switch (action.type) {
-    case TournamentApiActions.TournamentApiActionTypes.BeginEventSuccess: {
-      const numOfRounds = action.payload;
-      return {
-        ...state,
-        currentRound: 1
-      };
-    }
+    // case TournamentApiActions.TournamentApiActionTypes.BeginEventSuccess: {
+    //   const numOfRounds = action.payload;
+    //   return {
+    //     ...state,
+    //     currentRound: 1
+    //   };
+    // }
     case TournamentApiActions.TournamentApiActionTypes.LoadTournament: {
       return {
         ...state,
@@ -63,6 +61,6 @@ export function reducer(
 
 export const isTournamentLoaded = (state: State) => state.loaded;
 
-export const getCurrentRound = (state: State) => state.currentRound;
+// export const getCurrentRound = (state: State) => state.currentRound;
 
 export const getSelectedRound = (state: State) => state.selectedRound;

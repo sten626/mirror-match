@@ -78,10 +78,10 @@ export const isTournamentOver = createSelector(
   fromRounds.isTournamentOver
 );
 
-// export const getCurrentRound = createSelector(
-//   getTournamentState,
-//   fromTournament.getCurrentRound
-// );
+export const getCurrentRound = createSelector(
+  getRoundsState,
+  fromRounds.getCurrentRound
+);
 
 export const getNumberOfPlayers = createSelector(
   getPlayersState,
