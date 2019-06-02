@@ -1,40 +1,56 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Pairing, Player } from '../models';
-import { PlayerService } from './player.service';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { Pairing, Player } from 'app/shared/models';
+import { StorageService } from './storage.service';
 
 @Injectable()
-export class PairingService {
-  readonly pairings$: Observable<Pairing[]>;
-  readonly submittedPairings$: Observable<Pairing[]>;
+export class PairingService extends StorageService {
+  private pairingsKey = 'mm-pairings';
+  // readonly pairings$: Observable<Pairing[]>;
+  // readonly submittedPairings$: Observable<Pairing[]>;
 
-  private pairings: Pairing[];
-  private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
-  private pairingsSubject$ = new BehaviorSubject<Pairing[]>([]);
-  private activePlayers: Player[];
+  // private pairings: Pairing[];
+  // private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
+  // private pairingsSubject$ = new BehaviorSubject<Pairing[]>([]);
+  // private activePlayers: Player[];
 
-  private readonly lsKeys = {
-    pairings: 'pairings'
-  };
+  // private readonly lsKeys = {
+  //   pairings: 'pairings'
+  // };
 
-  constructor(private playerService: PlayerService) {
-    this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
+  // constructor() {
+  //   // this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
 
-    // Setup Observables.
-    this.pairings$ = this.pairingsSubject$.asObservable();
-    this.submittedPairings$ = this.pairings$.pipe(map((pairings: Pairing[]) => {
-      return pairings.filter((pairing: Pairing) => pairing.submitted);
-    }), distinctUntilChanged());
+  //   // // Setup Observables.
+  //   // this.pairings$ = this.pairingsSubject$.asObservable();
+  //   // this.submittedPairings$ = this.pairings$.pipe(map((pairings: Pairing[]) => {
+  //   //   return pairings.filter((pairing: Pairing) => pairing.submitted);
+  //   // }), distinctUntilChanged());
 
-    this.loadFromLocalStorage();
+  //   // this.loadFromLocalStorage();
+  // }
+
+  createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<{round: number, pairings: Pairing[]}> {
+    if (round === 1) {
+      const pairings = this.createRandomPairings(players, round);
+      return this.addPairings(pairings);
+    }
+    return of([]);
   }
 
-  createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
-    round = round;
-    isLastRound = isLastRound;
-    players = players;
-    return of([]);
+  private addPairings(pairings: Pairing[]): Observable<Pairing[]> {
+    return this.getPairings().pipe(
+      map(value => [
+        ...value,
+        ...pairings
+      ]),
+      tap(value => this.storage.setItem(this.pairingsKey, JSON.stringify(value)))
+    );
+  }
+
+  private getPairings(): Observable<Pairing[]> {
+    return this.getArray(this.pairingsKey);
   }
 
   // createPairings(round: number, isLastRound: boolean): void {
@@ -56,45 +72,45 @@ export class PairingService {
   //   this.next(pairings);
   // }
 
-  deletePairings(round: number): void {
-    const pairingsForRound = this.pairingsByRoundsMap[round];
-    delete this.pairingsByRoundsMap[round];
+  // deletePairings(round: number): void {
+  //   const pairingsForRound = this.pairingsByRoundsMap[round];
+  //   delete this.pairingsByRoundsMap[round];
 
-    const pairings = this.pairings.filter((pairing: Pairing) => {
-      return pairingsForRound.indexOf(pairing) === -1;
-    });
+  //   const pairings = this.pairings.filter((pairing: Pairing) => {
+  //     return pairingsForRound.indexOf(pairing) === -1;
+  //   });
 
-    this.next(pairings);
-  }
+  //   this.next(pairings);
+  // }
 
-  getPairingsForRound(round: number): Observable<Pairing[]> {
-    return this.pairings$.pipe(
-      map((pairings: Pairing[]) => {
-        return pairings.filter(p => p.round === round);
-      })
-    );
-  }
+  // getPairingsForRound(round: number): Observable<Pairing[]> {
+  //   return this.pairings$.pipe(
+  //     map((pairings: Pairing[]) => {
+  //       return pairings.filter(p => p.round === round);
+  //     })
+  //   );
+  // }
 
-  updatePairing(pairing: Pairing): void {
-    const pairings = this.pairings.map(p => p === pairing ? pairing : p);
-    this.next(pairings);
-  }
+  // updatePairing(pairing: Pairing): void {
+  //   const pairings = this.pairings.map(p => p === pairing ? pairing : p);
+  //   this.next(pairings);
+  // }
 
-  updatePairings(updatedPairings: Pairing[]): void {
-    const pairings = [];
+  // updatePairings(updatedPairings: Pairing[]): void {
+  //   const pairings = [];
 
-    for (const pairing of this.pairings) {
-      const i = updatedPairings.indexOf(pairing);
+  //   for (const pairing of this.pairings) {
+  //     const i = updatedPairings.indexOf(pairing);
 
-      if (i >= 0) {
-        pairings.push(updatedPairings[i]);
-      } else {
-        pairings.push(pairing);
-      }
-    }
+  //     if (i >= 0) {
+  //       pairings.push(updatedPairings[i]);
+  //     } else {
+  //       pairings.push(pairing);
+  //     }
+  //   }
 
-    this.next(pairings);
-  }
+  //   this.next(pairings);
+  // }
 
   private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
     if (players.length % 2 === 1) {
@@ -119,22 +135,39 @@ export class PairingService {
   }
 
   private createRandomPairings(players: Player[], round: number): Pairing[] {
-    return [];
-    // let table = 1;
-    // players = this.shufflePlayers(players);
-    // const pairings = [];
+    let table = 1;
+    players = this.shufflePlayers(players);
+    const pairings = [];
 
-    // while (players.length > 1) {
-    //   const pairing = new Pairing(round, table++, players.shift(), players.shift());
-    //   pairings.push(pairing);
-    // }
+    while (players.length > 1) {
+      const pairing: Pairing = {
+        round: round,
+        table: table++,
+        player1Id: players.shift().id,
+        player2Id: players.shift().id,
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0,
+        submitted: false
+      };
+      pairings.push(pairing);
+    }
 
-    // if (players.length) {
-    //   const pairing = new Pairing(round, table, players.shift(), null);
-    //   pairings.push(pairing);
-    // }
+    if (players.length) {
+      const pairing: Pairing = {
+        round: round,
+        table: table++,
+        player1Id: players.shift().id,
+        player2Id: null,
+        player1Wins: 2,
+        player2Wins: 0,
+        draws: 0,
+        submitted: true
+      };
+      pairings.push(pairing);
+    }
 
-    // return pairings;
+    return pairings;
   }
 
   private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
@@ -231,11 +264,11 @@ export class PairingService {
     // this.next(pairings);
   }
 
-  private next(newPairings: Pairing[]): void {
-    this.pairings = newPairings;
-    this.saveToLocalStorage();
-    this.pairingsSubject$.next(newPairings);
-  }
+  // private next(newPairings: Pairing[]): void {
+  //   this.pairings = newPairings;
+  //   this.saveToLocalStorage();
+  //   this.pairingsSubject$.next(newPairings);
+  // }
 
   /**
    * Recursive function for pairing players. Removes players from players list and updated assignedPlayers in place.

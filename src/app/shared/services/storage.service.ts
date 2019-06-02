@@ -38,6 +38,13 @@ const LOCAL_STORAGE_TOKEN = new InjectionToken(
 export class StorageService {
   constructor(@Inject(LOCAL_STORAGE_TOKEN) protected storage: Storage) {}
 
+  protected getArray(key: string): Observable<any[]> {
+    return this.supported().pipe(
+      map(() => this.storage.getItem(key)),
+      map((value: string | null) => value ? JSON.parse(value) : [])
+    );
+  }
+
   protected getNumber(key: string, defaultValue = 0): Observable<number> {
     return this.supported().pipe(
       map(() => this.storage.getItem(key)),

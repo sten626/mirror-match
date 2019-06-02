@@ -28,10 +28,7 @@ export class PlayerStorageService extends StorageService {
   }
 
   getPlayers(): Observable<Player[]> {
-    return this.supported().pipe(
-      map(_ => this.storage.getItem(this.playersKey)),
-      map((value: string | null) => value ? JSON.parse(value) : [])
-    );
+    return this.getArray(this.playersKey);
   }
 
   removePlayers(ids: number[]): Observable<Player[]> {

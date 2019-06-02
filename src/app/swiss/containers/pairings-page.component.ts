@@ -48,7 +48,6 @@ export class PairingsPageComponent {
       })
     );
     this.selectedRound$ = this.store.pipe(
-      tap(state => console.log(state)),
       select(fromSwiss.getSelectedRound)
     );
   }

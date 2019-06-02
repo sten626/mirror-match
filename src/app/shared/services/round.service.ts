@@ -52,11 +52,11 @@ export class RoundService {
       map((rounds: number[]) => rounds.length >= this.totalNumberOfRounds),
       distinctUntilChanged()
     );
-    this.outstandingPairingsForCurrentRound$ = this.pairingService.pairings$.pipe(
-      combineLatest(this.currentRound$, (pairings: Pairing[], round: number) => {
-        return pairings.filter((pairing: Pairing) => pairing.round === round && !pairing.submitted);
-      })
-    );
+    // this.outstandingPairingsForCurrentRound$ = this.pairingService.pairings$.pipe(
+    //   combineLatest(this.currentRound$, (pairings: Pairing[], round: number) => {
+    //     return pairings.filter((pairing: Pairing) => pairing.round === round && !pairing.submitted);
+    //   })
+    // );
 
     this.canStartNextRound$ = this.rounds$.pipe(combineLatest(this.completedRounds$, (rounds: number[], completedRounds: number[]) => {
       return rounds.length === completedRounds.length && rounds.length < this.totalNumberOfRounds;

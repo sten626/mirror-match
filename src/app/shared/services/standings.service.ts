@@ -30,9 +30,9 @@ export class StandingsService {
       });
     });
 
-    this.pairingService.submittedPairings$.subscribe((pairings: Pairing[]) => {
-      this.allSubmittedPairings = pairings;
-    });
+    // this.pairingService.submittedPairings$.subscribe((pairings: Pairing[]) => {
+    //   this.allSubmittedPairings = pairings;
+    // });
 
     this.calculateStandings();
   }

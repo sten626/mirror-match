@@ -4,4 +4,5 @@ export * from './player.service';
 export * from './player-storage.service';
 export * from './round.service';
 export * from './standings.service';
+export * from './storage.service';
 export * from './tournament-storage.service';

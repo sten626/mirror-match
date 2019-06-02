@@ -26,7 +26,7 @@ export class PairingEffects {
         mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(round, isLastRound, players))
       );
     }),
-    map(pairings => new PairingsApiActions.CreatePairingsSuccess(pairings))
+    map(pairings => new PairingsApiActions.CreatePairingsSuccess({round: round, pairings: pairings}))
   );
 
   constructor(
