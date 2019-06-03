@@ -106,6 +106,6 @@ export const getRoundIds = createSelector(
 );
 
 export const getSelectedRound = createSelector(
-  getTournamentState,
-  fromTournament.getSelectedRound
+  getRoundsState,
+  fromRounds.getSelectedRound
 );

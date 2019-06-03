@@ -13,7 +13,8 @@ export class PairingsPageComponent {
   canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
-  pairings$: Observable<Pairing[]>;
+  pairingsForSelectedRound$: Observable<Pairing[]>;
+  // pairings$: Observable<Pairing[]>;
   players: Player[];
   rounds$: Observable<number[] | string[]>;
   selectedRound$: Observable<number>;
@@ -33,6 +34,9 @@ export class PairingsPageComponent {
     );
     this.numberOfRounds$ = this.store.pipe(
       select(fromSwiss.getNumberOfRounds)
+    );
+    this.pairingsForSelectedRound$ = this.store.pipe(
+
     );
     this.rounds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)

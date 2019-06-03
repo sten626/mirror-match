@@ -64,7 +64,8 @@ export class LoadRoundsSuccess implements Action {
 
   constructor(public payload: {
     rounds: Round[],
-    numberOfRounds: number
+    numberOfRounds: number,
+    selectedRound: number
   }) {}
 }
 

@@ -8,6 +8,7 @@ import { StorageService } from './storage.service';
 export class RoundStorageService extends StorageService {
   private numberOfRoundsKey = 'mm-number-of-rounds';
   private roundsKey = 'mm-rounds';
+  private selectedRoundKey = 'mm-selected-round';
 
   addRound(round: Round): Observable<Round> {
     return this.getRounds().pipe(
@@ -26,6 +27,10 @@ export class RoundStorageService extends StorageService {
 
   getRounds(): Observable<Round[]> {
     return this.getArray(this.roundsKey);
+  }
+
+  getSelectedRound(): Observable<number> {
+    return this.getNumber(this.selectedRoundKey, 1);
   }
 
   setNumberOfRounds(numberOfRounds: number): Observable<boolean> {

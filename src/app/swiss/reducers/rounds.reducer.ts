@@ -5,13 +5,15 @@ import { RoundApiActions } from '../actions';
 export interface State extends EntityState<Round> {
   completedRound: number;
   numberOfRounds: number;
+  selectedRound: number;
 }
 
 export const adapter: EntityAdapter<Round> = createEntityAdapter<Round>();
 
 export const initialState: State = adapter.getInitialState({
   completedRound: 0,
-  numberOfRounds: 0
+  numberOfRounds: 0,
+  selectedRound: 1
 });
 
 export function reducer(
@@ -37,11 +39,12 @@ export function reducer(
       return adapter.addOne(action.payload, state);
     }
     case RoundApiActions.RoundApiActionTypes.LoadRoundsSuccess: {
-      const {rounds, numberOfRounds} = action.payload;
+      const {rounds, numberOfRounds, selectedRound} = action.payload;
 
       return {
         ...adapter.addAll(rounds, state),
-        numberOfRounds: numberOfRounds
+        numberOfRounds: numberOfRounds,
+        selectedRound: selectedRound
       };
     }
     default: {
@@ -58,4 +61,6 @@ export const getCurrentRound = (state: State) => state.ids[state.ids.length - 1]
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 
-export const getRoundIds = (state: State) => state.ids;
+export const getRoundIds = (state: State) => state.ids as number[];
+
+export const getSelectedRound = (state: State) => state.selectedRound;

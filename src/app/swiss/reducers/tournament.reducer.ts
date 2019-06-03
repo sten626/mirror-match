@@ -4,14 +4,14 @@ export interface State {
   completedRound: number;
   loaded: boolean;
   loading: boolean;
-  selectedRound: number;
+  // selectedRound: number;
 }
 
 export const initialState: State = {
   completedRound: 0,
   loaded: false,
-  loading: false,
-  selectedRound: 1
+  loading: false
+  // selectedRound: 1
 };
 
 export function reducer(
@@ -47,12 +47,12 @@ export function reducer(
         loading: false
       };
     }
-    case TournamentApiActions.TournamentApiActionTypes.SetSelectedRoundSuccess: {
-      return {
-        ...state,
-        selectedRound: action.payload
-      };
-    }
+    // case TournamentApiActions.TournamentApiActionTypes.SetSelectedRoundSuccess: {
+    //   return {
+    //     ...state,
+    //     selectedRound: action.payload
+    //   };
+    // }
     default: {
       return state;
     }
@@ -63,4 +63,4 @@ export const isTournamentLoaded = (state: State) => state.loaded;
 
 // export const getCurrentRound = (state: State) => state.currentRound;
 
-export const getSelectedRound = (state: State) => state.selectedRound;
+// export const getSelectedRound = (state: State) => state.selectedRound;

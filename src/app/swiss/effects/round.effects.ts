@@ -73,12 +73,14 @@ export class RoundEffects implements OnInitEffects {
     mergeMap(() => {
       const rounds$ = this.storageService.getRounds();
       const numberOfRounds$ = this.storageService.getNumberOfRounds();
+      const selectedRound$ = this.storageService.getSelectedRound();
 
-      return combineLatest(rounds$, numberOfRounds$);
+      return combineLatest(rounds$, numberOfRounds$, selectedRound$);
     }),
-    map(([rounds, numberOfRounds]) => new RoundApiActions.LoadRoundsSuccess({
+    map(([rounds, numberOfRounds, selectedRound]) => new RoundApiActions.LoadRoundsSuccess({
       rounds: rounds,
-      numberOfRounds: numberOfRounds
+      numberOfRounds: numberOfRounds,
+      selectedRound: selectedRound
     })),
     catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
   );
