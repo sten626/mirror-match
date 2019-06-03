@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs';
 })
 export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   @Input() numberOfRounds: number;
-  @Input() selectedRound: number;
-  @Input() rounds: number[];
+  @Input() selectedRoundId: number;
+  @Input() roundIds: number[];
   @Output() createPairings = new EventEmitter<number>();
   @Output() roundChanged = new EventEmitter<number>();
 
@@ -25,7 +25,7 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   ngOnChanges(): void {
-    this.selectedRoundControl.setValue(this.selectedRound, { emitEvent: false });
+    this.selectedRoundControl.setValue(this.selectedRoundId, { emitEvent: false });
   }
 
   ngOnDestroy(): void {
@@ -33,6 +33,6 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   createPairingsClicked() {
-    this.createPairings.emit(this.selectedRound);
+    this.createPairings.emit(this.selectedRoundId);
   }
 }

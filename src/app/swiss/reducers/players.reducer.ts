@@ -66,17 +66,3 @@ export function reducer(
     }
   }
 }
-
-const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
-} = adapter.getSelectors();
-
-export const selectPlayerIds = selectIds;
-export const selectPlayerEntities = selectEntities;
-export const selectAllPlayers = selectAll;
-export const selectPlayerTotal = selectTotal;
-
-export const arePlayersLoaded = (state: State) => state.loaded;

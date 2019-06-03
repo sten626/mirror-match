@@ -77,10 +77,10 @@ export class RoundEffects implements OnInitEffects {
 
       return combineLatest(rounds$, numberOfRounds$, selectedRound$);
     }),
-    map(([rounds, numberOfRounds, selectedRound]) => new RoundApiActions.LoadRoundsSuccess({
+    map(([rounds, numberOfRounds, selectedRoundId]) => new RoundApiActions.LoadRoundsSuccess({
       rounds: rounds,
       numberOfRounds: numberOfRounds,
-      selectedRound: selectedRound
+      selectedRoundId: selectedRoundId
     })),
     catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
   );

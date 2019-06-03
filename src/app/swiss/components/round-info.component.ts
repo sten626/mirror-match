@@ -5,8 +5,8 @@ import { Component, Input } from '@angular/core';
   templateUrl: './round-info.component.html'
 })
 export class RoundInfoComponent {
-  @Input() completedRound: number;
-  @Input() currentRound: number;
+  @Input() completedRoundId: number;
+  @Input() currentRoundId: number;
   @Input() numberOfRounds: number;
   @Input() ongoingMatches: number;
 }

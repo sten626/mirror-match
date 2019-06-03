@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './event-info.component.html'
 })
 export class EventInfoComponent {
   activePlayers$: Observable<number>;
-  // completedRound: string;
-  currentRound$: Observable<number>;
+  completedRoundId$: Observable<number>;
+  currentRoundId$: Observable<number>;
   droppedPlayers$: Observable<number>;
   numberOfRounds$: Observable<number>;
   // ongoingMatches: number;
@@ -18,19 +19,22 @@ export class EventInfoComponent {
 
   constructor(private store: Store<fromSwiss.State>) {
     this.activePlayers$ = this.store.pipe(
-      select(fromSwiss.getNumberOfActivePlayers)
+      select(fromSwiss.getTotalActivePlayers)
     );
-    this.currentRound$ = store.pipe(
-      select(fromSwiss.getCurrentRound)
+    this.completedRoundId$ = this.store.pipe(
+      select(fromSwiss.getCompletedRoundId)
+    );
+    this.currentRoundId$ = store.pipe(
+      select(fromSwiss.getTotalRounds)
     );
     this.droppedPlayers$ = store.pipe(
-      select(fromSwiss.getNumberOfDroppedPlayers)
+      select(fromSwiss.getTotalDroppedPlayers)
     );
     this.numberOfRounds$ = store.pipe(
       select(fromSwiss.getNumberOfRounds)
     );
     this.totalPlayers$ = store.pipe(
-      select(fromSwiss.getNumberOfPlayers)
+      select(fromSwiss.getTotalPlayers)
     );
   }
 

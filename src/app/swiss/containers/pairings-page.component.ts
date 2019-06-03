@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Pairing, Player } from 'app/shared';
+import { Pairing, Player, Round } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -13,11 +13,10 @@ export class PairingsPageComponent {
   canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
-  pairingsForSelectedRound$: Observable<Pairing[]>;
   // pairings$: Observable<Pairing[]>;
   players: Player[];
-  rounds$: Observable<number[] | string[]>;
-  selectedRound$: Observable<number>;
+  roundIds$: Observable<number[] | string[]>;
+  selectedRound$: Observable<Round>;
   selectedRoundHasPairings$: Observable<boolean>;
 
   constructor(
@@ -35,10 +34,7 @@ export class PairingsPageComponent {
     this.numberOfRounds$ = this.store.pipe(
       select(fromSwiss.getNumberOfRounds)
     );
-    this.pairingsForSelectedRound$ = this.store.pipe(
-
-    );
-    this.rounds$ = this.store.pipe(
+    this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
     );
     this.selectedRound$ = this.store.pipe(

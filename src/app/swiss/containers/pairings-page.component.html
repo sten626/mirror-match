@@ -1,7 +1,7 @@
 <mm-pairings-menu
   [numberOfRounds]="numberOfRounds$ | async"
-  [rounds]="rounds$ | async"
-  [selectedRound]="selectedRound$ | async"
+  [roundIds]="roundIds$ | async"
+  [selectedRoundId]="selectedRound$ | async"
   (createPairings)="createPairings($event)"
   (roundChanged)="roundChanged($event)"></mm-pairings-menu>
 <mm-pairings-list

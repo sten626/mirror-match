@@ -22,7 +22,7 @@ export class SwissComponent implements OnInit {
       select(fromSwiss.hasTournamentStarted)
     );
     this.numberOfActivePlayers$ = this.store.pipe(
-      select(fromSwiss.getNumberOfActivePlayers)
+      select(fromSwiss.getTotalActivePlayers)
     );
   }
 

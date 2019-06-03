@@ -25,8 +25,7 @@ export class PlayersPageComponent {
       select(fromSwiss.getAllPlayers)
     );
     this.canBeginTournament$ = store.pipe(
-      select(fromSwiss.getNumberOfPlayers),
-      map((playerTotal: number) => playerTotal >= 4)
+      select(fromSwiss.canBeginTournament)
     );
     this.hasTournamentStarted$ = store.pipe(
       select(fromSwiss.hasTournamentStarted)
@@ -35,11 +34,10 @@ export class PlayersPageComponent {
       select(fromSwiss.isTournamentOver)
     );
     this.numberOfActivePlayers$ = store.pipe(
-      select(fromSwiss.getNumberOfActivePlayers)
+      select(fromSwiss.getTotalActivePlayers)
     );
     this.recommendedNumberOfRounds$ = store.pipe(
-      select(fromSwiss.getNumberOfPlayers),
-      map((playerTotal: number) => Math.max(3, Math.ceil(Math.log2(playerTotal))))
+      select(fromSwiss.getRecommendedNumberOfRounds)
     );
   }
 

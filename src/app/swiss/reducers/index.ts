@@ -21,31 +21,31 @@ export const reducers: ActionReducerMap<SwissState> = {
   tournament: fromTournament.reducer
 };
 
+/**
+ * Module feature selector.
+ */
+
 export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
+
+/**
+ * Player selectors.
+ */
 
 export const getPlayersState = createSelector(
   getSwissState,
   state => state.players
 );
 
-export const getRoundsState = createSelector(
-  getSwissState,
-  state => state.rounds
-);
+export const {
+  selectIds: getPlayerIds,
+  selectEntities: getPlayerEntities,
+  selectAll: getAllPlayers,
+  selectTotal: getTotalPlayers
+} = fromPlayers.adapter.getSelectors(getPlayersState);
 
-export const getTournamentState = createSelector(
-  getSwissState,
-  state => state.tournament
-);
-
-export const arePlayersLoaded = createSelector(
-  getPlayersState,
-  fromPlayers.arePlayersLoaded
-);
-
-export const getAllPlayers = createSelector(
-  getPlayersState,
-  fromPlayers.selectAllPlayers
+export const canBeginTournament = createSelector(
+  getTotalPlayers,
+  (totalPlayers: number) => totalPlayers >= 4
 );
 
 export const getActivePlayers = createSelector(
@@ -58,41 +58,35 @@ export const getDroppedPlayers = createSelector(
   (players) => players.filter((player) => player.dropped)
 );
 
-export const getNumberOfDroppedPlayers = createSelector(
-  getDroppedPlayers,
-  (players) => players.length
+export const getRecommendedNumberOfRounds = createSelector(
+  getTotalPlayers,
+  (totalPlayers: number) => Math.max(3, Math.ceil(Math.log2(totalPlayers)))
 );
 
-export const hasTournamentStarted = createSelector(
-  getRoundsState,
-  fromRounds.hasTournamentStarted
-);
-
-export const isTournamentLoaded = createSelector(
-  getTournamentState,
-  fromTournament.isTournamentLoaded
-);
-
-export const isTournamentOver = createSelector(
-  getRoundsState,
-  fromRounds.isTournamentOver
-);
-
-export const getCurrentRound = createSelector(
-  getRoundsState,
-  fromRounds.getCurrentRound
-);
-
-export const getNumberOfPlayers = createSelector(
-  getPlayersState,
-  fromPlayers.selectPlayerTotal
-);
-
-export const getNumberOfActivePlayers = createSelector(
+export const getTotalActivePlayers = createSelector(
   getActivePlayers,
   (activePlayers: Player[]) => {
     return activePlayers.length;
   }
+);
+
+export const getTotalDroppedPlayers = createSelector(
+  getDroppedPlayers,
+  (players) => players.length
+);
+
+/**
+ * Round selectors
+ */
+
+export const getRoundsState = createSelector(
+  getSwissState,
+  state => state.rounds
+);
+
+export const getCompletedRoundId = createSelector(
+  getRoundsState,
+  fromRounds.getCompletedRoundId
 );
 
 export const getNumberOfRounds = createSelector(
@@ -100,12 +94,45 @@ export const getNumberOfRounds = createSelector(
   fromRounds.getNumberOfRounds
 );
 
-export const getRoundIds = createSelector(
+export const getSelectedRoundId = createSelector(
   getRoundsState,
-  fromRounds.getRoundIds
+  fromRounds.getSelectedRoundId
 );
 
+export const {
+  selectIds: getRoundIds,
+  selectEntities: getRoundEntities,
+  selectAll: getAllRounds,
+  selectTotal: getTotalRounds
+} = fromRounds.adapter.getSelectors(getRoundsState);
+
 export const getSelectedRound = createSelector(
-  getRoundsState,
-  fromRounds.getSelectedRound
+  getRoundEntities,
+  getSelectedRoundId,
+  (roundEntities, selectedRoundId) => selectedRoundId && roundEntities[selectedRoundId]
+);
+
+export const hasTournamentStarted = createSelector(
+  getNumberOfRounds,
+  (numberOfRounds: number) => numberOfRounds > 0
+);
+
+export const isTournamentOver = createSelector(
+  getCompletedRoundId,
+  getNumberOfRounds,
+  (completedRound, numberOfRounds) => completedRound >= numberOfRounds
+);
+
+/**
+ *
+ */
+
+export const getTournamentState = createSelector(
+  getSwissState,
+  state => state.tournament
+);
+
+export const isTournamentLoaded = createSelector(
+  getTournamentState,
+  fromTournament.isTournamentLoaded
 );

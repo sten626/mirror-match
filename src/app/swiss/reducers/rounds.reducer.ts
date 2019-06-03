@@ -3,17 +3,17 @@ import { Round } from 'app/shared';
 import { RoundApiActions } from '../actions';
 
 export interface State extends EntityState<Round> {
-  completedRound: number;
+  completedRoundId: number;
   numberOfRounds: number;
-  selectedRound: number;
+  selectedRoundId: number;
 }
 
 export const adapter: EntityAdapter<Round> = createEntityAdapter<Round>();
 
 export const initialState: State = adapter.getInitialState({
-  completedRound: 0,
+  completedRoundId: 0,
   numberOfRounds: 0,
-  selectedRound: 1
+  selectedRoundId: 1
 });
 
 export function reducer(
@@ -39,12 +39,12 @@ export function reducer(
       return adapter.addOne(action.payload, state);
     }
     case RoundApiActions.RoundApiActionTypes.LoadRoundsSuccess: {
-      const {rounds, numberOfRounds, selectedRound} = action.payload;
+      const {rounds, numberOfRounds, selectedRoundId} = action.payload;
 
       return {
         ...adapter.addAll(rounds, state),
         numberOfRounds: numberOfRounds,
-        selectedRound: selectedRound
+        selectedRoundId: selectedRoundId
       };
     }
     default: {
@@ -53,14 +53,27 @@ export function reducer(
   }
 }
 
-export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
+// const {
+//   selectIds,
+//   selectEntities,
+//   selectAll,
+//   selectTotal
+// } = adapter.getSelectors();
 
-export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
+// export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
 
-export const getCurrentRound = (state: State) => state.ids[state.ids.length - 1] as number;
+// export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
+
+// export const getAllRounds = selectAll;
+
+export const getCompletedRoundId = (state: State) => state.completedRoundId;
+
+// export const getCurrentRound = selectTotal;
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 
-export const getRoundIds = (state: State) => state.ids as number[];
+// export const getRoundEntities = selectEntities;
 
-export const getSelectedRound = (state: State) => state.selectedRound;
+// export const getRoundIds = selectIds;
+
+export const getSelectedRoundId = (state: State) => state.selectedRoundId;
