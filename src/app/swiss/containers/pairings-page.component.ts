@@ -5,19 +5,21 @@ import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { PairingsPageActions } from '../actions';
+import { Dictionary } from '@ngrx/entity';
 
 @Component({
   templateUrl: './pairings-page.component.html'
 })
 export class PairingsPageComponent {
-  canStartNextRound$: Observable<boolean>;
+  // canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
-  // pairings$: Observable<Pairing[]>;
-  players: Player[];
+  pairings$: Observable<Pairing[]>;
+  pairingsExist$: Observable<boolean>;
+  playerEntities$: Observable<Dictionary<Player>>;
   roundIds$: Observable<number[] | string[]>;
-  selectedRound$: Observable<Round>;
-  selectedRoundHasPairings$: Observable<boolean>;
+  selectedRoundId$: Observable<number>;
+  // selectedRoundHasPairings$: Observable<boolean>;
 
   constructor(
     // private pairingService: PairingService,
@@ -34,11 +36,20 @@ export class PairingsPageComponent {
     this.numberOfRounds$ = this.store.pipe(
       select(fromSwiss.getNumberOfRounds)
     );
+    this.pairings$ = this.store.pipe(
+      select(fromSwiss.getSelectedRoundPairings)
+    );
+    this.pairingsExist$ = this.pairings$.pipe(
+      map(pairings => pairings.length > 0)
+    );
+    this.playerEntities$ = this.store.pipe(
+      select(fromSwiss.getPlayerEntities)
+    );
     this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
     );
-    this.selectedRound$ = this.store.pipe(
-      select(fromSwiss.getSelectedRound)
+    this.selectedRoundId$ = this.store.pipe(
+      select(fromSwiss.getSelectedRoundId)
     );
   }
 

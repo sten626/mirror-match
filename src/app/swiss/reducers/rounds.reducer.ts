@@ -5,7 +5,7 @@ import { RoundApiActions } from '../actions';
 export interface State extends EntityState<Round> {
   completedRoundId: number;
   numberOfRounds: number;
-  selectedRoundId: number;
+  selectedRoundId: number | null;
 }
 
 export const adapter: EntityAdapter<Round> = createEntityAdapter<Round>();
@@ -13,7 +13,7 @@ export const adapter: EntityAdapter<Round> = createEntityAdapter<Round>();
 export const initialState: State = adapter.getInitialState({
   completedRoundId: 0,
   numberOfRounds: 0,
-  selectedRoundId: 1
+  selectedRoundId: null
 });
 
 export function reducer(

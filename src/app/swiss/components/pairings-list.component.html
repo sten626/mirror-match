@@ -10,13 +10,13 @@
           </div>
         </div>
 
-        <label for="pairings-search" class="col-xs-1 control-label">Search</label>
+        <label for="search-text" class="col-xs-1 control-label">Search</label>
         <div class="col-xs-3">
           <input type="text"
-              id="pairings-search"
+              id="search-text"
               class="form-control"
               placeholder="Player name or table number"
-              formControlName="pairingsSearch">
+              formControlName="searchText">
         </div>
 
         <div class="col-xs-5">
@@ -47,13 +47,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pairing of filteredPairings"
+        <tr *ngFor="let pairing of filteredPairings$ | async"
             [ngClass]="{'active': selectedPairing === pairing}"
             (click)="selectPairing(pairing)">
           <td>{{pairing.table}}</td>
-          <td>{{pairing.player1.name}}</td>
+          <td>{{playerEntities[pairing.player1Id].name}}</td>
           <td>{{resultDisplayString(pairing)}}</td>
-          <td>{{pairing.bye ? '***Bye***' : pairing.player2.name}}</td>
+          <td>{{pairing.player2Id == null ? '***Bye***' : playerEntities[pairing.player2Id].name}}</td>
           <td>{{resultDisplayString(pairing, true)}}</td>
         </tr>
       </tbody>

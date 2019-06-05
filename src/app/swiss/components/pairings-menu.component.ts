@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -24,8 +24,10 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
     });
   }
 
-  ngOnChanges(): void {
-    this.selectedRoundControl.setValue(this.selectedRoundId, { emitEvent: false });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedRoundId) {
+      this.selectedRoundControl.setValue(this.selectedRoundId, { emitEvent: false });
+    }
   }
 
   ngOnDestroy(): void {

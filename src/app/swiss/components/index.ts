@@ -1,3 +1,4 @@
+export * from './pairings-list.component';
 export * from './pairings-menu.component';
 export * from './player-form.component';
 export * from './player-list.component';

@@ -1,6 +1,6 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { Player } from 'app/shared';
+import { Player, Round } from 'app/shared';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
 import * as fromTournament from './tournament.reducer';
@@ -110,6 +110,11 @@ export const getSelectedRound = createSelector(
   getRoundEntities,
   getSelectedRoundId,
   (roundEntities, selectedRoundId) => selectedRoundId && roundEntities[selectedRoundId]
+);
+
+export const getSelectedRoundPairings = createSelector(
+  getSelectedRound,
+  (round: Round) => round.pairings
 );
 
 export const hasTournamentStarted = createSelector(
