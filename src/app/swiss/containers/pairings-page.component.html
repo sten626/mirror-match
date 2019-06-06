@@ -5,9 +5,11 @@
   (createPairings)="createPairings($event)"
   (roundChanged)="roundChanged($event)"></mm-pairings-menu>
 <mm-pairings-list
-  [pairings]="pairings$ | async"
+  [filteredPairings]="filteredPairings$ | async"
+  [filterText]="pairingsFilterText$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
+  (filterChanged)="updateFilter($event)"
   (lastResultSubmitted)="onLastResultSubmitted()"
   (matchResultsCleared)="onMatchResultsCleared($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"

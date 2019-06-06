@@ -1,9 +1,10 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { Player, Round } from 'app/shared';
+import { Pairing, Player, Round } from 'app/shared';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
 import * as fromTournament from './tournament.reducer';
+import { Dictionary } from '@ngrx/entity';
 
 export interface SwissState {
   players: fromPlayers.State;
@@ -94,9 +95,19 @@ export const getNumberOfRounds = createSelector(
   fromRounds.getNumberOfRounds
 );
 
+export const getPairingsFilterText = createSelector(
+  getRoundsState,
+  fromRounds.getPairingsFilterText
+);
+
 export const getSelectedRoundId = createSelector(
   getRoundsState,
   fromRounds.getSelectedRoundId
+);
+
+export const getShowOutstandingOnly = createSelector(
+  getRoundsState,
+  fromRounds.getShowOutstandingOnly
 );
 
 export const {
@@ -115,6 +126,38 @@ export const getSelectedRound = createSelector(
 export const getSelectedRoundPairings = createSelector(
   getSelectedRound,
   (round: Round) => round.pairings
+);
+
+export const getSelectedRoundPairingsFiltered = createSelector(
+  getSelectedRoundPairings,
+  getPlayerEntities,
+  getPairingsFilterText,
+  getShowOutstandingOnly,
+  (pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean) =>
+    pairings.filter(pairing => {
+      if (!filterText) {
+        return true;
+      }
+
+      if (filterText === pairing.table.toString()) {
+        return true;
+      }
+
+      const player1Name = playerEntities[pairing.player1Id].name;
+
+      if (player1Name.toLowerCase().includes(filterText)) {
+        return true;
+      }
+
+      if (pairing.player2Id === null) {
+        return false;
+      }
+
+      const player2Name = playerEntities[pairing.player2Id].name;
+
+      return player2Name.toLowerCase().includes(filterText);
+    }
+  )
 );
 
 export const hasTournamentStarted = createSelector(

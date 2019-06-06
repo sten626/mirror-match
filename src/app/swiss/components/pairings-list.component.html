@@ -16,7 +16,7 @@
               id="search-text"
               class="form-control"
               placeholder="Player name or table number"
-              formControlName="searchText">
+              formControlName="filterText">
         </div>
 
         <div class="col-xs-5">
@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pairing of filteredPairings$ | async"
+        <tr *ngFor="let pairing of filteredPairings"
             [ngClass]="{'active': selectedPairing === pairing}"
             (click)="selectPairing(pairing)">
           <td>{{pairing.table}}</td>

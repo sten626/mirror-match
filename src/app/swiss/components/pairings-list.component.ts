@@ -1,33 +1,33 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Pairing, Player } from 'app/shared';
-import { Observable, combineLatest } from 'rxjs';
-import { mergeMap, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { Dictionary } from '@ngrx/entity';
+import { Pairing, Player } from 'app/shared';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'mm-pairings-list',
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnChanges, OnInit {
-  @Input() pairings: Pairing[];
+export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
+  @Input() filteredPairings: Pairing[];
+  @Input() filterText: string;
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
+  @Output() filterChanged = new EventEmitter<any>();
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
   // @Output() redoMatchesForRound = new EventEmitter<string>();
   // @Output() resultSubmitted = new EventEmitter<Pairing>();
 
-  filteredPairings$: Observable<Pairing[]>;
   // filteredPairings: Pairing[];
   // pairingsExist = false;
+  filterTextSub: Subscription;
   pairingsListForm: FormGroup = new FormGroup({
-    searchText: new FormControl(''),
+    filterText: new FormControl(''),
     showOutstandingOnly: new FormControl(true)
   });
-  searchText$: Observable<string>;
   // selectedPairing: Pairing;
   // selectedRoundComplete = false;
   // selectedRoundHasSubmittedPairings = false;
@@ -41,38 +41,45 @@ export class PairingsListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this.filterTextSub = this.pairingsListForm.valueChanges.subscribe(formValues => this.filterChanged.emit(formValues));
     // Filter pairings.
     // this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
-    this.searchText$ = this.pairingsListForm.get('searchText').valueChanges.pipe(
-      debounceTime(10),
-      startWith(''),
-      map(searchText => searchText.trim().toLowerCase()),
-      distinctUntilChanged()
-    );
-    this.filteredPairings$ = this.searchText$.pipe(
-      map(searchText => this.pairings.filter(pairing => {
-        if (!searchText) {
-          return true;
-        }
+    // this.searchText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
+    //   debounceTime(10),
+    //   startWith(''),
+    //   map(searchText => searchText.trim().toLowerCase()),
+    //   distinctUntilChanged()
+    // );
+    // this.filteredPairings$ = this.searchText$.pipe(
+    //   map(searchText => this.pairings.filter(pairing => {
+    //     if (!searchText) {
+    //       return true;
+    //     }
 
-        if (searchText === pairing.table.toString()) {
-          return true;
-        }
+    //     if (searchText === pairing.table.toString()) {
+    //       return true;
+    //     }
 
-        const player1Name = this.playerEntities[pairing.player1Id].name;
+    //     const player1Name = this.playerEntities[pairing.player1Id].name;
 
-        if (player1Name.toLowerCase().includes(searchText)) {
-          return true;
-        }
+    //     if (player1Name.toLowerCase().includes(searchText)) {
+    //       return true;
+    //     }
 
-        const player2Name = this.playerEntities[pairing.player2Id].name;
+    //     const player2Name = this.playerEntities[pairing.player2Id].name;
 
-        return player2Name.toLowerCase().includes(searchText);
-      }))
-    );
+    //     return player2Name.toLowerCase().includes(searchText);
+    //   }))
+    // );
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    if (changes.filterText) {
+      this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
+        emitEvent: false
+      });
+    }
     // if (this.pairings) {
     //   if (this.pairings.length === 0) {
     //     this.pairingsExist = false;
@@ -88,6 +95,10 @@ export class PairingsListComponent implements OnChanges, OnInit {
     //     // this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
     //   }
     // }
+  }
+
+  ngOnDestroy() {
+    this.filterTextSub.unsubscribe();
   }
 
   // deleteResults() {

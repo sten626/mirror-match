@@ -12,10 +12,12 @@ import { Dictionary } from '@ngrx/entity';
 })
 export class PairingsPageComponent {
   // canStartNextRound$: Observable<boolean>;
+  filteredPairings$: Observable<Pairing[]>;
   hasTournamentStarted$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
   pairingsExist$: Observable<boolean>;
+  pairingsFilterText$: Observable<string>;
   playerEntities$: Observable<Dictionary<Player>>;
   roundIds$: Observable<number[] | string[]>;
   selectedRoundId$: Observable<number>;
@@ -30,6 +32,9 @@ export class PairingsPageComponent {
     private store: Store<fromSwiss.State>
   ) {
     // this.canStartNextRound$ = this.roundService.canStartNextRound$;
+    this.filteredPairings$ = this.store.pipe(
+      select(fromSwiss.getSelectedRoundPairingsFiltered)
+    );
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
@@ -41,6 +46,9 @@ export class PairingsPageComponent {
     );
     this.pairingsExist$ = this.pairings$.pipe(
       map(pairings => pairings.length > 0)
+    );
+    this.pairingsFilterText$ = this.store.pipe(
+      select(fromSwiss.getPairingsFilterText)
     );
     this.playerEntities$ = this.store.pipe(
       select(fromSwiss.getPlayerEntities)
@@ -99,6 +107,10 @@ export class PairingsPageComponent {
 
   roundChanged(round: number): void {
     this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(round));
+  }
+
+  updateFilter(formValues: any): void {
+    this.store.dispatch(new PairingsPageActions.UpdatePairingsFilter(formValues));
   }
 
   // onResultSubmitted(pairing: Pairing): void {
