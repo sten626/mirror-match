@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Pairing, Player, Round } from 'app/shared';
+import { Pairing, Player } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { PairingsPageActions } from '../actions';
-import { Dictionary } from '@ngrx/entity';
 
 @Component({
   templateUrl: './pairings-page.component.html'

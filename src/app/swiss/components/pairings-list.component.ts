@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormControl, FormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player } from 'app/shared';
-import { Subscription, Observable } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-pairings-list',
@@ -169,25 +169,25 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
     // }
   }
 
-  private filterPairings() {
-    // if (!this.pairingsListForm) {
-    //   return;
-    // }
+  // private filterPairings() {
+  //   // if (!this.pairingsListForm) {
+  //   //   return;
+  //   // }
 
-    // if (this.pairingsListForm.get('showOutstandingOnly').value) {
-    //   this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
-    // } else {
-    //   this.filteredPairings = this.pairings.slice();
-    // }
+  //   // if (this.pairingsListForm.get('showOutstandingOnly').value) {
+  //   //   this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
+  //   // } else {
+  //   //   this.filteredPairings = this.pairings.slice();
+  //   // }
 
-    // const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
+  //   // const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
 
-    // if (filterText) {
-    //   this.filteredPairings = this.filteredPairings.filter(pairing => {
-    //     return pairing.table.toString() === filterText
-    //         || pairing.player1.name.toLowerCase().includes(filterText)
-    //         || pairing.player2.name.toLowerCase().includes(filterText);
-    //   });
-    // }
-  }
+  //   // if (filterText) {
+  //   //   this.filteredPairings = this.filteredPairings.filter(pairing => {
+  //   //     return pairing.table.toString() === filterText
+  //   //         || pairing.player1.name.toLowerCase().includes(filterText)
+  //   //         || pairing.player2.name.toLowerCase().includes(filterText);
+  //   //   });
+  //   // }
+  // }
 }
