@@ -1,5 +1,6 @@
 <mm-pairings-menu
   [numberOfRounds]="numberOfRounds$ | async"
+  [pairingsExist]="pairingsExist$ | async"
   [roundIds]="roundIds$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
   (createPairings)="createPairings($event)"
