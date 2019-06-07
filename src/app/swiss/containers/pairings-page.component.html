@@ -10,9 +10,11 @@
   [filterText]="pairingsFilterText$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
-  (filterChanged)="updateFilter($event)"
+  (filterTextChanged)="updateFilterText($event)"
   (lastResultSubmitted)="onLastResultSubmitted()"
   (matchResultsCleared)="onMatchResultsCleared($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
   (redoMatchesForRound)="onRedoMatchesForRound()"
-  (resultSubmitted)="onResultSubmitted($event)"></mm-pairings-list>
+  (resultSubmitted)="onResultSubmitted($event)"
+  (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"
+></mm-pairings-list>

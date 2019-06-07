@@ -135,6 +135,10 @@ export const getSelectedRoundPairingsFiltered = createSelector(
   getShowOutstandingOnly,
   (pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean) =>
     pairings.filter(pairing => {
+      if (showOutstandingOnly && pairing.submitted) {
+        return false;
+      }
+
       if (!filterText) {
         return true;
       }

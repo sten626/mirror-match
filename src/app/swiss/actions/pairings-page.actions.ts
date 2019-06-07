@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 export enum PairingsPageActionTypes {
   ChangeSelectedRound = '[Pairings Page] Change Selected Round',
   CreatePairings = '[Pairings Page] Create Pairings',
-  UpdatePairingsFilter = '[Pairings Page] Update Pairings Filter'
+  UpdatePairingsFilterText = '[Pairings Page] Update Pairings Filter Text',
+  UpdateShowOutstandingOnly = '[Pairings Page] Update Show Outstanding Only'
 }
 
 export class ChangeSelectedRound implements Action {
@@ -18,10 +19,16 @@ export class CreatePairings implements Action {
   constructor(public payload: number) {}
 }
 
-export class UpdatePairingsFilter implements Action {
-  readonly type = PairingsPageActionTypes.UpdatePairingsFilter;
+export class UpdatePairingsFilterText implements Action {
+  readonly type = PairingsPageActionTypes.UpdatePairingsFilterText;
 
-  constructor(public payload: {filterText: string, showOutstandingOnly: boolean}) {}
+  constructor(public payload: string) {}
 }
 
-export type PairingsPageActionsUnion = ChangeSelectedRound | CreatePairings | UpdatePairingsFilter;
+export class UpdateShowOutstandingOnly implements Action {
+  readonly type = PairingsPageActionTypes.UpdateShowOutstandingOnly;
+
+  constructor(public payload: boolean) {}
+}
+
+export type PairingsPageActionsUnion = ChangeSelectedRound | CreatePairings | UpdatePairingsFilterText | UpdateShowOutstandingOnly;

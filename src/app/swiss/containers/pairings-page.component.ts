@@ -109,8 +109,12 @@ export class PairingsPageComponent {
     this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(round));
   }
 
-  updateFilter(formValues: any): void {
-    this.store.dispatch(new PairingsPageActions.UpdatePairingsFilter(formValues));
+  updateFilterText(filterText: string): void {
+    this.store.dispatch(new PairingsPageActions.UpdatePairingsFilterText(filterText));
+  }
+
+  updateShowOutstandingOnly(showOutstandingOnly: boolean): void {
+    this.store.dispatch(new PairingsPageActions.UpdateShowOutstandingOnly(showOutstandingOnly));
   }
 
   // onResultSubmitted(pairing: Pairing): void {

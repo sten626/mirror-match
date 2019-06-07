@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormControl, FormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player } from 'app/shared';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-pairings-list',
@@ -14,7 +15,8 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   @Input() filterText: string;
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
-  @Output() filterChanged = new EventEmitter<any>();
+  @Output() filterTextChanged = new EventEmitter<string>();
+  @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
@@ -23,11 +25,13 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
 
   // filteredPairings: Pairing[];
   // pairingsExist = false;
+  filterText$: Observable<string>;
   filterTextSub: Subscription;
   pairingsListForm: FormGroup = new FormGroup({
     filterText: new FormControl(''),
     showOutstandingOnly: new FormControl(true)
   });
+  showOutstandingOnlySub: Subscription;
   // selectedPairing: Pairing;
   // selectedRoundComplete = false;
   // selectedRoundHasSubmittedPairings = false;
@@ -41,7 +45,15 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.filterTextSub = this.pairingsListForm.valueChanges.subscribe(formValues => this.filterChanged.emit(formValues));
+    this.filterText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
+      debounceTime(10),
+      map(filterText => filterText.trim().toLowerCase()),
+      distinctUntilChanged()
+    );
+    this.filterTextSub = this.filterText$.subscribe(filterText => this.filterTextChanged.emit(filterText));
+    this.showOutstandingOnlySub = this.pairingsListForm.get('showOutstandingOnly').valueChanges.subscribe(
+      showOutstandingOnly => this.showOutstandingOnlyChanged.emit(showOutstandingOnly)
+    );
     // Filter pairings.
     // this.pairingsListForm.valueChanges.subscribe(() => this.filterPairings());
     // this.searchText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
@@ -74,7 +86,6 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes.filterText) {
       this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
         emitEvent: false

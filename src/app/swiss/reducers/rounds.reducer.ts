@@ -25,12 +25,16 @@ export function reducer(
   action: PairingsPageActions.PairingsPageActionsUnion | RoundApiActions.RoundApiActionsUnion
 ): State {
   switch (action.type) {
-    case PairingsPageActions.PairingsPageActionTypes.UpdatePairingsFilter: {
-      const {filterText, showOutstandingOnly} = action.payload;
+    case PairingsPageActions.PairingsPageActionTypes.UpdatePairingsFilterText: {
       return {
         ...state,
-        pairingsFilterText: filterText,
-        showOutstandingOnly: showOutstandingOnly
+        pairingsFilterText: action.payload
+      };
+    }
+    case PairingsPageActions.PairingsPageActionTypes.UpdateShowOutstandingOnly: {
+      return {
+        ...state,
+        showOutstandingOnly: action.payload
       };
     }
     case RoundApiActions.RoundApiActionTypes.BeginEventSuccess: {
