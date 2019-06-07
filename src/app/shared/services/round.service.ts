@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs/operators';
 import { Pairing } from '../models';
 import { MessageService } from './message.service';
-import { PairingService } from './pairing.service';
 import { PlayerService } from './player.service';
 
 @Injectable()
@@ -32,7 +31,7 @@ export class RoundService {
 
   constructor(
     private messageService: MessageService,
-    private pairingService: PairingService,
+    // private pairingService: PairingService,
     private playerService: PlayerService
   ) {
     // Setup Observables.

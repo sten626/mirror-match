@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './event-info.component.html'

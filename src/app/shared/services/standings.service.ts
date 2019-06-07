@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { PairingService } from './pairing.service';
-import { PlayerService } from './player.service';
 import { Pairing, Player, Standing } from '../models';
+import { PlayerService } from './player.service';
 
 @Injectable()
 export class StandingsService {
@@ -15,7 +13,7 @@ export class StandingsService {
   private standingsSubject$ = new BehaviorSubject<Standing[]>([]);
 
   constructor(
-    private pairingService: PairingService,
+    // private pairingService: PairingService,
     private playerService: PlayerService
   ) {
     this.standings$ = this.standingsSubject$.asObservable();

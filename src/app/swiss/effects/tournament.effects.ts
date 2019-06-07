@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { TournamentInfo, TournamentStorageService } from 'app/shared';
-import { PlayersPageActions, TournamentApiActions, PairingsPageActions } from 'app/swiss/actions';
+import { PairingsPageActions, PlayersPageActions, TournamentApiActions } from 'app/swiss/actions';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class TournamentEffects implements OnInitEffects {
@@ -56,7 +55,7 @@ export class TournamentEffects implements OnInitEffects {
 
   constructor(
     private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion | PairingsPageActions.PairingsPageActionsUnion>,
-    private router: Router,
+    // private router: Router,
     private storageService: TournamentStorageService
   ) {}
 

@@ -21,6 +21,7 @@ export class PairingsPageComponent {
   pairingsFilterText$: Observable<string>;
   playerEntities$: Observable<Dictionary<Player>>;
   roundIds$: Observable<number[] | string[]>;
+  selectedRoundComplete$: Observable<boolean>;
   selectedRoundId$: Observable<number>;
   // selectedRoundHasPairings$: Observable<boolean>;
 
@@ -60,6 +61,9 @@ export class PairingsPageComponent {
     );
     this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
+    );
+    this.selectedRoundComplete$ = this.store.pipe(
+      select(fromSwiss.getSelectedRoundComplete)
     );
     this.selectedRoundId$ = this.store.pipe(
       select(fromSwiss.getSelectedRoundId)

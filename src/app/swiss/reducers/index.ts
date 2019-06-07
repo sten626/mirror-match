@@ -128,6 +128,11 @@ export const getSelectedRoundPairings = createSelector(
   (round: Round) => round.pairings
 );
 
+export const getSelectedRoundComplete = createSelector(
+  getSelectedRoundPairings,
+  (pairings: Pairing[]) => pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur)
+);
+
 export const getSelectedRoundPairingsSubmitted = createSelector(
   getSelectedRoundPairings,
   (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)

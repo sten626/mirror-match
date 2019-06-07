@@ -30,9 +30,10 @@ export class PairingService {
 
   createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
     if (round === 1) {
-      const pairings = this.createRandomPairings(players, round);
+      const pairings = this.createRandomPairings(players);
       return of(pairings);
     }
+    isLastRound = isLastRound;
 
     return of([]);
   }
@@ -96,29 +97,29 @@ export class PairingService {
   //   this.next(pairings);
   // }
 
-  private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
-    if (players.length % 2 === 1) {
-      throw new Error('Creating player preference map expects an even number of players.');
-    }
+  // private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
+  //   if (players.length % 2 === 1) {
+  //     throw new Error('Creating player preference map expects an even number of players.');
+  //   }
 
-    const playerPreferenceMap = {};
+  //   const playerPreferenceMap = {};
 
-    players.forEach((player: Player) => {
-      const potentialOpps = [];
+  //   players.forEach((player: Player) => {
+  //     const potentialOpps = [];
 
-      // players.forEach((opp: Player) => {
-      //   if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
-      //     potentialOpps.push(opp.id);
-      //   }
-      // });
+  //     // players.forEach((opp: Player) => {
+  //     //   if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
+  //     //     potentialOpps.push(opp.id);
+  //     //   }
+  //     // });
 
-      playerPreferenceMap[player.id] = potentialOpps;
-    });
+  //     playerPreferenceMap[player.id] = potentialOpps;
+  //   });
 
-    return playerPreferenceMap;
-  }
+  //   return playerPreferenceMap;
+  // }
 
-  private createRandomPairings(players: Player[], round: number): Pairing[] {
+  private createRandomPairings(players: Player[]): Pairing[] {
     let table = 1;
     players = this.shufflePlayers(players);
     const pairings = [];
@@ -152,99 +153,99 @@ export class PairingService {
     return pairings;
   }
 
-  private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-    return [];
-    // players = this.shufflePlayers(players);
+  // private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
+  //   return [];
+  //   // players = this.shufflePlayers(players);
 
-    // if (isLastRound) {
-    //   this.sortPlayersByTiebreakers(players);
-    // } else {
-    //   this.sortPlayersByMatchPoints(players);
-    // }
+  //   // if (isLastRound) {
+  //   //   this.sortPlayersByTiebreakers(players);
+  //   // } else {
+  //   //   this.sortPlayersByMatchPoints(players);
+  //   // }
 
-    // // If there are an odd number of players, pull out the bottom player and continue with an even number.
-    // const needsBye = players.length % 2 === 1;
-    // let playerForBye: Player = null;
+  //   // // If there are an odd number of players, pull out the bottom player and continue with an even number.
+  //   // const needsBye = players.length % 2 === 1;
+  //   // let playerForBye: Player = null;
 
-    // if (needsBye) {
-    //   playerForBye = players.pop();
-    // }
+  //   // if (needsBye) {
+  //   //   playerForBye = players.pop();
+  //   // }
 
-    // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-    // const assignedPlayers = {};
-    // const playersById = {};
+  //   // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
+  //   // const assignedPlayers = {};
+  //   // const playersById = {};
 
-    // players.forEach(p => playersById[p.id] = p);
-    // const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
+  //   // players.forEach(p => playersById[p.id] = p);
+  //   // const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
 
-    // if (result) {
-    //   // Everyone was paired.
-    //   const pairings = [];
-    //   let table = 1;
+  //   // if (result) {
+  //   //   // Everyone was paired.
+  //   //   const pairings = [];
+  //   //   let table = 1;
 
-    //   for (const player of players) {
-    //     if (!(player.id in assignedPlayers)) {
-    //       continue;
-    //     }
+  //   //   for (const player of players) {
+  //   //     if (!(player.id in assignedPlayers)) {
+  //   //       continue;
+  //   //     }
 
-    //     const opponentId = assignedPlayers[player.id];
-    //     let opponent: Player;
+  //   //     const opponentId = assignedPlayers[player.id];
+  //   //     let opponent: Player;
 
-    //     if (opponentId > 0) {
-    //       opponent = playersById[opponentId];
-    //     } else {
-    //       opponent = null;
-    //     }
+  //   //     if (opponentId > 0) {
+  //   //       opponent = playersById[opponentId];
+  //   //     } else {
+  //   //       opponent = null;
+  //   //     }
 
-    //     const pairing = new Pairing(round, table++, player, opponent);
-    //     delete assignedPlayers[player.id];
-    //     delete assignedPlayers[opponentId];
-    //     pairings.push(pairing);
-    //   }
+  //   //     const pairing = new Pairing(round, table++, player, opponent);
+  //   //     delete assignedPlayers[player.id];
+  //   //     delete assignedPlayers[opponentId];
+  //   //     pairings.push(pairing);
+  //   //   }
 
-    //   if (needsBye) {
-    //     const pairing = new Pairing(round, table++, playerForBye, null);
-    //     pairings.push(pairing);
-    //   }
+  //   //   if (needsBye) {
+  //   //     const pairing = new Pairing(round, table++, playerForBye, null);
+  //   //     pairings.push(pairing);
+  //   //   }
 
-    //   return pairings;
-    // } else {
-    //   throw new Error('Pairings went terribly wrong.');
-    // }
-  }
+  //   //   return pairings;
+  //   // } else {
+  //   //   throw new Error('Pairings went terribly wrong.');
+  //   // }
+  // }
 
-  private loadFromLocalStorage(): void {
-    // const pairingsData = localStorage.getItem(this.lsKeys.pairings);
-    // let pairings = [];
+  // private loadFromLocalStorage(): void {
+  //   // const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+  //   // let pairings = [];
 
-    // if (pairingsData) {
-    //   const rawPairings = JSON.parse(pairingsData);
+  //   // if (pairingsData) {
+  //   //   const rawPairings = JSON.parse(pairingsData);
 
-    //   pairings = rawPairings.map(rawPairing => {
-    //     const round = rawPairing.round;
-    //     const pairing = new Pairing(
-    //       round,
-    //       rawPairing.table,
-    //       this.playerService.get(rawPairing.player1),
-    //       this.playerService.get(rawPairing.player2),
-    //       rawPairing.player1Wins,
-    //       rawPairing.player2Wins,
-    //       rawPairing.draws,
-    //       rawPairing.submitted
-    //     );
+  //   //   pairings = rawPairings.map(rawPairing => {
+  //   //     const round = rawPairing.round;
+  //   //     const pairing = new Pairing(
+  //   //       round,
+  //   //       rawPairing.table,
+  //   //       this.playerService.get(rawPairing.player1),
+  //   //       this.playerService.get(rawPairing.player2),
+  //   //       rawPairing.player1Wins,
+  //   //       rawPairing.player2Wins,
+  //   //       rawPairing.draws,
+  //   //       rawPairing.submitted
+  //   //     );
 
-    //     if (!this.pairingsByRoundsMap[round]) {
-    //       this.pairingsByRoundsMap[round] = [];
-    //     }
+  //   //     if (!this.pairingsByRoundsMap[round]) {
+  //   //       this.pairingsByRoundsMap[round] = [];
+  //   //     }
 
-    //     this.pairingsByRoundsMap[round].push(pairing);
+  //   //     this.pairingsByRoundsMap[round].push(pairing);
 
-    //     return pairing;
-    //   });
-    // }
+  //   //     return pairing;
+  //   //   });
+  //   // }
 
-    // this.next(pairings);
-  }
+  //   // this.next(pairings);
+  // }
 
   // private next(newPairings: Pairing[]): void {
   //   this.pairings = newPairings;
@@ -259,63 +260,63 @@ export class PairingService {
    * @param assignedPlayers A mapping of players that have been paired.
    * @returns True if players given have been paired successfully, false otherwise.
    */
-  private pairPlayers(
-    players: Player[],
-    playerPreferenceMap: {[playerId: number]: number[]},
-    assignedPlayers: {[playerId: number]: number}
-  ): boolean {
-    if (players.length === 0) {
-      return true;
-    }
+  // private pairPlayers(
+  //   players: Player[],
+  //   playerPreferenceMap: {[playerId: number]: number[]},
+  //   assignedPlayers: {[playerId: number]: number}
+  // ): boolean {
+  //   if (players.length === 0) {
+  //     return true;
+  //   }
 
-    const player = players.shift();
-    const playerId = player.id;
+  //   const player = players.shift();
+  //   const playerId = player.id;
 
-    if (!(playerId in assignedPlayers)) {
-      const playersPreferenceList = playerPreferenceMap[playerId];
+  //   if (!(playerId in assignedPlayers)) {
+  //     const playersPreferenceList = playerPreferenceMap[playerId];
 
-      for (const oppId of playersPreferenceList) {
-        if (!(oppId in assignedPlayers)) {
-          assignedPlayers[playerId] = oppId;
-          // assignedPlayers[oppId] = playerId;
-          const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+  //     for (const oppId of playersPreferenceList) {
+  //       if (!(oppId in assignedPlayers)) {
+  //         assignedPlayers[playerId] = oppId;
+  //         // assignedPlayers[oppId] = playerId;
+  //         const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
 
-          if (result) {
-            return result;
-          }
+  //         if (result) {
+  //           return result;
+  //         }
 
-          delete assignedPlayers[playerId];
-          delete assignedPlayers[oppId];
-        }
-      }
-    } else {
-      const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+  //         delete assignedPlayers[playerId];
+  //         delete assignedPlayers[oppId];
+  //       }
+  //     }
+  //   } else {
+  //     const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
 
-      if (result) {
-        return result;
-      }
-    }
+  //     if (result) {
+  //       return result;
+  //     }
+  //   }
 
-    players.unshift(player);
-    return false;
-  }
+  //   players.unshift(player);
+  //   return false;
+  // }
 
-  private saveToLocalStorage() {
-    // const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
-    //   return {
-    //     round: pairing.round,
-    //     table: pairing.table,
-    //     player1: pairing.player1.id,
-    //     player2: pairing.bye ? null : pairing.player2.id,
-    //     player1Wins: pairing.player1Wins,
-    //     player2Wins: pairing.player2Wins,
-    //     draws: pairing.draws,
-    //     submitted: pairing.submitted
-    //   };
-    // });
+  // private saveToLocalStorage() {
+  //   // const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
+  //   //   return {
+  //   //     round: pairing.round,
+  //   //     table: pairing.table,
+  //   //     player1: pairing.player1.id,
+  //   //     player2: pairing.bye ? null : pairing.player2.id,
+  //   //     player1Wins: pairing.player1Wins,
+  //   //     player2Wins: pairing.player2Wins,
+  //   //     draws: pairing.draws,
+  //   //     submitted: pairing.submitted
+  //   //   };
+  //   // });
 
-    // localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
-  }
+  //   // localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
+  // }
 
   private shufflePlayers(players: Player[]): Player[] {
     const shuffledPlayers = players.slice();
@@ -328,33 +329,33 @@ export class PairingService {
     return shuffledPlayers;
   }
 
-  private sortPlayersByMatchPoints(players: Player[]) {
-    players = players;
-    // players.sort((a: Player, b: Player) => {
-    //   return b.matchPoints - a.matchPoints;
-    // });
-  }
+  // private sortPlayersByMatchPoints(players: Player[]) {
+  //   players = players;
+  //   // players.sort((a: Player, b: Player) => {
+  //   //   return b.matchPoints - a.matchPoints;
+  //   // });
+  // }
 
-  private sortPlayersByTiebreakers(players: Player[]) {
-    players = players;
-    // players.sort((a: Player, b: Player) => {
-    //   if (a.matchPoints !== b.matchPoints) {
-    //     return b.matchPoints - a.matchPoints;
-    //   }
+  // private sortPlayersByTiebreakers(players: Player[]) {
+  //   players = players;
+  //   // players.sort((a: Player, b: Player) => {
+  //   //   if (a.matchPoints !== b.matchPoints) {
+  //   //     return b.matchPoints - a.matchPoints;
+  //   //   }
 
-    //   if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
-    //     return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
-    //   }
+  //   //   if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+  //   //     return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+  //   //   }
 
-    //   if (a.gameWinPercentage !== b.gameWinPercentage) {
-    //     return b.gameWinPercentage - a.gameWinPercentage;
-    //   }
+  //   //   if (a.gameWinPercentage !== b.gameWinPercentage) {
+  //   //     return b.gameWinPercentage - a.gameWinPercentage;
+  //   //   }
 
-    //   if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
-    //     return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
-    //   }
+  //   //   if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
+  //   //     return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+  //   //   }
 
-    //   return 0;
-    // });
-  }
+  //   //   return 0;
+  //   // });
+  // }
 }

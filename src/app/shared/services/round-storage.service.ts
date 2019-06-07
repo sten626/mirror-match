@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Round, Pairing } from 'app/shared/models';
+import { Round } from 'app/shared/models';
 import { Observable } from 'rxjs';
-import { map, tap, mergeMap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 
 @Injectable()
