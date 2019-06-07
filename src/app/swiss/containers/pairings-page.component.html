@@ -8,13 +8,11 @@
 <mm-pairings-list
   [filteredPairings]="filteredPairings$ | async"
   [filterText]="pairingsFilterText$ | async"
+  [hasSubmittedPairings]="hasSubmittedPairings$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
+  [selectedRoundId]="selectedRoundId$ | async"
   (filterTextChanged)="updateFilterText($event)"
-  (lastResultSubmitted)="onLastResultSubmitted()"
-  (matchResultsCleared)="onMatchResultsCleared($event)"
-  (playerDroppedChanged)="onPlayerDroppedChanged($event)"
-  (redoMatchesForRound)="onRedoMatchesForRound()"
-  (resultSubmitted)="onResultSubmitted($event)"
+  (redoMatches)="redoMatches($event)"
   (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"
 ></mm-pairings-list>

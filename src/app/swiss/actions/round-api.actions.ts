@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Round } from 'app/shared';
+import { Update } from '@ngrx/entity';
 
 export enum RoundApiActionTypes {
   BeginEventFailure = '[Round/API] Begin Event Failure',
@@ -10,7 +11,9 @@ export enum RoundApiActionTypes {
   CreateRoundSuccess = '[Round/API] Create Round Success',
   LoadRounds = '[Round/API] Load Rounds',
   LoadRoundsFailure = '[Round/API] Load Rounds Failure',
-  LoadRoundsSuccess = '[Round/API] Load Founds Success'
+  LoadRoundsSuccess = '[Round/API] Load Founds Success',
+  UpdateRoundFailure = '[Round/API] Update Round Failure',
+  UpdateRoundSuccess = '[Round/API] Update Round Success'
 }
 
 export class BeginEventFailure implements Action {
@@ -69,6 +72,18 @@ export class LoadRoundsSuccess implements Action {
   }) {}
 }
 
+export class UpdateRoundFailure implements Action {
+  readonly type = RoundApiActionTypes.UpdateRoundFailure;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateRoundSuccess implements Action {
+  readonly type = RoundApiActionTypes.UpdateRoundSuccess;
+
+  constructor(public payload: Update<Round>) {}
+}
+
 export type RoundApiActionsUnion =
   BeginEventFailure
   | BeginEventSuccess
@@ -78,4 +93,6 @@ export type RoundApiActionsUnion =
   | CreateRoundSuccess
   | LoadRounds
   | LoadRoundsFailure
-  | LoadRoundsSuccess;
+  | LoadRoundsSuccess
+  | UpdateRoundFailure
+  | UpdateRoundSuccess;

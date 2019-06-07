@@ -13,9 +13,12 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   @Input() filteredPairings: Pairing[];
   @Input() filterText: string;
+  @Input() hasSubmittedPairings: boolean;
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
+  @Input() selectedRoundId: number;
   @Output() filterTextChanged = new EventEmitter<string>();
+  @Output() redoMatches = new EventEmitter<number>();
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
@@ -143,11 +146,6 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   //   if (numUnsubmitted === 0) {
   //     this.lastResultSubmitted.emit();
   //   }
-  // }
-
-  // redoMatches() {
-  //   this.selectedPairing = null;
-  //   this.redoMatchesForRound.emit();
   // }
 
   resultDisplayString(pairing: Pairing, invert = false): string {

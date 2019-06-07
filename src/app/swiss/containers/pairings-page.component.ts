@@ -14,6 +14,7 @@ export class PairingsPageComponent {
   // canStartNextRound$: Observable<boolean>;
   filteredPairings$: Observable<Pairing[]>;
   hasTournamentStarted$: Observable<boolean>;
+  hasSubmittedPairings$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
   pairingsExist$: Observable<boolean>;
@@ -37,6 +38,10 @@ export class PairingsPageComponent {
     );
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
+    );
+    this.hasSubmittedPairings$ = this.store.pipe(
+      select(fromSwiss.getSelectedRoundPairingsSubmitted),
+      map((pairings: Pairing[]) => pairings.length > 0)
     );
     this.numberOfRounds$ = this.store.pipe(
       select(fromSwiss.getNumberOfRounds)
@@ -100,13 +105,17 @@ export class PairingsPageComponent {
   //   this.playerService.updatePlayer(player);
   // }
 
-  onRedoMatchesForRound(): void {
-    // this.pairingService.deletePairings(this.selectedRound);
-    // this.roundService.markRoundAsIncomplete(this.selectedRound);
+  // onRedoMatchesForRound(): void {
+  //   // this.pairingService.deletePairings(this.selectedRound);
+  //   // this.roundService.markRoundAsIncomplete(this.selectedRound);
+  // }
+
+  redoMatches(roundId: number): void {
+    this.store.dispatch(new PairingsPageActions.RedoMatches(roundId));
   }
 
-  roundChanged(round: number): void {
-    this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(round));
+  roundChanged(roundId: number): void {
+    this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(roundId));
   }
 
   updateFilterText(filterText: string): void {

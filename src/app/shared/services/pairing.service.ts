@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Pairing, Player } from 'app/shared/models';
-import { StorageService } from './storage.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PairingService {

@@ -128,6 +128,11 @@ export const getSelectedRoundPairings = createSelector(
   (round: Round) => round.pairings
 );
 
+export const getSelectedRoundPairingsSubmitted = createSelector(
+  getSelectedRoundPairings,
+  (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)
+);
+
 export const getSelectedRoundPairingsFiltered = createSelector(
   getSelectedRoundPairings,
   getPlayerEntities,

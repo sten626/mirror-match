@@ -71,6 +71,9 @@ export function reducer(
         selectedRoundId: selectedRoundId
       };
     }
+    case RoundApiActions.RoundApiActionTypes.UpdateRoundSuccess: {
+      return adapter.updateOne(action.payload, state);
+    }
     default: {
       return state;
     }

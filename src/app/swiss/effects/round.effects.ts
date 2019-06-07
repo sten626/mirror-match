@@ -85,6 +85,27 @@ export class RoundEffects implements OnInitEffects {
     catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
   );
 
+  @Effect()
+  redoMatches$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
+    map(action => action.payload),
+    map(roundId => ({
+      id: roundId,
+      pairings: []
+    })),
+    mergeMap((round: Round) =>
+      this.storageService.updateRound(round).pipe(
+        map(() => new RoundApiActions.UpdateRoundSuccess({
+          id: round.id,
+          changes: {
+            pairings: round.pairings
+          }
+        })),
+        catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions<
       PairingsPageActions.PairingsPageActionsUnion
