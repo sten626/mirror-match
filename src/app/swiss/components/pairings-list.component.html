@@ -48,8 +48,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let pairing of filteredPairings"
-            [ngClass]="{'active': selectedPairing === pairing}"
-            (click)="selectPairing(pairing)">
+            [ngClass]="{'active': selectedPairingId === pairing.table}"
+            (click)="selectPairing.emit(pairing.table)">
           <td>{{pairing.table}}</td>
           <td>{{playerEntities[pairing.player1Id].name}}</td>
           <td>{{resultDisplayString(pairing)}}</td>

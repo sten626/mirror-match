@@ -11,9 +11,11 @@
   [hasSubmittedPairings]="hasSubmittedPairings$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
+  [selectedPairingId]="selectedPairingId$ | async"
   [selectedRoundComplete]="selectedRoundComplete$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
   (filterTextChanged)="updateFilterText($event)"
   (redoMatches)="redoMatches($event)"
+  (selectPairing)="selectPairing($event)"
   (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"
 ></mm-pairings-list>

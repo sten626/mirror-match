@@ -24,6 +24,18 @@ export class RoundEffects implements OnInitEffects {
   );
 
   @Effect()
+  changeSelectedRound$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsPageActions.PairingsPageActionTypes.ChangeSelectedRound),
+    map(action => action.payload),
+    mergeMap(roundId =>
+      this.storageService.setSelectedRound(roundId).pipe(
+        map(() => new RoundApiActions.SelectRoundSuccess(roundId)),
+        catchError(err => of(new RoundApiActions.SelectRoundFailure(err)))
+      )
+    )
+  );
+
+  @Effect()
   createFirstRound$: Observable<Action> = this.actions$.pipe(
     ofType(RoundApiActions.RoundApiActionTypes.BeginEventSuccess),
     map(() => ({

@@ -16,10 +16,12 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   @Input() hasSubmittedPairings: boolean;
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
+  @Input() selectedPairingId: number;
   @Input() selectedRoundComplete: boolean;
   @Input() selectedRoundId: number;
   @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<number>();
+  @Output() selectPairing = new EventEmitter<number>();
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
@@ -117,13 +119,6 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     return 'Awaiting Result';
-  }
-
-  selectPairing(pairing: Pairing) {
-    pairing = pairing;
-    // if (!pairing.bye) {
-    //   this.selectedPairing = pairing;
-    // }
   }
 
   // private filterPairings() {

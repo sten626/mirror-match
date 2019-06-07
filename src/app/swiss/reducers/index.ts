@@ -100,6 +100,11 @@ export const getPairingsFilterText = createSelector(
   fromRounds.getPairingsFilterText
 );
 
+export const getSelectedPairingId = createSelector(
+  getRoundsState,
+  fromRounds.getSelectedPairingId
+);
+
 export const getSelectedRoundId = createSelector(
   getRoundsState,
   fromRounds.getSelectedRoundId

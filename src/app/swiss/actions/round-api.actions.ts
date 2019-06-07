@@ -12,6 +12,8 @@ export enum RoundApiActionTypes {
   LoadRounds = '[Round/API] Load Rounds',
   LoadRoundsFailure = '[Round/API] Load Rounds Failure',
   LoadRoundsSuccess = '[Round/API] Load Founds Success',
+  SelectRoundFailure = '[Round/API] Select Round Failure',
+  SelectRoundSuccess = '[Round/API] Select Round Success',
   UpdateRoundFailure = '[Round/API] Update Round Failure',
   UpdateRoundSuccess = '[Round/API] Update Round Success'
 }
@@ -72,6 +74,18 @@ export class LoadRoundsSuccess implements Action {
   }) {}
 }
 
+export class SelectRoundFailure implements Action {
+  readonly type = RoundApiActionTypes.SelectRoundFailure;
+
+  constructor(public payload: any) {}
+}
+
+export class SelectRoundSuccess implements Action {
+  readonly type = RoundApiActionTypes.SelectRoundSuccess;
+
+  constructor(public payload: number) {}
+}
+
 export class UpdateRoundFailure implements Action {
   readonly type = RoundApiActionTypes.UpdateRoundFailure;
 
@@ -94,5 +108,7 @@ export type RoundApiActionsUnion =
   | LoadRounds
   | LoadRoundsFailure
   | LoadRoundsSuccess
+  | SelectRoundFailure
+  | SelectRoundSuccess
   | UpdateRoundFailure
   | UpdateRoundSuccess;

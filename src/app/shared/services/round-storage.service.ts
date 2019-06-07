@@ -37,6 +37,10 @@ export class RoundStorageService extends StorageService {
     return this.setNumber(this.numberOfRoundsKey, numberOfRounds);
   }
 
+  setSelectedRound(roundId: number): Observable<boolean> {
+    return this.setNumber(this.selectedRoundKey, roundId);
+  }
+
   updateRound(round: Round): Observable<Round[]> {
     return this.getRounds().pipe(
       map((rounds: Round[]) => rounds.map(r => r.id === round.id ? round : r)),
