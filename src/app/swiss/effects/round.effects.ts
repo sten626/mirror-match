@@ -36,11 +36,18 @@ export class RoundEffects implements OnInitEffects {
   );
 
   @Effect()
+  clearMatchResult$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsPageActions.PairingsPageActionTypes.ClearMatchResult),
+    map(action => action.payload),
+    mergeMap(pairing =>)
+  );
+
+  @Effect()
   createFirstRound$: Observable<Action> = this.actions$.pipe(
     ofType(RoundApiActions.RoundApiActionTypes.BeginEventSuccess),
     map(() => ({
       id: 1,
-      pairings: []
+      pairingIds: []
     })),
     mergeMap((round: Round) =>
       this.storageService.addRound(round).pipe(

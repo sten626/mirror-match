@@ -93,6 +93,10 @@ export class PairingsPageComponent {
   //   // this.roundService.createNextRound();
   // }
 
+  clearMatchResult(pairing: Pairing): void {
+    this.store.dispatch(new PairingsPageActions.ClearMatchResult(pairing));
+  }
+
   createPairings(round: number): void {
     this.store.dispatch(new PairingsPageActions.CreatePairings(round));
   }

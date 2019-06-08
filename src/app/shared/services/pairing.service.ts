@@ -28,9 +28,9 @@ export class PairingService {
   //   // this.loadFromLocalStorage();
   // }
 
-  createPairings(round: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
-    if (round === 1) {
-      const pairings = this.createRandomPairings(players);
+  createPairings(roundId: number, isLastRound: boolean, players: Player[]): Observable<Pairing[]> {
+    if (roundId === 1) {
+      const pairings = this.createRandomPairings(roundId, players);
       return of(pairings);
     }
     isLastRound = isLastRound;
@@ -119,13 +119,14 @@ export class PairingService {
   //   return playerPreferenceMap;
   // }
 
-  private createRandomPairings(players: Player[]): Pairing[] {
+  private createRandomPairings(roundId: number, players: Player[]): Pairing[] {
     let table = 1;
     players = this.shufflePlayers(players);
     const pairings = [];
 
     while (players.length > 1) {
       const pairing: Pairing = {
+        roundId: roundId,
         table: table++,
         player1Id: players.shift().id,
         player2Id: players.shift().id,
@@ -139,6 +140,7 @@ export class PairingService {
 
     if (players.length) {
       const pairing: Pairing = {
+        roundId: roundId,
         table: table++,
         player1Id: players.shift().id,
         player2Id: null,

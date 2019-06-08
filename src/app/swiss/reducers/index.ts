@@ -1,11 +1,13 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Pairing, Player, Round } from 'app/shared';
+import * as fromPairings from './pairings.reducer';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
 import { Dictionary } from '@ngrx/entity';
 
 export interface SwissState {
+  pairings: fromPairings.State;
   players: fromPlayers.State;
   rounds: fromRounds.State;
 }
@@ -15,6 +17,7 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers: ActionReducerMap<SwissState> = {
+  pairings: fromPairings.reducer,
   players: fromPlayers.reducer,
   rounds: fromRounds.reducer
 };
@@ -24,6 +27,27 @@ export const reducers: ActionReducerMap<SwissState> = {
  */
 
 export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
+
+/**
+ * Pairing selectors.
+ */
+
+ export const getPairingsState = createSelector(
+   getSwissState,
+   state => state.pairings
+ );
+
+ export const getSelectedPairingId = createSelector(
+   getPairingsState,
+   fromPairings.getSelectedPairingId
+ );
+
+ export const {
+   selectIds: getPairingIds,
+   selectEntities: getPairingEntities,
+   selectAll: getAllPairings,
+   selectTotal: getTotalPairings
+ } = fromPairings.adapter.getSelectors(getPairingsState);
 
 /**
  * Player selectors.
@@ -102,10 +126,10 @@ export const getRoundsLoaded = createSelector(
   fromRounds.isLoaded
 );
 
-export const getSelectedPairingId = createSelector(
-  getRoundsState,
-  fromRounds.getSelectedPairingId
-);
+// export const getSelectedPairingId = createSelector(
+//   getRoundsState,
+//   fromRounds.getSelectedPairingId
+// );
 
 export const getSelectedRoundId = createSelector(
   getRoundsState,

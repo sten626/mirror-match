@@ -1,4 +1,5 @@
 interface PairingInterface {
+  roundId: number;
   table: number;
   player1Id: number;
   player2Id: number;

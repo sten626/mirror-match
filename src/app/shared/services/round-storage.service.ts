@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Round } from 'app/shared/models';
+import { Round, Pairing } from 'app/shared/models';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
@@ -39,6 +39,10 @@ export class RoundStorageService extends StorageService {
 
   setSelectedRound(roundId: number): Observable<boolean> {
     return this.setNumber(this.selectedRoundKey, roundId);
+  }
+
+  updatePairing(pairing: Pairing): Observable<Pairing> {
+
   }
 
   updateRound(round: Round): Observable<Round[]> {

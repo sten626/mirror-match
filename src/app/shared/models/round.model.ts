@@ -1,8 +1,6 @@
-import { Pairing } from './pairing.model';
-
 interface RoundInterface {
   id: number;
-  pairings: Pairing[];
+  pairingIds: string[];
 }
 
 export type Round = Readonly<RoundInterface>;

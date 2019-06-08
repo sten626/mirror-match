@@ -21,6 +21,6 @@
 <mm-match-results
   [playerEntities]="playerEntities$ | async"
   [selectedPairing]="selectedPairing$ | async"
-  (matchResultCleared)="onMatchResultCleared($event)"
+  (clearMatchResult)="clearMatchResult($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
   (resultSubmitted)="onResultSubmitted($event)"></mm-match-results>

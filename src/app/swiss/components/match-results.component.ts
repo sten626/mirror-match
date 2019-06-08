@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { matchResultValidator, Pairing, Player } from 'app/shared';
@@ -10,6 +10,7 @@ import { matchResultValidator, Pairing, Player } from 'app/shared';
 export class MatchResultsComponent implements OnChanges {
   @Input() playerEntities: Dictionary<Player>;
   @Input() selectedPairing: Pairing;
+  @Output() clearMatchResult = new EventEmitter<Pairing>();
   // @Output() matchResultCleared = new EventEmitter<Pairing>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
   // @Output() resultSubmitted = new EventEmitter<Pairing>();
@@ -28,14 +29,6 @@ export class MatchResultsComponent implements OnChanges {
 
   ngOnChanges() {
     this.resetForm();
-  }
-
-  clearMatchResult() {
-    // this.selectedPairing.player1Wins = 0;
-    // this.selectedPairing.player2Wins = 0;
-    // this.selectedPairing.draws = 0;
-    // this.selectedPairing.submitted = false;
-    // this.matchResultCleared.emit(this.selectedPairing);
   }
 
   incrementDraws() {
