@@ -6,4 +6,3 @@ export * from './round.service';
 export * from './round-storage.service';
 export * from './standings.service';
 export * from './storage.service';
-export * from './tournament-storage.service';

@@ -3,13 +3,11 @@ import * as fromRoot from 'app/reducers';
 import { Pairing, Player, Round } from 'app/shared';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
-import * as fromTournament from './tournament.reducer';
 import { Dictionary } from '@ngrx/entity';
 
 export interface SwissState {
   players: fromPlayers.State;
   rounds: fromRounds.State;
-  tournament: fromTournament.State;
 }
 
 export interface State extends fromRoot.State {
@@ -18,8 +16,7 @@ export interface State extends fromRoot.State {
 
 export const reducers: ActionReducerMap<SwissState> = {
   players: fromPlayers.reducer,
-  rounds: fromRounds.reducer,
-  tournament: fromTournament.reducer
+  rounds: fromRounds.reducer
 };
 
 /**
@@ -98,6 +95,11 @@ export const getNumberOfRounds = createSelector(
 export const getPairingsFilterText = createSelector(
   getRoundsState,
   fromRounds.getPairingsFilterText
+);
+
+export const getRoundsLoaded = createSelector(
+  getRoundsState,
+  fromRounds.isLoaded
 );
 
 export const getSelectedPairingId = createSelector(
@@ -188,18 +190,4 @@ export const isTournamentOver = createSelector(
   getCompletedRoundId,
   getNumberOfRounds,
   (completedRound, numberOfRounds) => completedRound >= numberOfRounds
-);
-
-/**
- *
- */
-
-export const getTournamentState = createSelector(
-  getSwissState,
-  state => state.tournament
-);
-
-export const isTournamentLoaded = createSelector(
-  getTournamentState,
-  fromTournament.isTournamentLoaded
 );

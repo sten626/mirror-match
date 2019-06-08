@@ -35,7 +35,7 @@ export class TournamentStartedGuard implements CanActivate {
 
   private waitForTournamentToLoad(): Observable<boolean> {
     return this.store.pipe(
-      select(fromSwiss.isTournamentLoaded),
+      select(fromSwiss.getRoundsLoaded),
       filter(loaded => loaded),
       take(1)
     );

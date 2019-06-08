@@ -4,6 +4,7 @@ import { RoundApiActions, PairingsPageActions } from '../actions';
 
 export interface State extends EntityState<Round> {
   completedRoundId: number;
+  loaded: boolean;
   numberOfRounds: number;
   pairingsFilterText: string;
   selectedPairingId: number | null;
@@ -15,6 +16,7 @@ export const adapter: EntityAdapter<Round> = createEntityAdapter<Round>();
 
 export const initialState: State = adapter.getInitialState({
   completedRoundId: 0,
+  loaded: false,
   numberOfRounds: 0,
   pairingsFilterText: '',
   selectedPairingId: null,
@@ -75,6 +77,7 @@ export function reducer(
 
       return {
         ...adapter.addAll(rounds, state),
+        loaded: true,
         numberOfRounds: numberOfRounds,
         selectedRoundId: selectedRoundId
       };
@@ -118,3 +121,5 @@ export const getSelectedPairingId = (state: State) => state.selectedPairingId;
 export const getSelectedRoundId = (state: State) => state.selectedRoundId;
 
 export const getShowOutstandingOnly = (state: State) => state.showOutstandingOnly;
+
+export const isLoaded = (state: State) => state.loaded;

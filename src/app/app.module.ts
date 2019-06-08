@@ -17,8 +17,7 @@ import {
   RoundStorageService,
   SharedModule,
   StandingsService,
-  PlayerStorageService,
-  TournamentStorageService
+  PlayerStorageService
 } from './shared';
 import { reducers } from './reducers';
 
@@ -45,8 +44,7 @@ import { reducers } from './reducers';
     PlayerStorageService,
     RoundService,
     RoundStorageService,
-    StandingsService,
-    TournamentStorageService
+    StandingsService
   ],
   bootstrap: [AppComponent]
 })
