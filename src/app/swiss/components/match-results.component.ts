@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Pairing, Player } from 'app/shared';
 import { Dictionary } from '@ngrx/entity';
+import { matchResultValidator, Pairing, Player } from 'app/shared';
 
 @Component({
   selector: 'mm-match-results',
@@ -20,8 +20,9 @@ export class MatchResultsComponent implements OnChanges {
     draws: 0,
     player1Dropped: false,
     player2Dropped: false
+  }, {
+    validators: matchResultValidator
   });
-  resultValid: boolean;
 
   constructor(private fb: FormBuilder) {}
 
@@ -94,7 +95,6 @@ export class MatchResultsComponent implements OnChanges {
   //     player2Dropped: false
   //   });
 
-  //   this.resultValid = false;
   //   this.matchResultsForm.valueChanges.subscribe(() => this.onValueChanged());
   // }
 
@@ -108,9 +108,6 @@ export class MatchResultsComponent implements OnChanges {
   //   const player2Wins = form.get('player2Wins').value;
   //   const draws = form.get('draws').value;
   //   const gamesPlayed = player1Wins + player2Wins + draws;
-
-  //   this.resultValid = gamesPlayed > 0 && player1Wins >= 0 && player1Wins <= 2 && player2Wins >= 0 && player2Wins <= 2 && draws >= 0
-  //     && player1Wins + player2Wins <= 3;
   // }
 
   private resetForm() {
