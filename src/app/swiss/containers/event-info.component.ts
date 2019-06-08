@@ -12,7 +12,7 @@ export class EventInfoComponent {
   currentRoundId$: Observable<number>;
   droppedPlayers$: Observable<number>;
   numberOfRounds$: Observable<number>;
-  // ongoingMatches: number;
+  ongoingMatchesTotal$: Observable<number>;
   showEndEventConfirmation = false;
   totalPlayers$: Observable<number>;
 
@@ -31,6 +31,9 @@ export class EventInfoComponent {
     );
     this.numberOfRounds$ = store.pipe(
       select(fromSwiss.getNumberOfRounds)
+    );
+    this.ongoingMatchesTotal$ = store.pipe(
+      select(fromSwiss.getSelectedRoundPairingsOutstandingTotal)
     );
     this.totalPlayers$ = store.pipe(
       select(fromSwiss.getTotalPlayers)

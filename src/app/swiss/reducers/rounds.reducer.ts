@@ -91,30 +91,11 @@ export function reducer(
   }
 }
 
-// const {
-//   selectIds,
-//   selectEntities,
-//   selectAll,
-//   selectTotal
-// } = adapter.getSelectors();
-
-// export const hasTournamentStarted = (state: State) => state.numberOfRounds > 0;
-
-// export const isTournamentOver = (state: State) => state.completedRound >= state.numberOfRounds;
-
-// export const getAllRounds = selectAll;
-
 export const getCompletedRoundId = (state: State) => state.completedRoundId;
-
-// export const getCurrentRound = selectTotal;
 
 export const getNumberOfRounds = (state: State) => state.numberOfRounds;
 
 export const getPairingsFilterText = (state: State) => state.pairingsFilterText;
-
-// export const getRoundEntities = selectEntities;
-
-// export const getRoundIds = selectIds;
 
 export const getSelectedPairingId = (state: State) => state.selectedPairingId;
 

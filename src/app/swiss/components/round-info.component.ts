@@ -8,5 +8,5 @@ export class RoundInfoComponent {
   @Input() completedRoundId: number;
   @Input() currentRoundId: number;
   @Input() numberOfRounds: number;
-  @Input() ongoingMatches: number;
+  @Input() ongoingMatchesTotal: number;
 }
