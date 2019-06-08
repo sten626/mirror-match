@@ -135,6 +135,20 @@ export const getSelectedRoundPairings = createSelector(
   (round: Round) => round.pairings
 );
 
+export const getSelectedPairing = createSelector(
+  getSelectedPairingId,
+  getSelectedRoundPairings,
+  (pairingId: number, pairings: Pairing[]) => {
+    for (const pairing of pairings) {
+      if (pairing.table === pairingId) {
+        return pairing;
+      }
+    }
+
+    return null;
+  }
+);
+
 export const getSelectedRoundComplete = createSelector(
   getSelectedRoundPairings,
   (pairings: Pairing[]) => pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur)

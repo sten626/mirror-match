@@ -17,5 +17,10 @@
   (filterTextChanged)="updateFilterText($event)"
   (redoMatches)="redoMatches($event)"
   (selectPairing)="selectPairing($event)"
-  (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"
-></mm-pairings-list>
+  (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"></mm-pairings-list>
+<mm-match-results
+  [playerEntities]="playerEntities$ | async"
+  [selectedPairing]="selectedPairing$ | async"
+  (matchResultCleared)="onMatchResultCleared($event)"
+  (playerDroppedChanged)="onPlayerDroppedChanged($event)"
+  (resultSubmitted)="onResultSubmitted($event)"></mm-match-results>

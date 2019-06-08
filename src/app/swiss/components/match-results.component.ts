@@ -1,29 +1,29 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-import {
-  Pairing,
-  Player
-} from '../shared';
+import { Pairing, Player } from 'app/shared';
+import { Dictionary } from '@ngrx/entity';
 
 @Component({
   selector: 'mm-match-results',
   templateUrl: './match-results.component.html'
 })
 export class MatchResultsComponent implements OnChanges {
+  @Input() playerEntities: Dictionary<Player>;
   @Input() selectedPairing: Pairing;
-  @Output() matchResultCleared = new EventEmitter<Pairing>();
-  @Output() playerDroppedChanged = new EventEmitter<Player>();
-  @Output() resultSubmitted = new EventEmitter<Pairing>();
+  // @Output() matchResultCleared = new EventEmitter<Pairing>();
+  // @Output() playerDroppedChanged = new EventEmitter<Player>();
+  // @Output() resultSubmitted = new EventEmitter<Pairing>();
 
-  matchResultsForm: FormGroup;
+  matchResultsForm: FormGroup = this.fb.group({
+    player1Wins: 0,
+    player2Wins: 0,
+    draws: 0,
+    player1Dropped: false,
+    player2Dropped: false
+  });
   resultValid: boolean;
 
-  constructor(
-    private fb: FormBuilder
-  ) {
-    this.createForm();
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnChanges() {
     this.resetForm();
@@ -82,36 +82,36 @@ export class MatchResultsComponent implements OnChanges {
     //   this.playerDroppedChanged.emit(player2);
     // }
 
-    this.resultSubmitted.emit(this.selectedPairing);
+    // this.resultSubmitted.emit(this.selectedPairing);
   }
 
-  private createForm() {
-    this.matchResultsForm = this.fb.group({
-      player1Wins: 0,
-      player2Wins: 0,
-      draws: 0,
-      player1Dropped: false,
-      player2Dropped: false
-    });
+  // private createForm() {
+  //   this.matchResultsForm = this.fb.group({
+  //     player1Wins: 0,
+  //     player2Wins: 0,
+  //     draws: 0,
+  //     player1Dropped: false,
+  //     player2Dropped: false
+  //   });
 
-    this.resultValid = false;
-    this.matchResultsForm.valueChanges.subscribe(() => this.onValueChanged());
-  }
+  //   this.resultValid = false;
+  //   this.matchResultsForm.valueChanges.subscribe(() => this.onValueChanged());
+  // }
 
-  private onValueChanged() {
-    if (!this.matchResultsForm) {
-      return;
-    }
+  // private onValueChanged() {
+  //   if (!this.matchResultsForm) {
+  //     return;
+  //   }
 
-    const form = this.matchResultsForm;
-    const player1Wins = form.get('player1Wins').value;
-    const player2Wins = form.get('player2Wins').value;
-    const draws = form.get('draws').value;
-    const gamesPlayed = player1Wins + player2Wins + draws;
+  //   const form = this.matchResultsForm;
+  //   const player1Wins = form.get('player1Wins').value;
+  //   const player2Wins = form.get('player2Wins').value;
+  //   const draws = form.get('draws').value;
+  //   const gamesPlayed = player1Wins + player2Wins + draws;
 
-    this.resultValid = gamesPlayed > 0 && player1Wins >= 0 && player1Wins <= 2 && player2Wins >= 0 && player2Wins <= 2 && draws >= 0
-      && player1Wins + player2Wins <= 3;
-  }
+  //   this.resultValid = gamesPlayed > 0 && player1Wins >= 0 && player1Wins <= 2 && player2Wins >= 0 && player2Wins <= 2 && draws >= 0
+  //     && player1Wins + player2Wins <= 3;
+  // }
 
   private resetForm() {
     if (this.selectedPairing) {

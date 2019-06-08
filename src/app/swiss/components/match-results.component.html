@@ -5,7 +5,7 @@
     novalidate>
   <div class="panel-body">
     <div class="form-group">
-      <label for="player1Wins" class="col-xs-4 control-label">{{selectedPairing.player1.name}}:</label>
+      <label for="player1Wins" class="col-xs-4 control-label">{{playerEntities[selectedPairing.player1Id].name}}:</label>
       <div class="col-xs-2">
         <div class="input-group">
           <input type="number" class="form-control" id="player1Wins" min="0" max="2" formControlName="player1Wins">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-group">
-      <label for="player2Wins" class="col-xs-4 control-label">{{selectedPairing.player2.name}}:</label>
+      <label for="player2Wins" class="col-xs-4 control-label">{{playerEntities[selectedPairing.player2Id].name}}:</label>
       <div class="col-xs-2">
         <div class="input-group">
           <input type="number" class="form-control" id="player2Wins" min="0" max="2" formControlName="player2Wins">

@@ -15,7 +15,7 @@ import {
 import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
 import { PlayerEffects, RoundEffects } from 'app/swiss/effects';
 import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
-import { MatchResultsComponent } from 'app/swiss/match-results.component';
+import { MatchResultsComponent } from 'app/swiss/components/match-results.component';
 import { reducers } from 'app/swiss/reducers';
 import { StandingsGuard } from 'app/swiss/standings-guard.service';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
