@@ -12,6 +12,7 @@ import {
   HeaderComponent,
   MessageService,
   PairingService,
+  PairingStorageService,
   PlayerService,
   RoundService,
   RoundStorageService,
@@ -40,6 +41,7 @@ import { reducers } from './reducers';
   providers: [
     MessageService,
     PairingService,
+    PairingStorageService,
     PlayerService,
     PlayerStorageService,
     RoundService,

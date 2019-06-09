@@ -49,6 +49,12 @@ export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
    selectTotal: getTotalPairings
  } = fromPairings.adapter.getSelectors(getPairingsState);
 
+ export const getSelectedPairing = createSelector(
+  getSelectedPairingId,
+  getPairingEntities,
+  (pairingId: number, pairings: Dictionary<Pairing>) => pairings[pairingId]
+);
+
 /**
  * Player selectors.
  */
@@ -126,11 +132,6 @@ export const getRoundsLoaded = createSelector(
   fromRounds.isLoaded
 );
 
-// export const getSelectedPairingId = createSelector(
-//   getRoundsState,
-//   fromRounds.getSelectedPairingId
-// );
-
 export const getSelectedRoundId = createSelector(
   getRoundsState,
   fromRounds.getSelectedRoundId
@@ -154,28 +155,30 @@ export const getSelectedRound = createSelector(
   (roundEntities, selectedRoundId) => selectedRoundId && roundEntities[selectedRoundId]
 );
 
-export const getSelectedRoundPairings = createSelector(
-  getSelectedRound,
-  (round: Round) => round.pairings
+export const hasTournamentStarted = createSelector(
+  getNumberOfRounds,
+  (numberOfRounds: number) => numberOfRounds > 0
 );
 
-export const getSelectedPairing = createSelector(
-  getSelectedPairingId,
-  getSelectedRoundPairings,
-  (pairingId: number, pairings: Pairing[]) => {
-    for (const pairing of pairings) {
-      if (pairing.table === pairingId) {
-        return pairing;
-      }
-    }
+export const isTournamentOver = createSelector(
+  getCompletedRoundId,
+  getNumberOfRounds,
+  (completedRound, numberOfRounds) => completedRound >= numberOfRounds
+);
 
-    return null;
-  }
+/**
+ * Combinations
+ */
+
+export const getSelectedRoundPairings = createSelector(
+  getSelectedRound,
+  getPairingEntities,
+  (round: Round, pairings: Dictionary<Pairing>) => round.pairingIds.map(id => pairings[id])
 );
 
 export const getSelectedRoundComplete = createSelector(
   getSelectedRoundPairings,
-  (pairings: Pairing[]) => pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur)
+  (pairings: Pairing[]) => pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur, false)
 );
 
 export const getSelectedRoundPairingsOutstandingTotal = createSelector(
@@ -222,15 +225,4 @@ export const getSelectedRoundPairingsFiltered = createSelector(
       return player2Name.toLowerCase().includes(filterText);
     }
   )
-);
-
-export const hasTournamentStarted = createSelector(
-  getNumberOfRounds,
-  (numberOfRounds: number) => numberOfRounds > 0
-);
-
-export const isTournamentOver = createSelector(
-  getCompletedRoundId,
-  getNumberOfRounds,
-  (completedRound, numberOfRounds) => completedRound >= numberOfRounds
 );

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
-import { Pairing, PairingService, Round, RoundStorageService } from 'app/shared';
+import { Action } from '@ngrx/store';
+import { Round, RoundStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
@@ -35,12 +34,12 @@ export class RoundEffects implements OnInitEffects {
     )
   );
 
-  @Effect()
-  clearMatchResult$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.ClearMatchResult),
-    map(action => action.payload),
-    mergeMap(pairing =>)
-  );
+  // @Effect()
+  // clearMatchResult$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PairingsPageActions.PairingsPageActionTypes.ClearMatchResult),
+  //   map(action => action.payload),
+  //   mergeMap(pairing =>)
+  // );
 
   @Effect()
   createFirstRound$: Observable<Action> = this.actions$.pipe(
@@ -75,26 +74,26 @@ export class RoundEffects implements OnInitEffects {
     catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
   );
 
-  @Effect()
-  redoMatches$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
-    map(action => action.payload),
-    map(roundId => ({
-      id: roundId,
-      pairings: []
-    })),
-    mergeMap((round: Round) =>
-      this.storageService.updateRound(round).pipe(
-        map(() => new RoundApiActions.UpdateRoundSuccess({
-          id: round.id,
-          changes: {
-            pairings: round.pairings
-          }
-        })),
-        catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
-      )
-    )
-  );
+  // @Effect()
+  // redoMatches$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
+  //   map(action => action.payload),
+  //   map(roundId => ({
+  //     id: roundId,
+  //     pairings: []
+  //   })),
+  //   mergeMap((round: Round) =>
+  //     this.storageService.updateRound(round).pipe(
+  //       map(() => new RoundApiActions.UpdateRoundSuccess({
+  //         id: round.id,
+  //         changes: {
+  //           pairings: round.pairings
+  //         }
+  //       })),
+  //       catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
+  //     )
+  //   )
+  // );
 
   constructor(
     private actions$: Actions<
@@ -102,10 +101,8 @@ export class RoundEffects implements OnInitEffects {
       | PlayersPageActions.PlayersPageActionsUnion
       | RoundApiActions.RoundApiActionsUnion
     >,
-    private pairingsService: PairingService,
     private router: Router,
-    private storageService: RoundStorageService,
-    private store: Store<fromSwiss.State>
+    private storageService: RoundStorageService
   ) {}
 
   ngrxOnInitEffects(): Action {

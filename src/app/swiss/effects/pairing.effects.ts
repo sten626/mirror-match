@@ -13,25 +13,24 @@ export class PairingEffects implements OnInitEffects {
   createPairings$: Observable<Action> = this.actions$.pipe(
     ofType(PairingsPageActions.PairingsPageActionTypes.CreatePairings),
     map(action => action.payload),
-    mergeMap((round: number) => {
+    mergeMap((roundId: number) => {
       const isLastRound$ = this.store.pipe(
         select(fromSwiss.getNumberOfRounds),
-        map(numberOfRounds => round === numberOfRounds)
+        map(numberOfRounds => roundId === numberOfRounds)
       );
       const activePlayers$ = this.store.pipe(
         select(fromSwiss.getActivePlayers)
       );
 
       return combineLatest(isLastRound$, activePlayers$).pipe(
-        mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(round, isLastRound, players, this.nextId)),
-        map((pairings: Pairing[]) => ({
-          id: round,
-          pairings: pairings
-        })),
-        mergeMap((r: Round) =>
-          this.storageService.updateRound(r).pipe(
-            map(() => new RoundApiActions.CreatePairingsSuccess(r)),
-            catchError(err => of(new RoundApiActions.CreatePairingsFailure(err)))
+        mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(roundId, isLastRound, players, this.nextId)),
+        mergeMap((pairings: Pairing[]) =>
+          this.storageService.addPairings(pairings).pipe(
+            map((value: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
+              roundId: roundId,
+              pairings: value
+            })),
+            catchError(err => of(new PairingsApiActions.CreatePairingsFailure(err)))
           )
         )
       );
@@ -43,7 +42,13 @@ export class PairingEffects implements OnInitEffects {
     ofType(PairingsApiActions.PairingsApiActionTypes.LoadPairings),
     switchMap(() =>
       this.storageService.getPairings().pipe(
-        tap((pairings: Pairing[]) => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
+        tap((pairings: Pairing[]) => {
+          if (pairings.length > 0) {
+            this.nextId = Math.max(...pairings.map(p => p.id)) + 1;
+          } else {
+            this.nextId = 1;
+          }
+        }),
         map((pairings: Pairing[]) => new PairingsApiActions.LoadPairingsSuccess(pairings)),
         catchError(err => of(new PairingsApiActions.LoadPairingsFailure(err)))
       )

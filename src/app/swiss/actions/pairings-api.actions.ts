@@ -2,16 +2,23 @@ import { Action } from '@ngrx/store';
 import { Pairing } from 'app/shared';
 
 export enum PairingsApiActionTypes {
+  CreatePairingsFailure = '[Pairings/API] Create Pairings Failure',
   CreatePairingsSuccess = '[Pairings/API] Create Pairings Success',
   LoadPairings = '[Pairings/API] Load Pairings',
   LoadPairingsFailure = '[Pairings/API] Load Pairings Failure',
   LoadPairingsSuccess = '[Pairings/API] Load Pairings Success'
 }
 
+export class CreatePairingsFailure implements Action {
+  readonly type = PairingsApiActionTypes.CreatePairingsFailure;
+
+  constructor(public payload: any) {}
+}
+
 export class CreatePairingsSuccess implements Action {
   readonly type = PairingsApiActionTypes.CreatePairingsSuccess;
 
-  constructor(public payload: {round: number, pairings: Pairing[]}) {}
+  constructor(public payload: {roundId: number, pairings: Pairing[]}) {}
 }
 
 export class LoadPairings implements Action {
@@ -31,7 +38,8 @@ export class LoadPairingsSuccess implements Action {
 }
 
 export type PairingsApiActionsUnion =
-  CreatePairingsSuccess
+  CreatePairingsFailure
+  | CreatePairingsSuccess
   | LoadPairings
   | LoadPairingsFailure
   | LoadPairingsSuccess;

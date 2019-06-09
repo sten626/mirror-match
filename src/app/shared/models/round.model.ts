@@ -1,6 +1,6 @@
 interface RoundInterface {
   id: number;
-  pairingIds: string[];
+  pairingIds: number[];
 }
 
 export type Round = Readonly<RoundInterface>;

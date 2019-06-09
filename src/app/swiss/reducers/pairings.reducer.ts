@@ -17,6 +17,10 @@ export function reducer(
   action: PairingsApiActions.PairingsApiActionsUnion
 ): State {
   switch (action.type) {
+    case (PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess): {
+      const pairings = action.payload.pairings;
+      return adapter.addMany(pairings, state);
+    }
     case (PairingsApiActions.PairingsApiActionTypes.LoadPairingsSuccess): {
       return adapter.addAll(action.payload, state);
     }
