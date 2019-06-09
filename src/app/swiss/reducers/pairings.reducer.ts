@@ -1,13 +1,12 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Pairing } from 'app/shared';
+import { PairingsApiActions } from '../actions';
 
 export interface State extends EntityState<Pairing> {
-  selectedPairingId: string | null;
+  selectedPairingId: number | null;
 }
 
-export const adapter: EntityAdapter<Pairing> = createEntityAdapter<Pairing>({
-  selectId: (pairing: Pairing) => `${pairing.roundId}-${pairing.table}`
-});
+export const adapter: EntityAdapter<Pairing> = createEntityAdapter<Pairing>();
 
 export const initialState: State = adapter.getInitialState({
   selectedPairingId: null
@@ -15,9 +14,12 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action
+  action: PairingsApiActions.PairingsApiActionsUnion
 ): State {
   switch (action.type) {
+    case (PairingsApiActions.PairingsApiActionTypes.LoadPairingsSuccess): {
+      return adapter.addAll(action.payload, state);
+    }
     default: {
       return state;
     }

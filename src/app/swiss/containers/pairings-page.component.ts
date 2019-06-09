@@ -97,8 +97,8 @@ export class PairingsPageComponent {
     this.store.dispatch(new PairingsPageActions.ClearMatchResult(pairing));
   }
 
-  createPairings(round: number): void {
-    this.store.dispatch(new PairingsPageActions.CreatePairings(round));
+  createPairings(roundId: number): void {
+    this.store.dispatch(new PairingsPageActions.CreatePairings(roundId));
   }
 
   // generatePairings(): void {

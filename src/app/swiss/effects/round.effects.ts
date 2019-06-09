@@ -58,35 +58,6 @@ export class RoundEffects implements OnInitEffects {
   );
 
   @Effect()
-  createPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.CreatePairings),
-    map(action => action.payload),
-    mergeMap((round: number) => {
-      const isLastRound$ = this.store.pipe(
-        select(fromSwiss.getNumberOfRounds),
-        map(numberOfRounds => round === numberOfRounds)
-      );
-      const activePlayers$ = this.store.pipe(
-        select(fromSwiss.getActivePlayers)
-      );
-
-      return combineLatest(isLastRound$, activePlayers$).pipe(
-        mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(round, isLastRound, players)),
-        map((pairings: Pairing[]) => ({
-          id: round,
-          pairings: pairings
-        })),
-        mergeMap((r: Round) =>
-          this.storageService.updateRound(r).pipe(
-            map(() => new RoundApiActions.CreatePairingsSuccess(r)),
-            catchError(err => of(new RoundApiActions.CreatePairingsFailure(err)))
-          )
-        )
-      );
-    })
-  );
-
-  @Effect()
   loadRounds$: Observable<Action> = this.actions$.pipe(
     ofType(RoundApiActions.RoundApiActionTypes.LoadRounds),
     mergeMap(() => {
