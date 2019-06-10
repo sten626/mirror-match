@@ -1,12 +1,12 @@
-import { Action } from '@ngrx/store';
-import { Round } from 'app/shared';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+import { Pairing, Round } from 'app/shared';
 
 export enum RoundApiActionTypes {
+  AddPairingsFailure = '[Round/API] Add Pairings Failure',
+  AddPairingsSuccess = '[Round/API] Add Pairings Success',
   BeginEventFailure = '[Round/API] Begin Event Failure',
   BeginEventSuccess = '[Round/API] Begin Event Success',
-  CreatePairingsFailure = '[Round/API] Create Pairings Failure',
-  CreatePairingsSuccess = '[Round/API] Create Pairings Success',
   CreateRoundFailure = '[Round/API] Create Round Failure',
   CreateRoundSuccess = '[Round/API] Create Round Success',
   LoadRounds = '[Round/API] Load Rounds',
@@ -16,6 +16,18 @@ export enum RoundApiActionTypes {
   SelectRoundSuccess = '[Round/API] Select Round Success',
   UpdateRoundFailure = '[Round/API] Update Round Failure',
   UpdateRoundSuccess = '[Round/API] Update Round Success'
+}
+
+export class AddPairingsFailure implements Action {
+  readonly type = RoundApiActionTypes.AddPairingsFailure;
+
+  constructor(public payload: any) {}
+}
+
+export class AddPairingsSuccess implements Action {
+  readonly type = RoundApiActionTypes.AddPairingsSuccess;
+
+  constructor(public payload: {roundId: number, pairings: Pairing[]}) {}
 }
 
 export class BeginEventFailure implements Action {
@@ -28,18 +40,6 @@ export class BeginEventSuccess implements Action {
   readonly type = RoundApiActionTypes.BeginEventSuccess;
 
   constructor(public payload: number) {}
-}
-
-export class CreatePairingsFailure implements Action {
-  readonly type = RoundApiActionTypes.CreatePairingsFailure;
-
-  constructor(public payload: any) {}
-}
-
-export class CreatePairingsSuccess implements Action {
-  readonly type = RoundApiActionTypes.CreatePairingsSuccess;
-
-  constructor(public payload: Round) {}
 }
 
 export class CreateRoundFailure implements Action {
@@ -99,10 +99,10 @@ export class UpdateRoundSuccess implements Action {
 }
 
 export type RoundApiActionsUnion =
-  BeginEventFailure
+  AddPairingsFailure
+  | AddPairingsSuccess
+  | BeginEventFailure
   | BeginEventSuccess
-  | CreatePairingsFailure
-  | CreatePairingsSuccess
   | CreateRoundFailure
   | CreateRoundSuccess
   | LoadRounds

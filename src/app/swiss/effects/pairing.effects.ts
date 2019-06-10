@@ -10,6 +10,18 @@ import { map, mergeMap, switchMap, catchError, tap } from 'rxjs/operators';
 @Injectable()
 export class PairingEffects implements OnInitEffects {
   @Effect()
+  addPairings$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
+    map(action => action.payload.pairings),
+    mergeMap((pairings: Pairing[]) =>
+      this.storageService.addPairings(pairings).pipe(
+        map(() => new PairingsApiActions.AddPairingsSuccess(pairings)),
+        catchError(err => of(new PairingsApiActions.AddPairingsFailure(err)))
+      )
+    )
+  );
+
+  @Effect()
   createPairings$: Observable<Action> = this.actions$.pipe(
     ofType(PairingsPageActions.PairingsPageActionTypes.CreatePairings),
     map(action => action.payload),
@@ -23,16 +35,23 @@ export class PairingEffects implements OnInitEffects {
       );
 
       return combineLatest(isLastRound$, activePlayers$).pipe(
-        mergeMap(([isLastRound, players]) => this.pairingsService.createPairings(roundId, isLastRound, players, this.nextId)),
-        mergeMap((pairings: Pairing[]) =>
-          this.storageService.addPairings(pairings).pipe(
-            map((value: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
+        mergeMap(([isLastRound, players]) =>
+          this.pairingsService.createPairings(roundId, isLastRound, players, this.nextId).pipe(
+            map((pairings: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
               roundId: roundId,
-              pairings: value
-            })),
-            catchError(err => of(new PairingsApiActions.CreatePairingsFailure(err)))
+              pairings: pairings
+            }))
           )
         )
+        // mergeMap((pairings: Pairing[]) =>
+        //   this.storageService.addPairings(pairings).pipe(
+        //     map((value: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
+        //       roundId: roundId,
+        //       pairings: value
+        //     })),
+        //     catchError(err => of(new PairingsApiActions.CreatePairingsFailure(err)))
+        //   )
+        // )
       );
     })
   );
@@ -58,7 +77,10 @@ export class PairingEffects implements OnInitEffects {
   private nextId = 1;
 
   constructor(
-    private actions$: Actions<PairingsPageActions.PairingsPageActionsUnion>,
+    private actions$: Actions<
+      PairingsApiActions.PairingsApiActionsUnion
+      | PairingsPageActions.PairingsPageActionsUnion
+    >,
     private pairingsService: PairingService,
     private storageService: PairingStorageService,
     private store: Store<fromSwiss.State>

@@ -3,12 +3,27 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Round, RoundStorageService } from 'app/shared';
-import { PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
+import { PairingsPageActions, PlayersPageActions, RoundApiActions, PairingsApiActions } from 'app/swiss/actions';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RoundEffects implements OnInitEffects {
+  @Effect()
+  addPairings$: Observable<Action> = this.actions$.pipe(
+    ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
+    map(action => action.payload),
+    mergeMap(({roundId, pairings}) =>
+      this.storageService.updateRound({
+        id: roundId,
+        pairingIds: pairings.map(pairing => pairing.id)
+      }).pipe(
+        map(() => new RoundApiActions.AddPairingsSuccess({roundId, pairings})),
+        catchError(err => of(new RoundApiActions.AddPairingsFailure(err)))
+      )
+    )
+  );
+
   @Effect()
   beginEvent$: Observable<Action> = this.actions$.pipe(
     ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
@@ -97,7 +112,8 @@ export class RoundEffects implements OnInitEffects {
 
   constructor(
     private actions$: Actions<
-      PairingsPageActions.PairingsPageActionsUnion
+      PairingsApiActions.PairingsApiActionsUnion
+      | PairingsPageActions.PairingsPageActionsUnion
       | PlayersPageActions.PlayersPageActionsUnion
       | RoundApiActions.RoundApiActionsUnion
     >,

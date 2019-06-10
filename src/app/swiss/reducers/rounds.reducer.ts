@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Round } from 'app/shared';
-import { RoundApiActions, PairingsPageActions, PairingsApiActions } from '../actions';
+import { PairingsPageActions, RoundApiActions } from '../actions';
 
 export interface State extends EntityState<Round> {
   completedRoundId: number;
@@ -27,21 +27,10 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(
   state = initialState,
   action:
-    PairingsApiActions.PairingsApiActionsUnion
-    | PairingsPageActions.PairingsPageActionsUnion
+    PairingsPageActions.PairingsPageActionsUnion
     | RoundApiActions.RoundApiActionsUnion
 ): State {
   switch (action.type) {
-    case PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess: {
-      const {roundId, pairings} = action.payload;
-      const pairingIds = pairings.map(pairing => pairing.id);
-      return adapter.updateOne({
-        id: roundId,
-        changes: {
-          pairingIds: pairingIds
-        }
-      }, state);
-    }
     case PairingsPageActions.PairingsPageActionTypes.SelectPairing: {
       return {
         ...state,
@@ -60,24 +49,26 @@ export function reducer(
         showOutstandingOnly: action.payload
       };
     }
+    case RoundApiActions.RoundApiActionTypes.AddPairingsSuccess: {
+      const {roundId, pairings} = action.payload;
+      const pairingIds = pairings.map(pairing => pairing.id);
+      return {
+        ...adapter.updateOne({
+          id: roundId,
+          changes: {
+            pairingIds: pairingIds
+          }
+        }, state),
+        pairingsFilterText: '',
+        showOutstandingOnly: true
+      };
+    }
     case RoundApiActions.RoundApiActionTypes.BeginEventSuccess: {
       return {
         ...state,
         numberOfRounds: action.payload
       };
     }
-    // case RoundApiActions.RoundApiActionTypes.CreatePairingsSuccess: {
-    //   return {
-    //     ...adapter.updateOne({
-    //       id: action.payload.id,
-    //       changes: {
-    //         pairings: action.payload.pairings
-    //       }
-    //     }, state),
-    //     pairingsFilterText: '',
-    //     showOutstandingOnly: true
-    //   };
-    // }
     case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
       return {
         ...adapter.addOne(action.payload, state),

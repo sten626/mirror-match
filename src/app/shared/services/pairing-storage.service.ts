@@ -8,7 +8,7 @@ import { StorageService } from './storage.service';
 export class PairingStorageService extends StorageService {
   private pairingsKey = 'mm-pairings';
 
-  addPairings(pairings: Pairing[]) {
+  addPairings(pairings: Pairing[]): Observable<Pairing[]> {
     return this.getPairings().pipe(
       map((value: Pairing[]) => value.concat(pairings)),
       tap((value: Pairing[]) => this.storage.setItem(this.pairingsKey, JSON.stringify(value))),
