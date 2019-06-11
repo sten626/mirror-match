@@ -12,7 +12,14 @@ export class PairingStorageService extends StorageService {
     return this.getPairings().pipe(
       map((value: Pairing[]) => value.concat(pairings)),
       tap((value: Pairing[]) => this.storage.setItem(this.pairingsKey, JSON.stringify(value))),
-      map(() => pairings)
+    );
+  }
+
+  deletePairings(ids: number[]): Observable<number[]> {
+    return this.getPairings().pipe(
+      map((pairings: Pairing[]) => pairings.filter(pairing => !ids.includes(pairing.id))),
+      tap((pairings: Pairing[]) => this.storage.setItem(this.pairingsKey, JSON.stringify(pairings))),
+      map(() => ids)
     );
   }
 

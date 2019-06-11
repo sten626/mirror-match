@@ -9,17 +9,17 @@ import { map, mergeMap, switchMap, catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
-  @Effect()
-  addPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
-    map(action => action.payload.pairings),
-    mergeMap((pairings: Pairing[]) =>
-      this.storageService.addPairings(pairings).pipe(
-        map(() => new PairingsApiActions.AddPairingsSuccess(pairings)),
-        catchError(err => of(new PairingsApiActions.AddPairingsFailure(err)))
-      )
-    )
-  );
+  // @Effect()
+  // addPairings$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
+  //   map(action => action.payload.pairings),
+  //   mergeMap((pairings: Pairing[]) =>
+  //     this.storageService.addPairings(pairings).pipe(
+  //       map(() => new PairingsApiActions.AddPairingsSuccess(pairings)),
+  //       catchError(err => of(new PairingsApiActions.AddPairingsFailure(err)))
+  //     )
+  //   )
+  // );
 
   @Effect()
   createPairings$: Observable<Action> = this.actions$.pipe(
@@ -43,15 +43,6 @@ export class PairingEffects implements OnInitEffects {
             }))
           )
         )
-        // mergeMap((pairings: Pairing[]) =>
-        //   this.storageService.addPairings(pairings).pipe(
-        //     map((value: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
-        //       roundId: roundId,
-        //       pairings: value
-        //     })),
-        //     catchError(err => of(new PairingsApiActions.CreatePairingsFailure(err)))
-        //   )
-        // )
       );
     })
   );
@@ -73,6 +64,24 @@ export class PairingEffects implements OnInitEffects {
       )
     )
   );
+
+  // @Effect()
+  // redoMatches$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
+  //   map(action => action.payload),
+  //   mergeMap((roundId: number) =>
+  //     this.store.pipe(
+  //       select(fromSwiss.getRoundEntities),
+  //       map(roundEntities => roundEntities[roundId].pairingIds)
+  //     )
+  //   ),
+  //   mergeMap(pairingIds =>
+  //     this.storageService.deletePairings(pairingIds).pipe(
+  //       map((value: number[]) => new PairingsApiActions.DeletePairingsSuccess(value)),
+  //       catchError(err => of(new PairingsApiActions.DeletePairingsFailure(err)))
+  //     )
+  //   )
+  // );
 
   private nextId = 1;
 

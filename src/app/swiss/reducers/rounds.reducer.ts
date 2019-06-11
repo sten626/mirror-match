@@ -86,6 +86,16 @@ export function reducer(
         selectedRoundId: selectedRoundId
       };
     }
+    case RoundApiActions.RoundApiActionTypes.RedoMatchesSuccess: {
+      const roundId = action.payload.roundId;
+
+      return adapter.updateOne({
+        id: roundId,
+        changes: {
+          pairingIds: []
+        }
+      }, state);
+    }
     case RoundApiActions.RoundApiActionTypes.UpdateRoundSuccess: {
       return adapter.updateOne(action.payload, state);
     }
