@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Pairing } from 'app/shared';
-import { PairingsApiActions, RoundApiActions } from '../actions';
+import { PairingsApiActions } from '../actions';
 
 export interface State extends EntityState<Pairing> {
   selectedPairingId: number | null;
@@ -14,23 +14,15 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: PairingsApiActions.PairingsApiActionsUnion | RoundApiActions.RoundApiActionsUnion
+  action: PairingsApiActions.PairingsApiActionsUnion
 ): State {
   switch (action.type) {
-    // case (PairingsApiActions.PairingsApiActionTypes.DeletePairingsSuccess): {
-    //   return adapter.removeMany(action.payload, state);
-    // }
-    case (PairingsApiActions.PairingsApiActionTypes.LoadPairingsSuccess): {
-      return adapter.addAll(action.payload, state);
-    }
-    case (RoundApiActions.RoundApiActionTypes.AddPairingsSuccess): {
+    case (PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess): {
       const pairings = action.payload.pairings;
       return adapter.addMany(pairings, state);
     }
-    case (RoundApiActions.RoundApiActionTypes.RedoMatchesSuccess): {
-      const pairingIds = action.payload.pairingIds;
-
-      return adapter.removeMany(pairingIds, state);
+    case (PairingsApiActions.PairingsApiActionTypes.LoadPairingsSuccess): {
+      return adapter.addAll(action.payload, state);
     }
     default: {
       return state;

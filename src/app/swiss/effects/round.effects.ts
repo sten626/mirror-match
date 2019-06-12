@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, State, select } from '@ngrx/store';
-import { PairingStorageService, Round, RoundStorageService } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
+import { Action } from '@ngrx/store';
+import { Round, RoundStorageService } from 'app/shared';
+import { PairingsPageActions, PlayersPageActions, RoundApiActions, PairingsApiActions } from 'app/swiss/actions';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
@@ -14,18 +13,15 @@ export class RoundEffects implements OnInitEffects {
   addPairings$: Observable<Action> = this.actions$.pipe(
     ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
     map(action => action.payload),
-    mergeMap(({roundId, pairings}) => {
-      const updateRound$ = this.storageService.updateRound({
+    mergeMap(({roundId, pairings}) =>
+      this.storageService.updateRound({
         id: roundId,
         pairingIds: pairings.map(pairing => pairing.id)
-      });
-      const addPairingsResult$ = this.pairingStorageService.addPairings(pairings);
-
-      return combineLatest(updateRound$, addPairingsResult$).pipe(
+      }).pipe(
         map(() => new RoundApiActions.AddPairingsSuccess({roundId, pairings})),
         catchError(err => of(new RoundApiActions.AddPairingsFailure(err)))
-      );
-    })
+      )
+    )
   );
 
   @Effect()
@@ -93,42 +89,26 @@ export class RoundEffects implements OnInitEffects {
     catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
   );
 
-  @Effect()
-  redoMatches$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.xF),
-    map(action => action.payload),
-    mergeMap((roundId: number) =>
-      this.store.pipe(
-        select(fromSwiss.getRoundEntities),
-        map(roundEntities => roundEntities[roundId].pairingIds),
-        mergeMap(pairingIds => {
-          const updateRound$ = this.storageService.updateRound({
-            id: roundId,
-            pairingIds: []
-          });
-          const deletePairings$ = this.pairingStorageService.deletePairings(pairingIds);
-
-          return combineLatest(updateRound$, deletePairings$).pipe(
-            map(() => new RoundApiActions.RedoMatchesSuccess({roundId, pairingIds})),
-            catchError(err => of(new RoundApiActions.RedoMatchesFailure(err)))
-          );
-        })
-      )
-    )
-      // this.storageService.updateRound({
-      //   id: roundId,
-      //   pairingIds: []
-      // }).pipe(
-      //   map(() => new RoundApiActions.UpdateRoundSuccess({
-      //     id: roundId,
-      //     changes: {
-      //       pairingIds: []
-      //     }
-      //   })),
-      //   catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
-      // )
-    // )
-  );
+  // @Effect()
+  // redoMatches$: Observable<Action> = this.actions$.pipe(
+  //   ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
+  //   map(action => action.payload),
+  //   map(roundId => ({
+  //     id: roundId,
+  //     pairings: []
+  //   })),
+  //   mergeMap((round: Round) =>
+  //     this.storageService.updateRound(round).pipe(
+  //       map(() => new RoundApiActions.UpdateRoundSuccess({
+  //         id: round.id,
+  //         changes: {
+  //           pairings: round.pairings
+  //         }
+  //       })),
+  //       catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
+  //     )
+  //   )
+  // );
 
   constructor(
     private actions$: Actions<
@@ -137,10 +117,8 @@ export class RoundEffects implements OnInitEffects {
       | PlayersPageActions.PlayersPageActionsUnion
       | RoundApiActions.RoundApiActionsUnion
     >,
-    private pairingStorageService: PairingStorageService,
     private router: Router,
-    private storageService: RoundStorageService,
-    private store: State<fromSwiss.State>
+    private storageService: RoundStorageService
   ) {}
 
   ngrxOnInitEffects(): Action {

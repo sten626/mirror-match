@@ -45,13 +45,12 @@ export class RoundStorageService extends StorageService {
 
   // }
 
-  updateRound(round: Round): Observable<Round> {
+  updateRound(round: Round): Observable<Round[]> {
     return this.getRounds().pipe(
       map((rounds: Round[]) => rounds.map(r => r.id === round.id ? round : r)),
       tap((rounds: Round[]) =>
         this.storage.setItem(this.roundsKey, JSON.stringify(rounds))
-      ),
-      map(() => round)
+      )
     );
   }
 }
