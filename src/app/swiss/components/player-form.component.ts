@@ -58,10 +58,7 @@ export class PlayerFormComponent implements OnChanges {
     }
 
     if (this.addMode) {
-      const player: Player = {
-        name: name
-      };
-      this.addPlayer.emit(player);
+      this.addPlayer.emit(name);
       this.clearForm();
     } else {
       this.updatePlayerName.emit({

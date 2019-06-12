@@ -1,93 +1,98 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { Player, PlayerStorageService } from 'app/shared';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Player, playerDefaults, PlayerStorageService } from 'app/shared';
 import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
-  @Effect()
-  addPlayer$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.AddPlayer),
-    map(action => action.payload),
+  addPlayer$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.addPlayer),
+    map(({playerName}) => ({
+      ...playerDefaults,
+      id: this.nextId++,
+      name: playerName
+    }) as Player),
     mergeMap(player =>
       this.storageService.addPlayer(player).pipe(
-        map((value: Player) => new PlayersApiActions.AddPlayerSuccess(value)),
-        catchError((err) => {
-          console.error(err);
-          return of(new PlayersApiActions.AddPlayerFailure(player));
-        })
+        map(() => PlayersApiActions.addPlayerSuccess({player}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  deletePlayer$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.DeletePlayer),
-    map(action => action.payload),
-    mergeMap(player =>
-      this.storageService.removePlayers([player.id]).pipe(
-        map(() => new PlayersApiActions.DeletePlayerSuccess(player)),
-        catchError(() => of(new PlayersApiActions.DeletePlayerFailure(player)))
+  deletePlayers$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.deletePlayer),
+    mergeMap(({playerId}) =>
+      this.storageService.removePlayers([playerId]).pipe(
+        map(() => PlayersApiActions.deletePlayerSuccess({playerId}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  dropPlayer$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.DropPlayer),
-    map(action => action.payload),
-    mergeMap(player =>
-      this.storageService.updatePlayer(player).pipe(
-        map(() => new PlayersApiActions.DropPlayerSuccess({
-          id: player.id,
-          changes: {
-            dropped: true
-          }
-        })),
-        catchError((err) => of(new PlayersApiActions.DropPlayerFailure(err)))
-      )
-    )
-  );
-
-  @Effect()
-  loadPlayers$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersApiActions.PlayersApiActionTypes.LoadPlayers),
+  loadPlayers$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersApiActions.loadPlayers),
     switchMap(() =>
       this.storageService.getPlayers().pipe(
-        map((players: Player[]) => new PlayersApiActions.LoadPlayersSuccess(players)),
-        catchError((err) => of(new PlayersApiActions.LoadPlayersFailure(err)))
+        tap(players => {
+          if (players.length > 0) {
+            this.nextId = Math.max(...players.map(p => p.id)) + 1;
+          } else {
+            this.nextId = 1;
+          }
+        }),
+        map(players => PlayersApiActions.loadPlayersSuccess({players}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  updatePlayer$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.UpdatePlayer),
-    map(action => action.payload),
-    mergeMap(({player, changes}) => {
-      const updatedPlayer: Player = {
-        ...player,
-        ...changes
-      };
-      return this.storageService.updatePlayer(updatedPlayer).pipe(
-        map(() => new PlayersApiActions.UpdatePlayerSuccess({
-          id: player.id,
-          changes: changes
-        })),
-        catchError(() => of(new PlayersApiActions.UpdatePlayerFailure(player)))
-      );
-    })
-  );
+  togglePlayerDropped$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.togglePlayerDropped),
+    map(({player}) => ({
+      ...player,
+      dropped: !player.dropped
+    }) as Player),
+    mergeMap(player =>
+      this.storageService.updatePlayer(player).pipe(
+        map(() => PlayersApiActions.updatePlayer({
+          player: {
+            id: player.id,
+            changes: {
+              dropped: player.dropped
+            }
+          }
+        }))
+      )
+    )
+  ));
+
+  updatePlayerName$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.updatePlayerName),
+    map(({player, name}) => ({
+      ...player,
+      name: name
+    }) as Player),
+    mergeMap(player =>
+      this.storageService.updatePlayer(player).pipe(
+        map(() => PlayersApiActions.updatePlayer({
+          player: {
+            id: player.id,
+            changes: {
+              name: player.name
+            }
+          }
+        }))
+      )
+    )
+  ));
+
+  private nextId = 1;
 
   constructor(
-    private actions$: Actions<PlayersPageActions.PlayersPageActionsUnion>,
+    private actions$: Actions,
     private storageService: PlayerStorageService
   ) {}
 
   ngrxOnInitEffects() {
-    return new PlayersApiActions.LoadPlayers();
+    return PlayersApiActions.loadPlayers();
   }
 }

@@ -42,10 +42,10 @@ export class PlayersPageComponent {
 
   /**
    * Dispatch an AddPlayer action.
-   * @param player The new Player to add.
+   * @param playerName The name of the new player to add.
    */
-  addPlayer(player: Player): void {
-    this.store.dispatch(new PlayersPageActions.AddPlayer(player));
+  addPlayer(playerName: string) {
+    this.store.dispatch(PlayersPageActions.addPlayer({playerName}));
   }
 
   /**
@@ -57,12 +57,12 @@ export class PlayersPageComponent {
 
   /**
    * Dispath a DeletePlayer action and clear it if it was the selected player.
-   * @param player The Player to be deleted.
+   * @param playerId The id of the player to delete.
    */
-  deletePlayer(player: Player): void {
-    this.store.dispatch(new PlayersPageActions.DeletePlayer(player));
+  deletePlayer(playerId: number): void {
+    this.store.dispatch(PlayersPageActions.deletePlayer({playerId}));
 
-    if (player === this.selectedPlayer) {
+    if (playerId === this.selectedPlayer.id) {
       this.clearSelectedPlayer();
     }
   }
@@ -84,12 +84,7 @@ export class PlayersPageComponent {
   }
 
   togglePlayerDropped(player: Player): void {
-    this.store.dispatch(new PlayersPageActions.UpdatePlayer({
-      player: player,
-      changes: {
-        dropped: !player.dropped
-      }
-    }));
+    this.store.dispatch(PlayersPageActions.togglePlayerDropped({player}));
     this.selectedPlayer = null;
   }
 
@@ -100,11 +95,6 @@ export class PlayersPageComponent {
       return;
     }
 
-    this.store.dispatch(new PlayersPageActions.UpdatePlayer({
-      player: player,
-      changes: {
-        name: name
-      }
-    }));
+    this.store.dispatch(PlayersPageActions.updatePlayerName({player, name}));
   }
 }
