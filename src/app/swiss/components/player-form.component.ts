@@ -16,7 +16,7 @@ export class PlayerFormComponent implements OnChanges {
   @Output() togglePlayerDropped = new EventEmitter<Player>();
   @Output() updatePlayerName = new EventEmitter<{player: Player, name: string}>();
 
-  @ViewChild('name') playerNameElement: ElementRef;
+  @ViewChild('name', { static: true }) playerNameElement: ElementRef;
 
   addMode = false;
   isPlayerDroppable = false;

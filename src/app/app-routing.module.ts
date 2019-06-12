@@ -7,7 +7,7 @@ export const routes: Routes = [{
   component: HomeComponent
 }, {
   path: 'swiss',
-  loadChildren: './swiss/swiss.module#SwissModule'
+  loadChildren: () => import('./swiss/swiss.module').then(m => m.SwissModule)
 }];
 
 @NgModule({
