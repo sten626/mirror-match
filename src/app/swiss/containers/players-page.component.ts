@@ -71,8 +71,8 @@ export class PlayersPageComponent {
    * Use the RoundService to create the first round and then navigate to the pairings page.
    * @param numOfRounds The number of rounds for the tournmant to have.
    */
-  onStartTournament(numOfRounds: number): void {
-    this.store.dispatch(new PlayersPageActions.BeginEvent(numOfRounds));
+  onStartTournament(numberOfRounds: number): void {
+    this.store.dispatch(PlayersPageActions.beginEvent({numberOfRounds}));
   }
 
   /**

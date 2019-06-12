@@ -93,12 +93,12 @@ export class PairingsPageComponent {
   //   // this.roundService.createNextRound();
   // }
 
-  clearMatchResult(pairing: Pairing): void {
-    this.store.dispatch(new PairingsPageActions.ClearMatchResult(pairing));
+  clearMatchResult(pairingId: number): void {
+    this.store.dispatch(PairingsPageActions.clearMatchResult({pairingId}));
   }
 
   createPairings(roundId: number): void {
-    this.store.dispatch(new PairingsPageActions.CreatePairings(roundId));
+    this.store.dispatch(PairingsPageActions.createPairings({roundId}));
   }
 
   // generatePairings(): void {
@@ -127,23 +127,23 @@ export class PairingsPageComponent {
   // }
 
   redoMatches(roundId: number): void {
-    this.store.dispatch(new PairingsPageActions.RedoMatches(roundId));
+    this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
   }
 
   roundChanged(roundId: number): void {
-    this.store.dispatch(new PairingsPageActions.ChangeSelectedRound(roundId));
+    this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
   }
 
-  selectPairing(table: number): void {
-    this.store.dispatch(new PairingsPageActions.SelectPairing(table));
+  selectPairing(pairingId: number): void {
+    this.store.dispatch(PairingsPageActions.selectPairing({pairingId}));
   }
 
   updateFilterText(filterText: string): void {
-    this.store.dispatch(new PairingsPageActions.UpdatePairingsFilterText(filterText));
+    console.log('Not implemented. ' + filterText);
   }
 
   updateShowOutstandingOnly(showOutstandingOnly: boolean): void {
-    this.store.dispatch(new PairingsPageActions.UpdateShowOutstandingOnly(showOutstandingOnly));
+    console.log('Not implemented. ' + showOutstandingOnly);
   }
 
   // onResultSubmitted(pairing: Pairing): void {

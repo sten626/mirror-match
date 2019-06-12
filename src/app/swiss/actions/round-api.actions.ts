@@ -1,114 +1,36 @@
 import { Update } from '@ngrx/entity';
-import { Action } from '@ngrx/store';
-import { Pairing, Round } from 'app/shared';
+import { createAction, props } from '@ngrx/store';
+import { Round } from 'app/shared';
 
-export enum RoundApiActionTypes {
-  AddPairingsFailure = '[Round/API] Add Pairings Failure',
-  AddPairingsSuccess = '[Round/API] Add Pairings Success',
-  BeginEventFailure = '[Round/API] Begin Event Failure',
-  BeginEventSuccess = '[Round/API] Begin Event Success',
-  CreateRoundFailure = '[Round/API] Create Round Failure',
-  CreateRoundSuccess = '[Round/API] Create Round Success',
-  LoadRounds = '[Round/API] Load Rounds',
-  LoadRoundsFailure = '[Round/API] Load Rounds Failure',
-  LoadRoundsSuccess = '[Round/API] Load Founds Success',
-  SelectRoundFailure = '[Round/API] Select Round Failure',
-  SelectRoundSuccess = '[Round/API] Select Round Success',
-  UpdateRoundFailure = '[Round/API] Update Round Failure',
-  UpdateRoundSuccess = '[Round/API] Update Round Success'
-}
+export const addRound = createAction(
+  '[Round/API] Add Round',
+  props<{round: Round}>()
+);
 
-export class AddPairingsFailure implements Action {
-  readonly type = RoundApiActionTypes.AddPairingsFailure;
+export const beginEventSuccess = createAction(
+  '[Round/API] Begin Event Success',
+  props<{numberOfRounds: number}>()
+);
 
-  constructor(public payload: any) {}
-}
+export const loadRounds = createAction(
+  '[Round/API] Load Rounds'
+);
 
-export class AddPairingsSuccess implements Action {
-  readonly type = RoundApiActionTypes.AddPairingsSuccess;
-
-  constructor(public payload: {roundId: number, pairings: Pairing[]}) {}
-}
-
-export class BeginEventFailure implements Action {
-  readonly type = RoundApiActionTypes.BeginEventFailure;
-
-  constructor(public payload: any) {}
-}
-
-export class BeginEventSuccess implements Action {
-  readonly type = RoundApiActionTypes.BeginEventSuccess;
-
-  constructor(public payload: number) {}
-}
-
-export class CreateRoundFailure implements Action {
-  readonly type = RoundApiActionTypes.CreateRoundFailure;
-
-  constructor(public payload: any) {}
-}
-
-export class CreateRoundSuccess implements Action {
-  readonly type = RoundApiActionTypes.CreateRoundSuccess;
-
-  constructor(public payload: Round) {}
-}
-
-export class LoadRounds implements Action {
-  readonly type = RoundApiActionTypes.LoadRounds;
-}
-
-export class LoadRoundsFailure implements Action {
-  readonly type = RoundApiActionTypes.LoadRoundsFailure;
-
-  constructor(public payload: any) {}
-}
-
-export class LoadRoundsSuccess implements Action {
-  readonly type = RoundApiActionTypes.LoadRoundsSuccess;
-
-  constructor(public payload: {
-    rounds: Round[],
+export const loadRoundsSuccess = createAction(
+  '[Round/API] Load Rounds Success',
+  props<{
     numberOfRounds: number,
+    rounds: Round[],
     selectedRoundId: number
-  }) {}
-}
+  }>()
+);
 
-export class SelectRoundFailure implements Action {
-  readonly type = RoundApiActionTypes.SelectRoundFailure;
+export const setSelectedRound = createAction(
+  '[Round/API] Set SelectedRound',
+  props<{roundId: number}>()
+);
 
-  constructor(public payload: any) {}
-}
-
-export class SelectRoundSuccess implements Action {
-  readonly type = RoundApiActionTypes.SelectRoundSuccess;
-
-  constructor(public payload: number) {}
-}
-
-export class UpdateRoundFailure implements Action {
-  readonly type = RoundApiActionTypes.UpdateRoundFailure;
-
-  constructor(public payload: any) {}
-}
-
-export class UpdateRoundSuccess implements Action {
-  readonly type = RoundApiActionTypes.UpdateRoundSuccess;
-
-  constructor(public payload: Update<Round>) {}
-}
-
-export type RoundApiActionsUnion =
-  AddPairingsFailure
-  | AddPairingsSuccess
-  | BeginEventFailure
-  | BeginEventSuccess
-  | CreateRoundFailure
-  | CreateRoundSuccess
-  | LoadRounds
-  | LoadRoundsFailure
-  | LoadRoundsSuccess
-  | SelectRoundFailure
-  | SelectRoundSuccess
-  | UpdateRoundFailure
-  | UpdateRoundSuccess;
+export const updateRound = createAction(
+  '[Round/API] Update Round',
+  props<{round: Update<Round>}>()
+);

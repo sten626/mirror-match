@@ -1,9 +1,8 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 import { Player } from 'app/shared';
 
 export enum PlayerPageActionTypes {
   AddPlayer = '[Players Page] Add Player',
-  BeginEvent = '[Players Page] Begin Event',
   DeletePlayer = '[Players Page] Delete Player',
   DropPlayer = '[Players Page] Drop Player',
   UpdatePlayer = '[Players Page] Update Player'
@@ -21,18 +20,17 @@ const defaults = {
   dropped: false
 };
 
+export const beginEvent = createAction(
+  '[Players Page] Begin Event',
+  props<{numberOfRounds: number}>()
+);
+
 export class AddPlayer implements Action {
   readonly type = PlayerPageActionTypes.AddPlayer;
 
   constructor(public payload: Player) {
     this.payload = Object.assign({}, defaults, payload);
   }
-}
-
-export class BeginEvent implements Action {
-  readonly type = PlayerPageActionTypes.BeginEvent;
-
-  constructor(public payload: number) {}
 }
 
 export class DeletePlayer implements Action {
@@ -56,4 +54,4 @@ export class UpdatePlayer implements Action {
   constructor(public payload: {player: Player, changes: any}) {}
 }
 
-export type PlayersPageActionsUnion = AddPlayer | BeginEvent | DeletePlayer | DropPlayer | UpdatePlayer;
+export type PlayersPageActionsUnion = AddPlayer | DeletePlayer | DropPlayer | UpdatePlayer;

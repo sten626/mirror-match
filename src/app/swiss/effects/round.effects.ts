@@ -1,127 +1,103 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Round, RoundStorageService } from 'app/shared';
-import { PairingsPageActions, PlayersPageActions, RoundApiActions, PairingsApiActions } from 'app/swiss/actions';
-import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
+import { combineLatest } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RoundEffects implements OnInitEffects {
-  @Effect()
-  addPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
-    map(action => action.payload),
-    mergeMap(({roundId, pairings}) =>
-      this.storageService.updateRound({
-        id: roundId,
-        pairingIds: pairings.map(pairing => pairing.id)
-      }).pipe(
-        map(() => new RoundApiActions.AddPairingsSuccess({roundId, pairings})),
-        catchError(err => of(new RoundApiActions.AddPairingsFailure(err)))
+  addPairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsApiActions.createPairingsSuccess),
+    map(({pairings, roundId}) => ({
+      id: roundId,
+      pairingIds: pairings.map(p => p.id)
+    }) as Round),
+    mergeMap(round =>
+      this.storageService.updateRound(round).pipe(
+        map(() => RoundApiActions.updateRound({round: {
+          id: round.id,
+          changes: {
+            pairingIds: round.pairingIds
+          }
+        }}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  beginEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(PlayersPageActions.PlayerPageActionTypes.BeginEvent),
-    map(action => action.payload),
-    mergeMap(numberOfRounds =>
+  beginEvent$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.beginEvent),
+    mergeMap(({numberOfRounds}) =>
       this.storageService.setNumberOfRounds(numberOfRounds).pipe(
-        map(() => new RoundApiActions.BeginEventSuccess(numberOfRounds)),
-        catchError(err => of(new RoundApiActions.BeginEventFailure(err)))
+        map(() => RoundApiActions.beginEventSuccess({numberOfRounds}))
       )
     ),
     tap(() => this.router.navigate(['/swiss/pairings']))
-  );
+  ));
 
-  @Effect()
-  changeSelectedRound$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.ChangeSelectedRound),
-    map(action => action.payload),
-    mergeMap(roundId =>
+  changeSelectedRound$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.changeSelectedRound),
+    mergeMap(({roundId}) =>
       this.storageService.setSelectedRound(roundId).pipe(
-        map(() => new RoundApiActions.SelectRoundSuccess(roundId)),
-        catchError(err => of(new RoundApiActions.SelectRoundFailure(err)))
+        map(() => RoundApiActions.setSelectedRound({roundId}))
       )
     )
-  );
+  ));
 
-  // @Effect()
-  // clearMatchResult$: Observable<Action> = this.actions$.pipe(
-  //   ofType(PairingsPageActions.PairingsPageActionTypes.ClearMatchResult),
-  //   map(action => action.payload),
-  //   mergeMap(pairing =>)
-  // );
-
-  @Effect()
-  createFirstRound$: Observable<Action> = this.actions$.pipe(
-    ofType(RoundApiActions.RoundApiActionTypes.BeginEventSuccess),
+  createFirstRound$ = createEffect(() => this.actions$.pipe(
+    ofType(RoundApiActions.beginEventSuccess),
     map(() => ({
       id: 1,
       pairingIds: []
-    })),
-    mergeMap((round: Round) =>
+    }) as Round),
+    mergeMap(round =>
       this.storageService.addRound(round).pipe(
-        map(value => new RoundApiActions.CreateRoundSuccess(value)),
-        catchError(err => of(new RoundApiActions.CreateRoundFailure(err)))
+        map(() => RoundApiActions.addRound({round}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  loadRounds$: Observable<Action> = this.actions$.pipe(
-    ofType(RoundApiActions.RoundApiActionTypes.LoadRounds),
-    mergeMap(() => {
+  deletePairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.deletePairings),
+    map(({roundId}) => ({
+      id: roundId,
+      pairingIds: []
+    }) as Round),
+    mergeMap((round) =>
+      this.storageService.updateRound(round).pipe(
+        map(() => RoundApiActions.updateRound({
+          round: {
+            id: round.id,
+            changes: {
+              pairingIds: []
+            }
+          }
+        }))
+      )
+    )
+  ));
+
+  loadRounds$ = createEffect(() => this.actions$.pipe(
+    ofType(RoundApiActions.loadRounds),
+    switchMap(() => {
       const rounds$ = this.storageService.getRounds();
       const numberOfRounds$ = this.storageService.getNumberOfRounds();
-      const selectedRound$ = this.storageService.getSelectedRound();
+      const selectedRoundId$ = this.storageService.getSelectedRound();
 
-      return combineLatest(rounds$, numberOfRounds$, selectedRound$);
+      return combineLatest(rounds$, numberOfRounds$, selectedRoundId$);
     }),
-    map(([rounds, numberOfRounds, selectedRoundId]) => new RoundApiActions.LoadRoundsSuccess({
-      rounds: rounds,
-      numberOfRounds: numberOfRounds,
-      selectedRoundId: selectedRoundId
-    })),
-    catchError(err => of(new RoundApiActions.LoadRoundsFailure(err)))
-  );
-
-  // @Effect()
-  // redoMatches$: Observable<Action> = this.actions$.pipe(
-  //   ofType(PairingsPageActions.PairingsPageActionTypes.RedoMatches),
-  //   map(action => action.payload),
-  //   map(roundId => ({
-  //     id: roundId,
-  //     pairings: []
-  //   })),
-  //   mergeMap((round: Round) =>
-  //     this.storageService.updateRound(round).pipe(
-  //       map(() => new RoundApiActions.UpdateRoundSuccess({
-  //         id: round.id,
-  //         changes: {
-  //           pairings: round.pairings
-  //         }
-  //       })),
-  //       catchError(err => of(new RoundApiActions.UpdateRoundFailure(err)))
-  //     )
-  //   )
-  // );
+    map(([rounds, numberOfRounds, selectedRoundId]) => RoundApiActions.loadRoundsSuccess({numberOfRounds, rounds, selectedRoundId}))
+  ));
 
   constructor(
-    private actions$: Actions<
-      PairingsApiActions.PairingsApiActionsUnion
-      | PairingsPageActions.PairingsPageActionsUnion
-      | PlayersPageActions.PlayersPageActionsUnion
-      | RoundApiActions.RoundApiActionsUnion
-    >,
+    private actions$: Actions,
     private router: Router,
     private storageService: RoundStorageService
   ) {}
 
   ngrxOnInitEffects(): Action {
-    return new RoundApiActions.LoadRounds();
+    return RoundApiActions.loadRounds();
   }
 }

@@ -1,32 +1,21 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 import { Pairing } from 'app/shared';
 
 export enum PairingsApiActionTypes {
-  AddPairingsFailure = '[Pairings/API] Add Pairings Failure',
-  AddPairingsSuccess = '[Pairings/API] Add Pairings Success',
-  CreatePairingsSuccess = '[Pairings/API] Create Pairings Success',
   LoadPairings = '[Pairings/API] Load Pairings',
   LoadPairingsFailure = '[Pairings/API] Load Pairings Failure',
   LoadPairingsSuccess = '[Pairings/API] Load Pairings Success'
 }
 
-export class AddPairingsFailure implements Action {
-  readonly type = PairingsApiActionTypes.AddPairingsFailure;
+export const addPairings = createAction(
+  '[Pairings/API] Add Pairings',
+  props<{pairings: Pairing[]}>()
+);
 
-  constructor(public payload: any) {}
-}
-
-export class AddPairingsSuccess implements Action {
-  readonly type = PairingsApiActionTypes.AddPairingsSuccess;
-
-  constructor(public payload: Pairing[]) {}
-}
-
-export class CreatePairingsSuccess implements Action {
-  readonly type = PairingsApiActionTypes.CreatePairingsSuccess;
-
-  constructor(public payload: {roundId: number, pairings: Pairing[]}) {}
-}
+export const createPairingsSuccess = createAction(
+  '[Pairings/API] Create Pairings Success',
+  props<{pairings: Pairing[], roundId: number}>()
+);
 
 export class LoadPairings implements Action {
   readonly type = PairingsApiActionTypes.LoadPairings;
@@ -45,9 +34,6 @@ export class LoadPairingsSuccess implements Action {
 }
 
 export type PairingsApiActionsUnion =
-  AddPairingsFailure
-  | AddPairingsSuccess
-  | CreatePairingsSuccess
   | LoadPairings
   | LoadPairingsFailure
   | LoadPairingsSuccess;

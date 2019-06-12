@@ -1,31 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, createEffect, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { PairingService, PairingStorageService, Pairing } from 'app/shared';
+import { Pairing, PairingService, PairingStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
-import { Observable, of, combineLatest } from 'rxjs';
-import { map, mergeMap, switchMap, catchError, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
-  @Effect()
-  addPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsApiActions.PairingsApiActionTypes.CreatePairingsSuccess),
-    map(action => action.payload.pairings),
-    mergeMap((pairings: Pairing[]) =>
+  addPairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsApiActions.createPairingsSuccess),
+    mergeMap(({pairings}) =>
       this.storageService.addPairings(pairings).pipe(
-        map(() => new PairingsApiActions.AddPairingsSuccess(pairings)),
-        catchError(err => of(new PairingsApiActions.AddPairingsFailure(err)))
+        map(() => PairingsApiActions.addPairings({pairings}))
       )
     )
-  );
+  ));
 
-  @Effect()
-  createPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsPageActions.PairingsPageActionTypes.CreatePairings),
-    map(action => action.payload),
-    mergeMap((roundId: number) => {
+  createPairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.createPairings),
+    switchMap(({roundId}) => {
       const isLastRound$ = this.store.pipe(
         select(fromSwiss.getNumberOfRounds),
         map(numberOfRounds => roundId === numberOfRounds)
@@ -35,26 +30,14 @@ export class PairingEffects implements OnInitEffects {
       );
 
       return combineLatest(isLastRound$, activePlayers$).pipe(
-        mergeMap(([isLastRound, players]) =>
-          this.pairingsService.createPairings(roundId, isLastRound, players, this.nextId).pipe(
-            map((pairings: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
-              roundId: roundId,
-              pairings: pairings
-            }))
+        switchMap(([isLastRound, activePlayers]) =>
+          this.pairingsService.createPairings(roundId, isLastRound, activePlayers, this.nextId).pipe(
+            map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
           )
         )
-        // mergeMap((pairings: Pairing[]) =>
-        //   this.storageService.addPairings(pairings).pipe(
-        //     map((value: Pairing[]) => new PairingsApiActions.CreatePairingsSuccess({
-        //       roundId: roundId,
-        //       pairings: value
-        //     })),
-        //     catchError(err => of(new PairingsApiActions.CreatePairingsFailure(err)))
-        //   )
-        // )
       );
     })
-  );
+  ));
 
   @Effect()
   loadPairings$: Observable<Action> = this.actions$.pipe(
@@ -77,10 +60,7 @@ export class PairingEffects implements OnInitEffects {
   private nextId = 1;
 
   constructor(
-    private actions$: Actions<
-      PairingsApiActions.PairingsApiActionsUnion
-      | PairingsPageActions.PairingsPageActionsUnion
-    >,
+    private actions$: Actions,
     private pairingsService: PairingService,
     private storageService: PairingStorageService,
     private store: Store<fromSwiss.State>

@@ -1,6 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
 import { Round } from 'app/shared';
-import { PairingsPageActions, RoundApiActions } from '../actions';
+import { RoundApiActions } from '../actions';
 
 export interface State extends EntityState<Round> {
   completedRoundId: number;
@@ -24,76 +25,63 @@ export const initialState: State = adapter.getInitialState({
   showOutstandingOnly: true
 });
 
-export function reducer(
-  state = initialState,
-  action:
-    PairingsPageActions.PairingsPageActionsUnion
-    | RoundApiActions.RoundApiActionsUnion
-): State {
-  switch (action.type) {
-    case PairingsPageActions.PairingsPageActionTypes.SelectPairing: {
-      return {
-        ...state,
-        selectedPairingId: action.payload
-      };
-    }
-    case PairingsPageActions.PairingsPageActionTypes.UpdatePairingsFilterText: {
-      return {
-        ...state,
-        pairingsFilterText: action.payload
-      };
-    }
-    case PairingsPageActions.PairingsPageActionTypes.UpdateShowOutstandingOnly: {
-      return {
-        ...state,
-        showOutstandingOnly: action.payload
-      };
-    }
-    case RoundApiActions.RoundApiActionTypes.AddPairingsSuccess: {
-      const {roundId, pairings} = action.payload;
-      const pairingIds = pairings.map(pairing => pairing.id);
-      return {
-        ...adapter.updateOne({
-          id: roundId,
-          changes: {
-            pairingIds: pairingIds
-          }
-        }, state),
-        pairingsFilterText: '',
-        showOutstandingOnly: true
-      };
-    }
-    case RoundApiActions.RoundApiActionTypes.BeginEventSuccess: {
-      return {
-        ...state,
-        numberOfRounds: action.payload
-      };
-    }
-    case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
-      return {
-        ...adapter.addOne(action.payload, state),
-        pairingsFilterText: '',
-        showOutstandingOnly: true
-      };
-    }
-    case RoundApiActions.RoundApiActionTypes.LoadRoundsSuccess: {
-      const {rounds, numberOfRounds, selectedRoundId} = action.payload;
+export const reducer = createReducer(
+  initialState,
+  on(RoundApiActions.addRound, (state, {round}) => adapter.addOne(round, state)),
+  on(RoundApiActions.beginEventSuccess, (state, {numberOfRounds}) => ({
+    ...state,
+    numberOfRounds: numberOfRounds
+  })),
+  on(RoundApiActions.loadRoundsSuccess, (state, {numberOfRounds, rounds, selectedRoundId}) => adapter.addAll(rounds, {
+    ...state,
+    numberOfRounds: numberOfRounds,
+    loaded: true,
+    selectedRoundId: selectedRoundId
+  })),
+  on(RoundApiActions.updateRound, (state, {round}) => adapter.updateOne(round, {
+    ...state,
+    pairingsFilterText: '',
+    showOutstandingOnly: true
+  }))
+);
 
-      return {
-        ...adapter.addAll(rounds, state),
-        loaded: true,
-        numberOfRounds: numberOfRounds,
-        selectedRoundId: selectedRoundId
-      };
-    }
-    case RoundApiActions.RoundApiActionTypes.UpdateRoundSuccess: {
-      return adapter.updateOne(action.payload, state);
-    }
-    default: {
-      return state;
-    }
-  }
-}
+// export function reducer(
+//   state = initialState,
+//   action:
+//     PairingsPageActions.PairingsPageActionsUnion
+//     | RoundApiActions.RoundApiActionsUnion
+// ): State {
+//   switch (action.type) {
+//     case PairingsPageActions.PairingsPageActionTypes.SelectPairing: {
+//       return {
+//         ...state,
+//         selectedPairingId: action.payload
+//       };
+//     }
+//     case PairingsPageActions.PairingsPageActionTypes.UpdatePairingsFilterText: {
+//       return {
+//         ...state,
+//         pairingsFilterText: action.payload
+//       };
+//     }
+//     case PairingsPageActions.PairingsPageActionTypes.UpdateShowOutstandingOnly: {
+//       return {
+//         ...state,
+//         showOutstandingOnly: action.payload
+//       };
+//     }
+//     case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
+//       return {
+//         ...adapter.addOne(action.payload, state),
+//         pairingsFilterText: '',
+//         showOutstandingOnly: true
+//       };
+//     }
+//     default: {
+//       return state;
+//     }
+//   }
+// }
 
 export const getCompletedRoundId = (state: State) => state.completedRoundId;
 
