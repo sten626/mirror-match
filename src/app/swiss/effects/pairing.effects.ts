@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
-import { Pairing, PairingService, PairingStorageService } from 'app/shared';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+import { PairingService, PairingStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
-import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
+import { map, mergeMap, switchMap, tap, concatMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
@@ -39,23 +39,36 @@ export class PairingEffects implements OnInitEffects {
     })
   ));
 
-  @Effect()
-  loadPairings$: Observable<Action> = this.actions$.pipe(
-    ofType(PairingsApiActions.PairingsApiActionTypes.LoadPairings),
+  deletePairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.deletePairings),
+    concatMap(action => of(action).pipe(
+      withLatestFrom(this.store.pipe(
+        select(fromSwiss.getRoundEntities)
+      ))
+    )),
+    map(([{roundId}, roundEntities]) => roundEntities[roundId].pairingIds),
+    mergeMap(pairingIds =>
+      this.storageService.deletePairings(pairingIds).pipe(
+        map(() => PairingsApiActions.deletePairingsSuccess({pairingIds}))
+      )
+    )
+  ));
+
+  loadPairings$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsApiActions.loadPairings),
     switchMap(() =>
       this.storageService.getPairings().pipe(
-        tap((pairings: Pairing[]) => {
+        tap(pairings => {
           if (pairings.length > 0) {
             this.nextId = Math.max(...pairings.map(p => p.id)) + 1;
           } else {
             this.nextId = 1;
           }
         }),
-        map((pairings: Pairing[]) => new PairingsApiActions.LoadPairingsSuccess(pairings)),
-        catchError(err => of(new PairingsApiActions.LoadPairingsFailure(err)))
+        map(pairings => PairingsApiActions.loadPairingsSuccess({pairings}))
       )
     )
-  );
+  ));
 
   private nextId = 1;
 
@@ -67,6 +80,6 @@ export class PairingEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects() {
-    return new PairingsApiActions.LoadPairings();
+    return PairingsApiActions.loadPairings();
   }
 }

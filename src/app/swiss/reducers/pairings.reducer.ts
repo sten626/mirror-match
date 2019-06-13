@@ -15,21 +15,9 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
-  on(PairingsApiActions.addPairings, (state, {pairings}) => adapter.addMany(pairings, state))
+  on(PairingsApiActions.addPairings, (state, {pairings}) => adapter.addMany(pairings, state)),
+  on(PairingsApiActions.deletePairingsSuccess, (state, {pairingIds}) => adapter.removeMany(pairingIds, state)),
+  on(PairingsApiActions.loadPairingsSuccess, (state, {pairings}) => adapter.addAll(pairings, state))
 );
-
-// export function reducer(
-//   state = initialState,
-//   action: PairingsApiActions.PairingsApiActionsUnion
-// ): State {
-//   switch (action.type) {
-//     case (PairingsApiActions.PairingsApiActionTypes.LoadPairingsSuccess): {
-//       return adapter.addAll(action.payload, state);
-//     }
-//     default: {
-//       return state;
-//     }
-//   }
-// }
 
 export const getSelectedPairingId = (state: State) => state.selectedPairingId;

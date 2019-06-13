@@ -16,6 +16,13 @@ export class PairingStorageService extends StorageService {
     );
   }
 
+  deletePairings(pairingIds: number[]): Observable<Pairing[]> {
+    return this.getPairings().pipe(
+      map(pairings => pairings.filter(p => !pairingIds.includes(p.id))),
+      tap(pairings => this.storage.setItem(this.pairingsKey, JSON.stringify(pairings)))
+    );
+  }
+
   getPairings(): Observable<Pairing[]> {
     return this.getArray(this.pairingsKey);
   }
