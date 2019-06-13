@@ -6,9 +6,8 @@
   (createPairings)="createPairings($event)"
   (roundChanged)="roundChanged($event)"></mm-pairings-menu>
 <mm-pairings-list
-  [filteredPairings]="filteredPairings$ | async"
-  [filterText]="pairingsFilterText$ | async"
   [hasSubmittedPairings]="hasSubmittedPairings$ | async"
+  [pairings]="pairings$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
   [selectedPairingId]="selectedPairingId$ | async"

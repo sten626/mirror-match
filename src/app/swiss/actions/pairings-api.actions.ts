@@ -13,7 +13,7 @@ export const createPairingsSuccess = createAction(
 
 export const deletePairingsSuccess = createAction(
   '[Pairings/API] Delete Pairings Success',
-  props<{pairingIds: number[]}>()
+  props<{pairingIds: number[], roundId: number}>()
 );
 
 export const loadPairings = createAction(

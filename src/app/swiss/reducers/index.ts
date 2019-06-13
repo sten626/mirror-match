@@ -122,11 +122,6 @@ export const getNumberOfRounds = createSelector(
   fromRounds.getNumberOfRounds
 );
 
-export const getPairingsFilterText = createSelector(
-  getRoundsState,
-  fromRounds.getPairingsFilterText
-);
-
 export const getRoundsLoaded = createSelector(
   getRoundsState,
   fromRounds.isLoaded
@@ -135,11 +130,6 @@ export const getRoundsLoaded = createSelector(
 export const getSelectedRoundId = createSelector(
   getRoundsState,
   fromRounds.getSelectedRoundId
-);
-
-export const getShowOutstandingOnly = createSelector(
-  getRoundsState,
-  fromRounds.getShowOutstandingOnly
 );
 
 export const {
@@ -191,38 +181,38 @@ export const getSelectedRoundPairingsSubmitted = createSelector(
   (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)
 );
 
-export const getSelectedRoundPairingsFiltered = createSelector(
-  getSelectedRoundPairings,
-  getPlayerEntities,
-  getPairingsFilterText,
-  getShowOutstandingOnly,
-  (pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean) =>
-    pairings.filter(pairing => {
-      if (showOutstandingOnly && pairing.submitted) {
-        return false;
-      }
+// export const getSelectedRoundPairingsFiltered = createSelector(
+//   getSelectedRoundPairings,
+//   getPlayerEntities,
+//   getPairingsFilterText,
+//   getShowOutstandingOnly,
+//   (pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean) =>
+//     pairings.filter(pairing => {
+//       if (showOutstandingOnly && pairing.submitted) {
+//         return false;
+//       }
 
-      if (!filterText) {
-        return true;
-      }
+//       if (!filterText) {
+//         return true;
+//       }
 
-      if (filterText === pairing.table.toString()) {
-        return true;
-      }
+//       if (filterText === pairing.table.toString()) {
+//         return true;
+//       }
 
-      const player1Name = playerEntities[pairing.player1Id].name;
+//       const player1Name = playerEntities[pairing.player1Id].name;
 
-      if (player1Name.toLowerCase().includes(filterText)) {
-        return true;
-      }
+//       if (player1Name.toLowerCase().includes(filterText)) {
+//         return true;
+//       }
 
-      if (pairing.player2Id === null) {
-        return false;
-      }
+//       if (pairing.player2Id === null) {
+//         return false;
+//       }
 
-      const player2Name = playerEntities[pairing.player2Id].name;
+//       const player2Name = playerEntities[pairing.player2Id].name;
 
-      return player2Name.toLowerCase().includes(filterText);
-    }
-  )
-);
+//       return player2Name.toLowerCase().includes(filterText);
+//     }
+//   )
+// );

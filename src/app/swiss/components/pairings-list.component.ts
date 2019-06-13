@@ -11,9 +11,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './pairings-list.component.html'
 })
 export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
-  @Input() filteredPairings: Pairing[];
   @Input() filterText: string;
   @Input() hasSubmittedPairings: boolean;
+  @Input() pairings: Pairing[];
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
   @Input() selectedPairingId: number;

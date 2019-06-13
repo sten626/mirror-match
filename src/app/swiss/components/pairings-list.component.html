@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pairing of filteredPairings"
+        <tr *ngFor="let pairing of pairings"
             [ngClass]="{'active': selectedPairingId === pairing.table}"
             (click)="selectPairing.emit(pairing.id)">
           <td>{{pairing.table}}</td>

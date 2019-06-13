@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { PairingService, PairingStorageService } from 'app/shared';
+import { PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, of } from 'rxjs';
-import { map, mergeMap, switchMap, tap, concatMap, withLatestFrom } from 'rxjs/operators';
+import { concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
@@ -46,12 +46,18 @@ export class PairingEffects implements OnInitEffects {
         select(fromSwiss.getRoundEntities)
       ))
     )),
-    map(([{roundId}, roundEntities]) => roundEntities[roundId].pairingIds),
-    mergeMap(pairingIds =>
-      this.storageService.deletePairings(pairingIds).pipe(
-        map(() => PairingsApiActions.deletePairingsSuccess({pairingIds}))
-      )
-    )
+    mergeMap(([{roundId}, roundEntities]) => {
+      const pairingIds = roundEntities[roundId].pairingIds;
+      const deletePairings$ = this.storageService.deletePairings(pairingIds);
+      const updateRound$ = this.roundStorageService.updateRound({
+        id: roundId,
+        pairingIds: []
+      });
+
+      return combineLatest(deletePairings$, updateRound$).pipe(
+        map(() => PairingsApiActions.deletePairingsSuccess({pairingIds, roundId}))
+      );
+    })
   ));
 
   loadPairings$ = createEffect(() => this.actions$.pipe(
@@ -75,6 +81,7 @@ export class PairingEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
     private pairingsService: PairingService,
+    private roundStorageService: RoundStorageService,
     private storageService: PairingStorageService,
     private store: Store<fromSwiss.State>
   ) {}

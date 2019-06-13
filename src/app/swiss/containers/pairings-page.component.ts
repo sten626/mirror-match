@@ -12,7 +12,6 @@ import { PairingsPageActions } from '../actions';
 })
 export class PairingsPageComponent {
   // canStartNextRound$: Observable<boolean>;
-  filteredPairings$: Observable<Pairing[]>;
   hasTournamentStarted$: Observable<boolean>;
   hasSubmittedPairings$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
@@ -28,17 +27,9 @@ export class PairingsPageComponent {
   // selectedRoundHasPairings$: Observable<boolean>;
 
   constructor(
-    // private pairingService: PairingService,
-    // private playerService: PlayerService,
-    // private roundService: RoundService,
-    // private router: Router,
-    // private standingsService: StandingsService,
     private store: Store<fromSwiss.State>
   ) {
     // this.canStartNextRound$ = this.roundService.canStartNextRound$;
-    this.filteredPairings$ = this.store.pipe(
-      select(fromSwiss.getSelectedRoundPairingsFiltered)
-    );
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
@@ -54,9 +45,6 @@ export class PairingsPageComponent {
     );
     this.pairingsExist$ = this.pairings$.pipe(
       map(pairings => pairings.length > 0)
-    );
-    this.pairingsFilterText$ = this.store.pipe(
-      select(fromSwiss.getPairingsFilterText)
     );
     this.playerEntities$ = this.store.pipe(
       select(fromSwiss.getPlayerEntities)

@@ -59,26 +59,6 @@ export class RoundEffects implements OnInitEffects {
     )
   ));
 
-  deletePairings$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.deletePairings),
-    map(({roundId}) => ({
-      id: roundId,
-      pairingIds: []
-    }) as Round),
-    mergeMap((round) =>
-      this.storageService.updateRound(round).pipe(
-        map(() => RoundApiActions.updateRound({
-          round: {
-            id: round.id,
-            changes: {
-              pairingIds: []
-            }
-          }
-        }))
-      )
-    )
-  ));
-
   loadRounds$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.loadRounds),
     switchMap(() => {
