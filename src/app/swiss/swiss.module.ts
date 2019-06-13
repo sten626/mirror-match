@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'app/shared';
 import {
   PairingsListComponent,
+  PairingsListFormComponent,
   PairingsMenuComponent,
   PlayerFormComponent,
   PlayerListComponent,
@@ -32,6 +33,7 @@ import { SwissStandingsComponent } from 'app/swiss/swiss-standings.component';
     EventInfoComponent,
     MatchResultsComponent,
     PairingsListComponent,
+    PairingsListFormComponent,
     PairingsMenuComponent,
     PairingsPageComponent,
     PlayerFormComponent,

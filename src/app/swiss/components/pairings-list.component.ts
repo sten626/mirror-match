@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player } from 'app/shared';
-import { Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-pairings-list',
@@ -11,7 +8,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './pairings-list.component.html'
 })
 export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
-  @Input() filterText: string;
+  // @Input() filterText: string;
   @Input() hasSubmittedPairings: boolean;
   @Input() pairings: Pairing[];
   @Input() pairingsExist: boolean;
@@ -19,42 +16,44 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   @Input() selectedPairingId: number;
   @Input() selectedRoundComplete: boolean;
   @Input() selectedRoundId: number;
-  @Output() filterTextChanged = new EventEmitter<string>();
+  // @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<number>();
   @Output() selectPairing = new EventEmitter<number>();
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
+
+  filterText = '';
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
   // @Output() redoMatchesForRound = new EventEmitter<string>();
   // @Output() resultSubmitted = new EventEmitter<Pairing>();
 
-  filterText$: Observable<string>;
-  filterTextSub: Subscription;
-  pairingsListForm: FormGroup = new FormGroup({
-    filterText: new FormControl(''),
-    showOutstandingOnly: new FormControl(true)
-  });
-  showOutstandingOnlySub: Subscription;
+  // filterText$: Observable<string>;
+  // filterTextSub: Subscription;
+  // pairingsListForm: FormGroup = new FormGroup({
+  //   filterText: new FormControl(''),
+  //   showOutstandingOnly: new FormControl(true)
+  // });
+  // showOutstandingOnlySub: Subscription;
 
   ngOnInit() {
-    this.filterText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
-      debounceTime(10),
-      map(filterText => filterText.trim().toLowerCase()),
-      distinctUntilChanged()
-    );
-    this.filterTextSub = this.filterText$.subscribe(filterText => this.filterTextChanged.emit(filterText));
-    this.showOutstandingOnlySub = this.pairingsListForm.get('showOutstandingOnly').valueChanges.subscribe(
-      showOutstandingOnly => this.showOutstandingOnlyChanged.emit(showOutstandingOnly)
-    );
+    // this.filterText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
+    //   debounceTime(10),
+    //   map(filterText => filterText.trim().toLowerCase()),
+    //   distinctUntilChanged()
+    // );
+    // this.filterTextSub = this.filterText$.subscribe(filterText => this.filterTextChanged.emit(filterText));
+    // this.showOutstandingOnlySub = this.pairingsListForm.get('showOutstandingOnly').valueChanges.subscribe(
+    //   showOutstandingOnly => this.showOutstandingOnlyChanged.emit(showOutstandingOnly)
+    // );
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.filterText) {
-      this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
-        emitEvent: false
-      });
-    }
+    // if (changes.filterText) {
+    //   this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
+    //     emitEvent: false
+    //   });
+    // }
     // if (this.pairings) {
     //   if (this.pairings.length === 0) {
     //     this.pairingsExist = false;
@@ -73,7 +72,7 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.filterTextSub.unsubscribe();
+    // this.filterTextSub.unsubscribe();
   }
 
   // deleteResults() {
@@ -108,6 +107,10 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   //     this.lastResultSubmitted.emit();
   //   }
   // }
+
+  filterTextChanged(filterText: string) {
+    this.filterText = filterText;
+  }
 
   resultDisplayString(pairing: Pairing, invert = false): string {
     if (pairing.player1Wins || pairing.player2Wins || pairing.draws) {
