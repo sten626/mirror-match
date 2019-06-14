@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
+import { Pairing, PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, of } from 'rxjs';
@@ -14,6 +15,27 @@ export class PairingEffects implements OnInitEffects {
     mergeMap(({pairings}) =>
       this.storageService.addPairings(pairings).pipe(
         map(() => PairingsApiActions.addPairings({pairings}))
+      )
+    )
+  ));
+
+  clearResults$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.clearResults),
+    map(({pairings}) => pairings.map(p => p.id)),
+    mergeMap(pairingIds =>
+      this.storageService.clearResults(pairingIds).pipe(
+        map(() => {
+          const updates = pairingIds.map(pid => ({
+            id: pid,
+            changes: {
+              player1Wins: 0,
+              player2Wins: 0,
+              draws: 0,
+              submitted: false
+            }
+          }) as Update<Pairing>);
+          return PairingsApiActions.clearResultsSuccess({pairings: updates});
+        })
       )
     )
   ));

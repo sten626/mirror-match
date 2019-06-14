@@ -1,6 +1,7 @@
 <div class="row" *ngIf="pairingsExist">
   <div class="col-xs-12">
     <mm-pairings-list-form
+      (deleteResults)="deleteResults.emit(pairings)"
       (filterTextChanged)="filterTextChanged($event)"
       (redoMatches)="redoMatches.emit(selectedRoundId)"
       (showOutstandingOnlyChanged)="showOutstandingOnlyChanged($event)">

@@ -21,14 +21,14 @@
       <button type="button"
           class="btn btn-default pull-right"
           [disabled]="selectedRoundComplete"
-          (click)="deleteResults()">
+          (click)="deleteResults.emit()">
         Delete Results
       </button>
 
       <button type="button"
           class="btn btn-default pull-right redo-matches"
           [disabled]="hasSubmittedPairings"
-          (click)="this.redoMatches.emit()">
+          (click)="redoMatches.emit()">
         Redo Matches
       </button>
     </div>

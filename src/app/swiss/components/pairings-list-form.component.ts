@@ -9,6 +9,7 @@ import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './pairings-list-form.component.html'
 })
 export class PairingsListFormComponent implements OnDestroy, OnInit {
+  @Output() deleteResults = new EventEmitter<any>();
   @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<any>();
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();

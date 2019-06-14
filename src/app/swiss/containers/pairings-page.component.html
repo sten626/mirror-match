@@ -4,7 +4,8 @@
   [roundIds]="roundIds$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
   (createPairings)="createPairings($event)"
-  (roundChanged)="roundChanged($event)"></mm-pairings-menu>
+  (roundChanged)="roundChanged($event)">
+</mm-pairings-menu>
 <mm-pairings-list
   [hasSubmittedPairings]="hasSubmittedPairings$ | async"
   [pairings]="pairings$ | async"
@@ -14,11 +15,13 @@
   [selectedRoundComplete]="selectedRoundComplete$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
   (redoMatches)="redoMatches($event)"
-  (selectPairing)="selectPairing($event)"
-  (showOutstandingOnlyChanged)="updateShowOutstandingOnly($event)"></mm-pairings-list>
+  (selectPairing)="selectPairing($event)">
+</mm-pairings-list>
 <mm-match-results
   [playerEntities]="playerEntities$ | async"
   [selectedPairing]="selectedPairing$ | async"
   (clearMatchResult)="clearMatchResult($event)"
+  (deleteResults)="deleteResults($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
-  (resultSubmitted)="onResultSubmitted($event)"></mm-match-results>
+  (resultSubmitted)="onResultSubmitted($event)">
+</mm-match-results>

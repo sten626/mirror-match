@@ -16,6 +16,19 @@ export class PairingStorageService extends StorageService {
     );
   }
 
+  clearResults(pairingIds: number[]): Observable<Pairing[]> {
+    return this.getPairings().pipe(
+      map(pairings => pairings.map(p => pairingIds.includes(p.id) ? {
+        ...p,
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0,
+        submitted: false
+      } : p)),
+      tap(pairings => this.storage.setItem(this.pairingsKey, JSON.stringify(pairings)))
+    );
+  }
+
   deletePairings(pairingIds: number[]): Observable<Pairing[]> {
     return this.getPairings().pipe(
       map(pairings => pairings.filter(p => !pairingIds.includes(p.id))),

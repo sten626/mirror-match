@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Pairing } from 'app/shared';
 
 export const changeSelectedRound = createAction(
   '[Pairings Page] Change Selected Round',
@@ -8,6 +9,11 @@ export const changeSelectedRound = createAction(
 export const clearMatchResult = createAction(
   '[Pairings Page] Clear Match Result',
   props<{pairingId: number}>()
+);
+
+export const clearResults = createAction(
+  '[Pairings Page] Clear Results',
+  props<{pairings: Pairing[]}>()
 );
 
 export const createPairings = createAction(

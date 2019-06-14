@@ -81,12 +81,16 @@ export class PairingsPageComponent {
   //   // this.roundService.createNextRound();
   // }
 
-  clearMatchResult(pairingId: number): void {
+  clearMatchResult(pairingId: number) {
     this.store.dispatch(PairingsPageActions.clearMatchResult({pairingId}));
   }
 
-  createPairings(roundId: number): void {
+  createPairings(roundId: number) {
     this.store.dispatch(PairingsPageActions.createPairings({roundId}));
+  }
+
+  deleteResults(pairings: Pairing[]) {
+    this.store.dispatch(PairingsPageActions.clearResults({pairings}));
   }
 
   // generatePairings(): void {
@@ -94,7 +98,7 @@ export class PairingsPageComponent {
     // this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
   // }
 
-  onLastResultSubmitted(): void {
+  onLastResultSubmitted() {
     // this.roundService.markRoundAsComplete(this.selectedRound);
     // this.standingsService.calculateStandings();
     // this.router.navigate(['/swiss/standings']);

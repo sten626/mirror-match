@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player } from 'app/shared';
 
@@ -7,8 +7,7 @@ import { Pairing, Player } from 'app/shared';
   styles: ['.redo-matches { margin-right: 1em; }'],
   templateUrl: './pairings-list.component.html'
 })
-export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
-  // @Input() filterText: string;
+export class PairingsListComponent {
   @Input() hasSubmittedPairings: boolean;
   @Input() pairings: Pairing[];
   @Input() pairingsExist: boolean;
@@ -16,7 +15,7 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   @Input() selectedPairingId: number;
   @Input() selectedRoundComplete: boolean;
   @Input() selectedRoundId: number;
-  // @Output() filterTextChanged = new EventEmitter<string>();
+  @Output() deleteResults = new EventEmitter<Pairing[]>();
   @Output() redoMatches = new EventEmitter<number>();
   @Output() selectPairing = new EventEmitter<number>();
 
@@ -27,53 +26,6 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
   // @Output() redoMatchesForRound = new EventEmitter<string>();
   // @Output() resultSubmitted = new EventEmitter<Pairing>();
-
-  // filterText$: Observable<string>;
-  // filterTextSub: Subscription;
-  // pairingsListForm: FormGroup = new FormGroup({
-  //   filterText: new FormControl(''),
-  //   showOutstandingOnly: new FormControl(true)
-  // });
-  // showOutstandingOnlySub: Subscription;
-
-  ngOnInit() {
-    // this.filterText$ = this.pairingsListForm.get('filterText').valueChanges.pipe(
-    //   debounceTime(10),
-    //   map(filterText => filterText.trim().toLowerCase()),
-    //   distinctUntilChanged()
-    // );
-    // this.filterTextSub = this.filterText$.subscribe(filterText => this.filterTextChanged.emit(filterText));
-    // this.showOutstandingOnlySub = this.pairingsListForm.get('showOutstandingOnly').valueChanges.subscribe(
-    //   showOutstandingOnly => this.showOutstandingOnlyChanged.emit(showOutstandingOnly)
-    // );
-  }
-
-  ngOnChanges() {
-    // if (changes.filterText) {
-    //   this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
-    //     emitEvent: false
-    //   });
-    // }
-    // if (this.pairings) {
-    //   if (this.pairings.length === 0) {
-    //     this.pairingsExist = false;
-    //     this.selectedRoundComplete = false;
-    //     this.selectedRoundHasSubmittedPairings = false;
-    //   } else {
-    //     this.filterPairings();
-    //     this.pairingsExist = true;
-    //     this.selectedRoundComplete = this.pairings
-    //       .map(p => p.submitted)
-    //       .reduce((prevSubmitted, curSubmitted) => prevSubmitted && curSubmitted);
-
-    //     // this.selectedRoundHasSubmittedPairings = this.pairings.filter(p => p.submitted && !p.bye).length > 0;
-    //   }
-    // }
-  }
-
-  ngOnDestroy() {
-    // this.filterTextSub.unsubscribe();
-  }
 
   // deleteResults() {
   //   // this.pairings.forEach(pairing => {

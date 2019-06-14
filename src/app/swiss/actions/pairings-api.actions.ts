@@ -1,9 +1,15 @@
+import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Pairing } from 'app/shared';
 
 export const addPairings = createAction(
   '[Pairings/API] Add Pairings',
   props<{pairings: Pairing[]}>()
+);
+
+export const clearResultsSuccess = createAction(
+  '[Pairings/API] Clear Results Success',
+  props<{pairings: Update<Pairing>[]}>()
 );
 
 export const createPairingsSuccess = createAction(
