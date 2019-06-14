@@ -19,6 +19,10 @@ export const reducer = createReducer(
   on(PairingsApiActions.clearResultsSuccess, (state, {pairings}) => adapter.updateMany(pairings, state)),
   on(PairingsApiActions.deletePairingsSuccess, (state, {pairingIds}) => adapter.removeMany(pairingIds, state)),
   on(PairingsApiActions.loadPairingsSuccess, (state, {pairings}) => adapter.addAll(pairings, state)),
+  on(PairingsApiActions.submitResultSuccess, (state, {pairing}) => adapter.updateOne(pairing, {
+    ...state,
+    selectedPairingId: null
+  })),
   on(PairingsPageActions.selectPairing, (state, {pairingId}) => ({
     ...state,
     selectedPairingId: pairingId

@@ -30,3 +30,8 @@ export const selectPairing = createAction(
   '[Pairings Page] Select Pairing',
   props<{pairingId: number}>()
 );
+
+export const submitResult = createAction(
+  '[Pairings Page] Submit Result',
+  props<{pairing: Pairing}>()
+);

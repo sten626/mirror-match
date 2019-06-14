@@ -98,6 +98,25 @@ export class PairingEffects implements OnInitEffects {
     )
   ));
 
+  submitResult$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.submitResult),
+    mergeMap(({pairing}) =>
+      this.storageService.updatePairing(pairing).pipe(
+        map(() => PairingsApiActions.submitResultSuccess({
+          pairing: {
+            id: pairing.id,
+            changes: {
+              player1Wins: pairing.player1Wins,
+              player2Wins: pairing.player2Wins,
+              draws: pairing.draws,
+              submitted: pairing.submitted
+            }
+          }
+        }))
+      )
+    )
+  ));
+
   private nextId = 1;
 
   constructor(

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { matchResultValidator, Pairing, Player } from 'app/shared';
@@ -11,6 +11,7 @@ export class MatchResultsComponent implements OnChanges {
   @Input() playerEntities: Dictionary<Player>;
   @Input() selectedPairing: Pairing;
   @Output() clearMatchResult = new EventEmitter<Pairing>();
+  @Output() submitResult = new EventEmitter<Pairing>();
   // @Output() matchResultCleared = new EventEmitter<Pairing>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
   // @Output() resultSubmitted = new EventEmitter<Pairing>();
@@ -27,8 +28,10 @@ export class MatchResultsComponent implements OnChanges {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnChanges() {
-    this.resetForm();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedPairing && !changes.selectedPairing.firstChange) {
+      this.resetForm(this.matchResultsForm, changes.selectedPairing.currentValue);
+    }
   }
 
   incrementDraws() {
@@ -56,6 +59,17 @@ export class MatchResultsComponent implements OnChanges {
   }
 
   submit() {
+    const form = this.matchResultsForm;
+    const pairing = {
+      ...this.selectedPairing,
+      player1Wins: form.get('player1Wins').value,
+      player2Wins: form.get('player2Wins').value,
+      draws: form.get('draws').value,
+      submitted: true
+    };
+
+    this.submitResult.emit(pairing);
+
     // const form = this.matchResultsForm;
     // this.selectedPairing.player1Wins = form.get('player1Wins').value;
     // this.selectedPairing.player2Wins = form.get('player2Wins').value;
@@ -103,15 +117,15 @@ export class MatchResultsComponent implements OnChanges {
   //   const gamesPlayed = player1Wins + player2Wins + draws;
   // }
 
-  private resetForm() {
-    if (this.selectedPairing) {
-      this.matchResultsForm.reset({
-        player1Wins: this.selectedPairing.player1Wins,
-        player2Wins: this.selectedPairing.player2Wins,
-        draws: this.selectedPairing.draws
+  private resetForm(form: FormGroup, selectedPairing: Pairing | null) {
+    if (selectedPairing) {
+      form.reset({
+        player1Wins: selectedPairing.player1Wins,
+        player2Wins: selectedPairing.player2Wins,
+        draws: selectedPairing.draws
       });
     } else {
-      this.matchResultsForm.reset({
+      form.reset({
         player1Wins: 0,
         player2Wins: 0,
         draws: 0

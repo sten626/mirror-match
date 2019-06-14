@@ -30,3 +30,8 @@ export const loadPairingsSuccess = createAction(
   '[Pairings/API] Load Pairings Success',
   props<{pairings: Pairing[]}>()
 );
+
+export const submitResultSuccess = createAction(
+  '[Pairings/API] Submit Result Success',
+  props<{pairing: Update<Pairing>}>()
+);

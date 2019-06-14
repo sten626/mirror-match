@@ -39,4 +39,11 @@ export class PairingStorageService extends StorageService {
   getPairings(): Observable<Pairing[]> {
     return this.getArray(this.pairingsKey);
   }
+
+  updatePairing(pairing: Pairing): Observable<Pairing[]> {
+    return this.getPairings().pipe(
+      map(pairings => pairings.map(p => p.id === pairing.id ? pairing : p)),
+      tap(pairings => this.storage.setItem(this.pairingsKey, JSON.stringify(pairings)))
+    );
+  }
 }

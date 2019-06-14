@@ -114,24 +114,20 @@ export class PairingsPageComponent {
   //   // this.roundService.markRoundAsIncomplete(this.selectedRound);
   // }
 
-  redoMatches(roundId: number): void {
+  redoMatches(roundId: number) {
     this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
   }
 
-  roundChanged(roundId: number): void {
+  roundChanged(roundId: number) {
     this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
   }
 
-  selectPairing(pairingId: number): void {
+  selectPairing(pairingId: number) {
     this.store.dispatch(PairingsPageActions.selectPairing({pairingId}));
   }
 
-  updateFilterText(filterText: string): void {
-    console.log('Not implemented. ' + filterText);
-  }
-
-  updateShowOutstandingOnly(showOutstandingOnly: boolean): void {
-    console.log('Not implemented. ' + showOutstandingOnly);
+  submitResult(pairing: Pairing) {
+    this.store.dispatch(PairingsPageActions.submitResult({pairing}));
   }
 
   // onResultSubmitted(pairing: Pairing): void {
