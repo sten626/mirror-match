@@ -10,12 +10,14 @@ import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 })
 export class PairingsListFormComponent implements OnDestroy, OnInit {
   @Output() filterTextChanged = new EventEmitter<string>();
+  @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
 
   filterTextSub: Subscription;
   pairingsListForm: FormGroup = new FormGroup({
     filterText: new FormControl(''),
     showOutstandingOnly: new FormControl(true)
   });
+  showOutstandingOnlySub: Subscription;
 
   ngOnInit() {
     this.filterTextSub = this.pairingsListForm.get('filterText').valueChanges.pipe(
@@ -23,9 +25,14 @@ export class PairingsListFormComponent implements OnDestroy, OnInit {
       map(filterText => filterText.trim().toLowerCase()),
       distinctUntilChanged()
     ).subscribe(filterText => this.filterTextChanged.emit(filterText));
+
+    this.showOutstandingOnlySub = this.pairingsListForm.get('showOutstandingOnly').valueChanges.subscribe(
+      showOutstandingOnly => this.showOutstandingOnlyChanged.emit(showOutstandingOnly)
+    );
   }
 
   ngOnDestroy() {
     this.filterTextSub.unsubscribe();
+    this.showOutstandingOnlySub.unsubscribe();
   }
 }

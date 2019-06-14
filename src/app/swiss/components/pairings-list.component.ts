@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player } from 'app/shared';
 
@@ -19,9 +19,9 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
   // @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<number>();
   @Output() selectPairing = new EventEmitter<number>();
-  @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
 
   filterText = '';
+  showOutstandingOnly = true;
   // @Output() lastResultSubmitted = new EventEmitter<string>();
   // @Output() matchResultsCleared = new EventEmitter<Pairing[]>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
@@ -48,7 +48,7 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
     // );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     // if (changes.filterText) {
     //   this.pairingsListForm.get('filterText').setValue(changes.filterText.currentValue, {
     //     emitEvent: false
@@ -122,6 +122,10 @@ export class PairingsListComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     return 'Awaiting Result';
+  }
+
+  showOutstandingOnlyChanged(showOutstandingOnly: boolean) {
+    this.showOutstandingOnly = showOutstandingOnly;
   }
 
   // private filterPairings() {

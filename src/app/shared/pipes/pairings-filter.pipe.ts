@@ -6,8 +6,12 @@ import { Pairing, Player } from 'app/shared/models';
   name: 'pairingsFilter'
 })
 export class PairingsFilterPipe implements PipeTransform {
-  transform(pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string): Pairing[] {
+  transform(pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean): Pairing[] {
     return pairings.filter(pairing => {
+      if (showOutstandingOnly && pairing.submitted) {
+        return false;
+      }
+
       if (pairing.table.toString() === filterText) {
         return true;
       }
