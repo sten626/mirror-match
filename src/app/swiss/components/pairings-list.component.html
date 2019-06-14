@@ -2,6 +2,7 @@
   <div class="col-xs-12">
     <mm-pairings-list-form
       (filterTextChanged)="filterTextChanged($event)"
+      (redoMatches)="redoMatches.emit(selectedRoundId)"
       (showOutstandingOnlyChanged)="showOutstandingOnlyChanged($event)">
     </mm-pairings-list-form>
     <table class="table table-hover">

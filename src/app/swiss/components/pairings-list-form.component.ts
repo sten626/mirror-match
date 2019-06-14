@@ -10,6 +10,7 @@ import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 })
 export class PairingsListFormComponent implements OnDestroy, OnInit {
   @Output() filterTextChanged = new EventEmitter<string>();
+  @Output() redoMatches = new EventEmitter<any>();
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
 
   filterTextSub: Subscription;
