@@ -20,8 +20,9 @@ export class PairingsPageComponent {
   pairingsFilterText$: Observable<string>;
   playerEntities$: Observable<Dictionary<Player>>;
   roundIds$: Observable<number[] | string[]>;
-  selectedPairing$: Observable<Pairing>;
-  selectedPairingId$: Observable<number>;
+  selectedPairing: Pairing;
+  // selectedPairing$: Observable<Pairing>;
+  // selectedPairingId$: Observable<number>;
   selectedRoundComplete$: Observable<boolean>;
   selectedRoundId$: Observable<number>;
   // selectedRoundHasPairings$: Observable<boolean>;
@@ -51,12 +52,6 @@ export class PairingsPageComponent {
     );
     this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
-    );
-    this.selectedPairing$ = this.store.pipe(
-      select(fromSwiss.getSelectedPairing)
-    );
-    this.selectedPairingId$ = this.store.pipe(
-      select(fromSwiss.getSelectedPairingId)
     );
     this.selectedRoundComplete$ = this.store.pipe(
       select(fromSwiss.getSelectedRoundComplete)
@@ -93,11 +88,6 @@ export class PairingsPageComponent {
     this.store.dispatch(PairingsPageActions.clearResults({pairings}));
   }
 
-  // generatePairings(): void {
-    // const lastRound = this.roundService.getTotalNumberOfRounds();
-    // this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
-  // }
-
   onLastResultSubmitted() {
     // this.roundService.markRoundAsComplete(this.selectedRound);
     // this.standingsService.calculateStandings();
@@ -126,8 +116,8 @@ export class PairingsPageComponent {
     this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
   }
 
-  selectPairing(pairingId: number): void {
-    this.store.dispatch(PairingsPageActions.selectPairing({pairingId}));
+  selectPairing(pairing: Pairing): void {
+    this.selectedPairing = pairing;
   }
 
   updateFilterText(filterText: string): void {

@@ -25,8 +25,3 @@ export const deletePairings = createAction(
   '[Pairings Page] Delete Pairings',
   props<{roundId: number}>()
 );
-
-export const selectPairing = createAction(
-  '[Pairings Page] Select Pairing',
-  props<{pairingId: number}>()
-);

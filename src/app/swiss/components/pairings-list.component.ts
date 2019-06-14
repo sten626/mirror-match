@@ -17,7 +17,7 @@ export class PairingsListComponent {
   @Input() selectedRoundId: number;
   @Output() deleteResults = new EventEmitter<Pairing[]>();
   @Output() redoMatches = new EventEmitter<number>();
-  @Output() selectPairing = new EventEmitter<number>();
+  @Output() selectPairing = new EventEmitter<Pairing>();
 
   filterText = '';
   showOutstandingOnly = true;
