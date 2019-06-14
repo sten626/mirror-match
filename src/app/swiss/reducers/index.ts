@@ -37,12 +37,23 @@ export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
    state => state.pairings
  );
 
+ export const getSelectedPairingId = createSelector(
+   getPairingsState,
+   fromPairings.getSelectedPairingId
+ );
+
  export const {
    selectIds: getPairingIds,
    selectEntities: getPairingEntities,
    selectAll: getAllPairings,
    selectTotal: getTotalPairings
  } = fromPairings.adapter.getSelectors(getPairingsState);
+
+ export const getSelectedPairing = createSelector(
+  getSelectedPairingId,
+  getPairingEntities,
+  (pairingId: number, pairings: Dictionary<Pairing>) => pairings[pairingId]
+);
 
 /**
  * Player selectors.

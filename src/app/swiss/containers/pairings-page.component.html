@@ -11,6 +11,7 @@
   [pairings]="pairings$ | async"
   [pairingsExist]="pairingsExist$ | async"
   [playerEntities]="playerEntities$ | async"
+  [selectedPairingId]="selectedPairingId$ | async"
   [selectedRoundComplete]="selectedRoundComplete$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
   (redoMatches)="redoMatches($event)"
@@ -18,7 +19,7 @@
 </mm-pairings-list>
 <mm-match-results
   [playerEntities]="playerEntities$ | async"
-  [selectedPairing]="selectedPairing"
+  [selectedPairing]="selectedPairing$ | async"
   (clearMatchResult)="clearMatchResult($event)"
   (deleteResults)="deleteResults($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
