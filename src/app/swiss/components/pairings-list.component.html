@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let pairing of pairings | pairingsFilter: playerEntities:filterText:showOutstandingOnly"
-            [ngClass]="{'active': selectedPairingId === pairing.table}"
+            [ngClass]="{'active': selectedPairing?.id === pairing.id}"
             (click)="selectPairing.emit(pairing.id)">
           <td>{{pairing.table}}</td>
           <td>{{playerEntities[pairing.player1Id].name}}</td>

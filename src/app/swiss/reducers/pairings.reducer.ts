@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Pairing } from 'app/shared';
-import { PairingsApiActions } from '../actions';
+import { PairingsApiActions, PairingsPageActions } from '../actions';
 import { createReducer, on } from '@ngrx/store';
 
 export interface State extends EntityState<Pairing> {
@@ -18,7 +18,11 @@ export const reducer = createReducer(
   on(PairingsApiActions.addPairings, (state, {pairings}) => adapter.addMany(pairings, state)),
   on(PairingsApiActions.clearResultsSuccess, (state, {pairings}) => adapter.updateMany(pairings, state)),
   on(PairingsApiActions.deletePairingsSuccess, (state, {pairingIds}) => adapter.removeMany(pairingIds, state)),
-  on(PairingsApiActions.loadPairingsSuccess, (state, {pairings}) => adapter.addAll(pairings, state))
+  on(PairingsApiActions.loadPairingsSuccess, (state, {pairings}) => adapter.addAll(pairings, state)),
+  on(PairingsPageActions.selectPairing, (state, {pairingId}) => ({
+    ...state,
+    selectedPairingId: pairingId
+  }))
 );
 
 export const getSelectedPairingId = (state: State) => state.selectedPairingId;

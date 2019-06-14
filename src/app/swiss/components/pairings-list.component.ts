@@ -12,7 +12,7 @@ export class PairingsListComponent {
   @Input() pairings: Pairing[];
   @Input() pairingsExist: boolean;
   @Input() playerEntities: Dictionary<Player>;
-  @Input() selectedPairingId: number;
+  @Input() selectedPairing: Pairing;
   @Input() selectedRoundComplete: boolean;
   @Input() selectedRoundId: number;
   @Output() deleteResults = new EventEmitter<Pairing[]>();
