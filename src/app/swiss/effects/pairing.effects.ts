@@ -19,6 +19,25 @@ export class PairingEffects implements OnInitEffects {
     )
   ));
 
+  clearMatchResult$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.clearMatchResult),
+    mergeMap(({pairing}) =>
+      this.storageService.clearResults([pairing.id]).pipe(
+        map(() => PairingsApiActions.clearMatchResultSuccess({
+          pairing: {
+            id: pairing.id,
+            changes: {
+              player1Wins: 0,
+              player2Wins: 0,
+              draws: 0,
+              submitted: false
+            }
+          }
+        }))
+      )
+    )
+  ));
+
   clearResults$ = createEffect(() => this.actions$.pipe(
     ofType(PairingsPageActions.clearResults),
     map(({pairings}) => pairings.map(p => p.id)),

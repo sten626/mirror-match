@@ -77,8 +77,8 @@ export class PairingsPageComponent {
   //   // this.roundService.createNextRound();
   // }
 
-  clearMatchResult(pairingId: number) {
-    this.store.dispatch(PairingsPageActions.clearMatchResult({pairingId}));
+  clearMatchResult(pairing: Pairing) {
+    this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
   }
 
   createPairings(roundId: number) {

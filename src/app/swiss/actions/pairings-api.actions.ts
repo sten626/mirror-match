@@ -7,6 +7,11 @@ export const addPairings = createAction(
   props<{pairings: Pairing[]}>()
 );
 
+export const clearMatchResultSuccess = createAction(
+  '[Pairings/API] Clear Match Result Success',
+  props<{pairing: Update<Pairing>}>()
+);
+
 export const clearResultsSuccess = createAction(
   '[Pairings/API] Clear Results Success',
   props<{pairings: Update<Pairing>[]}>()

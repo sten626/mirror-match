@@ -8,7 +8,7 @@ export const changeSelectedRound = createAction(
 
 export const clearMatchResult = createAction(
   '[Pairings Page] Clear Match Result',
-  props<{pairingId: number}>()
+  props<{pairing: Pairing}>()
 );
 
 export const clearResults = createAction(
