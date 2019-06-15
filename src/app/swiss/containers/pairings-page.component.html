@@ -14,6 +14,7 @@
   [selectedPairing]="selectedPairing$ | async"
   [selectedRoundComplete]="selectedRoundComplete$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
+  (deleteResults)="deleteResults($event)"
   (redoMatches)="redoMatches($event)"
   (selectPairing)="selectPairing($event)">
 </mm-pairings-list>
@@ -21,7 +22,6 @@
   [playerEntities]="playerEntities$ | async"
   [selectedPairing]="selectedPairing$ | async"
   (clearMatchResult)="clearMatchResult($event)"
-  (deleteResults)="deleteResults($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
   (submitResult)="submitResult($event)">
 </mm-match-results>

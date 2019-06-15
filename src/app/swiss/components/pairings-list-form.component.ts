@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './pairings-list-form.component.html'
 })
 export class PairingsListFormComponent implements OnDestroy, OnInit {
+  @Input() hasSubmittedPairings: boolean;
   @Output() deleteResults = new EventEmitter<any>();
   @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<any>();
