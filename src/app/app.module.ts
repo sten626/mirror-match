@@ -13,8 +13,6 @@ import {
   MessageService,
   PairingService,
   PairingStorageService,
-  PlayerService,
-  RoundService,
   RoundStorageService,
   SharedModule,
   StandingsService,
@@ -46,9 +44,7 @@ import { environment } from '../environments/environment';
     MessageService,
     PairingService,
     PairingStorageService,
-    PlayerService,
     PlayerStorageService,
-    RoundService,
     RoundStorageService,
     StandingsService
   ],

@@ -2,16 +2,16 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { Player, PlayerService, RoundService, SharedModule } from '../../shared';
-import { PlayersPageActions, PlayersApiActions } from '../actions';
-import * as fromPlayers from '../reducers';
+import { Player, SharedModule } from 'app/shared';
+import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
+import * as fromSwiss from 'app/swiss/reducers';
 import { PlayersPageComponent } from './players-page.component';
 
 describe('Players Page Component', () => {
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
   const numberOfDispatchesInInit = 2;
-  let store: Store<fromPlayers.State>;
+  let store: Store<fromSwiss.State>;
   let player1: Player;
   let player2: Player;
 
@@ -35,15 +35,13 @@ describe('Players Page Component', () => {
       name: 'Jasper'
     };
 
-    const playerServiceStub: Partial<PlayerService> = {};
-    const roundServiceStub: Partial<RoundService> = {};
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
         StoreModule.forRoot({
-          ...fromPlayers.reducers
+          ...fromSwiss.reducers
         })
       ],
       declarations: [
@@ -53,8 +51,6 @@ describe('Players Page Component', () => {
         SwissPlayersStartStubComponent
       ],
       providers: [
-        { provide: PlayerService, useValue: playerServiceStub },
-        { provide: RoundService, useValue: roundServiceStub },
         { provide: Router, useValue: routerSpy }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]

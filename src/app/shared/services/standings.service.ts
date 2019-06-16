@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Pairing, Player, Standing } from '../models';
-import { PlayerService } from './player.service';
 
 @Injectable()
 export class StandingsService {
@@ -9,24 +8,23 @@ export class StandingsService {
 
   private allSubmittedPairings: Pairing[];
   private players: Player[];
-  private playersMap: {[id: number]: Player} = {};
+  // private playersMap: {[id: number]: Player} = {};
   private standingsSubject$ = new BehaviorSubject<Standing[]>([]);
 
   constructor(
     // private pairingService: PairingService,
-    private playerService: PlayerService
   ) {
     this.standings$ = this.standingsSubject$.asObservable();
 
-    this.playerService.players$.subscribe((players: Player[]) => {
-      this.players = players.slice();
+    // this.playerService.players$.subscribe((players: Player[]) => {
+    //   this.players = players.slice();
 
-      // Create map of players by ID.
-      this.playersMap = {};
-      this.players.forEach((player: Player) => {
-        this.playersMap[player.id] = player;
-      });
-    });
+    //   // Create map of players by ID.
+    //   this.playersMap = {};
+    //   this.players.forEach((player: Player) => {
+    //     this.playersMap[player.id] = player;
+    //   });
+    // });
 
     // this.pairingService.submittedPairings$.subscribe((pairings: Pairing[]) => {
     //   this.allSubmittedPairings = pairings;
@@ -139,7 +137,7 @@ export class StandingsService {
       // ));
     });
 
-    this.playerService.saveAll();
+    // this.playerService.saveAll();
 
     standings.sort((a: Standing, b: Standing) => {
       if (a.matchPoints !== b.matchPoints) {

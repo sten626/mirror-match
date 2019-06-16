@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Message, MessageService, RoundService } from 'app/shared';
+import { Message, MessageService } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,6 @@ export class SwissComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private roundService: RoundService,
     private store: Store<fromSwiss.State>
   ) {
     this.hasTournamentStarted$ = this.store.pipe(
@@ -32,7 +31,6 @@ export class SwissComponent implements OnInit {
     this.messageService.messages.subscribe((message: Message) => {
       this.messages.push(message);
     });
-    this.roundService.hasCompletedRounds$.subscribe((hasCompletedRounds: boolean) => this.hasCompletedRounds = hasCompletedRounds);
   }
 
   dismissMessage(message: Message): void {
