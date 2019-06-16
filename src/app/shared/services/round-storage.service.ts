@@ -34,11 +34,11 @@ export class RoundStorageService extends StorageService {
   }
 
   setNumberOfRounds(numberOfRounds: number): Observable<boolean> {
-    return this.setNumber(this.numberOfRoundsKey, numberOfRounds);
+    return this.setItem(this.numberOfRoundsKey, numberOfRounds);
   }
 
   setSelectedRound(roundId: number): Observable<boolean> {
-    return this.setNumber(this.selectedRoundKey, roundId);
+    return this.setItem(this.selectedRoundKey, roundId);
   }
 
   // updatePairing(pairing: Pairing): Observable<Pairing> {

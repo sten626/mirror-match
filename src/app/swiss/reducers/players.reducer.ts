@@ -19,6 +19,7 @@ export const reducer = createReducer(
   initialState,
   on(PlayersApiActions.addPlayerSuccess, (state, {player}) => adapter.addOne(player, state)),
   on(PlayersApiActions.deletePlayerSuccess, (state, {playerId}) => adapter.removeOne(playerId, state)),
+  on(PlayersApiActions.dropPlayersSuccess, (state, {players}) => adapter.updateMany(players, state)),
   on(PlayersApiActions.loadPlayers, state => ({
     ...state,
     loading: true

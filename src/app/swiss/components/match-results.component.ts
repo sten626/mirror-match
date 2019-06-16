@@ -11,6 +11,7 @@ export class MatchResultsComponent implements OnChanges {
   @Input() playerEntities: Dictionary<Player>;
   @Input() selectedPairing: Pairing;
   @Output() clearMatchResult = new EventEmitter<Pairing>();
+  @Output() dropPlayers = new EventEmitter<Player[]>();
   @Output() submitResult = new EventEmitter<Pairing>();
   // @Output() matchResultCleared = new EventEmitter<Pairing>();
   // @Output() playerDroppedChanged = new EventEmitter<Player>();
@@ -69,6 +70,20 @@ export class MatchResultsComponent implements OnChanges {
     };
 
     this.submitResult.emit(pairing);
+
+    const playersToDrop = [];
+
+    if (form.get('player1Dropped').value) {
+      playersToDrop.push(this.playerEntities[pairing.player1Id]);
+    }
+
+    if (form.get('player2Dropped').value) {
+      playersToDrop.push(this.playerEntities[pairing.player2Id]);
+    }
+
+    if (playersToDrop.length > 0) {
+      this.dropPlayers.emit(playersToDrop);
+    }
 
     // const form = this.matchResultsForm;
     // this.selectedPairing.player1Wins = form.get('player1Wins').value;

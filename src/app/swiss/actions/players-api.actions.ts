@@ -12,6 +12,11 @@ export const deletePlayerSuccess = createAction(
   props<{playerId: number}>()
 );
 
+export const dropPlayersSuccess = createAction(
+  '[Players/API] Drop Players Success',
+  props<{players: Update<Player>[]}>()
+);
+
 export const loadPlayers = createAction(
   '[Players/API] Load Players'
 );

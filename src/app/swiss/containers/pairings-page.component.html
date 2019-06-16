@@ -22,6 +22,7 @@
   [playerEntities]="playerEntities$ | async"
   [selectedPairing]="selectedPairing$ | async"
   (clearMatchResult)="clearMatchResult($event)"
+  (dropPlayers)="dropPlayers($event)"
   (playerDroppedChanged)="onPlayerDroppedChanged($event)"
   (submitResult)="submitResult($event)">
 </mm-match-results>

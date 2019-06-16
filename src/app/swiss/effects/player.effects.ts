@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
 import { Player, playerDefaults, PlayerStorageService } from 'app/shared';
-import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
+import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -25,6 +26,22 @@ export class PlayerEffects implements OnInitEffects {
     mergeMap(({playerId}) =>
       this.storageService.removePlayers([playerId]).pipe(
         map(() => PlayersApiActions.deletePlayerSuccess({playerId}))
+      )
+    )
+  ));
+
+  dropPlayers$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.dropPlayers),
+    map(({players}) => players.map(p => p.id)),
+    mergeMap(playerIds =>
+      this.storageService.dropPlayers(playerIds).pipe(
+        map(() => playerIds.map(pid => ({
+          id: pid,
+          changes: {
+            dropped: true
+          }
+        }) as Update<Player>)),
+        map((players) => PlayersApiActions.dropPlayersSuccess({players}))
       )
     )
   ));

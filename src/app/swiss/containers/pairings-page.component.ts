@@ -89,10 +89,9 @@ export class PairingsPageComponent {
     this.store.dispatch(PairingsPageActions.clearResults({pairings}));
   }
 
-  // generatePairings(): void {
-    // const lastRound = this.roundService.getTotalNumberOfRounds();
-    // this.pairingService.createPairings(this.selectedRound, this.selectedRound === lastRound);
-  // }
+  dropPlayers(players: Player[]) {
+    this.store.dispatch(PairingsPageActions.dropPlayers({players}));
+  }
 
   onLastResultSubmitted() {
     // this.roundService.markRoundAsComplete(this.selectedRound);
@@ -100,18 +99,8 @@ export class PairingsPageComponent {
     // this.router.navigate(['/swiss/standings']);
   }
 
-  // onMatchResultsCleared(pairings: Pairing[]): void {
-  //   this.pairingService.updatePairings(pairings);
-  //   this.roundService.markRoundAsIncomplete(this.selectedRound);
-  // }
-
   // onPlayerDroppedChanged(player: Player): void {
   //   this.playerService.updatePlayer(player);
-  // }
-
-  // onRedoMatchesForRound(): void {
-  //   // this.pairingService.deletePairings(this.selectedRound);
-  //   // this.roundService.markRoundAsIncomplete(this.selectedRound);
   // }
 
   redoMatches(roundId: number) {

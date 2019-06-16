@@ -52,7 +52,7 @@ export class StorageService {
     );
   }
 
-  protected setNumber(key: string, value: number): Observable<boolean> {
+  protected setItem(key: string, value: any): Observable<boolean> {
     return this.supported().pipe(
       tap(() => this.storage.setItem(key, JSON.stringify(value)))
     );

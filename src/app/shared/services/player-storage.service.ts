@@ -16,7 +16,7 @@ export class PlayerStorageService extends StorageService {
           id: value.length > 0 ? value[value.length - 1].id + 1 : 1
         }
       ]),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),
+      tap((value: Player[]) => this.setItem(this.playersKey, value)),
       map((value: Player[]) => value[value.length - 1])
     );
   }
@@ -27,6 +27,16 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
+  dropPlayers(playerIds: number[]): Observable<Player[]> {
+    return this.getPlayers().pipe(
+      map(value => value.map(p => playerIds.includes(p.id) ? {
+        ...p,
+        dropped: true
+      } : p)),
+      tap(value => this.setItem(this.playersKey, value))
+    );
+  }
+
   getPlayers(): Observable<Player[]> {
     return this.getArray(this.playersKey);
   }
@@ -34,14 +44,14 @@ export class PlayerStorageService extends StorageService {
   removePlayers(ids: number[]): Observable<Player[]> {
     return this.getPlayers().pipe(
       map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      tap((value: Player[]) => this.setItem(this.playersKey, value))
     );
   }
 
   updatePlayer(player: Player): Observable<Player[]> {
     return this.getPlayers().pipe(
       map((value: Player[]) => value.map((item: Player) => item.id === player.id ? player : item)),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      tap((value: Player[]) => this.setItem(this.playersKey, value))
     );
   }
 }
