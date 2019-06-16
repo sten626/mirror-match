@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PairingsFilterPipe } from './pipes/pairings-filter.pipe';
+import { PairingsFilterPipe } from 'app/shared/pipes';
 
 @NgModule({
   imports: [

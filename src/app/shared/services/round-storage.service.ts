@@ -33,17 +33,13 @@ export class RoundStorageService extends StorageService {
     return this.getNumber(this.selectedRoundKey, 1);
   }
 
-  setNumberOfRounds(numberOfRounds: number): Observable<boolean> {
-    return this.setItem(this.numberOfRoundsKey, numberOfRounds);
+  setNumberOfRounds(numberOfRounds: number): Observable<number> {
+    return this.setNumber(this.numberOfRoundsKey, numberOfRounds);
   }
 
-  setSelectedRound(roundId: number): Observable<boolean> {
-    return this.setItem(this.selectedRoundKey, roundId);
+  setSelectedRound(roundId: number): Observable<number> {
+    return this.setNumber(this.selectedRoundKey, roundId);
   }
-
-  // updatePairing(pairing: Pairing): Observable<Pairing> {
-
-  // }
 
   updateRound(round: Round): Observable<Round[]> {
     return this.getRounds().pipe(
