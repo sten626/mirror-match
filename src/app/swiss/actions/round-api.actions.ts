@@ -25,6 +25,11 @@ export const loadRoundsSuccess = createAction(
   }>()
 );
 
+export const roundCompleted = createAction(
+  '[Round/API] Round Completed',
+  props<{roundId: number}>()
+);
+
 export const setSelectedRound = createAction(
   '[Round/API] Set SelectedRound',
   props<{roundId: number}>()
