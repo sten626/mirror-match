@@ -34,11 +34,16 @@ export const reducer = createReducer(
     ...state,
     numberOfRounds: numberOfRounds
   })),
-  on(RoundApiActions.loadRoundsSuccess, (state, {numberOfRounds, rounds, selectedRoundId}) => adapter.addAll(rounds, {
+  on(RoundApiActions.loadRoundsSuccess, (state, {completedRoundId, numberOfRounds, rounds, selectedRoundId}) => adapter.addAll(rounds, {
     ...state,
+    completedRoundId: completedRoundId,
     numberOfRounds: numberOfRounds,
     loaded: true,
     selectedRoundId: selectedRoundId
+  })),
+  on(RoundApiActions.setCompletedRoundSuccess, (state, {roundId}) => ({
+    ...state,
+    completedRoundId: roundId
   })),
   on(RoundApiActions.updateRound, (state, {round}) => adapter.updateOne(round, {
     ...state,
@@ -54,12 +59,6 @@ export const reducer = createReducer(
 //     | RoundApiActions.RoundApiActionsUnion
 // ): State {
 //   switch (action.type) {
-//     case PairingsPageActions.PairingsPageActionTypes.SelectPairing: {
-//       return {
-//         ...state,
-//         selectedPairingId: action.payload
-//       };
-//     }
 //     case RoundApiActions.RoundApiActionTypes.CreateRoundSuccess: {
 //       return {
 //         ...adapter.addOne(action.payload, state),

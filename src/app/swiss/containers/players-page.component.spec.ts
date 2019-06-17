@@ -27,12 +27,14 @@ describe('Players Page Component', () => {
   beforeEach(() => {
     player1 = {
       id: 1,
-      name: 'Sten'
+      name: 'Sten',
+      dropped: false
     };
 
     player2 = {
       id: 2,
-      name: 'Jasper'
+      name: 'Jasper',
+      dropped: false
     };
 
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);

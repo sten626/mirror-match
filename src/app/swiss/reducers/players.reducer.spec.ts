@@ -1,14 +1,17 @@
+import { Player } from 'app/shared';
+import { PlayersApiActions } from 'app/swiss/actions';
 import * as fromPlayers from 'app/swiss/reducers/players.reducer';
-import { PlayersApiActions } from '../actions';
 
 describe('PlayersReducer', () => {
-  const player1 = {
+  const player1: Player = {
     id: 1,
-    name: 'Steven'
+    name: 'Steven',
+    dropped: false,
   };
-  const player2 = {
+  const player2: Player = {
     id: 2,
-    name: 'Jasper'
+    name: 'Jasper',
+    dropped: false
   };
   // const player3 = {
   //   id: 3,

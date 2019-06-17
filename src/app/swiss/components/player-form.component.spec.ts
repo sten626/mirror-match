@@ -25,7 +25,8 @@ describe('Player Form Component', () => {
 
     player = {
       id: 1,
-      name: 'Sten'
+      name: 'Sten',
+      dropped: false
     };
   });
 

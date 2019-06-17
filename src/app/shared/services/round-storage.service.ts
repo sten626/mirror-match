@@ -6,6 +6,7 @@ import { StorageService } from './storage.service';
 
 @Injectable()
 export class RoundStorageService extends StorageService {
+  private completedRoundKey = 'mm-completed-round';
   private numberOfRoundsKey = 'mm-number-of-rounds';
   private roundsKey = 'mm-rounds';
   private selectedRoundKey = 'mm-selected-round';
@@ -21,6 +22,10 @@ export class RoundStorageService extends StorageService {
     );
   }
 
+  getCompletedRound(): Observable<number> {
+    return this.getNumber(this.completedRoundKey);
+  }
+
   getNumberOfRounds(): Observable<number> {
     return this.getNumber(this.numberOfRoundsKey);
   }
@@ -31,6 +36,10 @@ export class RoundStorageService extends StorageService {
 
   getSelectedRound(): Observable<number> {
     return this.getNumber(this.selectedRoundKey, 1);
+  }
+
+  setCompletedRound(roundId: number): Observable<number> {
+    return this.setNumber(this.completedRoundKey, roundId);
   }
 
   setNumberOfRounds(numberOfRounds: number): Observable<number> {

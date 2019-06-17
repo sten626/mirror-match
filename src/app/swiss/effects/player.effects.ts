@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-import { Player, playerDefaults, PlayerStorageService } from 'app/shared';
+import { Player, PlayerStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -10,9 +10,9 @@ export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() => this.actions$.pipe(
     ofType(PlayersPageActions.addPlayer),
     map(({playerName}) => ({
-      ...playerDefaults,
       id: this.nextId++,
-      name: playerName
+      name: playerName,
+      dropped: false
     }) as Player),
     mergeMap(player =>
       this.storageService.addPlayer(player).pipe(

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Round, RoundStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
@@ -60,12 +60,25 @@ export class RoundEffects implements OnInitEffects {
     )
   ));
 
-  lastMatchResultSubmitted = createEffect(() => this.actions$.pipe(
+  lastMatchResultSubmitted$ = createEffect(() => this.actions$.pipe(
     ofType(PairingsApiActions.submitResultSuccess),
-    switchMap(() =>
-      this.st
-    )
-  ));
+    switchMap(() => {
+      const outstandingPairingsTotal$ = this.store.pipe(
+        select(fromSwiss.getSelectedRoundPairingsOutstandingTotal),
+      );
+      const selectedRoundId$ = this.store.pipe(
+        select(fromSwiss.getSelectedRoundId)
+      );
+
+      return combineLatest(outstandingPairingsTotal$, selectedRoundId$).pipe(
+        tap(([outstandingPairingsTotal, selectedRoundId]) => {
+          if (outstandingPairingsTotal === 0) {
+            this.store.dispatch(RoundApiActions.roundCompleted({roundId: selectedRoundId}));
+          }
+        })
+      );
+    })
+  ), {dispatch: false});
 
   loadRounds$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.loadRounds),
@@ -73,10 +86,22 @@ export class RoundEffects implements OnInitEffects {
       const rounds$ = this.storageService.getRounds();
       const numberOfRounds$ = this.storageService.getNumberOfRounds();
       const selectedRoundId$ = this.storageService.getSelectedRound();
+      const completedRoundId$ = this.storageService.getCompletedRound();
 
-      return combineLatest(rounds$, numberOfRounds$, selectedRoundId$);
+      return combineLatest(rounds$, numberOfRounds$, selectedRoundId$, completedRoundId$);
     }),
-    map(([rounds, numberOfRounds, selectedRoundId]) => RoundApiActions.loadRoundsSuccess({numberOfRounds, rounds, selectedRoundId}))
+    map(([rounds, numberOfRounds, selectedRoundId, completedRoundId]) =>
+      RoundApiActions.loadRoundsSuccess({numberOfRounds, rounds, selectedRoundId, completedRoundId})
+    )
+  ));
+
+  setCompletedRound$ = createEffect(() => this.actions$.pipe(
+    ofType(RoundApiActions.roundCompleted),
+    mergeMap(({roundId}) =>
+      this.storageService.setCompletedRound(roundId).pipe(
+        map(() => RoundApiActions.setCompletedRoundSuccess({roundId}))
+      )
+    )
   ));
 
   constructor(
