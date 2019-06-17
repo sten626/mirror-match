@@ -49,6 +49,11 @@ export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
    selectTotal: getTotalPairings
  } = fromPairings.adapter.getSelectors(getPairingsState);
 
+ export const getAllSubmittedPairings = createSelector(
+   getAllPairings,
+   pairings => pairings.filter(p => p.submitted)
+ );
+
  export const getSelectedPairing = createSelector(
   getSelectedPairingId,
   getPairingEntities,

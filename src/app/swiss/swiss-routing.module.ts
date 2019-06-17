@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, SwissComponent } from 'app/swiss/containers';
+import {
+  EventInfoComponent,
+  PairingsPageComponent,
+  PlayersPageComponent,
+  SwissComponent,
+  StandingsPageComponent
+} from 'app/swiss/containers';
 import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
 import { StandingsGuard } from 'app/swiss/standings-guard.service';
-import { SwissStandingsComponent } from './swiss-standings.component';
 
 export const routes: Routes = [{
   path: '',
@@ -25,7 +30,7 @@ export const routes: Routes = [{
     component: PlayersPageComponent
   }, {
     path: 'standings',
-    component: SwissStandingsComponent,
+    component: StandingsPageComponent,
     canActivate: [StandingsGuard]
   }]
 }];

@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Pairing, Player, Standing } from '../models';
+import { Pairing, Player, Standing } from 'app/shared/models';
+import { Observable } from 'rxjs';
+import { Dictionary } from '@ngrx/entity';
 
 @Injectable()
 export class StandingsService {
-  readonly standings$: Observable<Standing[]>;
+  // readonly standings$: Observable<Standing[]>;
 
-  private allSubmittedPairings: Pairing[];
-  private players: Player[];
+  // private allSubmittedPairings: Pairing[];
+  // private players: Player[];
   // private playersMap: {[id: number]: Player} = {};
-  private standingsSubject$ = new BehaviorSubject<Standing[]>([]);
+  // private standingsSubject$ = new BehaviorSubject<Standing[]>([]);
 
   constructor(
     // private pairingService: PairingService,
   ) {
-    this.standings$ = this.standingsSubject$.asObservable();
+    // this.standings$ = this.standingsSubject$.asObservable();
 
     // this.playerService.players$.subscribe((players: Player[]) => {
     //   this.players = players.slice();
@@ -30,16 +31,30 @@ export class StandingsService {
     //   this.allSubmittedPairings = pairings;
     // });
 
-    this.calculateStandings();
+    // this.calculateStandings();
   }
 
-  calculateStandings(): void {
-    if (this.players.length < 1) {
-      return;
-    }
+  calculateStandings(pairings: Pairing[], players: Player[]): Observable<Standing[]> {
+    const standings: Dictionary<Standing[]> = players.map(p => ({
+      playerId: p.id,
+      opponentIds: [],
+      matchesWon: 0,
+      matchesLost: 0,
+      matchesDrawn: 0,
+      byes: 0,
+      gamesWon: 0,
+      gamesLost: 0,
+      gamesDrawn: 0
+    }) as Standing);
 
-    // TODO: Fix this
-    console.log('Need to fix.');
+    pairings.forEach(pairing => {
+
+    });
+
+
+    // if (this.players.length < 1) {
+    //   return;
+    // }
 
     // Reset match and game points.
     // this.players.forEach((player: Player) => {
@@ -95,7 +110,7 @@ export class StandingsService {
       }
     });
 
-    const standings: Standing[] = [];
+    // const standings: Standing[] = [];
 
     // Calculate percentages.
     this.players.forEach(() => {

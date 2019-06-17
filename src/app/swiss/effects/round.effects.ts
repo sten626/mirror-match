@@ -95,6 +95,11 @@ export class RoundEffects implements OnInitEffects {
     )
   ));
 
+  navigateToStandingsPage = createEffect(() => this.actions$.pipe(
+    ofType(RoundApiActions.setCompletedRoundSuccess),
+    tap(() => this.router.navigate(['/swiss/standings']))
+  ), {dispatch: false});
+
   setCompletedRound$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.roundCompleted),
     mergeMap(({roundId}) =>
