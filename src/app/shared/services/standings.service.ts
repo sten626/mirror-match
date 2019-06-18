@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pairing, Player, Standing } from 'app/shared/models';
+import { Pairing, Player, Standing, PlayerMatchData } from 'app/shared/models';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 
@@ -35,21 +35,9 @@ export class StandingsService {
   }
 
   calculateStandings(pairings: Pairing[], players: Player[]): Observable<Standing[]> {
-    const standings: Dictionary<Standing[]> = players.map(p => ({
-      playerId: p.id,
-      opponentIds: [],
-      matchesWon: 0,
-      matchesLost: 0,
-      matchesDrawn: 0,
-      byes: 0,
-      gamesWon: 0,
-      gamesLost: 0,
-      gamesDrawn: 0
-    }) as Standing);
+    const playerMatchData = this.calculatePlayerMatchData(pairings, players);
 
-    pairings.forEach(pairing => {
 
-    });
 
 
     // if (this.players.length < 1) {
@@ -173,13 +161,64 @@ export class StandingsService {
     this.next(standings);
   }
 
+  private calculatePlayerMatchData(pairings: Pairing[], players: Player[]): Dictionary<PlayerMatchData> {
+    const data: Dictionary<PlayerMatchData> = {};
+
+    players.forEach(player => {
+      data[player.id] = new PlayerMatchData(player.id);
+    });
+
+    pairings.forEach(pairing => {
+      const {draws, player1Id, player1Wins, player2Id, player2Wins} = pairing;
+      const gamesPlayed = player1Wins + player2Wins + draws;
+
+      data[player1Id].matchesPlayed += 1;
+      data[player1Id].gamesPlayed += gamesPlayed;
+      data[player1Id].gamesWon += player1Wins;
+      data[player1Id].gamesLost += player2Wins;
+      data[player1Id].gamesDrawn += draws;
+
+      if (player2Id) {
+        data[player1Id].opponentIds.add(player2Id);
+        data[player2Id].opponentIds.add(player1Id);
+        data[player2Id].matchesPlayed += 1;
+        data[player2Id].gamesPlayed += gamesPlayed;
+        data[player2Id].gamesWon += player2Wins;
+        data[player2Id].gamesLost += player1Wins;
+        data[player2Id].gamesDrawn += draws;
+      } else {
+        data[player1Id].byes += 1;
+      }
+
+      if (player1Wins > player2Wins) {
+        data[player1Id].matchesWon += 1;
+
+        if (player2Id) {
+          data[player2Id].matchesLost += 1;
+        }
+      } else if (player2Wins > player1Wins) {
+        data[player1Id].matchesLost += 1;
+        data[player2Id].matchesWon += 1;
+      } else {
+        data[player1Id].matchesDrawn += 1;
+        data[player2Id].matchesDrawn += 1;
+      }
+    });
+
+    return data;
+  }
+
+  private calculatePlayerWinData(playerMatchData: Dictionary<PlayerMatchData>) {
+
+  }
+
   /**
    * Loads a Standings array into the standings subject.
    * @param newStandings The new array of ordered Standings.
    */
-  private next(newStandings: Standing[]): void {
-    this.standingsSubject$.next(newStandings);
-  }
+  // private next(newStandings: Standing[]): void {
+  //   this.standingsSubject$.next(newStandings);
+  // }
 
   // private sigFigs(num: number, numOfSigFigs: number): number {
   //   const rounded = num.toPrecision(numOfSigFigs);

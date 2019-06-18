@@ -12,13 +12,13 @@
 // }
 
 export interface Standing {
-  playerId: number;
-  opponentIds: number[];
+  playerName: string;
+  matchesPlayed: number;
   matchesWon: number;
-  matchesLost: number;
   matchesDrawn: number;
   byes: number;
-  gamesWon: number;
-  gamesLost: number;
-  gamesDrawn: number;
+  matchPoints: number;
+  opponentMatchWinPercentage: number;
+  gameWinPercentage: number;
+  opponentGameWinPercentage: number;
 }
