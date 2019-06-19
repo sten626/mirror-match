@@ -3,6 +3,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'app/shared';
 import {
+  MatchResultsComponent,
   PairingsListComponent,
   PairingsListFormComponent,
   PairingsMenuComponent,
@@ -10,6 +11,7 @@ import {
   PlayerListComponent,
   PlayersInfoComponent,
   RoundInfoComponent,
+  StandingsTableComponent,
   StartFormComponent,
   SwissMenuComponent
 } from 'app/swiss/components';
@@ -17,16 +19,13 @@ import {
   EventInfoComponent,
   PairingsPageComponent,
   PlayersPageComponent,
-  SwissComponent,
-  StandingsPageComponent
+  StandingsPageComponent,
+  SwissComponent
 } from 'app/swiss/containers';
 import { PairingEffects, PlayerEffects, RoundEffects } from 'app/swiss/effects';
-import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
-import { MatchResultsComponent } from 'app/swiss/components/match-results/match-results.component';
+import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
 import { reducers } from 'app/swiss/reducers';
-import { StandingsGuard } from 'app/swiss/standings-guard.service';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
-import { StandingsTableComponent } from './components/standings-table/standings-table.component';
 
 @NgModule({
   imports: [

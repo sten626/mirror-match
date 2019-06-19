@@ -7,8 +7,7 @@ import {
   SwissComponent,
   StandingsPageComponent
 } from 'app/swiss/containers';
-import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
-import { StandingsGuard } from 'app/swiss/standings-guard.service';
+import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
 
 export const routes: Routes = [{
   path: '',
