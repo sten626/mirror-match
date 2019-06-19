@@ -26,6 +26,7 @@ import { MatchResultsComponent } from 'app/swiss/components/match-results.compon
 import { reducers } from 'app/swiss/reducers';
 import { StandingsGuard } from 'app/swiss/standings-guard.service';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
+import { StandingsTableComponent } from './components/standings-table/standings-table.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
     StartFormComponent,
     SwissComponent,
     SwissMenuComponent,
-    StandingsPageComponent
+    StandingsPageComponent,
+    StandingsTableComponent
   ],
   providers: [
     StandingsGuard,

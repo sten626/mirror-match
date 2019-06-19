@@ -1,10 +1,10 @@
+import { Dictionary } from '@ngrx/entity';
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Pairing, Player, Round } from 'app/shared';
 import * as fromPairings from './pairings.reducer';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
-import { Dictionary } from '@ngrx/entity';
 
 export interface SwissState {
   pairings: fromPairings.State;
@@ -150,6 +150,11 @@ export const getSelectedRound = createSelector(
   (roundEntities, selectedRoundId) => selectedRoundId && roundEntities[selectedRoundId]
 );
 
+export const hasCompletedRounds = createSelector(
+  getCompletedRoundId,
+  roundId => roundId > 0
+);
+
 export const hasTournamentStarted = createSelector(
   getNumberOfRounds,
   (numberOfRounds: number) => numberOfRounds > 0
@@ -168,7 +173,7 @@ export const isTournamentOver = createSelector(
 export const getSelectedRoundPairings = createSelector(
   getSelectedRound,
   getPairingEntities,
-  (round: Round, pairings: Dictionary<Pairing>) => round.pairingIds.map(id => pairings[id])
+  (round: Round, pairings: Dictionary<Pairing>) => round ? round.pairingIds.map(id => pairings[id]) : []
 );
 
 export const getSelectedRoundComplete = createSelector(
@@ -185,39 +190,3 @@ export const getSelectedRoundPairingsSubmitted = createSelector(
   getSelectedRoundPairings,
   (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)
 );
-
-// export const getSelectedRoundPairingsFiltered = createSelector(
-//   getSelectedRoundPairings,
-//   getPlayerEntities,
-//   getPairingsFilterText,
-//   getShowOutstandingOnly,
-//   (pairings: Pairing[], playerEntities: Dictionary<Player>, filterText: string, showOutstandingOnly: boolean) =>
-//     pairings.filter(pairing => {
-//       if (showOutstandingOnly && pairing.submitted) {
-//         return false;
-//       }
-
-//       if (!filterText) {
-//         return true;
-//       }
-
-//       if (filterText === pairing.table.toString()) {
-//         return true;
-//       }
-
-//       const player1Name = playerEntities[pairing.player1Id].name;
-
-//       if (player1Name.toLowerCase().includes(filterText)) {
-//         return true;
-//       }
-
-//       if (pairing.player2Id === null) {
-//         return false;
-//       }
-
-//       const player2Name = playerEntities[pairing.player2Id].name;
-
-//       return player2Name.toLowerCase().includes(filterText);
-//     }
-//   )
-// );

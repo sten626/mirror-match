@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class SwissComponent implements OnInit {
   messages: Message[] = [];
-  hasCompletedRounds = false;
+  hasCompletedRounds$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   numberOfActivePlayers$: Observable<number>;
 
@@ -17,6 +17,9 @@ export class SwissComponent implements OnInit {
     private messageService: MessageService,
     private store: Store<fromSwiss.State>
   ) {
+    this.hasCompletedRounds$ = this.store.pipe(
+      select(fromSwiss.hasCompletedRounds)
+    );
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
@@ -26,8 +29,6 @@ export class SwissComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.dispatch(new SwissPageActions.LoadPlayers());
-    // this.store.dispatch(new SwissPageActions.LoadTournament());
     this.messageService.messages.subscribe((message: Message) => {
       this.messages.push(message);
     });

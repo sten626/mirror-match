@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PairingsFilterPipe } from 'app/shared/pipes';
+import { PairingsFilterPipe, SortStandingsPipe } from 'app/shared/pipes';
 
 @NgModule({
   imports: [
@@ -11,10 +11,12 @@ import { PairingsFilterPipe } from 'app/shared/pipes';
   exports: [
     CommonModule,
     PairingsFilterPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SortStandingsPipe
   ],
   declarations: [
-    PairingsFilterPipe
+    PairingsFilterPipe,
+    SortStandingsPipe
   ]
 })
 export class SharedModule { }

@@ -6,7 +6,7 @@ import { Round, RoundStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest } from 'rxjs';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class RoundEffects implements OnInitEffects {
@@ -47,6 +47,23 @@ export class RoundEffects implements OnInitEffects {
     )
   ));
 
+  checkIfRoundCompleted$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsApiActions.submitResultSuccess),
+    withLatestFrom(
+      this.store.pipe(
+        select(fromSwiss.getSelectedRoundPairingsOutstandingTotal),
+      ),
+      this.store.pipe(
+        select(fromSwiss.getSelectedRoundId)
+      )
+    ),
+    tap(([_, outstandingPairingsTotal, selectedRoundId]) => {
+      if (outstandingPairingsTotal === 0) {
+        this.store.dispatch(RoundApiActions.roundCompleted({roundId: selectedRoundId}));
+      }
+    })
+  ), {dispatch: false});
+
   createFirstRound$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.beginEventSuccess),
     map(() => ({
@@ -59,26 +76,6 @@ export class RoundEffects implements OnInitEffects {
       )
     )
   ));
-
-  lastMatchResultSubmitted$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsApiActions.submitResultSuccess),
-    switchMap(() => {
-      const outstandingPairingsTotal$ = this.store.pipe(
-        select(fromSwiss.getSelectedRoundPairingsOutstandingTotal),
-      );
-      const selectedRoundId$ = this.store.pipe(
-        select(fromSwiss.getSelectedRoundId)
-      );
-
-      return combineLatest(outstandingPairingsTotal$, selectedRoundId$).pipe(
-        tap(([outstandingPairingsTotal, selectedRoundId]) => {
-          if (outstandingPairingsTotal === 0) {
-            this.store.dispatch(RoundApiActions.roundCompleted({roundId: selectedRoundId}));
-          }
-        })
-      );
-    })
-  ), {dispatch: false});
 
   loadRounds$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.loadRounds),
