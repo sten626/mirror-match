@@ -178,7 +178,13 @@ export const getSelectedRoundPairings = createSelector(
 
 export const getSelectedRoundComplete = createSelector(
   getSelectedRoundPairings,
-  (pairings: Pairing[]) => pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur, false)
+  pairings => {
+    if (pairings.length > 0) {
+      return pairings.map(pairing => pairing.submitted).reduce((prev, cur) => prev && cur);
+    } else {
+      return false;
+    }
+  }
 );
 
 export const getSelectedRoundPairingsOutstandingTotal = createSelector(

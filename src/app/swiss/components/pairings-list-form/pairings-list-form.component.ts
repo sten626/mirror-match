@@ -10,6 +10,7 @@ import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 })
 export class PairingsListFormComponent implements OnDestroy, OnInit {
   @Input() hasSubmittedPairings: boolean;
+  @Input() selectedRoundComplete: boolean;
   @Output() deleteResults = new EventEmitter<any>();
   @Output() filterTextChanged = new EventEmitter<string>();
   @Output() redoMatches = new EventEmitter<any>();
