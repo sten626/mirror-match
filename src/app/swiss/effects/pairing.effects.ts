@@ -40,7 +40,7 @@ export class PairingEffects implements OnInitEffects {
 
   clearResults$ = createEffect(() => this.actions$.pipe(
     ofType(PairingsPageActions.clearResults),
-    map(({pairings}) => pairings.map(p => p.id)),
+    map(({pairings}) => pairings.filter(p => p.player2Id).map(p => p.id)),
     mergeMap(pairingIds =>
       this.storageService.clearResults(pairingIds).pipe(
         map(() => {

@@ -141,7 +141,7 @@ export class PairingService {
     if (players.length) {
       const pairing: Pairing = {
         id: nextId++,
-        table: table++,
+        table: 0,
         player1Id: players.shift().id,
         player2Id: null,
         player1Wins: 2,
@@ -149,7 +149,7 @@ export class PairingService {
         draws: 0,
         submitted: true
       };
-      pairings.push(pairing);
+      pairings.unshift(pairing);
     }
 
     return pairings;
