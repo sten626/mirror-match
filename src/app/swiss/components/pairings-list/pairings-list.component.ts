@@ -17,7 +17,7 @@ export class PairingsListComponent {
   @Input() selectedRoundId: number;
   @Output() deleteResults = new EventEmitter<Pairing[]>();
   @Output() redoMatches = new EventEmitter<number>();
-  @Output() selectPairing = new EventEmitter<number>();
+  @Output() selectPairing = new EventEmitter<Pairing>();
 
   filterText = '';
   showOutstandingOnly = true;
@@ -64,6 +64,14 @@ export class PairingsListComponent {
     this.filterText = filterText;
   }
 
+  playerName(playerId: number): string {
+    if (playerId) {
+      return this.playerEntities[playerId].name;
+    } else {
+      return '***Bye***';
+    }
+  }
+
   resultDisplayString(pairing: Pairing, invert = false): string {
     if (pairing.player1Wins || pairing.player2Wins || pairing.draws) {
       if (invert) {
@@ -79,26 +87,4 @@ export class PairingsListComponent {
   showOutstandingOnlyChanged(showOutstandingOnly: boolean) {
     this.showOutstandingOnly = showOutstandingOnly;
   }
-
-  // private filterPairings() {
-  //   // if (!this.pairingsListForm) {
-  //   //   return;
-  //   // }
-
-  //   // if (this.pairingsListForm.get('showOutstandingOnly').value) {
-  //   //   this.filteredPairings = this.pairings.filter(pairing => !pairing.submitted);
-  //   // } else {
-  //   //   this.filteredPairings = this.pairings.slice();
-  //   // }
-
-  //   // const filterText = this.pairingsListForm.get('pairingsSearch').value.trim().toLowerCase();
-
-  //   // if (filterText) {
-  //   //   this.filteredPairings = this.filteredPairings.filter(pairing => {
-  //   //     return pairing.table.toString() === filterText
-  //   //         || pairing.player1.name.toLowerCase().includes(filterText)
-  //   //         || pairing.player2.name.toLowerCase().includes(filterText);
-  //   //   });
-  //   // }
-  // }
 }

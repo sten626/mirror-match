@@ -83,8 +83,10 @@ export class PairingsPageComponent {
     this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
   }
 
-  selectPairing(pairingId: number) {
-    this.store.dispatch(PairingsPageActions.selectPairing({pairingId}));
+  selectPairing(pairing: Pairing) {
+    if (pairing.player2Id) {
+      this.store.dispatch(PairingsPageActions.selectPairing({pairingId: pairing.id}));
+    }
   }
 
   submitResult(pairing: Pairing) {

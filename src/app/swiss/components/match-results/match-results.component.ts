@@ -60,6 +60,14 @@ export class MatchResultsComponent implements OnChanges {
     }
   }
 
+  get player1Name(): string {
+    return this.playerName(this.selectedPairing.player1Id);
+  }
+
+  get player2Name(): string {
+    return this.playerName(this.selectedPairing.player2Id);
+  }
+
   submit() {
     const form = this.matchResultsForm;
     const pairing = {
@@ -85,6 +93,10 @@ export class MatchResultsComponent implements OnChanges {
     if (playersToDrop.length > 0) {
       this.dropPlayers.emit(playersToDrop);
     }
+  }
+
+  private playerName(playerId: number): string {
+    return this.playerEntities[playerId].name;
   }
 
   private resetForm(form: FormGroup, selectedPairing: Pairing | null) {

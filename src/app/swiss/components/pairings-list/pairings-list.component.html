@@ -21,11 +21,11 @@
       <tbody>
         <tr *ngFor="let pairing of pairings | pairingsFilter: playerEntities:filterText:showOutstandingOnly"
             [ngClass]="{'active': selectedPairing?.id === pairing.id}"
-            (click)="selectPairing.emit(pairing.id)">
+            (click)="selectPairing.emit(pairing)">
           <td>{{pairing.table}}</td>
-          <td>{{playerEntities[pairing.player1Id].name}}</td>
+          <td>{{playerName(pairing.player1Id)}}</td>
           <td>{{resultDisplayString(pairing)}}</td>
-          <td>{{pairing.player2Id == null ? '***Bye***' : playerEntities[pairing.player2Id].name}}</td>
+          <td>{{playerName(pairing.player2Id)}}</td>
           <td>{{resultDisplayString(pairing, true)}}</td>
         </tr>
       </tbody>
