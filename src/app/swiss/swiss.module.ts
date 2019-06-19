@@ -22,7 +22,7 @@ import {
 } from 'app/swiss/containers';
 import { PairingEffects, PlayerEffects, RoundEffects } from 'app/swiss/effects';
 import { TournamentStartedGuard } from 'app/swiss/guards/tournament-started-guard.service';
-import { MatchResultsComponent } from 'app/swiss/components/match-results.component';
+import { MatchResultsComponent } from 'app/swiss/components/match-results/match-results.component';
 import { reducers } from 'app/swiss/reducers';
 import { StandingsGuard } from 'app/swiss/standings-guard.service';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';

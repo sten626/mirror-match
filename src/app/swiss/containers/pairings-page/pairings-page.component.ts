@@ -2,16 +2,15 @@ import { Component } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Pairing, Player } from 'app/shared';
+import { PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PairingsPageActions } from '../actions';
 
 @Component({
   templateUrl: './pairings-page.component.html'
 })
 export class PairingsPageComponent {
-  // canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   hasSubmittedPairings$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
@@ -23,12 +22,10 @@ export class PairingsPageComponent {
   selectedPairing$: Observable<Pairing>;
   selectedRoundComplete$: Observable<boolean>;
   selectedRoundId$: Observable<number>;
-  // selectedRoundHasPairings$: Observable<boolean>;
 
   constructor(
     private store: Store<fromSwiss.State>
   ) {
-    // this.canStartNextRound$ = this.roundService.canStartNextRound$;
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
@@ -62,21 +59,6 @@ export class PairingsPageComponent {
     );
   }
 
-  // ngOnInit() {
-  //   this.roundsSub = this.roundService.rounds$.subscribe((rounds: number[]) => {
-  //     this.rounds = rounds;
-  //     const selectedRound = Math.max(...rounds);
-  //     this.pairingsForm.reset({
-  //       currentRound: selectedRound
-  //     });
-  //     this.selectedRoundChanged(selectedRound);
-  //   });
-  // }
-
-  // createNextRound(): void {
-  //   // this.roundService.createNextRound();
-  // }
-
   clearMatchResult(pairing: Pairing) {
     this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
   }
@@ -93,16 +75,6 @@ export class PairingsPageComponent {
     this.store.dispatch(PairingsPageActions.dropPlayers({players}));
   }
 
-  onLastResultSubmitted() {
-    // this.roundService.markRoundAsComplete(this.selectedRound);
-    // this.standingsService.calculateStandings();
-    // this.router.navigate(['/swiss/standings']);
-  }
-
-  // onPlayerDroppedChanged(player: Player): void {
-  //   this.playerService.updatePlayer(player);
-  // }
-
   redoMatches(roundId: number) {
     this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
   }
@@ -118,28 +90,4 @@ export class PairingsPageComponent {
   submitResult(pairing: Pairing) {
     this.store.dispatch(PairingsPageActions.submitResult({pairing}));
   }
-
-  // onResultSubmitted(pairing: Pairing): void {
-  //   this.pairingService.updatePairing(pairing);
-  // }
-
-  // private createForm(): void {
-  //   this.pairingsForm = this.fb.group({
-  //     currentRound: 1
-  //   });
-
-  //   this.pairingsForm.get('currentRound').valueChanges.subscribe((value: string) => {
-  //     this.selectedRoundChanged(parseInt(value));
-  //   });
-  // }
-
-  // private selectedRoundChanged(round: number): void {
-  //   this.selectedRound = round;
-
-  //   // this.pairings$ = this.pairingService.getPairingsForRound(this.selectedRound);
-  //   this.selectedRoundHasPairings$ = this.pairings$.pipe(
-  //     map(pairings => pairings.length > 0),
-  //     distinctUntilChanged()
-  //   );
-  // }
 }
