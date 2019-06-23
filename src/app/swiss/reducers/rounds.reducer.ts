@@ -29,7 +29,10 @@ export const reducer = createReducer(
       pairingIds: []
     }
   }, state)),
-  on(RoundApiActions.addRound, (state, {round}) => adapter.addOne(round, state)),
+  on(RoundApiActions.addRound, (state, {round}) => adapter.addOne(round, {
+    ...state,
+    selectedRoundId: round.id
+  })),
   on(RoundApiActions.beginEventSuccess, (state, {numberOfRounds}) => ({
     ...state,
     numberOfRounds: numberOfRounds

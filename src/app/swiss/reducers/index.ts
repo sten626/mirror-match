@@ -144,6 +144,13 @@ export const {
   selectTotal: getTotalRounds
 } = fromRounds.adapter.getSelectors(getRoundsState);
 
+export const canStartNextRound = createSelector(
+  getCompletedRoundId,
+  getTotalRounds,
+  getNumberOfRounds,
+  (completedRoundId, totalRounds, numberOfRounds) => totalRounds === completedRoundId && completedRoundId < numberOfRounds
+);
+
 export const getSelectedRound = createSelector(
   getRoundEntities,
   getSelectedRoundId,

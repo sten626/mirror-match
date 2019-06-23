@@ -16,6 +16,10 @@ export const clearResults = createAction(
   props<{pairings: Pairing[]}>()
 );
 
+export const createNextRound = createAction(
+  '[Pairings Page] Create Next Round'
+);
+
 export const createPairings = createAction(
   '[Pairings Page] Create Pairings',
   props<{roundId: number}>()

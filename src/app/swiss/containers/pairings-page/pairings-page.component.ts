@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './pairings-page.component.html'
 })
 export class PairingsPageComponent {
+  canStartNextRound$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   hasSubmittedPairings$: Observable<boolean>;
   numberOfRounds$: Observable<number>;
@@ -26,6 +27,9 @@ export class PairingsPageComponent {
   constructor(
     private store: Store<fromSwiss.State>
   ) {
+    this.canStartNextRound$ = this.store.pipe(
+      select(fromSwiss.canStartNextRound)
+    );
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
@@ -61,6 +65,10 @@ export class PairingsPageComponent {
 
   clearMatchResult(pairing: Pairing) {
     this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
+  }
+
+  createNextRound(): void {
+    this.store.dispatch(PairingsPageActions.createNextRound());
   }
 
   createPairings(roundId: number) {

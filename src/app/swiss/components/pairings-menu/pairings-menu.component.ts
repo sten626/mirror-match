@@ -7,10 +7,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './pairings-menu.component.html'
 })
 export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
+  @Input() canStartNextRound: boolean;
   @Input() numberOfRounds: number;
   @Input() pairingsExist: boolean;
   @Input() selectedRoundId: number;
   @Input() roundIds: number[];
+  @Output() createNextRound = new EventEmitter<void>();
   @Output() createPairings = new EventEmitter<number>();
   @Output() roundChanged = new EventEmitter<number>();
 

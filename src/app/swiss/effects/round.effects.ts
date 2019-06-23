@@ -77,6 +77,22 @@ export class RoundEffects implements OnInitEffects {
     )
   ));
 
+  createNextRound$ = createEffect(() => this.actions$.pipe(
+    ofType(PairingsPageActions.createNextRound),
+    withLatestFrom(this.store.pipe(
+      select(fromSwiss.getTotalRounds)
+    )),
+    map(([_, totalRounds]) => ({
+      id: totalRounds + 1,
+      pairingIds: []
+    }) as Round),
+    mergeMap(round =>
+      this.storageService.addRound(round).pipe(
+        map(() => RoundApiActions.addRound({round}))
+      )
+    )
+  ));
+
   loadRounds$ = createEffect(() => this.actions$.pipe(
     ofType(RoundApiActions.loadRounds),
     switchMap(() => {
