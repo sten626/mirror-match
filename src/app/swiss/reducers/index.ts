@@ -86,6 +86,11 @@ export const getActivePlayers = createSelector(
   (players) => players.filter((player) => !player.dropped)
 );
 
+export const getActivePlayerIds = createSelector(
+  getActivePlayers,
+  players => players.map(p => p.id)
+);
+
 export const getDroppedPlayers = createSelector(
   getAllPlayers,
   (players) => players.filter((player) => player.dropped)

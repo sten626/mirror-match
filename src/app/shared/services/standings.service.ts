@@ -3,6 +3,26 @@ import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player, Standing, standingDefaults } from 'app/shared/models';
 import { Observable, of } from 'rxjs';
 
+export function standingsMatchPointComparator(a: Standing, b: Standing): number {
+  return b.matchPoints - a.matchPoints;
+}
+
+export function standingsTiebreakerComparator(a: Standing, b: Standing): number {
+  if (a.matchPoints !== b.matchPoints) {
+    return b.matchPoints - a.matchPoints;
+  }
+
+  if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+    return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+  }
+
+  if (a.gameWinPercentage !== b.gameWinPercentage) {
+    return b.gameWinPercentage - a.gameWinPercentage;
+  }
+
+  return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+}
+
 @Injectable()
 export class StandingsService {
   calculateStandings(pairings: Pairing[], players: Player[]): Observable<Standing[]> {

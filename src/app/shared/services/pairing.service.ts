@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Pairing, Player } from 'app/shared/models';
+import { Pairing, Standing } from 'app/shared/models';
+import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'app/shared/services/standings.service';
 import { Observable, of } from 'rxjs';
 
 @Injectable()
@@ -28,14 +29,16 @@ export class PairingService {
   //   // this.loadFromLocalStorage();
   // }
 
-  createPairings(roundId: number, isLastRound: boolean, players: Player[], nextId: number): Observable<Pairing[]> {
+  createPairings(roundId: number, isLastRound: boolean, activePlayerStandings: Standing[], nextId: number): Observable<Pairing[]> {
+    const shuffledStandings = this.shuffleStandings(activePlayerStandings);
+
     if (roundId === 1) {
-      const pairings = this.createRandomPairings(players, nextId);
+      const pairings = this.createRandomPairings(shuffledStandings, nextId);
+      return of(pairings);
+    } else {
+      const pairings = this.createWeaklyStablePairings(shuffledStandings, isLastRound, nextId);
       return of(pairings);
     }
-    isLastRound = isLastRound;
-
-    return of([]);
   }
 
   // createPairings(round: number, isLastRound: boolean): void {
@@ -97,39 +100,17 @@ export class PairingService {
   //   this.next(pairings);
   // }
 
-  // private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
-  //   if (players.length % 2 === 1) {
-  //     throw new Error('Creating player preference map expects an even number of players.');
-  //   }
-
-  //   const playerPreferenceMap = {};
-
-  //   players.forEach((player: Player) => {
-  //     const potentialOpps = [];
-
-  //     // players.forEach((opp: Player) => {
-  //     //   if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
-  //     //     potentialOpps.push(opp.id);
-  //     //   }
-  //     // });
-
-  //     playerPreferenceMap[player.id] = potentialOpps;
-  //   });
-
-  //   return playerPreferenceMap;
-  // }
-
-  private createRandomPairings(players: Player[], nextId: number): Pairing[] {
-    let table = 1;
-    players = this.shufflePlayers(players);
+  private createRandomPairings(standings: Standing[], nextId: number): Pairing[] {
+    const playerIds = standings.map(s => s.playerId);
     const pairings = [];
+    let table = 1;
 
-    while (players.length > 1) {
+    while (playerIds.length > 1) {
       const pairing: Pairing = {
         id: nextId++,
         table: table++,
-        player1Id: players.shift().id,
-        player2Id: players.shift().id,
+        player1Id: playerIds.shift(),
+        player2Id: playerIds.shift(),
         player1Wins: 0,
         player2Wins: 0,
         draws: 0,
@@ -138,11 +119,11 @@ export class PairingService {
       pairings.push(pairing);
     }
 
-    if (players.length) {
+    if (playerIds.length) {
       const pairing: Pairing = {
         id: nextId++,
         table: 0,
-        player1Id: players.shift().id,
+        player1Id: playerIds.shift(),
         player2Id: null,
         player1Wins: 2,
         player2Wins: 0,
@@ -155,23 +136,32 @@ export class PairingService {
     return pairings;
   }
 
+  private createWeaklyStablePairings(standings: Standing[], isLastRound: boolean, nextId: number): Pairing[] {
+    const pairings = [];
+    const comparator = isLastRound ? standingsTiebreakerComparator : standingsMatchPointComparator;
+    const sortedStandings = standings.sort(comparator);
+    const needsBye = sortedStandings.length % 2 === 1;
+
+    if (needsBye) {
+      const standing = sortedStandings.pop();
+      const pairing: Pairing = {
+        id: nextId++,
+        table: 0,
+        player1Id: standing.playerId,
+        player2Id: null,
+        player1Wins: 2,
+        player2Wins: 0,
+        draws: 0,
+        submitted: true
+      };
+      pairings.push(pairing);
+    }
+
+    return pairings.concat(this.pairPlayers(sortedStandings, nextId));
+  }
+
   // private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-  //   return [];
-  //   // players = this.shufflePlayers(players);
 
-  //   // if (isLastRound) {
-  //   //   this.sortPlayersByTiebreakers(players);
-  //   // } else {
-  //   //   this.sortPlayersByMatchPoints(players);
-  //   // }
-
-  //   // // If there are an odd number of players, pull out the bottom player and continue with an even number.
-  //   // const needsBye = players.length % 2 === 1;
-  //   // let playerForBye: Player = null;
-
-  //   // if (needsBye) {
-  //   //   playerForBye = players.pop();
-  //   // }
 
   //   // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
   //   // const assignedPlayers = {};
@@ -255,6 +245,55 @@ export class PairingService {
   //   this.pairingsSubject$.next(newPairings);
   // }
 
+  private pairPlayers(standings: Standing[], nextId: number): Pairing[] {
+    const pairings: Pairing[] = [];
+    const table = 1;
+    const result = this.pairPlayersInner(standings, pairings, nextId, table);
+
+    if (result === null) {
+      throw new Error('Something went wrong when trying to create pairings.');
+    }
+
+    return result;
+  }
+
+  private pairPlayersInner(standings: Standing[], pairings: Pairing[], nextId: number, table: number): Pairing[] {
+    if (standings.length === 0) {
+      return pairings;
+    }
+
+    const [standing, ...potentialOpps] = standings;
+    const {playerId} = standing;
+
+    for (const potentialOpp of potentialOpps) {
+      const oppId = potentialOpp.playerId;
+
+      if (standing.opponentIds.includes(oppId)) {
+        continue;
+      }
+
+      const newPairings = [...pairings, {
+        id: nextId,
+        table: table,
+        player1Id: playerId,
+        player2Id: oppId,
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0,
+        submitted: false
+      } as Pairing];
+
+      const newStandings = potentialOpps.filter(o => o.playerId !== oppId);
+      const result = this.pairPlayersInner(newStandings, newPairings, nextId + 1, table + 1);
+
+      if (result !== null) {
+        return result;
+      }
+    }
+
+    return null;
+  }
+
   /**
    * Recursive function for pairing players. Removes players from players list and updated assignedPlayers in place.
    * @param players List of players that still need to be paired.
@@ -320,15 +359,15 @@ export class PairingService {
   //   // localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
   // }
 
-  private shufflePlayers(players: Player[]): Player[] {
-    const shuffledPlayers = players.slice();
+  private shuffleStandings(standings: Standing[]): Standing[] {
+    const shuffledStandings = standings.slice();
 
-    for (let i = shuffledPlayers.length; i; i--) {
+    for (let i = shuffledStandings.length; i; i--) {
       const j = Math.floor(Math.random() * i);
-      [shuffledPlayers[i - 1], shuffledPlayers[j]] = [shuffledPlayers[j], shuffledPlayers[i - 1]];
+      [shuffledStandings[i - 1], shuffledStandings[j]] = [shuffledStandings[j], shuffledStandings[i - 1]];
     }
 
-    return shuffledPlayers;
+    return shuffledStandings;
   }
 
   // private sortPlayersByMatchPoints(players: Player[]) {
