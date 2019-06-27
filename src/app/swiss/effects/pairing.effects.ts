@@ -83,6 +83,7 @@ export class PairingEffects implements OnInitEffects {
         switchMap(([standings, activePlayerIds, isLastRound]) => {
           const activePlayerStandings = standings.filter(s => activePlayerIds.includes(s.playerId));
           return this.pairingsService.createPairings(roundId, isLastRound, activePlayerStandings, this.nextId).pipe(
+            tap(pairings => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
             map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
           );
         })
