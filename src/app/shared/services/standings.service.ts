@@ -92,8 +92,8 @@ export class StandingsService {
       });
 
       const totalOpponents = standing.opponentIds.length;
-      standing.opponentGameWinPercentage = opponentGameWinPercentageSum / totalOpponents;
-      standing.opponentMatchWinPercentage = opponentMatchWinPercentageSum / totalOpponents;
+      standing.opponentGameWinPercentage = this.sigFigs(opponentGameWinPercentageSum / totalOpponents, 6);
+      standing.opponentMatchWinPercentage = this.sigFigs(opponentMatchWinPercentageSum / totalOpponents, 6);
     });
   }
 
