@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SharedModule } from 'app/shared';
 import { StandingsTableComponent } from './standings-table.component';
 
 describe('StandingsTableComponent', () => {
@@ -8,6 +8,7 @@ describe('StandingsTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ SharedModule ],
       declarations: [ StandingsTableComponent ]
     })
     .compileComponents();

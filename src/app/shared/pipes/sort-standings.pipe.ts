@@ -7,6 +7,10 @@ import { standingsTiebreakerComparator } from 'app/shared/services/standings.ser
 })
 export class SortStandingsPipe implements PipeTransform {
   transform(standings: Standing[]): Standing[] {
-    return standings.sort(standingsTiebreakerComparator);
+    if (standings) {
+      return standings.sort(standingsTiebreakerComparator);
+    }
+
+    return standings;
   }
 }
