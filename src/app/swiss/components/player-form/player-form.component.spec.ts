@@ -68,12 +68,12 @@ describe('Player Form Component', () => {
       nameEl.value = playerName;
       nameEl.dispatchEvent(new Event('input'));
       fixture.detectChanges();
-      let addedPlayer: Player;
+      let addedPlayerName: string;
       component.addMode = true;
-      component.addPlayer.subscribe((p: Player) => addedPlayer = p);
+      component.addPlayer.subscribe((name: string) => addedPlayerName = name);
       component.submit();
       fixture.detectChanges();
-      expect(addedPlayer.name).toBe(playerName);
+      expect(addedPlayerName).toBe(playerName);
       expect(nameEl.textContent).toBe('');
       expect(component.addMode).toBe(true);
       expect(component.isPlayerDroppable).toBe(false);

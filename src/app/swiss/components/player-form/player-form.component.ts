@@ -11,7 +11,7 @@ export class PlayerFormComponent implements OnChanges {
   @Input() hasTournamentStarted: boolean;
   @Input() isTournamentOver: boolean;
   @Input() selectedPlayer: Player;
-  @Output() addPlayer = new EventEmitter<Player>();
+  @Output() addPlayer = new EventEmitter<string>();
   @Output() reset = new EventEmitter<any>();
   @Output() togglePlayerDropped = new EventEmitter<Player>();
   @Output() updatePlayerName = new EventEmitter<{player: Player, name: string}>();
