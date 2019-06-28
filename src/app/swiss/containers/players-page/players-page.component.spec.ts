@@ -134,6 +134,27 @@ describe('Players Page Component', () => {
     });
   });
 
+  /* onStartTournament */
+
+  describe('onStartTournament', () => {
+    it('should not dispatch action when called with null', () => {
+      component.onStartTournament(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not dispatch action when called with 0', () => {
+      component.onStartTournament(0);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch beginEvent action', () => {
+      const numberOfRounds = 3;
+      const action = PlayersPageActions.beginEvent({numberOfRounds});
+      component.onStartTournament(numberOfRounds);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
   /* selectPlayer */
 
   describe('selectPlayer', () => {
@@ -148,6 +169,18 @@ describe('Players Page Component', () => {
 
       expect(component.selectedPlayer).toBeNull();
     });
+  });
+
+  /* togglePlayerDropped */
+
+  it('should dispatch togglePlayerDropped action and set selectedPlayer to null when togglePlayerDropped called', () => {
+    component.selectedPlayer = player1;
+    expect(component.selectedPlayer).toEqual(player1);
+
+    const action = PlayersPageActions.togglePlayerDropped({player: player1});
+    component.togglePlayerDropped(player1);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(component.selectedPlayer).toBeNull();
   });
 
   /* updatePlayerName */

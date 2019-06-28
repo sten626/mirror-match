@@ -72,7 +72,9 @@ export class PlayersPageComponent {
    * @param numOfRounds The number of rounds for the tournmant to have.
    */
   onStartTournament(numberOfRounds: number): void {
-    this.store.dispatch(PlayersPageActions.beginEvent({numberOfRounds}));
+    if (numberOfRounds) {
+      this.store.dispatch(PlayersPageActions.beginEvent({numberOfRounds}));
+    }
   }
 
   /**
