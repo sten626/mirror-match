@@ -84,12 +84,19 @@ describe('Players Page Component', () => {
 
   /* addPlayer */
 
-  it('should dispatch an action to add a player when addPlayer called', () => {
-    const playerName = player1.name;
-    const action = PlayersPageActions.addPlayer({playerName});
+  describe('addPlayer', () => {
+    it('should not dispatch an action when called with null', () => {
+      component.addPlayer(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
 
-    component.addPlayer(playerName);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    it('should dispatch an action to add a player', () => {
+      const playerName = player1.name;
+      const action = PlayersPageActions.addPlayer({playerName});
+
+      component.addPlayer(playerName);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
   });
 
   /* clearSelectedPlayer */
@@ -107,6 +114,14 @@ describe('Players Page Component', () => {
   /* deletePlayer */
 
   describe('deletePlayer', () => {
+    it('should do nothing when called with null', () => {
+      component.selectedPlayer = player1;
+      component.deletePlayer(null);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+      expect(component.selectedPlayer).toEqual(player1);
+    });
+
     it('should dispatch an action to delete a player and clear same selected player', () => {
       component.selectedPlayer = player1;
 

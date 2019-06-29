@@ -41,11 +41,13 @@ export class PlayersPageComponent {
   }
 
   /**
-   * Dispatch an AddPlayer action.
+   * Dispatch an addPlayer action.
    * @param playerName The name of the new player to add.
    */
-  addPlayer(playerName: string) {
-    this.store.dispatch(PlayersPageActions.addPlayer({playerName}));
+  addPlayer(playerName: string): void {
+    if (playerName) {
+      this.store.dispatch(PlayersPageActions.addPlayer({playerName}));
+    }
   }
 
   /**
@@ -56,20 +58,22 @@ export class PlayersPageComponent {
   }
 
   /**
-   * Dispath a DeletePlayer action and clear it if it was the selected player.
+   * Dispath a deletePlayer action and clear it if it was the selected player.
    * @param playerId The id of the player to delete.
    */
   deletePlayer(playerId: number): void {
-    this.store.dispatch(PlayersPageActions.deletePlayer({playerId}));
+    if (playerId) {
+      this.store.dispatch(PlayersPageActions.deletePlayer({playerId}));
 
-    if (playerId === this.selectedPlayer.id) {
-      this.clearSelectedPlayer();
+      if (playerId === this.selectedPlayer.id) {
+        this.clearSelectedPlayer();
+      }
     }
   }
 
   /**
-   * Use the RoundService to create the first round and then navigate to the pairings page.
-   * @param numOfRounds The number of rounds for the tournmant to have.
+   * Dispath a beginEvent action.
+   * @param numberOfRounds The number of rounds for the tournmant to have.
    */
   onStartTournament(numberOfRounds: number): void {
     if (numberOfRounds) {
@@ -85,11 +89,19 @@ export class PlayersPageComponent {
     this.selectedPlayer = player;
   }
 
+  /**
+   * Toggle the "dropped" status of a Player by dispatching a togglePlayerDropped action.
+   * @param player The Player to drop or undrop.
+   */
   togglePlayerDropped(player: Player): void {
     this.store.dispatch(PlayersPageActions.togglePlayerDropped({player}));
     this.selectedPlayer = null;
   }
 
+  /**
+   * Dispatches an updatePlayerName action.
+   * @param event An object containing player and name, where name is the new name.
+   */
   updatePlayerName(event: {player: Player, name: string}): void {
     const {player, name} = event;
 
