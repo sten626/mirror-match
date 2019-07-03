@@ -63,6 +63,10 @@ export class PairingsPageComponent {
     );
   }
 
+  /**
+   * Dispatch an action to change the selected round.
+   * @param roundId A numerical round ID.
+   */
   onChangeSelectedRound(roundId: number) {
     this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
   }

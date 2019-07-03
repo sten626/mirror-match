@@ -86,6 +86,24 @@ describe('PairingsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  /* onChangeSelectedRound */
+
+  describe('onChangeSelectedRound', () => {
+    it('should dispatch an action when called with null', () => {
+      const roundId = null;
+      const action = PairingsPageActions.changeSelectedRound({roundId});
+      component.onChangeSelectedRound(roundId);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+
+    it('should dispatch an action when called with a round ID', () => {
+      const roundId = 1;
+      const action = PairingsPageActions.changeSelectedRound({roundId});
+      component.onChangeSelectedRound(roundId);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
   /* onClearMatchResult */
 
   describe('onClearMatchResult', () => {
