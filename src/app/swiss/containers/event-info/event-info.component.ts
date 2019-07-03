@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
+import { EventInfoPageActions } from 'app/swiss/actions';
 
 @Component({
   templateUrl: './event-info.component.html'
@@ -11,8 +12,8 @@ export class EventInfoComponent {
   completedRoundId$: Observable<number>;
   currentRoundId$: Observable<number>;
   droppedPlayers$: Observable<number>;
+  numberOfMatchesInProgress$: Observable<number>;
   numberOfRounds$: Observable<number>;
-  ongoingMatchesTotal$: Observable<number>;
   showEndEventConfirmation = false;
   totalPlayers$: Observable<number>;
 
@@ -32,7 +33,7 @@ export class EventInfoComponent {
     this.numberOfRounds$ = store.pipe(
       select(fromSwiss.getNumberOfRounds)
     );
-    this.ongoingMatchesTotal$ = store.pipe(
+    this.numberOfMatchesInProgress$ = store.pipe(
       select(fromSwiss.getSelectedRoundPairingsOutstandingTotal)
     );
     this.totalPlayers$ = store.pipe(
@@ -40,15 +41,23 @@ export class EventInfoComponent {
     );
   }
 
+  /**
+   * Sets a boolean value to hide the end event confirmation.
+   */
   cancelEndEvent(): void {
     this.showEndEventConfirmation = false;
   }
 
+  /**
+   * Dispatch an endEventConfirmed action to clear all data.
+   */
   endEventConfirm(): void {
-    localStorage.clear();
-    window.location.reload();
+    this.store.dispatch(EventInfoPageActions.endEventConfirmed());
   }
 
+  /**
+   * Sets a boolean value to show the end event confirmation.
+   */
   endEventClicked(): void {
     this.showEndEventConfirmation = true;
   }

@@ -63,24 +63,51 @@ export class PairingsPageComponent {
     );
   }
 
-  clearMatchResult(pairing: Pairing) {
-    this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
+  /**
+   * Dispatch a clearMatchResult action for a given Pairing.
+   * @param pairing The Pairing to be cleared.
+   */
+  clearMatchResult(pairing: Pairing): void {
+    if (pairing) {
+      this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
+    }
   }
 
+  /**
+   * Dispatch an action to create the next round.
+   */
   createNextRound(): void {
     this.store.dispatch(PairingsPageActions.createNextRound());
   }
 
+  /**
+   * Dispatch an action to create pairings for a given round.
+   * @param roundId The ID of the round to create pairings for.
+   */
   createPairings(roundId: number) {
-    this.store.dispatch(PairingsPageActions.createPairings({roundId}));
+    if (roundId) {
+      this.store.dispatch(PairingsPageActions.createPairings({roundId}));
+    }
   }
 
+  /**
+   * Dispatch an action to clear the results for given Pairings.
+   * @param pairings List of Pairing objects.
+   */
   deleteResults(pairings: Pairing[]) {
-    this.store.dispatch(PairingsPageActions.clearResults({pairings}));
+    if (pairings && pairings.length > 0) {
+      this.store.dispatch(PairingsPageActions.clearResults({pairings}));
+    }
   }
 
+  /**
+   * Dispatch an action to drop the given Players from the tournament.
+   * @param players List of Player objects.
+   */
   dropPlayers(players: Player[]) {
-    this.store.dispatch(PairingsPageActions.dropPlayers({players}));
+    if (players && players.length > 0) {
+      this.store.dispatch(PairingsPageActions.dropPlayers({players}));
+    }
   }
 
   redoMatches(roundId: number) {

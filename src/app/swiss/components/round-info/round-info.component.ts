@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 export class RoundInfoComponent {
   @Input() completedRoundId: number;
   @Input() currentRoundId: number;
+  @Input() numberOfMatchesInProgress: number;
   @Input() numberOfRounds: number;
-  @Input() ongoingMatchesTotal: number;
 }

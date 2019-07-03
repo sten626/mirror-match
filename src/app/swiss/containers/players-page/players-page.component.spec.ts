@@ -188,14 +188,25 @@ describe('Players Page Component', () => {
 
   /* togglePlayerDropped */
 
-  it('should dispatch togglePlayerDropped action and set selectedPlayer to null when togglePlayerDropped called', () => {
-    component.selectedPlayer = player1;
-    expect(component.selectedPlayer).toEqual(player1);
+  describe('togglePlayerDropped', () => {
+    it('should do nothing when called with null', () => {
+      component.selectedPlayer = player1;
+      expect(component.selectedPlayer).toEqual(player1);
 
-    const action = PlayersPageActions.togglePlayerDropped({player: player1});
-    component.togglePlayerDropped(player1);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-    expect(component.selectedPlayer).toBeNull();
+      component.togglePlayerDropped(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+      expect(component.selectedPlayer).toEqual(player1);
+    });
+
+    it('should dispatch action and set selectedPlayer to null when called with a player', () => {
+      component.selectedPlayer = player1;
+      expect(component.selectedPlayer).toEqual(player1);
+
+      const action = PlayersPageActions.togglePlayerDropped({player: player1});
+      component.togglePlayerDropped(player1);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+      expect(component.selectedPlayer).toBeNull();
+    });
   });
 
   /* updatePlayerName */

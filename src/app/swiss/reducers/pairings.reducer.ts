@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Pairing } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
+import { PairingsApiActions, PairingsPageActions, SwissApiActions } from 'app/swiss/actions';
 
 export interface State extends EntityState<Pairing> {
   selectedPairingId: number | null;
@@ -27,6 +27,10 @@ export const reducer = createReducer(
   on(PairingsPageActions.selectPairing, (state, {pairingId}) => ({
     ...state,
     selectedPairingId: pairingId
+  })),
+  on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll({
+    ...state,
+    selectedPairingId: null
   }))
 );
 

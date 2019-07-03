@@ -22,14 +22,14 @@ import {
   StandingsPageComponent,
   SwissComponent
 } from 'app/swiss/containers';
-import { PairingEffects, PlayerEffects, RoundEffects } from 'app/swiss/effects';
+import { PairingEffects, PlayerEffects, RoundEffects, SwissEffects } from 'app/swiss/effects';
 import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
 import { reducers } from 'app/swiss/reducers';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
 
 @NgModule({
   imports: [
-    EffectsModule.forFeature([PairingEffects, PlayerEffects, RoundEffects]),
+    EffectsModule.forFeature([PairingEffects, PlayerEffects, RoundEffects, SwissEffects]),
     SharedModule,
     StoreModule.forFeature('swiss', reducers),
     SwissRoutingModule

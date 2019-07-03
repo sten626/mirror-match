@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Round } from 'app/shared';
-import { RoundApiActions, PairingsApiActions } from '../actions';
+import { RoundApiActions, PairingsApiActions, SwissApiActions } from '../actions';
 
 export interface State extends EntityState<Round> {
   completedRoundId: number;
@@ -52,6 +52,13 @@ export const reducer = createReducer(
     ...state,
     pairingsFilterText: '',
     showOutstandingOnly: true
+  })),
+  on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll({
+    ...state,
+    completedRoundId: 0,
+    numberOfRounds: 0,
+    selectedPairingId: null,
+    selectedRoundId: null
   }))
 );
 

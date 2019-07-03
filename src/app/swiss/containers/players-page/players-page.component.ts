@@ -94,8 +94,10 @@ export class PlayersPageComponent {
    * @param player The Player to drop or undrop.
    */
   togglePlayerDropped(player: Player): void {
-    this.store.dispatch(PlayersPageActions.togglePlayerDropped({player}));
-    this.selectedPlayer = null;
+    if (player) {
+      this.store.dispatch(PlayersPageActions.togglePlayerDropped({player}));
+      this.selectedPlayer = null;
+    }
   }
 
   /**

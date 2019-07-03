@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Player } from 'app/shared';
-import { PlayersApiActions } from 'app/swiss/actions';
+import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
 
 export interface State extends EntityState<Player> {
   loaded: boolean;
@@ -29,5 +29,6 @@ export const reducer = createReducer(
     loaded: true,
     loading: false
   })),
-  on(PlayersApiActions.updatePlayer, (state, {player}) => adapter.updateOne(player, state))
+  on(PlayersApiActions.updatePlayer, (state, {player}) => adapter.updateOne(player, state)),
+  on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll(state))
 );
