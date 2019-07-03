@@ -4,9 +4,9 @@
   [pairingsExist]="pairingsExist$ | async"
   [roundIds]="roundIds$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
-  (createNextRound)="createNextRound()"
-  (createPairings)="createPairings($event)"
-  (roundChanged)="roundChanged($event)">
+  (changeSelectedRound)="onChangeSelectedRound($event)"
+  (createNextRound)="onCreateNextRound()"
+  (createPairings)="onCreatePairings($event)">
 </mm-pairings-menu>
 <mm-pairings-list
   [hasSubmittedPairings]="hasSubmittedPairings$ | async"
@@ -16,15 +16,15 @@
   [selectedPairing]="selectedPairing$ | async"
   [selectedRoundComplete]="selectedRoundComplete$ | async"
   [selectedRoundId]="selectedRoundId$ | async"
-  (deleteResults)="deleteResults($event)"
-  (redoMatches)="redoMatches($event)"
-  (selectPairing)="selectPairing($event)">
+  (deleteResults)="onDeleteResults($event)"
+  (redoMatches)="onRedoMatches($event)"
+  (selectPairing)="onSelectPairing($event)">
 </mm-pairings-list>
 <mm-match-results
   [playerEntities]="playerEntities$ | async"
   [selectedPairing]="selectedPairing$ | async"
   [selectedRoundComplete]="selectedRoundComplete$ | async"
-  (clearMatchResult)="clearMatchResult($event)"
-  (dropPlayers)="dropPlayers($event)"
-  (submitResult)="submitResult($event)">
+  (clearMatchResult)="onClearMatchResult($event)"
+  (dropPlayers)="onDropPlayers($event)"
+  (submitResult)="onSubmitResult($event)">
 </mm-match-results>

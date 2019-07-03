@@ -63,11 +63,15 @@ export class PairingsPageComponent {
     );
   }
 
+  onChangeSelectedRound(roundId: number) {
+    this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
+  }
+
   /**
    * Dispatch a clearMatchResult action for a given Pairing.
    * @param pairing The Pairing to be cleared.
    */
-  clearMatchResult(pairing: Pairing): void {
+  onClearMatchResult(pairing: Pairing): void {
     if (pairing) {
       this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
     }
@@ -76,7 +80,7 @@ export class PairingsPageComponent {
   /**
    * Dispatch an action to create the next round.
    */
-  createNextRound(): void {
+  onCreateNextRound(): void {
     this.store.dispatch(PairingsPageActions.createNextRound());
   }
 
@@ -84,7 +88,7 @@ export class PairingsPageComponent {
    * Dispatch an action to create pairings for a given round.
    * @param roundId The ID of the round to create pairings for.
    */
-  createPairings(roundId: number) {
+  onCreatePairings(roundId: number) {
     if (roundId) {
       this.store.dispatch(PairingsPageActions.createPairings({roundId}));
     }
@@ -94,7 +98,7 @@ export class PairingsPageComponent {
    * Dispatch an action to clear the results for given Pairings.
    * @param pairings List of Pairing objects.
    */
-  deleteResults(pairings: Pairing[]) {
+  onDeleteResults(pairings: Pairing[]) {
     if (pairings && pairings.length > 0) {
       this.store.dispatch(PairingsPageActions.clearResults({pairings}));
     }
@@ -104,27 +108,29 @@ export class PairingsPageComponent {
    * Dispatch an action to drop the given Players from the tournament.
    * @param players List of Player objects.
    */
-  dropPlayers(players: Player[]) {
+  onDropPlayers(players: Player[]) {
     if (players && players.length > 0) {
       this.store.dispatch(PairingsPageActions.dropPlayers({players}));
     }
   }
 
-  redoMatches(roundId: number) {
-    this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
+  /**
+   * Dispatch an action to delete all pairings for the given round.
+   * @param roundId Numerical ID of a round.
+   */
+  onRedoMatches(roundId: number) {
+    if (roundId) {
+      this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
+    }
   }
 
-  roundChanged(roundId: number) {
-    this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
-  }
-
-  selectPairing(pairing: Pairing) {
+  onSelectPairing(pairing: Pairing) {
     if (pairing.player2Id) {
       this.store.dispatch(PairingsPageActions.selectPairing({pairingId: pairing.id}));
     }
   }
 
-  submitResult(pairing: Pairing) {
+  onSubmitResult(pairing: Pairing) {
     this.store.dispatch(PairingsPageActions.submitResult({pairing}));
   }
 }

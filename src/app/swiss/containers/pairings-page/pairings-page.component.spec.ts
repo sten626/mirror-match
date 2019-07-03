@@ -86,97 +86,113 @@ describe('PairingsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  /* clearMatchResult */
+  /* onClearMatchResult */
 
-  describe('clearMatchResult', () => {
+  describe('onClearMatchResult', () => {
     it('should do nothing when called with null', () => {
-      component.clearMatchResult(null);
+      component.onClearMatchResult(null);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should dispatch an action when called with a pairing', () => {
       const action = PairingsPageActions.clearMatchResult({pairing: pairing1});
-      component.clearMatchResult(pairing1);
+      component.onClearMatchResult(pairing1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
 
-  /* createNextRound */
+  /* onCreateNextRound */
 
-  it('should dispatch an action when createNextRound is called', () => {
+  it('should dispatch an action when onCreateNextRound is called', () => {
     const action = PairingsPageActions.createNextRound();
-    component.createNextRound();
+    component.onCreateNextRound();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  /* createPairings */
+  /* onCreatePairings */
 
-  describe('createPairings', () => {
+  describe('onCreatePairings', () => {
     it('should do nothing when called with null', () => {
-      component.createPairings(null);
+      component.onCreatePairings(null);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should dispatch an action when called with a round ID', () => {
       const roundId = 1;
       const action = PairingsPageActions.createPairings({roundId});
-      component.createPairings(roundId);
+      component.onCreatePairings(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
 
-  /* deleteResults */
+  /* onDeleteResults */
 
-  describe('deleteResults', () => {
+  describe('onDeleteResults', () => {
     it('should do nothing when called with null', () => {
-      component.deleteResults(null);
+      component.onDeleteResults(null);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should do nothing when called with an empty list', () => {
-      component.deleteResults([]);
+      component.onDeleteResults([]);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should dispatch an action when called with a list with one item', () => {
       const pairings = [ pairing1 ];
       const action = PairingsPageActions.clearResults({pairings});
-      component.deleteResults(pairings);
+      component.onDeleteResults(pairings);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 
     it('should dispatch an action when called with a list with multiple items', () => {
       const pairings = [ pairing1, pairing2 ];
       const action = PairingsPageActions.clearResults({pairings});
-      component.deleteResults(pairings);
+      component.onDeleteResults(pairings);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
 
-  /* dropPlayers */
+  /* onDropPlayers */
 
-  describe('dropPlayers', () => {
+  describe('onDropPlayers', () => {
     it('should do nothing when called with null', () => {
-      component.dropPlayers(null);
+      component.onDropPlayers(null);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should do nothing when called with an empty list', () => {
-      component.dropPlayers([]);
+      component.onDropPlayers([]);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should dispatch an action when called with a single player', () => {
       const players = [ player1 ];
       const action = PairingsPageActions.dropPlayers({players});
-      component.dropPlayers(players);
+      component.onDropPlayers(players);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 
     it('should dispatch an action when called with multiple players', () => {
       const players = [ player1, player2 ];
       const action = PairingsPageActions.dropPlayers({players});
-      component.dropPlayers(players);
+      component.onDropPlayers(players);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  /* onRedoMatches */
+
+  describe('onRedoMatches', () => {
+    it('should do nothing when called with null', () => {
+      component.onRedoMatches(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch an action when called with a round ID', () => {
+      const roundId = 1;
+      const action = PairingsPageActions.deletePairings({roundId});
+      component.onRedoMatches(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });

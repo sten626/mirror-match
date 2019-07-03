@@ -12,9 +12,9 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   @Input() pairingsExist: boolean;
   @Input() selectedRoundId: number;
   @Input() roundIds: number[];
+  @Output() changeSelectedRound = new EventEmitter<number>();
   @Output() createNextRound = new EventEmitter<void>();
   @Output() createPairings = new EventEmitter<number>();
-  @Output() roundChanged = new EventEmitter<number>();
 
   selectedRoundControl = new FormControl(1);
 
@@ -23,7 +23,7 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   ngOnInit(): void {
     this.selectedRoundControlSub = this.selectedRoundControl.valueChanges.subscribe(round => {
       const roundInt = parseInt(round);
-      this.roundChanged.emit(roundInt);
+      this.changeSelectedRound.emit(roundInt);
     });
   }
 
@@ -35,9 +35,5 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.selectedRoundControlSub.unsubscribe();
-  }
-
-  createPairingsClicked() {
-    this.createPairings.emit(this.selectedRoundId);
   }
 }
