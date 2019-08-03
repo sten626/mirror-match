@@ -13,6 +13,7 @@ describe('PairingsPageComponent', () => {
   let store: Store<fromSwiss.State>;
   let pairing1: Pairing;
   let pairing2: Pairing;
+  let pairingB: Pairing;
   let player1: Player;
   let player2: Player;
 
@@ -64,6 +65,16 @@ describe('PairingsPageComponent', () => {
       player2Wins: 0,
       draws: 0,
       submitted: false
+    };
+    pairingB = {
+      id: 3,
+      table: 0,
+      player1Id: 0,
+      player2Id: null,
+      player1Wins: 2,
+      player2Wins: 0,
+      draws: 0,
+      submitted: true
     };
     player1 = {
       id: 1,
@@ -211,6 +222,26 @@ describe('PairingsPageComponent', () => {
       const roundId = 1;
       const action = PairingsPageActions.deletePairings({roundId});
       component.onRedoMatches(roundId);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  /* onSelectPairing */
+
+  describe('onSelectPairing', () => {
+    it('should do nothing when called with null', () => {
+      component.onSelectPairing(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should do nothing when called with a bye pairing', () => {
+      component.onSelectPairing(pairingB);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch an action when called with a normal pairing', () => {
+      const action = PairingsPageActions.selectPairing({pairingId: 1});
+      component.onSelectPairing(pairing1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });

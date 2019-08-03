@@ -129,7 +129,7 @@ export class PairingsPageComponent {
   }
 
   onSelectPairing(pairing: Pairing) {
-    if (pairing.player2Id) {
+    if (pairing && pairing.player2Id) {
       this.store.dispatch(PairingsPageActions.selectPairing({pairingId: pairing.id}));
     }
   }
