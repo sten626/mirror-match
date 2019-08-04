@@ -135,6 +135,8 @@ export class PairingsPageComponent {
   }
 
   onSubmitResult(pairing: Pairing) {
-    this.store.dispatch(PairingsPageActions.submitResult({pairing}));
+    if (pairing) {
+      this.store.dispatch(PairingsPageActions.submitResult({pairing}));
+    }
   }
 }

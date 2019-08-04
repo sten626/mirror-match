@@ -245,4 +245,19 @@ describe('PairingsPageComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
+
+  /* onSubmitResult */
+
+  describe('onSubmitResult', () => {
+    it('should do nothing when called with null', () => {
+      component.onSubmitResult(null);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch an action when called with a pairing', () => {
+      const action = PairingsPageActions.submitResult({pairing: pairing1});
+      component.onSubmitResult(pairing1);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
 });
