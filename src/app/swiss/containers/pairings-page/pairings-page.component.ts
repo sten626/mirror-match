@@ -34,8 +34,7 @@ export class PairingsPageComponent {
       select(fromSwiss.hasTournamentStarted)
     );
     this.hasSubmittedPairings$ = this.store.pipe(
-      select(fromSwiss.getSelectedRoundPairingsSubmitted),
-      map((pairings: Pairing[]) => pairings.filter(p => p.player2Id).length > 0)
+      select(fromSwiss.selectedRoundHasSubmittedPairings)
     );
     this.numberOfRounds$ = this.store.pipe(
       select(fromSwiss.getNumberOfRounds)

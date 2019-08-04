@@ -208,3 +208,8 @@ export const getSelectedRoundPairingsSubmitted = createSelector(
   getSelectedRoundPairings,
   (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)
 );
+
+export const selectedRoundHasSubmittedPairings = createSelector(
+  getSelectedRoundPairingsSubmitted,
+  pairings => pairings.filter(p => p.player2Id).length > 0
+);
