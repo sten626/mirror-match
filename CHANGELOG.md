@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Unit tests and documentation for swiss container classes.
+
 ### Changed
 
 - Major refactoring of data services and all app components.
