@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v1.0.0-beta.6] - 2019-08-05
+
+## Changed
+
+- Updated dependencies to resolve security vulnerabilities.
+
 ## [1.0.0-beta.5] - 2019-05-13
 
 ### Changed
@@ -62,7 +68,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.5...HEAD
+[Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.6...HEAD
+[v1.0.0-beta.6]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.5...v1.0.0-beta.6
 [1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.4...1.0.0-beta.5
 [1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...1.0.0-beta.4
 [1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...1.0.0-beta.3
