@@ -127,12 +127,20 @@ export class PairingsPageComponent {
     }
   }
 
+  /**
+   * Dispatch an action to set a Pairing as the selected Pairing.
+   * @param pairing A Pairing to be selected.
+   */
   onSelectPairing(pairing: Pairing) {
     if (pairing && pairing.player2Id) {
       this.store.dispatch(PairingsPageActions.selectPairing({pairingId: pairing.id}));
     }
   }
 
+  /**
+   * Dispatch an action to submit the results of a Pairing.
+   * @param pairing A Pairing to be submitted
+   */
   onSubmitResult(pairing: Pairing) {
     if (pairing) {
       this.store.dispatch(PairingsPageActions.submitResult({pairing}));
