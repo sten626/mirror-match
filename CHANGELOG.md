@@ -13,19 +13,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Updated dependencies to resolve security vulnerabilities.
 
-## [1.0.0-beta.5] - 2019-05-13
+## [v1.0.0-beta.5] - 2019-05-13
 
 ### Changed
 
 - Updated dependencies to resolve security vulnerabilities.
 
-## [1.0.0-beta.4] - 2018-08-17
+## [v1.0.0-beta.4] - 2018-08-17
 
 ### Fixed
 
 - Bug where the app would sometimes crash when pairing the last round.
 
-## [1.0.0-beta.3] - 2018-06-08
+## [v1.0.0-beta.3] - 2018-06-08
 
 ### Added
 
@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Problem with MW% on players who dropped before the first round.
 - Tiebreakers now used for pairing the final round.
 
-## [1.0.0-beta.2] - 2017-11-20
+## [v1.0.0-beta.2] - 2017-11-20
 
 ### Added
 
@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Problems with bad match submission restrictions.
 
-## 1.0.0-beta.1 - 2017-11-18
+## [v1.0.0-beta.1] - 2017-11-18
 
 ### Added
 
@@ -69,8 +69,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Match points > OMW% > GW% > OGW%.
 
 [Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.6...HEAD
-[v1.0.0-beta.6]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.5...v1.0.0-beta.6
-[1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.4...1.0.0-beta.5
-[1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.3...1.0.0-beta.4
-[1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.2...1.0.0-beta.3
-[1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/1.0.0-beta.1...1.0.0-beta.2
+[v1.0.0-beta.6]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.5...v1.0.0-beta.6
+[v1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.4...v1.0.0-beta.5
+[v1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.3...v1.0.0-beta.4
+[v1.0.0-beta.3]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.2...v1.0.0-beta.3
+[v1.0.0-beta.2]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.1...v1.0.0-beta.2
+[v1.0.0-beta.1]: https://github.com/sten626/mirror-match/releases/tag/v1.0.0-beta.1
