@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Pairing, PairingService, PairingStorageService, RoundStorageService, StandingsService } from 'app/shared';
+import { Pairing, PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, of } from 'rxjs';
@@ -63,32 +63,24 @@ export class PairingEffects implements OnInitEffects {
     ofType(PairingsPageActions.createPairings),
     withLatestFrom(
       this.store.pipe(
-        select(fromSwiss.getAllPairings)
+        select(fromSwiss.getActivePlayerIds)
       ),
       this.store.pipe(
-        select(fromSwiss.getAllPlayers)
+        select(fromSwiss.getNumberOfRounds)
+      ),
+      this.store.pipe(
+        select(fromSwiss.getStandings)
       )
     ),
-    switchMap(([{roundId}, allPairings, players]) =>
-      this.standingsService.calculateStandings(allPairings, players).pipe(
-        withLatestFrom(
-          this.store.pipe(
-            select(fromSwiss.getActivePlayerIds)
-          ),
-          this.store.pipe(
-            select(fromSwiss.getNumberOfRounds),
-            map(numberOfRounds => roundId === numberOfRounds)
-          )
-        ),
-        switchMap(([standings, activePlayerIds, isLastRound]) => {
-          const activePlayerStandings = standings.filter(s => activePlayerIds.includes(s.playerId));
-          return this.pairingsService.createPairings(roundId, isLastRound, activePlayerStandings, this.nextId).pipe(
-            tap(pairings => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
-            map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
-          );
-        })
-      )
-    )
+    switchMap(([{roundId}, activePlayerIds, numberOfRounds, standings]) => {
+      const activePlayerStandings = standings.filter(s => activePlayerIds.includes(s.playerId));
+      const isLastRound = roundId === numberOfRounds;
+
+      return this.pairingsService.createPairings(roundId, isLastRound, activePlayerStandings, this.nextId).pipe(
+        tap(pairings => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
+        map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
+      );
+    })
   ));
 
   deletePairings$ = createEffect(() => this.actions$.pipe(
@@ -153,7 +145,6 @@ export class PairingEffects implements OnInitEffects {
     private actions$: Actions,
     private pairingsService: PairingService,
     private roundStorageService: RoundStorageService,
-    private standingsService: StandingsService,
     private storageService: PairingStorageService,
     private store: Store<fromSwiss.State>
   ) {}
