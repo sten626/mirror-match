@@ -5,6 +5,7 @@ import { Pairing, Player, Round } from 'app/shared';
 import * as fromPairings from './pairings.reducer';
 import * as fromPlayers from './players.reducer';
 import * as fromRounds from './rounds.reducer';
+import { calculateStandings } from 'app/swiss/reducers/util';
 
 export interface SwissState {
   pairings: fromPairings.State;
@@ -207,6 +208,12 @@ export const getSelectedRoundPairingsOutstandingTotal = createSelector(
 export const getSelectedRoundPairingsSubmitted = createSelector(
   getSelectedRoundPairings,
   (pairings: Pairing[]) => pairings.filter(pairing => pairing.submitted)
+);
+
+export const getStandings = createSelector(
+  getAllPlayers,
+  getAllSubmittedPairings,
+  (players, pairings) => calculateStandings(pairings, players)
 );
 
 export const selectedRoundHasSubmittedPairings = createSelector(
