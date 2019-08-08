@@ -2,11 +2,15 @@ import { Dictionary } from '@ngrx/entity';
 import { Pairing, Player, Standing, standingDefaults } from 'app/shared';
 
 export function calculateStandings(pairings: Pairing[], players: Player[]): Standing[] {
-    const standings = aggregatePlayerMatchData(pairings, players);
-    calculatePlayerWinData(players, standings);
-    calculateOpponentWinData(players, standings);
+  if (players.length === 0) {
+    return [];
+  }
 
-    return getStandingsList(players, standings);
+  const standings = aggregatePlayerMatchData(pairings, players);
+  calculatePlayerWinData(players, standings);
+  calculateOpponentWinData(players, standings);
+
+  return getStandingsList(players, standings);
 }
 
 function aggregatePlayerMatchData(pairings: Pairing[], players: Player[]): Dictionary<Standing> {
