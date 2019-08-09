@@ -48,6 +48,10 @@ export const reducer = createReducer(
     ...state,
     completedRoundId: roundId
   })),
+  on(RoundApiActions.setSelectedRound, (state, {roundId}) => ({
+    ...state,
+    selectedRoundId: roundId
+  })),
   on(RoundApiActions.updateRound, (state, {round}) => adapter.updateOne(round, {
     ...state,
     pairingsFilterText: '',
