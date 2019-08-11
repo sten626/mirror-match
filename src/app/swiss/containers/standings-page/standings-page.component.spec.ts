@@ -4,7 +4,6 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import * as fromSwiss from 'app/swiss/reducers';
 import { StandingsPageComponent } from './standings-page.component';
-import { StandingsService } from 'app/shared';
 
 describe('StandingsPageComponent', () => {
   let component: StandingsPageComponent;
@@ -21,9 +20,6 @@ describe('StandingsPageComponent', () => {
       ],
       declarations: [
         StandingsPageComponent
-      ],
-      providers: [
-        StandingsService
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

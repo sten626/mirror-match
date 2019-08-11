@@ -15,7 +15,6 @@ import {
   PairingStorageService,
   RoundStorageService,
   SharedModule,
-  StandingsService,
   PlayerStorageService
 } from './shared';
 import { reducers } from './reducers';
@@ -45,8 +44,7 @@ import { environment } from '../environments/environment';
     PairingService,
     PairingStorageService,
     PlayerStorageService,
-    RoundStorageService,
-    StandingsService
+    RoundStorageService
   ],
   bootstrap: [AppComponent]
 })

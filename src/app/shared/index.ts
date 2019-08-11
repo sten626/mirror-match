@@ -1,3 +1,4 @@
+export * from './comparators';
 export * from './layout';
 export * from './match-result.validator';
 export * from './models';

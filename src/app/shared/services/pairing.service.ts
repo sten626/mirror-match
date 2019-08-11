@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'app/shared/comparators';
 import { Pairing, Standing } from 'app/shared/models';
-import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'app/shared/services/standings.service';
 import { Observable, of } from 'rxjs';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Standing } from 'app/shared/models/standing.model';
-import { standingsTiebreakerComparator } from 'app/shared/services/standings.service';
+import { standingsTiebreakerComparator } from '../comparators';
 
 @Pipe({
   name: 'sortStandings'
