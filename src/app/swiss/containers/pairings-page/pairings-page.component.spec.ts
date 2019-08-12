@@ -1,7 +1,7 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { Pairing, Player } from 'app/shared';
 import { PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
@@ -28,17 +28,14 @@ describe('PairingsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          swiss: combineReducers(fromSwiss.reducers)
-        })
-      ],
       declarations: [
         MatchResultsStubComponent,
         PairingsListStubComponent,
         PairingsMenuStubComponent,
         PairingsPageComponent
+      ],
+      providers: [
+        provideMockStore({})
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

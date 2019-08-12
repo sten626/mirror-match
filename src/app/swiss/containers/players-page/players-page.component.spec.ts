@@ -1,17 +1,17 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { SharedModule, Player } from 'app/shared';
+import { Store } from '@ngrx/store';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { Player, SharedModule } from 'app/shared';
+import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { PlayersPageComponent } from './players-page.component';
-import { PlayersPageActions, PlayersApiActions } from 'app/swiss/actions';
 
 describe('Players Page Component', () => {
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
-  let store: Store<fromSwiss.State>;
+  let store: MockStore<fromSwiss.State>;
   let player1: Player;
   let player2: Player;
 
@@ -29,11 +29,7 @@ describe('Players Page Component', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          swiss: combineReducers(fromSwiss.reducers)
-        })
+        SharedModule
       ],
       declarations: [
         PlayerFormStubComponent,
@@ -42,7 +38,17 @@ describe('Players Page Component', () => {
         StartFormStubComponent
       ],
       providers: [
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
+        provideMockStore({
+          selectors: [
+            { selector: fromSwiss.canBeginTournament, value: false },
+            { selector: 'fromSwiss.getAllPlayers', value: [] },
+            { selector: fromSwiss.getRecommendedNumberOfRounds, value: 3 },
+            { selector: fromSwiss.getTotalActivePlayers, value: 0 },
+            { selector: fromSwiss.hasTournamentStarted, value: false },
+            { selector: fromSwiss.isTournamentOver, value: false }
+          ]
+        })
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -59,10 +65,10 @@ describe('Players Page Component', () => {
       dropped: false
     };
 
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PlayersPageComponent);
     component = fixture.componentInstance;
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
     fixture.detectChanges();
   });
 
