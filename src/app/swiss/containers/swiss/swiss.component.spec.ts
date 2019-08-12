@@ -1,10 +1,11 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
 import { MessageService } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { SwissComponent } from './swiss.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SwissComponent', () => {
   let component: SwissComponent;

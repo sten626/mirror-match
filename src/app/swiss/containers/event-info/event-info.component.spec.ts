@@ -1,7 +1,7 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
 import { EventInfoPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { EventInfoComponent } from './event-info.component';
@@ -17,30 +17,25 @@ describe('EventInfoComponent', () => {
   @Component({ selector: 'mm-round-info', template: '' })
   class RoundInfoStubComponent {}
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          swiss: combineReducers(fromSwiss.reducers)
+        })
+      ],
       declarations: [
         EventInfoComponent,
         PlayersInfoStubComponent,
         RoundInfoStubComponent
       ],
-      providers: [
-        provideMockStore({
-          selectors: [
-            { selector: fromSwiss.getCompletedRoundId, value: 0 },
-            { selector: fromSwiss.getNumberOfRounds, value: 0 },
-            { selector: fromSwiss.getSelectedRoundPairingsOutstandingTotal, value: 0 },
-            { selector: fromSwiss.getTotalActivePlayers, value: 0 },
-            { selector: fromSwiss.getTotalDroppedPlayers, value: 0 },
-            { selector: 'fromSwiss.getTotalPlayers', value: 0 },
-            { selector: 'fromSwiss.getTotalRounds', value: 0 }
-          ]
-        })
-      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
+  }));
 
+  beforeEach(() => {
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(EventInfoComponent);
