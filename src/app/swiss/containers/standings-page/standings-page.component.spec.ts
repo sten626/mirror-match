@@ -14,7 +14,7 @@ describe('StandingsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.rootReducers,
           swiss: combineReducers(fromSwiss.reducers)
         })
       ],

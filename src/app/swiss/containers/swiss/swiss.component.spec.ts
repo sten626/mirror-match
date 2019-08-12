@@ -5,7 +5,6 @@ import * as fromRoot from 'app/reducers';
 import { MessageService } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { SwissComponent } from './swiss.component';
-import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SwissComponent', () => {
   let component: SwissComponent;
@@ -15,19 +14,16 @@ describe('SwissComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        // StoreModule.forRoot({
-        //   ...fromRoot.reducers,
-        //   swiss: combineReducers(fromSwiss.reducers)
-        // })
+        StoreModule.forRoot({
+          ...fromRoot.rootReducers,
+          swiss: combineReducers(fromSwiss.reducers)
+        })
       ],
       declarations: [
         SwissComponent
       ],
       providers: [
-        MessageService,
-        provideMockStore({
-          selectors: []
-        })
+        MessageService
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

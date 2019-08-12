@@ -17,7 +17,7 @@ import {
   SharedModule,
   PlayerStorageService
 } from './shared';
-import { reducers } from './reducers';
+import { rootReducers } from './reducers';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     HomeModule,
     SharedModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(rootReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production

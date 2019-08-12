@@ -31,7 +31,7 @@ describe('Players Page Component', () => {
       imports: [
         SharedModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.rootReducers,
           swiss: combineReducers(fromSwiss.reducers)
         })
       ],

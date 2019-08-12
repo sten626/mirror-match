@@ -6,7 +6,7 @@ export interface State {
   [fromMessages.messagesFeatureKey]: fromMessages.State;
 }
 
-export const ROOT_REDUCERS = new InjectionToken<
+export const rootReducers = new InjectionToken<
   ActionReducerMap<State, Action>
 >('Root reducers token', {
   factory: () => ({
