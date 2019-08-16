@@ -1,20 +1,27 @@
-import { Action } from '@ngrx/store';
-
+import { createReducer, on } from '@ngrx/store';
+import { Message } from 'app/shared';
+import { MessageActions } from '../actions';
 
 export const messagesFeatureKey = 'messages';
 
 export interface State {
-  messages: string[];
+  messages: Message[];
 }
 
 export const initialState: State = {
   messages: []
 };
 
-export function reducer(state = initialState, action: Action): State {
-  switch (action.type) {
+export const reducer = createReducer(
+  initialState,
+  on(MessageActions.addMessage, (state, {message}) => ({
+    ...state,
+    messages: [...state.messages, message]
+  })),
+  on(MessageActions.deleteMessage, (state, {message}) => ({
+    ...state,
+    messages: state.messages.filter(m => m !== message)
+  }))
+);
 
-    default:
-      return state;
-  }
-}
+export const getMessages = (state: State) => state.messages;

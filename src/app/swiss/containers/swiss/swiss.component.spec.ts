@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { MessageService } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { SwissComponent } from './swiss.component';
 
@@ -21,9 +20,6 @@ describe('SwissComponent', () => {
       ],
       declarations: [
         SwissComponent
-      ],
-      providers: [
-        MessageService
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

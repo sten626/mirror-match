@@ -10,7 +10,6 @@ import { HomeModule } from './home/home.module';
 import {
   FooterComponent,
   HeaderComponent,
-  MessageService,
   PairingService,
   PairingStorageService,
   RoundStorageService,
@@ -40,7 +39,6 @@ import { environment } from '../environments/environment';
     })
   ],
   providers: [
-    MessageService,
     PairingService,
     PairingStorageService,
     PlayerStorageService,

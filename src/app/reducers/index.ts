@@ -1,4 +1,4 @@
-import { ActionReducerMap, Action } from '@ngrx/store';
+import { ActionReducerMap, Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromMessages from 'app/core/reducers/messages.reducer';
 import { InjectionToken } from '@angular/core';
 
@@ -14,4 +14,11 @@ export const rootReducers = new InjectionToken<
   })
 });
 
-// export const reducers: ActionReducerMap<State> = {};
+export const getMessagesState = createFeatureSelector<State, fromMessages.State>(
+  fromMessages.messagesFeatureKey
+);
+
+export const getMessages = createSelector(
+  getMessagesState,
+  fromMessages.getMessages
+);
