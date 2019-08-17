@@ -5,8 +5,7 @@ export enum MessageType {
   Warning = 'alert-warning'
 }
 
-export class Message {
-  constructor(
-    public message: string,
-    public type: MessageType) {}
+export interface Message {
+  text: string;
+  type: MessageType;
 }
