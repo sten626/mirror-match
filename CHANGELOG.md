@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Major refactoring of data services and all app components.
 
+### Fixed
+
+- Fix issue with tiebreakers displaying as NaN.
+
 ## [v1.0.0-beta.6] - 2019-08-05
 
 ## Changed

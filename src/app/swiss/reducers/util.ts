@@ -62,6 +62,14 @@ function aggregatePlayerMatchData(pairings: Pairing[], players: Player[]): Dicti
 function calculateOpponentWinData(players: Player[], standings: Dictionary<Standing>) {
   players.forEach(player => {
     const standing = standings[player.id];
+    const totalOpponents = standing.opponentIds.length;
+
+    if (totalOpponents === 0) {
+      standing.opponentGameWinPercentage = 0;
+      standing.opponentMatchWinPercentage = 0;
+      return;
+    }
+
     let opponentGameWinPercentageSum = 0;
     let opponentMatchWinPercentageSum = 0;
 
@@ -71,7 +79,6 @@ function calculateOpponentWinData(players: Player[], standings: Dictionary<Stand
       opponentMatchWinPercentageSum += opponentStanding.matchWinPercentage;
     });
 
-    const totalOpponents = standing.opponentIds.length;
     standing.opponentGameWinPercentage = sigFigs(opponentGameWinPercentageSum / totalOpponents, 6);
     standing.opponentMatchWinPercentage = sigFigs(opponentMatchWinPercentageSum / totalOpponents, 6);
   });
