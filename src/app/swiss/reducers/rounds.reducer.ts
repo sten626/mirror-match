@@ -50,6 +50,7 @@ export const reducer = createReducer(
   })),
   on(RoundApiActions.setSelectedRound, (state, {roundId}) => ({
     ...state,
+    selectedPairingId: null,
     selectedRoundId: roundId
   })),
   on(RoundApiActions.updateRound, (state, {round}) => adapter.updateOne(round, {

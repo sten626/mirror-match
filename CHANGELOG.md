@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Fix issue with tiebreakers displaying as NaN.
+- Clear selected pairing when changing selected round.
 
 ## [v1.0.0-beta.6] - 2019-08-05
 
