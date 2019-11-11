@@ -1,6 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { Player } from 'app/shared';
-import { PlayersApiActions } from 'app/swiss/actions';
+import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
 import * as fromPlayers from 'app/swiss/reducers/players.reducer';
 
 describe('PlayersReducer', () => {
@@ -46,6 +46,19 @@ describe('PlayersReducer', () => {
       const state = fromPlayers.reducer(initialState, action);
 
       expect(state.entities[player1.id]).toEqual(player1);
+    });
+  });
+
+  describe('Clear All Data Success', () => {
+    it('should reset the state', () => {
+      const { initialState } = fromPlayers;
+      const action = SwissApiActions.clearAllDataSuccess();
+      const state = fromPlayers.reducer(populatedState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        loaded: true
+      });
     });
   });
 
