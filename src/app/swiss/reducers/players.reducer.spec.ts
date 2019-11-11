@@ -75,6 +75,62 @@ describe('PlayersReducer', () => {
     });
   });
 
+  describe('Drop Players Success', () => {
+    it('should not affect the state when not passing any players', () => {
+      const action = PlayersApiActions.dropPlayersSuccess({ players: [] });
+      const state = fromPlayers.reducer(populatedState, action);
+
+      expect(state).toEqual(populatedState);
+    });
+
+    it('should not affect the state when passing a player not in the state', () => {
+      const update: Update<Player> = {
+        id: player3.id,
+        changes: {
+          dropped: true
+        }
+      };
+      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const state = fromPlayers.reducer(populatedState, action);
+
+      expect(state).toEqual(populatedState);
+    });
+
+    it('should drop a single player in the state', () => {
+      const update: Update<Player> = {
+        id: player1.id,
+        changes: {
+          dropped: true
+        }
+      };
+      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const state = fromPlayers.reducer(populatedState, action);
+
+      expect(state.entities[player1.id].dropped).toEqual(true);
+      expect(state.entities[player2.id].dropped).toEqual(false);
+    });
+
+    it('should drop multiple players in the state', () => {
+      const update1: Update<Player> = {
+        id: player1.id,
+        changes: {
+          dropped: true
+        }
+      };
+      const update2: Update<Player> = {
+        id: player2.id,
+        changes: {
+          dropped: true
+        }
+      };
+      const action = PlayersApiActions.dropPlayersSuccess({ players: [update1, update2] });
+      const state = fromPlayers.reducer(populatedState, action);
+
+      expect(state.entities[player1.id].dropped).toEqual(true);
+      expect(state.entities[player2.id].dropped).toEqual(true);
+    });
+  });
+
   describe('Load Players', () => {
     it('should set loading to true', () => {
       const { initialState } = fromPlayers;
