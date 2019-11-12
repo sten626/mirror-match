@@ -35,7 +35,7 @@ describe('PlayerEffects', () => {
   });
 
   describe('addPlayer', () => {
-    it('should call storage service', () => {
+    it('should create an addPlayerSuccess', () => {
       const action = PlayersPageActions.addPlayer({
         playerName: 'Steven'
       });
@@ -49,10 +49,12 @@ describe('PlayerEffects', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      // const response = cold('-a|', { a: player });
+      const response = cold('-a|', { a: player });
       const expected = cold('--c', { c: completion });
+      storageSpy.addPlayer.and.returnValue(response);
 
       expect(effects.addPlayer$).toBeObservable(expected);
+      expect(storageSpy.addPlayer).toHaveBeenCalledTimes(1);
     });
   });
 });
