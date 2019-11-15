@@ -29,7 +29,7 @@ function storageFactory(): Storage {
   }
 }
 
-const LOCAL_STORAGE_TOKEN = new InjectionToken(
+export const LOCAL_STORAGE_TOKEN = new InjectionToken(
   'mirror-match-local-storage', {
     factory: storageFactory
   }

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Player } from 'app/shared/models';
 import { PlayerStorageService } from './player-storage.service';
+import { LOCAL_STORAGE_TOKEN } from './storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
@@ -10,11 +11,12 @@ describe('PlayerStorageService', () => {
       'getItem',
       'setItem'
     ]);
+    storageSpy.getItem.and.returnValue('');
 
     TestBed.configureTestingModule({
       providers: [
         PlayerStorageService,
-        { provide: Storage, useValue: storageSpy }
+        { provide: LOCAL_STORAGE_TOKEN, useValue: storageSpy }
       ]
     });
 
