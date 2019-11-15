@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Player } from 'app/shared/models';
 import { PlayerStorageService } from './player-storage.service';
-import { of } from 'rxjs';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
@@ -27,15 +26,17 @@ describe('PlayerStorageService', () => {
   });
 
   describe('addPlayer', () => {
-    it('should not change the passed in ID', () => {
+    it('should not change the passed in ID', (done: DoneFn) => {
       const player: Player = {
         id: 5,
         name: 'Steven',
         dropped: false
       };
-      const expected = of(player);
-      const result = service.addPlayer(player);
-      expect(result).toBeObservable(expected);
+
+      service.addPlayer(player).subscribe(value => {
+        expect(value).toEqual(player);
+        done();
+      });
     });
   });
 });
