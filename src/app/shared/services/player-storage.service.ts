@@ -12,8 +12,7 @@ export class PlayerStorageService extends StorageService {
     return this.getPlayers().pipe(
       map((value: Player[]) => [
         ...value, {
-          ...player,
-          id: value.length > 0 ? value[value.length - 1].id + 1 : 1
+          ...player
         }
       ]),
       tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),
