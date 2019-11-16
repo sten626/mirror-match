@@ -11,7 +11,12 @@ describe('PlayerStorageService', () => {
       'getItem',
       'setItem'
     ]);
-    storageSpy.getItem.and.returnValue('');
+    const players = [{
+      id: 1,
+      name: 'Spike',
+      dropped: false
+    }];
+    storageSpy.getItem.and.returnValue(JSON.stringify(players));
 
     TestBed.configureTestingModule({
       providers: [
@@ -28,6 +33,15 @@ describe('PlayerStorageService', () => {
   });
 
   describe('addPlayer', () => {
+    it('should throw an error when passed a null player', (done: DoneFn) => {
+      service.addPlayer(null).subscribe(() => {
+        fail();
+      }, error => {
+        expect(error).toBe('Cannot add nonexistent player.');
+        done();
+      });
+    });
+
     it('should not change the passed in ID', (done: DoneFn) => {
       const player: Player = {
         id: 5,

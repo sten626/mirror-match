@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Player } from '../models';
 import { StorageService } from './storage.service';
@@ -9,6 +9,10 @@ export class PlayerStorageService extends StorageService {
   private playersKey = 'mm-players';
 
   addPlayer(player: Player): Observable<Player> {
+    if (!player) {
+      return throwError('Cannot add nonexistent player.');
+    }
+
     return this.getPlayers().pipe(
       map((value: Player[]) => [
         ...value, {
