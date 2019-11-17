@@ -3,7 +3,8 @@ import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { Player, PlayerStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
@@ -16,7 +17,8 @@ export class PlayerEffects implements OnInitEffects {
     }) as Player),
     mergeMap(player =>
       this.storageService.addPlayer(player).pipe(
-        map(() => PlayersApiActions.addPlayerSuccess({player}))
+        map(() => PlayersApiActions.addPlayerSuccess({player})),
+        catchError(() => of(PlayersApiActions.addPlayerFailure({player})))
       )
     )
   ));

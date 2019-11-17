@@ -2,6 +2,11 @@ import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Player } from 'app/shared';
 
+export const addPlayerFailure = createAction(
+  '[Players/API] Add Player Failure',
+  props<{player: Player}>()
+);
+
 export const addPlayerSuccess = createAction(
   '[Players/API] Add Player Success',
   props<{player: Player}>()

@@ -56,5 +56,16 @@ describe('PlayerEffects', () => {
       expect(effects.addPlayer$).toBeObservable(expected);
       expect(storageSpy.addPlayer).toHaveBeenCalledTimes(1);
     });
+
+    it('should create an addPlayerFailure when addPlayer throws an error', () => {
+      const action = PlayersPageActions.addPlayer({
+        playerName: 'Steven'
+      });
+      actions$ = hot('-a', { a: action });
+      const error = cold('-#|', null, new Error('Cannot add nonexistent player.'));
+      storageSpy.addPlayer.and.returnValue(error);
+
+      expect(effects.addPlayer$).toBeObservable(error);
+    });
   });
 });
