@@ -1,0 +1,36 @@
+<form class="form-horizontal" [formGroup]="pairingsListForm">
+  <div class="form-group">
+    <div class="col-xs-3">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" formControlName="showOutstandingOnly"> Show Outstanding Only
+        </label>
+      </div>
+    </div>
+
+    <label for="search-text" class="col-xs-1 control-label">Search</label>
+    <div class="col-xs-3">
+      <input type="text"
+          id="search-text"
+          class="form-control"
+          placeholder="Player name or table number"
+          formControlName="filterText">
+    </div>
+
+    <div class="col-xs-5">
+      <button type="button"
+          class="btn btn-default pull-right"
+          [disabled]="selectedRoundComplete"
+          (click)="deleteResults.emit()">
+        Delete Results
+      </button>
+
+      <button type="button"
+          class="btn btn-default pull-right redo-matches"
+          [disabled]="hasSubmittedPairings"
+          (click)="redoMatches.emit()">
+        Redo Matches
+      </button>
+    </div>
+  </div>
+</form>

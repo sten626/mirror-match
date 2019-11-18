@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-6">
+    <mm-player-form
+      [hasTournamentStarted]="hasTournamentStarted$ | async"
+      [isTournamentOver]="isTournamentOver$ | async"
+      [selectedPlayer]="selectedPlayer"
+      (addPlayer)="addPlayer($event)"
+      (togglePlayerDropped)="togglePlayerDropped($event)"
+      (reset)="clearSelectedPlayer()"
+      (updatePlayerName)="updatePlayerName($event)"></mm-player-form>
+    <mm-start-form
+      [canBeginTournament]="canBeginTournament$ | async"
+      [hasTournamentStarted]="hasTournamentStarted$ | async"
+      [recommendedNumberOfRounds]="recommendedNumberOfRounds$ | async"
+      (startTournament)="onStartTournament($event)"></mm-start-form>
+  </div>
+
+  <div class="col-sm-6">
+    <mm-player-list
+      [hasTournamentStarted]="hasTournamentStarted$ | async"
+      [players]="players$ | async"
+      [selectedPlayer]="selectedPlayer"
+      (delete)="deletePlayer($event)"
+      (select)="selectPlayer($event)"></mm-player-list>
+  </div>
+</div>

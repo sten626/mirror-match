@@ -1,28 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { HomeModule } from './home/home.module';
-import { SwissModule } from './swiss/swiss.module';
 import {
   FooterComponent,
   HeaderComponent,
-  MessageService,
   PairingService,
-  PlayerService,
-  RoundService,
+  PairingStorageService,
+  RoundStorageService,
   SharedModule,
-  StandingsService
+  PlayerStorageService
 } from './shared';
-
-const routes: Routes = [{
-  path: '',
-  component: HomeComponent
-}];
+import { rootReducers } from './reducers';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,20 +26,23 @@ const routes: Routes = [{
     HeaderComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
+    EffectsModule.forRoot([]),
     FormsModule,
     HomeModule,
-    HttpModule,
-    RouterModule.forRoot(routes),
     SharedModule,
-    SwissModule
+    StoreModule.forRoot(rootReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [
-    MessageService,
     PairingService,
-    PlayerService,
-    RoundService,
-    StandingsService
+    PairingStorageService,
+    PlayerStorageService,
+    RoundStorageService
   ],
   bootstrap: [AppComponent]
 })
