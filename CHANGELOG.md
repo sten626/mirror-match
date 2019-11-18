@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Unit tests and documentation for swiss container classes.
+- App icon.
 
 ### Changed
 
