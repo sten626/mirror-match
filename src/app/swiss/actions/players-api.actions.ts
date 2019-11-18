@@ -4,7 +4,7 @@ import { Player } from 'app/shared';
 
 export const addPlayerFailure = createAction(
   '[Players/API] Add Player Failure',
-  props<{player: Player}>()
+  props<{playerName: string}>()
 );
 
 export const addPlayerSuccess = createAction(

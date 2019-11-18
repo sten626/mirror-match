@@ -18,7 +18,7 @@ export class PlayerEffects implements OnInitEffects {
     mergeMap(player =>
       this.storageService.addPlayer(player).pipe(
         map(() => PlayersApiActions.addPlayerSuccess({player})),
-        catchError(() => of(PlayersApiActions.addPlayerFailure({player})))
+        catchError(() => of(PlayersApiActions.addPlayerFailure({ playerName: player.name })))
       )
     )
   ));
