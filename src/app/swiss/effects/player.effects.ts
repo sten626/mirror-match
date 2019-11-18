@@ -4,21 +4,16 @@ import { Update } from '@ngrx/entity';
 import { Player, PlayerStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() => this.actions$.pipe(
     ofType(PlayersPageActions.addPlayer),
-    map(({playerName}) => ({
-      id: this.nextId++,
-      name: playerName,
-      dropped: false
-    }) as Player),
-    mergeMap(player =>
+    mergeMap(({player}) =>
       this.storageService.addPlayer(player).pipe(
-        map(() => PlayersApiActions.addPlayerSuccess({player})),
-        catchError(() => of(PlayersApiActions.addPlayerFailure({ playerName: player.name })))
+        map((value: Player) => PlayersApiActions.addPlayerSuccess({ player: value })),
+        catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
       )
     )
   ));
@@ -52,13 +47,6 @@ export class PlayerEffects implements OnInitEffects {
     ofType(PlayersApiActions.loadPlayers),
     switchMap(() =>
       this.storageService.getPlayers().pipe(
-        tap(players => {
-          if (players.length > 0) {
-            this.nextId = Math.max(...players.map(p => p.id)) + 1;
-          } else {
-            this.nextId = 1;
-          }
-        }),
         map(players => PlayersApiActions.loadPlayersSuccess({players}))
       )
     )
@@ -103,8 +91,6 @@ export class PlayerEffects implements OnInitEffects {
       )
     )
   ));
-
-  private nextId = 1;
 
   constructor(
     private actions$: Actions,

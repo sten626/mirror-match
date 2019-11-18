@@ -46,7 +46,12 @@ export class PlayersPageComponent {
    */
   addPlayer(playerName: string): void {
     if (playerName) {
-      this.store.dispatch(PlayersPageActions.addPlayer({playerName}));
+      const player: Player = {
+        id: null,
+        name: playerName,
+        dropped: false
+      };
+      this.store.dispatch(PlayersPageActions.addPlayer({player}));
     }
   }
 

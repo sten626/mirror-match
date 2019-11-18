@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Player } from 'app/shared/models';
+import { StorageService } from 'app/shared/services/storage.service';
 import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Player } from '../models';
-import { StorageService } from './storage.service';
+
 
 @Injectable()
 export class PlayerStorageService extends StorageService {
@@ -14,11 +15,16 @@ export class PlayerStorageService extends StorageService {
     }
 
     return this.getPlayers().pipe(
-      map((value: Player[]) => [
-        ...value, {
-          ...player
-        }
-      ]),
+      map((value: Player[]) => {
+        // Assumption that they're in order, which they should be.
+        const lastId = value.length ? value[value.length - 1].id : 0;
+        return [
+          ...value, {
+            ...player,
+            id: lastId + 1
+          }
+        ];
+      }),
       tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),
       map((value: Player[]) => value[value.length - 1])
     );

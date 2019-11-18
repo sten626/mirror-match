@@ -3,7 +3,7 @@ import { Player } from 'app/shared';
 
 export const addPlayer = createAction(
   '[Players Page] Add Player',
-  props<{playerName: string}>()
+  props<{player: Player}>()
 );
 
 export const beginEvent = createAction(

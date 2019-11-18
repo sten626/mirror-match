@@ -3,17 +3,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { SharedModule, Player } from 'app/shared';
+import { generateMockPlayer, Player, SharedModule } from 'app/shared';
+import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
+import { PlayersPageComponent } from 'app/swiss/containers/players-page/players-page.component';
 import * as fromSwiss from 'app/swiss/reducers';
-import { PlayersPageComponent } from './players-page.component';
-import { PlayersPageActions, PlayersApiActions } from 'app/swiss/actions';
 
 describe('Players Page Component', () => {
+  const player1 = generateMockPlayer();
+  const player1NoId: Player = {
+    ...player1,
+    id: null
+  };
+  const player2: Player = {
+    ...player1,
+    id: 2,
+    name: 'Jasper'
+  };
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: Store<fromSwiss.State>;
-  let player1: Player;
-  let player2: Player;
 
   @Component({selector: 'mm-player-form', template: ''})
   class PlayerFormStubComponent {}
@@ -47,18 +55,6 @@ describe('Players Page Component', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    player1 = {
-      id: 1,
-      name: 'Sten',
-      dropped: false
-    };
-
-    player2 = {
-      id: 2,
-      name: 'Jasper',
-      dropped: false
-    };
-
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PlayersPageComponent);
@@ -91,10 +87,9 @@ describe('Players Page Component', () => {
     });
 
     it('should dispatch an action to add a player', () => {
-      const playerName = player1.name;
-      const action = PlayersPageActions.addPlayer({playerName});
+      const action = PlayersPageActions.addPlayer({player: player1NoId});
 
-      component.addPlayer(playerName);
+      component.addPlayer(player1.name);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
