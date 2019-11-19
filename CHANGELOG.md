@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v1.0.0] - 2019-11-18
+
+### Added
+
+- Many unit tests.
+- App icon.
+
+### Changed
+
+- Major refactoring of data services and all app components to use NgRx.
+
 ## [v1.0.0-beta.6] - 2019-08-05
 
 ## Changed
@@ -68,7 +79,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.6...HEAD
+[Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.0...develop
+[v1.0.0]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.6...v1.0.0
 [v1.0.0-beta.6]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.5...v1.0.0-beta.6
 [v1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.4...v1.0.0-beta.5
 [v1.0.0-beta.4]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.3...v1.0.0-beta.4

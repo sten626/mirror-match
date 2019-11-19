@@ -1,9 +1,0 @@
-<div class="list-group">
-  <a *ngFor="let player of players | async"
-      class="list-group-item"
-      [ngClass]="{'active': selectedPlayer === player, 'list-group-item-warning': player.dropped}"
-      (click)="selectPlayer(player)">
-    {{player.name}}<small><em>{{player.dropped ? ' (dropped)' : ''}}</em></small>
-    <button class="close" *ngIf="!hasBegunTournament" (click)="deletePlayer(player)">&times;</button>
-  </a>
-</div>

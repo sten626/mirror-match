@@ -17,7 +17,13 @@
             "tsConfig": "src/tsconfig.json",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/android-chrome-192x192.png",
+              "src/android-chrome-512x512.png",
+              "src/apple-touch-icon.png",
+              "src/favicon-16x16.png",
+              "src/favicon-32x32.png",
+              "src/favicon.ico",
+              "src/site.webmanifest"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -88,10 +94,7 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
+            "tsConfig": "src/tsconfig.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -100,7 +103,7 @@
       }
     },
     "mirror-match-e2e": {
-      "root": "",
+      "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
       "architect": {
@@ -115,7 +118,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "e2e/tsconfig.e2e.json"
+              "e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -134,5 +137,8 @@
     "@schematics/angular:directive": {
       "prefix": "mm"
     }
+  },
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
   }
 }

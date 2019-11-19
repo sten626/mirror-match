@@ -1,61 +1,56 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import { EventInfoComponent } from './event-info.component';
-import { MatchResultsComponent } from './match-results.component';
-import { PairingsListComponent } from './pairings-list.component';
-import { StandingsGuard } from './standings-guard.service';
-import { SwissComponent } from './swiss.component';
-import { SwissPairingsComponent } from './swiss-pairings.component';
-import { SwissPlayerFormComponent } from './swiss-player-form.component';
-import { SwissPlayerListComponent } from './swiss-player-list.component';
-import { SwissPlayersComponent } from './swiss-players.component';
-import { SwissPlayersStartComponent } from './swiss-players-start.component';
-import { SwissStandingsComponent } from './swiss-standings.component';
-import { TournamentStartedGuard } from './tournament-started-guard.service';
-import { SharedModule } from '../shared';
-
-const routes: Routes = [{
-  path: 'swiss',
-  component: SwissComponent,
-  children: [{
-    path: '',
-    redirectTo: '/swiss/players',
-    pathMatch: 'full'
-  }, {
-    path: 'event',
-    component: EventInfoComponent,
-    canActivate: [TournamentStartedGuard]
-  }, {
-    path: 'players',
-    component: SwissPlayersComponent
-  }, {
-    path: 'pairings',
-    component: SwissPairingsComponent,
-    canActivate: [TournamentStartedGuard]
-  }, {
-    path: 'standings',
-    component: SwissStandingsComponent,
-    canActivate: [StandingsGuard]
-  }]
-}];
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from 'app/shared';
+import {
+  MatchResultsComponent,
+  PairingsListComponent,
+  PairingsListFormComponent,
+  PairingsMenuComponent,
+  PlayerFormComponent,
+  PlayerListComponent,
+  PlayersInfoComponent,
+  RoundInfoComponent,
+  StandingsTableComponent,
+  StartFormComponent,
+  SwissMenuComponent
+} from 'app/swiss/components';
+import {
+  EventInfoComponent,
+  PairingsPageComponent,
+  PlayersPageComponent,
+  StandingsPageComponent,
+  SwissComponent
+} from 'app/swiss/containers';
+import { PairingEffects, PlayerEffects, RoundEffects, SwissEffects } from 'app/swiss/effects';
+import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
+import { reducers } from 'app/swiss/reducers';
+import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes),
-    SharedModule
+    EffectsModule.forFeature([PairingEffects, PlayerEffects, RoundEffects, SwissEffects]),
+    SharedModule,
+    StoreModule.forFeature('swiss', reducers),
+    SwissRoutingModule
   ],
   declarations: [
     EventInfoComponent,
     MatchResultsComponent,
     PairingsListComponent,
+    PairingsListFormComponent,
+    PairingsMenuComponent,
+    PairingsPageComponent,
+    PlayerFormComponent,
+    PlayerListComponent,
+    PlayersInfoComponent,
+    PlayersPageComponent,
+    RoundInfoComponent,
+    StartFormComponent,
     SwissComponent,
-    SwissPairingsComponent,
-    SwissPlayerFormComponent,
-    SwissPlayerListComponent,
-    SwissPlayersComponent,
-    SwissPlayersStartComponent,
-    SwissStandingsComponent
+    SwissMenuComponent,
+    StandingsPageComponent,
+    StandingsTableComponent
   ],
   providers: [
     StandingsGuard,

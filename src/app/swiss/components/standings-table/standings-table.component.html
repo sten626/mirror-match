@@ -1,0 +1,24 @@
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Match Points</th>
+          <th>Matches Play/Win/Draw/Bye</th>
+          <th>Opponent Match Win %</th>
+          <th>Game Win %</th>
+          <th>Opponent Game Win %</th>
+        </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let standing of standings | sortStandings; let i = index;">
+          <td>{{i + 1}}</td>
+          <td>{{playerEntities[standing.playerId].name}}</td>
+          <td>{{standing.matchPoints}}</td>
+          <td>{{standing.matchesPlayed}}/{{standing.matchesWon}}/{{standing.matchesDrawn}}/{{standing.byes}}</td>
+          <td>{{standing.opponentMatchWinPercentage}}</td>
+          <td>{{standing.gameWinPercentage}}</td>
+          <td>{{standing.opponentGameWinPercentage}}</td>
+        </tr>
+  </tbody>
+</table>

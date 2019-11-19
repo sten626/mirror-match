@@ -1,225 +1,297 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Pairing, Player } from '../models';
-import { PlayerService } from './player.service';
+import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'app/shared/comparators';
+import { Pairing, Standing } from 'app/shared/models';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PairingService {
-  readonly pairings: Observable<Pairing[]>;
-  readonly selectedPairing: Observable<Pairing>;
-  readonly submittedPairings: Observable<Pairing[]>;
+  // readonly pairings$: Observable<Pairing[]>;
+  // readonly submittedPairings$: Observable<Pairing[]>;
 
-  private _pairings: Pairing[];
-  private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
-  private pairingsSubject = new BehaviorSubject<Pairing[]>([]);
-  private activePlayers: Player[];
-  private _selectedPairing: Pairing;
-  private selectedPairingSubject = new BehaviorSubject<Pairing>(null);
+  // private pairings: Pairing[];
+  // private pairingsByRoundsMap: {[round: number]: Pairing[]} = {};
+  // private pairingsSubject$ = new BehaviorSubject<Pairing[]>([]);
+  // private activePlayers: Player[];
 
-  private readonly lsKeys = {
-    pairings: 'pairings'
-  };
+  // private readonly lsKeys = {
+  //   pairings: 'pairings'
+  // };
 
-  constructor(private playerService: PlayerService) {
-    // Load data.
-    this.loadFromLocalStorage();
-    this.playerService.activePlayers.subscribe((players: Player[]) => this.activePlayers = players);
+  // constructor() {
+  //   // this.playerService.activePlayers$.subscribe((players: Player[]) => this.activePlayers = players);
 
-    // Setup Observables.
-    this.pairings = this.pairingsSubject.asObservable().pipe(distinctUntilChanged());
-    this.selectedPairing = this.selectedPairingSubject.asObservable().pipe(distinctUntilChanged());
-    this.submittedPairings = this.pairings.pipe(map((pairings: Pairing[]) => {
-      return pairings.filter((pairing: Pairing) => pairing.submitted);
-    }), distinctUntilChanged());
+  //   // // Setup Observables.
+  //   // this.pairings$ = this.pairingsSubject$.asObservable();
+  //   // this.submittedPairings$ = this.pairings$.pipe(map((pairings: Pairing[]) => {
+  //   //   return pairings.filter((pairing: Pairing) => pairing.submitted);
+  //   // }), distinctUntilChanged());
 
-    this.pairingsSubject.next(this._pairings.slice());
-  }
+  //   // this.loadFromLocalStorage();
+  // }
 
-  clearResults(round: number): void {
-    this.pairingsByRoundsMap[round].forEach(pairing => {
-      pairing.player1Wins = 0;
-      pairing.player2Wins = 0;
-      pairing.draws = 0;
-      pairing.submitted = false;
-    });
+  createPairings(roundId: number, isLastRound: boolean, activePlayerStandings: Standing[], nextId: number): Observable<Pairing[]> {
+    const shuffledStandings = this.shuffleStandings(activePlayerStandings);
 
-    this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
-  }
-
-  createPairings(round: number, isLastRound: boolean): void {
-    if (this.activePlayers.length < 1) {
-      throw new Error('Trying to create pairings with zero active players.');
-    }
-
-    if (round === 1) {
-      const pairings = this.createRandomPairings(this.activePlayers, round);
-      this._pairings = this._pairings.concat(pairings);
-      this.pairingsByRoundsMap[round] = pairings;
+    if (roundId === 1) {
+      const pairings = this.createRandomPairings(shuffledStandings, nextId);
+      return of(pairings);
     } else {
-      const pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
-      this._pairings = this._pairings.concat(pairings);
-      this.pairingsByRoundsMap[round] = pairings;
+      const pairings = this.createWeaklyStablePairings(shuffledStandings, isLastRound, nextId);
+      return of(pairings);
     }
-
-    this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
   }
 
-  deletePairings(round: number): void {
-    const pairingsForRound = this.pairingsByRoundsMap[round];
-    delete this.pairingsByRoundsMap[round];
-    this._pairings = this._pairings.filter((pairing: Pairing) => {
-      return pairingsForRound.indexOf(pairing) === -1;
-    });
-    this.saveToLocalStorage();
-    this.pairingsSubject.next(this._pairings.slice());
-  }
+  // createPairings(round: number, isLastRound: boolean): void {
+  //   // TODO Make sure pairings don't already exist for given round. Add unit test.
+  //   if (this.activePlayers.length < 1) {
+  //     throw new Error('Trying to create pairings with zero active players.');
+  //   }
 
-  saveAndClearSelected(): void {
-    this.saveToLocalStorage();
-    this._selectedPairing = null;
-    this.selectedPairingSubject.next(this._selectedPairing);
-    this.pairingsSubject.next(this._pairings.slice());
-  }
+  //   let pairings: Pairing[] = null;
 
-  setSelectedPairing(pairing: Pairing) {
-    this._selectedPairing = pairing;
-    this.selectedPairingSubject.next(this._selectedPairing);
-  }
+  //   if (round === 1) {
+  //     pairings = this.createRandomPairings(this.activePlayers, round);
+  //     this.pairingsByRoundsMap[round] = pairings;
+  //   } else {
+  //     pairings = this.createWeaklyStablePairings(this.activePlayers, round, isLastRound);
+  //     this.pairingsByRoundsMap[round] = pairings;
+  //   }
 
-  private createPlayerPreferenceMap(players: Player[]): {[playerId: number]: number[]} {
-    if (players.length % 2 === 1) {
-      throw new Error('Creating player preference map expects an even number of players.');
-    }
+  //   this.next(pairings);
+  // }
 
-    const playerPreferenceMap = {};
+  // deletePairings(round: number): void {
+  //   const pairingsForRound = this.pairingsByRoundsMap[round];
+  //   delete this.pairingsByRoundsMap[round];
 
-    players.forEach((player: Player) => {
-      const potentialOpps = [];
+  //   const pairings = this.pairings.filter((pairing: Pairing) => {
+  //     return pairingsForRound.indexOf(pairing) === -1;
+  //   });
 
-      players.forEach((opp: Player) => {
-        if (player !== opp && player.opponentIds.indexOf(opp.id) === -1) {
-          potentialOpps.push(opp.id);
-        }
-      });
+  //   this.next(pairings);
+  // }
 
-      playerPreferenceMap[player.id] = potentialOpps;
-    });
+  // getPairingsForRound(round: number): Observable<Pairing[]> {
+  //   return this.pairings$.pipe(
+  //     map((pairings: Pairing[]) => {
+  //       return pairings.filter(p => p.round === round);
+  //     })
+  //   );
+  // }
 
-    return playerPreferenceMap;
-  }
+  // updatePairing(pairing: Pairing): void {
+  //   const pairings = this.pairings.map(p => p === pairing ? pairing : p);
+  //   this.next(pairings);
+  // }
 
-  private createRandomPairings(players: Player[], round: number): Pairing[] {
-    let table = 1;
-    players = this.shufflePlayers(players);
+  // updatePairings(updatedPairings: Pairing[]): void {
+  //   const pairings = [];
+
+  //   for (const pairing of this.pairings) {
+  //     const i = updatedPairings.indexOf(pairing);
+
+  //     if (i >= 0) {
+  //       pairings.push(updatedPairings[i]);
+  //     } else {
+  //       pairings.push(pairing);
+  //     }
+  //   }
+
+  //   this.next(pairings);
+  // }
+
+  private createRandomPairings(standings: Standing[], nextId: number): Pairing[] {
+    const playerIds = standings.map(s => s.playerId);
     const pairings = [];
+    let table = 1;
 
-    while (players.length > 1) {
-      const pairing = new Pairing(round, table++, players.shift(), players.shift());
+    while (playerIds.length > 1) {
+      const pairing: Pairing = {
+        id: nextId++,
+        table: table++,
+        player1Id: playerIds.shift(),
+        player2Id: playerIds.shift(),
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0,
+        submitted: false
+      };
       pairings.push(pairing);
     }
 
-    if (players.length) {
-      const pairing = new Pairing(round, table, players.shift(), null);
-      pairings.push(pairing);
+    if (playerIds.length) {
+      const pairing: Pairing = {
+        id: nextId++,
+        table: 0,
+        player1Id: playerIds.shift(),
+        player2Id: null,
+        player1Wins: 2,
+        player2Wins: 0,
+        draws: 0,
+        submitted: true
+      };
+      pairings.unshift(pairing);
     }
 
     return pairings;
   }
 
-  private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-    players = this.shufflePlayers(players);
-
-    if (isLastRound) {
-      this.sortPlayersByTiebreakers(players);
-    } else {
-      this.sortPlayersByMatchPoints(players);
-    }
-
-    // If there are an odd number of players, pull out the bottom player and continue with an even number.
-    const needsBye = players.length % 2 === 1;
-    let playerForBye: Player = null;
+  private createWeaklyStablePairings(standings: Standing[], isLastRound: boolean, nextId: number): Pairing[] {
+    const pairings = [];
+    const comparator = isLastRound ? standingsTiebreakerComparator : standingsMatchPointComparator;
+    const sortedStandings = standings.sort(comparator);
+    const needsBye = sortedStandings.length % 2 === 1;
 
     if (needsBye) {
-      playerForBye = players.pop();
+      const standing = sortedStandings.pop();
+      const pairing: Pairing = {
+        id: nextId++,
+        table: 0,
+        player1Id: standing.playerId,
+        player2Id: null,
+        player1Wins: 2,
+        player2Wins: 0,
+        draws: 0,
+        submitted: true
+      };
+      pairings.push(pairing);
     }
 
-    const playerPreferenceMap = this.createPlayerPreferenceMap(players);
-    const assignedPlayers = {};
-    const playersById = {};
-
-    players.forEach(p => playersById[p.id] = p);
-    const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
-
-    if (result) {
-      // Everyone was paired.
-      const pairings = [];
-      let table = 1;
-
-      for (const player of players) {
-        if (!(player.id in assignedPlayers)) {
-          continue;
-        }
-
-        const opponentId = assignedPlayers[player.id];
-        let opponent: Player;
-
-        if (opponentId > 0) {
-          opponent = playersById[opponentId];
-        } else {
-          opponent = null;
-        }
-
-        const pairing = new Pairing(round, table++, player, opponent);
-        delete assignedPlayers[player.id];
-        delete assignedPlayers[opponentId];
-        pairings.push(pairing);
-      }
-
-      if (needsBye) {
-        const pairing = new Pairing(round, table++, playerForBye, null);
-        pairings.push(pairing);
-      }
-
-      return pairings;
-    } else {
-      throw new Error('Pairings went terribly wrong.');
-    }
+    return pairings.concat(this.pairPlayers(sortedStandings, nextId));
   }
 
-  private loadFromLocalStorage() {
-    const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+  // private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
 
-    if (pairingsData) {
-      const rawPairings = JSON.parse(pairingsData);
 
-      this._pairings = rawPairings.map(rawPairing => {
-        const round = rawPairing.round;
-        const pairing = new Pairing(
-          round,
-          rawPairing.table,
-          this.playerService.get(rawPairing.player1),
-          this.playerService.get(rawPairing.player2),
-          rawPairing.player1Wins,
-          rawPairing.player2Wins,
-          rawPairing.draws,
-          rawPairing.submitted
-        );
+  //   // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
+  //   // const assignedPlayers = {};
+  //   // const playersById = {};
 
-        if (!this.pairingsByRoundsMap[round]) {
-          this.pairingsByRoundsMap[round] = [];
-        }
+  //   // players.forEach(p => playersById[p.id] = p);
+  //   // const result = this.pairPlayers(players.slice(), playerPreferenceMap, assignedPlayers);
 
-        this.pairingsByRoundsMap[round].push(pairing);
+  //   // if (result) {
+  //   //   // Everyone was paired.
+  //   //   const pairings = [];
+  //   //   let table = 1;
 
-        return pairing;
-      });
-    } else {
-      this._pairings = [];
-      localStorage.setItem(this.lsKeys.pairings, JSON.stringify(this._pairings));
+  //   //   for (const player of players) {
+  //   //     if (!(player.id in assignedPlayers)) {
+  //   //       continue;
+  //   //     }
+
+  //   //     const opponentId = assignedPlayers[player.id];
+  //   //     let opponent: Player;
+
+  //   //     if (opponentId > 0) {
+  //   //       opponent = playersById[opponentId];
+  //   //     } else {
+  //   //       opponent = null;
+  //   //     }
+
+  //   //     const pairing = new Pairing(round, table++, player, opponent);
+  //   //     delete assignedPlayers[player.id];
+  //   //     delete assignedPlayers[opponentId];
+  //   //     pairings.push(pairing);
+  //   //   }
+
+  //   //   if (needsBye) {
+  //   //     const pairing = new Pairing(round, table++, playerForBye, null);
+  //   //     pairings.push(pairing);
+  //   //   }
+
+  //   //   return pairings;
+  //   // } else {
+  //   //   throw new Error('Pairings went terribly wrong.');
+  //   // }
+  // }
+
+  // private loadFromLocalStorage(): void {
+  //   // const pairingsData = localStorage.getItem(this.lsKeys.pairings);
+  //   // let pairings = [];
+
+  //   // if (pairingsData) {
+  //   //   const rawPairings = JSON.parse(pairingsData);
+
+  //   //   pairings = rawPairings.map(rawPairing => {
+  //   //     const round = rawPairing.round;
+  //   //     const pairing = new Pairing(
+  //   //       round,
+  //   //       rawPairing.table,
+  //   //       this.playerService.get(rawPairing.player1),
+  //   //       this.playerService.get(rawPairing.player2),
+  //   //       rawPairing.player1Wins,
+  //   //       rawPairing.player2Wins,
+  //   //       rawPairing.draws,
+  //   //       rawPairing.submitted
+  //   //     );
+
+  //   //     if (!this.pairingsByRoundsMap[round]) {
+  //   //       this.pairingsByRoundsMap[round] = [];
+  //   //     }
+
+  //   //     this.pairingsByRoundsMap[round].push(pairing);
+
+  //   //     return pairing;
+  //   //   });
+  //   // }
+
+  //   // this.next(pairings);
+  // }
+
+  // private next(newPairings: Pairing[]): void {
+  //   this.pairings = newPairings;
+  //   this.saveToLocalStorage();
+  //   this.pairingsSubject$.next(newPairings);
+  // }
+
+  private pairPlayers(standings: Standing[], nextId: number): Pairing[] {
+    const pairings: Pairing[] = [];
+    const table = 1;
+    const result = this.pairPlayersInner(standings, pairings, nextId, table);
+
+    if (result === null) {
+      throw new Error('Something went wrong when trying to create pairings.');
     }
+
+    return result;
+  }
+
+  private pairPlayersInner(standings: Standing[], pairings: Pairing[], nextId: number, table: number): Pairing[] {
+    if (standings.length === 0) {
+      return pairings;
+    }
+
+    const [standing, ...potentialOpps] = standings;
+    const {playerId} = standing;
+
+    for (const potentialOpp of potentialOpps) {
+      const oppId = potentialOpp.playerId;
+
+      if (standing.opponentIds.includes(oppId)) {
+        continue;
+      }
+
+      const newPairings = [...pairings, {
+        id: nextId,
+        table: table,
+        player1Id: playerId,
+        player2Id: oppId,
+        player1Wins: 0,
+        player2Wins: 0,
+        draws: 0,
+        submitted: false
+      } as Pairing];
+
+      const newStandings = potentialOpps.filter(o => o.playerId !== oppId);
+      const result = this.pairPlayersInner(newStandings, newPairings, nextId + 1, table + 1);
+
+      if (result !== null) {
+        return result;
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -229,100 +301,102 @@ export class PairingService {
    * @param assignedPlayers A mapping of players that have been paired.
    * @returns True if players given have been paired successfully, false otherwise.
    */
-  private pairPlayers(
-    players: Player[],
-    playerPreferenceMap: {[playerId: number]: number[]},
-    assignedPlayers: {[playerId: number]: number}
-  ): boolean {
-    if (players.length === 0) {
-      return true;
-    }
+  // private pairPlayers(
+  //   players: Player[],
+  //   playerPreferenceMap: {[playerId: number]: number[]},
+  //   assignedPlayers: {[playerId: number]: number}
+  // ): boolean {
+  //   if (players.length === 0) {
+  //     return true;
+  //   }
 
-    const player = players.shift();
-    const playerId = player.id;
+  //   const player = players.shift();
+  //   const playerId = player.id;
 
-    if (!(playerId in assignedPlayers)) {
-      const playersPreferenceList = playerPreferenceMap[playerId];
+  //   if (!(playerId in assignedPlayers)) {
+  //     const playersPreferenceList = playerPreferenceMap[playerId];
 
-      for (const oppId of playersPreferenceList) {
-        if (!(oppId in assignedPlayers)) {
-          assignedPlayers[playerId] = oppId;
-          assignedPlayers[oppId] = playerId;
-          const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+  //     for (const oppId of playersPreferenceList) {
+  //       if (!(oppId in assignedPlayers)) {
+  //         assignedPlayers[playerId] = oppId;
+  //         // assignedPlayers[oppId] = playerId;
+  //         const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
 
-          if (result) {
-            return result;
-          }
+  //         if (result) {
+  //           return result;
+  //         }
 
-          delete assignedPlayers[playerId];
-          delete assignedPlayers[oppId];
-        }
-      }
-    } else {
-      const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
+  //         delete assignedPlayers[playerId];
+  //         delete assignedPlayers[oppId];
+  //       }
+  //     }
+  //   } else {
+  //     const result = this.pairPlayers(players, playerPreferenceMap, assignedPlayers);
 
-      if (result) {
-        return result;
-      }
-    }
+  //     if (result) {
+  //       return result;
+  //     }
+  //   }
 
-    players.unshift(player);
-    return false;
-  }
+  //   players.unshift(player);
+  //   return false;
+  // }
 
-  private saveToLocalStorage() {
-    const pairingsToLocalStorage = this._pairings.map((pairing: Pairing) => {
-      return {
-        round: pairing.round,
-        table: pairing.table,
-        player1: pairing.player1.id,
-        player2: pairing.bye ? null : pairing.player2.id,
-        player1Wins: pairing.player1Wins,
-        player2Wins: pairing.player2Wins,
-        draws: pairing.draws,
-        submitted: pairing.submitted
-      };
-    });
+  // private saveToLocalStorage() {
+  //   // const pairingsToLocalStorage = this.pairings.map((pairing: Pairing) => {
+  //   //   return {
+  //   //     round: pairing.round,
+  //   //     table: pairing.table,
+  //   //     player1: pairing.player1.id,
+  //   //     player2: pairing.bye ? null : pairing.player2.id,
+  //   //     player1Wins: pairing.player1Wins,
+  //   //     player2Wins: pairing.player2Wins,
+  //   //     draws: pairing.draws,
+  //   //     submitted: pairing.submitted
+  //   //   };
+  //   // });
 
-    localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
-  }
+  //   // localStorage.setItem(this.lsKeys.pairings, JSON.stringify(pairingsToLocalStorage));
+  // }
 
-  private shufflePlayers(players: Player[]): Player[] {
-    const shuffledPlayers = players.slice();
+  private shuffleStandings(standings: Standing[]): Standing[] {
+    const shuffledStandings = standings.slice();
 
-    for (let i = shuffledPlayers.length; i; i--) {
+    for (let i = shuffledStandings.length; i; i--) {
       const j = Math.floor(Math.random() * i);
-      [shuffledPlayers[i - 1], shuffledPlayers[j]] = [shuffledPlayers[j], shuffledPlayers[i - 1]];
+      [shuffledStandings[i - 1], shuffledStandings[j]] = [shuffledStandings[j], shuffledStandings[i - 1]];
     }
 
-    return shuffledPlayers;
+    return shuffledStandings;
   }
 
-  private sortPlayersByMatchPoints(players: Player[]) {
-    players.sort((a: Player, b: Player) => {
-      return b.matchPoints - a.matchPoints;
-    });
-  }
+  // private sortPlayersByMatchPoints(players: Player[]) {
+  //   players = players;
+  //   // players.sort((a: Player, b: Player) => {
+  //   //   return b.matchPoints - a.matchPoints;
+  //   // });
+  // }
 
-  private sortPlayersByTiebreakers(players: Player[]) {
-    players.sort((a: Player, b: Player) => {
-      if (a.matchPoints !== b.matchPoints) {
-        return b.matchPoints - a.matchPoints;
-      }
+  // private sortPlayersByTiebreakers(players: Player[]) {
+  //   players = players;
+  //   // players.sort((a: Player, b: Player) => {
+  //   //   if (a.matchPoints !== b.matchPoints) {
+  //   //     return b.matchPoints - a.matchPoints;
+  //   //   }
 
-      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
-        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
-      }
+  //   //   if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
+  //   //     return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+  //   //   }
 
-      if (a.gameWinPercentage !== b.gameWinPercentage) {
-        return b.gameWinPercentage - a.gameWinPercentage;
-      }
+  //   //   if (a.gameWinPercentage !== b.gameWinPercentage) {
+  //   //     return b.gameWinPercentage - a.gameWinPercentage;
+  //   //   }
 
-      if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
-        return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
-      }
+  //   //   if (a.opponentGameWinPercentage !== b.opponentGameWinPercentage) {
+  //   //     return b.opponentGameWinPercentage - a.opponentGameWinPercentage;
+  //   //   }
 
-      return 0;
-    });
-  }
+  //   //   return 0;
+  //   // });
+  // }
 }
