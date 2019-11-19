@@ -1,7 +1,7 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { generateMockPlayer, Player, SharedModule } from 'app/shared';
 import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
@@ -40,7 +40,7 @@ describe('Players Page Component', () => {
         SharedModule,
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: combineReducers(fromSwiss.reducers)
+          swiss: fromSwiss.reducers
         })
       ],
       declarations: [
