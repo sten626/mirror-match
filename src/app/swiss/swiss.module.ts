@@ -15,23 +15,17 @@ import {
   StartFormComponent,
   SwissMenuComponent
 } from 'app/swiss/components';
-import {
-  EventInfoComponent,
-  PairingsPageComponent,
-  PlayersPageComponent,
-  StandingsPageComponent,
-  SwissComponent
-} from 'app/swiss/containers';
+import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, StandingsPageComponent, SwissComponent } from 'app/swiss/containers';
 import { PairingEffects, PlayerEffects, RoundEffects, SwissEffects } from 'app/swiss/effects';
 import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
-import { reducers } from 'app/swiss/reducers';
+import * as fromSwiss from 'app/swiss/reducers';
 import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
 
 @NgModule({
   imports: [
     EffectsModule.forFeature([PairingEffects, PlayerEffects, RoundEffects, SwissEffects]),
     SharedModule,
-    StoreModule.forFeature('swiss', reducers),
+    StoreModule.forFeature(fromSwiss.swissFeatureKey, fromSwiss.reducers),
     SwissRoutingModule
   ],
   declarations: [
