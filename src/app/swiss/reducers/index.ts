@@ -1,33 +1,37 @@
 import { Dictionary } from '@ngrx/entity';
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Pairing, Player, Round } from 'app/shared';
-import * as fromPairings from './pairings.reducer';
-import * as fromPlayers from './players.reducer';
-import * as fromRounds from './rounds.reducer';
+import * as fromPairings from 'app/swiss/reducers/pairings.reducer';
+import * as fromPlayers from 'app/swiss/reducers/players.reducer';
+import * as fromRounds from 'app/swiss/reducers/rounds.reducer';
 import { calculateStandings } from 'app/swiss/reducers/util';
 
+export const swissFeatureKey = 'swiss';
+
 export interface SwissState {
-  pairings: fromPairings.State;
-  players: fromPlayers.State;
-  rounds: fromRounds.State;
+  [fromPairings.pairingsFeatureKey]: fromPairings.State;
+  [fromPlayers.playersFeatureKey]: fromPlayers.State;
+  [fromRounds.roundsFeatureKey]: fromRounds.State;
 }
 
 export interface State extends fromRoot.State {
-  swiss: SwissState;
+  [swissFeatureKey]: SwissState;
 }
 
-export const reducers: ActionReducerMap<SwissState> = {
-  pairings: fromPairings.reducer,
-  players: fromPlayers.reducer,
-  rounds: fromRounds.reducer
-};
+export function reducers(state: SwissState | undefined, action: Action) {
+  return combineReducers({
+    [fromPairings.pairingsFeatureKey]: fromPairings.reducer,
+    [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
+    [fromRounds.roundsFeatureKey]: fromRounds.reducer
+  })(state, action);
+}
 
 /**
  * Module feature selector.
  */
 
-export const getSwissState = createFeatureSelector<State, SwissState>('swiss');
+export const getSwissState = createFeatureSelector<State, SwissState>(swissFeatureKey);
 
 /**
  * Pairing selectors.

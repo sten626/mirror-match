@@ -3,6 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 import { Round } from 'app/shared';
 import { RoundApiActions, PairingsApiActions, SwissApiActions } from '../actions';
 
+export const roundsFeatureKey = 'rounds';
+
 export interface State extends EntityState<Round> {
   completedRoundId: number;
   loaded: boolean;

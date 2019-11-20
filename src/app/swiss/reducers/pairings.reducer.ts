@@ -3,6 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 import { Pairing } from 'app/shared';
 import { PairingsApiActions, PairingsPageActions, SwissApiActions } from 'app/swiss/actions';
 
+export const pairingsFeatureKey = 'pairings';
+
 export interface State extends EntityState<Pairing> {
   selectedPairingId: number | null;
 }

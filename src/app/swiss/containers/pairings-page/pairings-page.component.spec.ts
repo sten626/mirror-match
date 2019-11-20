@@ -1,11 +1,11 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { Pairing, Player } from 'app/shared';
 import { PairingsPageActions } from 'app/swiss/actions';
+import { PairingsPageComponent } from 'app/swiss/containers/pairings-page/pairings-page.component';
 import * as fromSwiss from 'app/swiss/reducers';
-import { PairingsPageComponent } from './pairings-page.component';
 
 describe('PairingsPageComponent', () => {
   let component: PairingsPageComponent;
@@ -31,7 +31,7 @@ describe('PairingsPageComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: combineReducers(fromSwiss.reducers)
+          swiss: fromSwiss.reducers
         })
       ],
       declarations: [

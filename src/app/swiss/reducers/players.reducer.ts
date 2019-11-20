@@ -3,6 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 import { Player } from 'app/shared';
 import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
 
+export const playersFeatureKey = 'players';
+
 export interface State extends EntityState<Player> {
   loaded: boolean;
   loading: boolean;
