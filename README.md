@@ -1,8 +1,13 @@
 # MirrorMatch
 
+Master: [![Build Status](https://travis-ci.org/sten626/mirror-match.svg?branch=master)](https://travis-ci.org/sten626/mirror-match)
+
+Develop: [![Build Status](https://travis-ci.org/sten626/mirror-match.svg?branch=develop)](https://travis-ci.org/sten626/mirror-match)
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
 
 ## Development server
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
