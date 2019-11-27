@@ -18,6 +18,7 @@ import {
 } from './shared';
 import { rootReducers } from './reducers';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { environment } from '../environments/environment';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     PairingService,
