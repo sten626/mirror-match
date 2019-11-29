@@ -1,4 +1,3 @@
-import 'hammerjs';
 import './polyfills.ts';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
