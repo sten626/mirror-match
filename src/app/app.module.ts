@@ -1,26 +1,24 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AppRoutingModule } from 'app/app-routing.module';
-import { AppComponent } from 'app/app.component';
-import { HomeModule } from 'app/home/home.module';
-import { rootReducers } from 'app/reducers';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeModule } from './home/home.module';
 import {
   FooterComponent,
   HeaderComponent,
   PairingService,
   PairingStorageService,
-  PlayerStorageService,
   RoundStorageService,
-  SharedModule
-} from 'app/shared';
+  SharedModule,
+  PlayerStorageService
+} from './shared';
+import { rootReducers } from './reducers';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -34,8 +32,6 @@ import { environment } from '../environments/environment';
     EffectsModule.forRoot([]),
     FormsModule,
     HomeModule,
-    MatButtonModule,
-    MatToolbarModule,
     SharedModule,
     StoreModule.forRoot(rootReducers),
     StoreDevtoolsModule.instrument({
