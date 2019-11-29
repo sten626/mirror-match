@@ -5,6 +5,7 @@ import { Player, PlayerStorageService } from 'app/shared';
 import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { DatabaseService } from 'app/shared/services/database.service';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
@@ -94,8 +95,11 @@ export class PlayerEffects implements OnInitEffects {
 
   constructor(
     private actions$: Actions,
+    private databaseService: DatabaseService,
     private storageService: PlayerStorageService
-  ) {}
+  ) {
+    this.databaseService.open();
+  }
 
   ngrxOnInitEffects() {
     return PlayersApiActions.loadPlayers();
