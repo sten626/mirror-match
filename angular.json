@@ -29,10 +29,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -77,10 +74,7 @@
             "tsConfig": "src/tsconfig.json",
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
+            "scripts": [],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
