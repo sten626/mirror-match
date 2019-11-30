@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'mm-layout-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent { }
+export class HeaderComponent {
+  isMenuCollapsed = true;
+}
