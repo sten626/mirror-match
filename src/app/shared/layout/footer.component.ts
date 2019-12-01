@@ -11,6 +11,9 @@ export class FooterComponent implements OnInit {
   version = require('../../../../package.json').version;
 
   ngOnInit() {
-    feather.replace();
+    feather.replace({
+      height: '1rem',
+      width: '1rem'
+    });
   }
 }
