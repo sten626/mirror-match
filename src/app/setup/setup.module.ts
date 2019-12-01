@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SetupPageComponent } from 'app/setup/containers/setup-page/setup-page.component';
+import { SetupPageComponent } from '@app/setup/containers/setup-page/setup-page.component';
+import { SetupRoutingModule } from '@app/setup/setup-routing.module';
+import { PlayersPageComponent } from './components/players-page/players-page.component';
 
 @NgModule({
   declarations: [
-    SetupPageComponent
+    SetupPageComponent,
+    PlayersPageComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SetupRoutingModule
   ]
 })
 export class SetupModule {}
