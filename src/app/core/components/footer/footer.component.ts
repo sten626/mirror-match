@@ -8,7 +8,7 @@ import * as feather from 'feather-icons';
 })
 export class FooterComponent implements OnInit {
   today: number = Date.now();
-  version = require('../../../../package.json').version;
+  version = require('../../../../../package.json').version;
 
   ngOnInit() {
     feather.replace({
