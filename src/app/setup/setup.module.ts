@@ -1,15 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PlayerFormComponent } from '@app/setup/components/player-form/player-form.component';
+import { PlayerFormComponent, PlayersListComponent } from '@app/setup/components';
 import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
 import { SetupRoutingModule } from '@app/setup/setup-routing.module';
 
+const COMPONENTS = [
+  PlayerFormComponent,
+  PlayersListComponent
+];
+
+const CONTAINERS = [
+  PlayersPageComponent,
+  SetupPageComponent
+];
+
 @NgModule({
   declarations: [
-    SetupPageComponent,
-    PlayersPageComponent,
-    PlayerFormComponent
+    COMPONENTS,
+    CONTAINERS
   ],
   imports: [
     CommonModule,

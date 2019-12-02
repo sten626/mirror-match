@@ -1,0 +1,9 @@
+<div class="list-group">
+  <a *ngFor="let player of players"
+      class="list-group-item list-group-item-action">
+    {{player.name}}
+    <button type="button" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </a>
+</div>
