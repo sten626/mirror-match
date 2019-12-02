@@ -1,13 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import * as fromRoot from '@app/reducers';
+import { PlayersPageActions } from '@app/setup/actions';
+import { Player } from '@app/shared/models';
+import { Store } from '@ngrx/store';
 
 @Component({
   templateUrl: './players-page.component.html'
 })
-export class PlayersPageComponent implements OnInit {
+export class PlayersPageComponent {
+  constructor(
+    private store: Store<fromRoot.State>
+  ) {}
 
-  constructor() { }
+  onAddPlayer(playerName: string) {
+    if (playerName) {
+      const player: Player = {
+        id: null,
+        name: playerName,
+        dropped: false
+      };
 
-  ngOnInit() {
+      this.store.dispatch(PlayersPageActions.addPlayer({player}));
+    }
   }
-
 }

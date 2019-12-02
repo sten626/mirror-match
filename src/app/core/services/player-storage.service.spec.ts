@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PlayerStorageService } from 'app/shared/services/player-storage.service';
-import { LOCAL_STORAGE_TOKEN } from 'app/shared/services/storage.service';
+import { LOCAL_STORAGE_TOKEN } from '@app/core/services/storage.service';
+import { PlayerStorageService } from './player-storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;

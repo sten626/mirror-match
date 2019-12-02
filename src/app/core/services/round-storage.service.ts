@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RoundStorageService extends StorageService {
   private completedRoundKey = 'mm-completed-round';
   private numberOfRoundsKey = 'mm-number-of-rounds';

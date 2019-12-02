@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { StorageService } from '@app/core/services/storage.service';
+import { Pairing } from '@app/shared/models';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Pairing } from '../models';
-import { StorageService } from './storage.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PairingStorageService extends StorageService {
   private pairingsKey = 'mm-pairings';
 

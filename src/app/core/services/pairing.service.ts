@@ -3,7 +3,9 @@ import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'ap
 import { Pairing, Standing } from 'app/shared/models';
 import { Observable, of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PairingService {
   // readonly pairings$: Observable<Pairing[]>;
   // readonly submittedPairings$: Observable<Pairing[]>;

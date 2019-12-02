@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Player } from 'app/shared';
+import { Player } from 'app/shared/models';
 import { PlayersPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
@@ -20,24 +20,24 @@ export class PlayersPageComponent {
   constructor(
     private store: Store<fromSwiss.State>
   ) {
-    this.players$ = store.pipe(
-      select(fromSwiss.getAllPlayers)
-    );
-    this.canBeginTournament$ = store.pipe(
-      select(fromSwiss.canBeginTournament)
-    );
+    // this.players$ = store.pipe(
+    //   select(fromSwiss.getAllPlayers)
+    // );
+    // this.canBeginTournament$ = store.pipe(
+    //   select(fromSwiss.canBeginTournament)
+    // );
     this.hasTournamentStarted$ = store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
     this.isTournamentOver$ = store.pipe(
       select(fromSwiss.isTournamentOver)
     );
-    this.numberOfActivePlayers$ = store.pipe(
-      select(fromSwiss.getTotalActivePlayers)
-    );
-    this.recommendedNumberOfRounds$ = store.pipe(
-      select(fromSwiss.getRecommendedNumberOfRounds)
-    );
+    // this.numberOfActivePlayers$ = store.pipe(
+    //   select(fromSwiss.getTotalActivePlayers)
+    // );
+    // this.recommendedNumberOfRounds$ = store.pipe(
+    //   select(fromSwiss.getRecommendedNumberOfRounds)
+    // );
   }
 
   /**

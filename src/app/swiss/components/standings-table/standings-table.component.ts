@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Player, Standing } from '@app/shared/models';
 import { Dictionary } from '@ngrx/entity';
-import { Player, Standing } from 'app/shared';
 
 @Component({
   selector: 'mm-standings-table',

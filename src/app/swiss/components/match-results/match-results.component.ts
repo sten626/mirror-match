@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { matchResultValidator } from '@app/shared/match-result.validator';
+import { Pairing, Player } from '@app/shared/models';
 import { Dictionary } from '@ngrx/entity';
-import { matchResultValidator, Pairing, Player } from 'app/shared';
 
 @Component({
   selector: 'mm-match-results',

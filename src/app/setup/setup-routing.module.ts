@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlayersPageComponent } from '@app/setup/components/players-page/players-page.component';
-import { SetupPageComponent } from '@app/setup/containers';
+import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
 
 const routes: Routes = [{
   path: '',

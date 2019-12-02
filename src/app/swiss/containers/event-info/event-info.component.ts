@@ -18,27 +18,27 @@ export class EventInfoComponent {
   totalPlayers$: Observable<number>;
 
   constructor(private store: Store<fromSwiss.State>) {
-    this.activePlayers$ = this.store.pipe(
-      select(fromSwiss.getTotalActivePlayers)
-    );
+    // this.activePlayers$ = this.store.pipe(
+    //   select(fromSwiss.getTotalActivePlayers)
+    // );
     this.completedRoundId$ = this.store.pipe(
       select(fromSwiss.getCompletedRoundId)
     );
     this.currentRoundId$ = store.pipe(
       select(fromSwiss.getTotalRounds)
     );
-    this.droppedPlayers$ = store.pipe(
-      select(fromSwiss.getTotalDroppedPlayers)
-    );
+    // this.droppedPlayers$ = store.pipe(
+    //   select(fromSwiss.getTotalDroppedPlayers)
+    // );
     this.numberOfRounds$ = store.pipe(
       select(fromSwiss.getNumberOfRounds)
     );
     this.numberOfMatchesInProgress$ = store.pipe(
       select(fromSwiss.getSelectedRoundPairingsOutstandingTotal)
     );
-    this.totalPlayers$ = store.pipe(
-      select(fromSwiss.getTotalPlayers)
-    );
+    // this.totalPlayers$ = store.pipe(
+    //   select(fromSwiss.getTotalPlayers)
+    // );
   }
 
   /**

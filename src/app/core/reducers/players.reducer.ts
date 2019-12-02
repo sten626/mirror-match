@@ -1,9 +1,10 @@
+import { PlayersApiActions } from '@app/core/actions';
+import { Player } from '@app/shared/models';
+import { SwissApiActions } from '@app/swiss/actions'; // TODO Fix
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { Player } from 'app/shared';
-import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
 
-export const playersFeatureKey = 'players';
+export const FEATURE_KEY = 'players';
 
 export interface State extends EntityState<Player> {
   loaded: boolean;

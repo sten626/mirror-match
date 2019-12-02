@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { PlayersApiActions } from '@app/core/actions';
+import { PlayerStorageService } from '@app/core/services';
+import { generateMockPlayer, Player } from '@app/shared/models';
+import { PlayersPageActions } from '@app/swiss/actions'; // TODO Fix
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { generateMockPlayer, Player, PlayerStorageService } from 'app/shared';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { PlayersApiActions, PlayersPageActions } from '../actions';
 import { PlayerEffects } from './player.effects';
 
 describe('PlayerEffects', () => {

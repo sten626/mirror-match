@@ -1,4 +1,4 @@
-import { Pairing, Player } from 'app/shared';
+import { Pairing, Player } from '@app/shared/models';
 import { calculateStandings } from './util';
 
 describe('util', () => {

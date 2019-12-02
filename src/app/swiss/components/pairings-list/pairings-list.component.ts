@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Pairing, Player } from '@app/shared/models';
 import { Dictionary } from '@ngrx/entity';
-import { Pairing, Player } from 'app/shared';
 
 @Component({
   selector: 'mm-pairings-list',

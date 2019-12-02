@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { PlayerEffects } from '@app/core/effects';
+import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -11,13 +13,6 @@ import { CoreModule } from 'app/core/core.module';
 import { HomeModule } from 'app/home/home.module';
 import { rootReducers } from 'app/reducers';
 import { environment } from '../environments/environment';
-import {
-  PairingService,
-  PairingStorageService,
-  PlayerStorageService,
-  RoundStorageService,
-  SharedModule
-} from './shared';
 
 @NgModule({
   declarations: [
@@ -28,7 +23,7 @@ import {
     BrowserModule,
     CommonModule,
     CoreModule,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([PlayerEffects]),
     FormsModule,
     HomeModule,
     SharedModule,
@@ -37,12 +32,6 @@ import {
       maxAge: 25,
       logOnly: environment.production
     })
-  ],
-  providers: [
-    PairingService,
-    PairingStorageService,
-    PlayerStorageService,
-    RoundStorageService
   ],
   bootstrap: [AppComponent]
 })

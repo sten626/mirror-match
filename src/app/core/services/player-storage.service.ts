@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Player } from 'app/shared/models';
-import { StorageService } from 'app/shared/services/storage.service';
+import { StorageService } from '@app/core/services/storage.service';
+import { Player } from '@app/shared/models';
 import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PlayerStorageService extends StorageService {
   private playersKey = 'mm-players';
 

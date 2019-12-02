@@ -1,7 +1,8 @@
+import { PlayersApiActions } from '@app/core/actions';
+import * as fromPlayers from '@app/core/reducers/players.reducer';
+import { Player } from '@app/shared/models';
+import { SwissApiActions } from '@app/swiss/actions'; // TODO Fix
 import { Update } from '@ngrx/entity';
-import { Player } from 'app/shared';
-import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
-import * as fromPlayers from 'app/swiss/reducers/players.reducer';
 
 describe('PlayersReducer', () => {
   const player1: Player = {

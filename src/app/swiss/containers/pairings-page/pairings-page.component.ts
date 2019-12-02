@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { Pairing, Player } from '@app/shared/models';
 import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Pairing, Player } from 'app/shared';
 import { PairingsPageActions } from 'app/swiss/actions';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
@@ -45,9 +45,9 @@ export class PairingsPageComponent {
     this.pairingsExist$ = this.pairings$.pipe(
       map(pairings => pairings.length > 0)
     );
-    this.playerEntities$ = this.store.pipe(
-      select(fromSwiss.getPlayerEntities)
-    );
+    // this.playerEntities$ = this.store.pipe(
+    //   select(fromSwiss.getPlayerEntities)
+    // );
     this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
     );

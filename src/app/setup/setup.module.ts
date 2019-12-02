@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SetupPageComponent } from '@app/setup/containers/setup-page/setup-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PlayerFormComponent } from '@app/setup/components/player-form/player-form.component';
+import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
 import { SetupRoutingModule } from '@app/setup/setup-routing.module';
-import { PlayersPageComponent } from './components/players-page/players-page.component';
-import { PlayerFormComponent } from './components/player-form/player-form.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +13,7 @@ import { PlayerFormComponent } from './components/player-form/player-form.compon
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule, // TODO: Should this be here?
     SetupRoutingModule
   ]
 })
