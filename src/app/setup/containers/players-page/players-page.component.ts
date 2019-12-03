@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import * as fromRoot from '@app/reducers';
 import { PlayersPageActions } from '@app/setup/actions';
 import { Player } from '@app/shared/models';
-import { Store, select } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -29,5 +30,9 @@ export class PlayersPageComponent {
 
       this.store.dispatch(PlayersPageActions.addPlayer({player}));
     }
+  }
+
+  onPlayerNameChange(update: Update<Player>) {
+    this.store.dispatch(PlayersPageActions.updatePlayer({player: update}));
   }
 }

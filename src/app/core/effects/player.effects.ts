@@ -73,6 +73,15 @@ export class PlayerEffects implements OnInitEffects {
   //   )
   // ));
 
+  updatePlayer$ = createEffect(() => this.actions$.pipe(
+    ofType(PlayersPageActions.updatePlayer),
+    mergeMap(({player}) =>
+      this.storageService.updatePlayer(player).pipe(
+        map(() => PlayersApiActions.updatePlayer({player}))
+      )
+    )
+  ));
+
   // updatePlayerName$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.updatePlayerName),
   //   map(({player, name}) => ({

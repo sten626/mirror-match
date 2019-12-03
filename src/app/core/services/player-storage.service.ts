@@ -3,6 +3,7 @@ import { StorageService } from '@app/core/services/storage.service';
 import { Player } from '@app/shared/models';
 import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Update } from '@ngrx/entity';
 
 @Injectable({
   providedIn: 'root'
@@ -58,10 +59,20 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
-  updatePlayer(player: Player): Observable<Player[]> {
+  updatePlayer(player: Update<Player>): Observable<Player> {
     return this.getPlayers().pipe(
-      map((value: Player[]) => value.map((item: Player) => item.id === player.id ? player : item)),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      map((players: Player[]) => players.map((item: Player) => {
+        if (item.id === player.id) {
+          return {
+            ...item,
+            ...player.changes
+          };
+        } else {
+          return item;
+        }
+      })),
+      tap((players: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(players))),
+      map((players: Player[]) => players.find(p => p.id === player.id))
     );
   }
 }
