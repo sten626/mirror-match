@@ -1,0 +1,11 @@
+<div *ngIf="!selected">
+  {{player.name}}
+  <button type="button" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="selected">
+  <form [formGroup]="playerEditForm">
+    <input type="text" class="form-control" formControlName="name">
+  </form>
+</div>

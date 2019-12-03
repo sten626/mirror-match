@@ -8,5 +8,11 @@ import { Player } from '@app/shared/models';
 export class PlayersListComponent {
   @Input() players: Player[];
 
+  selectedPlayer: Player;
+
   constructor() {}
+
+  onSelect(player: Player) {
+    this.selectedPlayer = player;
+  }
 }
