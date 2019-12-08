@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as feather from 'feather-icons';
 
 @Component({
   selector: 'mm-layout-footer',
@@ -11,9 +10,9 @@ export class FooterComponent implements OnInit {
   version = require('../../../../../package.json').version;
 
   ngOnInit() {
-    feather.replace({
-      height: '1rem',
-      width: '1rem'
-    });
+    // feather.replace({
+    //   height: '1rem',
+    //   width: '1rem'
+    // });
   }
 }
