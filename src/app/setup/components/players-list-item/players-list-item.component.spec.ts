@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SharedModule } from '@app/shared/shared.module';
 import { PlayersListItemComponent } from './players-list-item.component';
 
 describe('PlayersListItemComponent', () => {
@@ -8,7 +8,8 @@ describe('PlayersListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayersListItemComponent ]
+      imports: [SharedModule],
+      declarations: [PlayersListItemComponent]
     })
     .compileComponents();
   }));
@@ -16,6 +17,11 @@ describe('PlayersListItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayersListItemComponent);
     component = fixture.componentInstance;
+    component.player = {
+      id: null,
+      name: 'Sten',
+      dropped: false
+    };
     fixture.detectChanges();
   });
 
