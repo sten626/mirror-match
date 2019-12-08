@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SharedModule } from '@app/shared/shared.module';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('PlayerFormComponent', () => {
@@ -8,7 +8,8 @@ describe('PlayerFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerFormComponent ]
+      imports: [SharedModule],
+      declarations: [PlayerFormComponent]
     })
     .compileComponents();
   }));
