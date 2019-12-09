@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { FooterComponent, HeaderComponent } from 'app/core/components';
+import { FooterComponent, HeaderComponent } from '@app/core/components';
 
 const COMPONENTS = [
   FooterComponent,
@@ -9,11 +10,12 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
   imports: [
     CommonModule,
+    MatToolbarModule,
     RouterModule
-  ]
+  ],
+  declarations: COMPONENTS,
+  exports: COMPONENTS
 })
 export class CoreModule {}
