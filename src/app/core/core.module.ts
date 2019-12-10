@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { FooterComponent, HeaderComponent } from '@app/core/components';
@@ -12,6 +13,7 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    MatTabsModule,
     MatToolbarModule,
     RouterModule
   ],

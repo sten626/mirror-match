@@ -1,5 +1,14 @@
-<mat-toolbar color="primary">
-  <h1>Mirror Match</h1>
+<mat-toolbar class="mat-elevation-z5" color="primary">
+  <mat-toolbar-row>
+    <h1>Mirror Match</h1>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <nav mat-tab-nav-bar [color]="primary">
+      <a mat-tab-link routerLink="/setup">
+        Setup
+      </a>
+    </nav>
+  </mat-toolbar-row>
 </mat-toolbar>
 <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a routerLink="/" class="navbar-brand">Mirror Match</a>
