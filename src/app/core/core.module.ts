@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { FooterComponent, HeaderComponent } from '@app/core/components';
+import { FooterComponent } from '@app/core/components';
 
 const COMPONENTS = [
-  FooterComponent,
-  HeaderComponent
+  FooterComponent
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    MatTabsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
     MatToolbarModule,
     RouterModule
   ],
