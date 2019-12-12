@@ -4,19 +4,17 @@
       <a mat-list-item routerLink="/setup">Setup</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content class="app-content">
     <mat-toolbar color="primary" class="mat-elevation-z6">
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <h1>MIRROR MATCH</h1>
     </mat-toolbar>
-    <div style="display: flex; flex-direction: column;">
-      <main>
-        <router-outlet></router-outlet>
-      </main>
-      <mm-layout-footer style="margin-top: auto;"></mm-layout-footer>
-    </div>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <mm-layout-footer></mm-layout-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
 <!-- <div class="d-flex flex-column h-100">

@@ -5,3 +5,12 @@
   left: 0;
   right: 0;
 }
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content main {
+  flex: 1 0 auto;
+}
