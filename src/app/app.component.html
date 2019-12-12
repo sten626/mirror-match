@@ -6,10 +6,13 @@
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column">
     <mat-toolbar color="primary" class="mat-elevation-z6">
-      <button mat-icon-button (click)="sidenav.toggle()">
+      <button mat-icon-button fxHide.gt-sm (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <h1>MIRROR MATCH</h1>
+      <mat-nav-list fxHide.lt-md>
+        <a mat-list-item routerLink="/setup">Setup</a>
+      </mat-nav-list>
     </mat-toolbar>
     <main fxFlex="1 0 auto">
       <router-outlet></router-outlet>
