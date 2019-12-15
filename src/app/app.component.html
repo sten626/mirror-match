@@ -1,25 +1,22 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-      #sidenav
-      [mode]="mobileQuery.matches ? 'side' : 'over'"
-      [fixedInViewport]="!mobileQuery.matches">
-    <mat-nav-list>
-      <a mat-list-item routerLink="/setup">Setup</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content fxLayout="column">
-    <mat-toolbar color="primary" class="mat-elevation-z6">
-      <button mat-icon-button fxHide.gt-sm (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <h1>MIRROR MATCH</h1>
-      <mat-nav-list fxHide.lt-md>
-        <a mat-list-item routerLink="/setup">Setup</a>
+<div class="app-container">
+  <mat-toolbar color="primary" class="mat-elevation-z6">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>MIRROR MATCH</h1>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav
+        #sidenav
+        [mode]="mobileQuery.matches ? 'side' : 'over'"
+        [opened]="mobileQuery.matches">
+      <mat-nav-list>
+        <a mat-list-item class="active" routerLink="/setup">Setup</a>
       </mat-nav-list>
-    </mat-toolbar>
-    <main fxFlex="1 0 auto">
+    </mat-sidenav>
+    <mat-sidenav-content>
       <router-outlet></router-outlet>
-    </main>
-    <mm-layout-footer></mm-layout-footer>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <mm-layout-footer></mm-layout-footer>
+</div>
