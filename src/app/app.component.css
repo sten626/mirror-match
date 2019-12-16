@@ -1,4 +1,4 @@
-.app-container {
+.mm-app-container {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -9,6 +9,19 @@
   display: flex;
 }
 
+.mm-app-main {
+  flex: 1;
+}
+
+.mm-nav-text {
+  padding-left: 16px;
+}
+
 mat-sidenav-container {
   flex: 1;
+}
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
 }

@@ -7,17 +7,17 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  mobileQuery: MediaQueryList;
+  mediaQueryList: MediaQueryList;
 
   private mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(min-width: 960px)');
+    this.mediaQueryList = media.matchMedia('(min-width: 960px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this.mobileQueryListener);
+    this.mediaQueryList.addListener(this.mobileQueryListener);
   }
 
   ngOnDestroy() {
-    this.mobileQuery.removeListener(this.mobileQueryListener);
+    this.mediaQueryList.removeListener(this.mobileQueryListener);
   }
 }

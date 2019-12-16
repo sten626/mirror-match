@@ -26,8 +26,21 @@ $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent
 // that you are using.
 @include angular-material-theme($mirror-match-theme);
 
-mat-sidenav .active {
-  background: mat-color($mirror-match-primary, 0.12);
-  color: mat-color($mirror-match-primary) !important;
-}
+.mm-sidenav {
+  .mat-list-base {
+    padding-left: 8px;
+    padding-right: 8px;
 
+    .mat-list-item {
+      .mat-list-item-content {
+        padding: 0 8px;
+      }
+    }
+
+    .mat-list-item-active {
+      background: mat-color($mirror-match-primary, 0.12);
+      border-radius: 5px;
+      color: mat-color($mirror-match-primary)
+    }
+  }
+}
