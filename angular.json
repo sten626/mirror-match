@@ -17,6 +17,7 @@
             "tsConfig": "src/tsconfig.json",
             "assets": [
               "src/assets",
+              "src/mixins",
               "src/android-chrome-192x192.png",
               "src/android-chrome-512x512.png",
               "src/apple-touch-icon.png",
@@ -125,7 +126,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "mm",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "mm"

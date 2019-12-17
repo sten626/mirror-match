@@ -3,7 +3,7 @@
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
-@import 'footer-mixin.scss';
+@import 'mixins/mm-footer.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -27,7 +27,7 @@ $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent
 // that you are using.
 @include angular-material-theme($mirror-match-theme);
 
-@include footer-theme($mirror-match-theme);
+@include mm-footer-theme($mirror-match-theme);
 
 .mm-sidenav {
   .mat-list-base {
