@@ -4,7 +4,7 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 @Component({
   selector: 'mm-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
   mediaQueryList: MediaQueryList;

@@ -4,6 +4,7 @@
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 @import 'mixins/mm-footer.scss';
+@import 'mixins/mm-sidenav.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -28,22 +29,4 @@ $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent
 @include angular-material-theme($mirror-match-theme);
 
 @include mm-footer-theme($mirror-match-theme);
-
-.mm-sidenav {
-  .mat-list-base {
-    padding-left: 8px;
-    padding-right: 8px;
-
-    .mat-list-item {
-      .mat-list-item-content {
-        padding: 0 8px;
-      }
-    }
-
-    .mat-list-item-active {
-      background: mat-color($mirror-match-primary, 0.12);
-      border-radius: 5px;
-      color: mat-color($mirror-match-primary)
-    }
-  }
-}
+@include mm-sidenav-theme($mirror-match-theme);
