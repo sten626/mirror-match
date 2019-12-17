@@ -1,12 +1,26 @@
+<nav mat-tab-nav-bar backgroundColor="primary">
+  <a mat-tab-link
+      routerLink="/setup/players"
+      routerLinkActive #rlaPlayer="routerLinkActive"
+      [active]="rlaPlayer.isActive">
+    Players
+  </a>
+  <a mat-tab-link
+      routerLink="/setup/settings"
+      routerLinkActive #rlaSettings="routerLinkActive"
+      [active]="rlaSettings.isActive">
+    Settings
+  </a>
+</nav>
 <div class="container-fluid d-flex flex-column flex-sm-row">
-  <ul class="nav nav-pills flex-row flex-sm-column p-3">
+  <!-- <ul class="nav nav-pills flex-row flex-sm-column p-3">
     <li class="nav-item flex-fill text-center">
       <a routerLink="/setup/players" class="nav-link" routerLinkActive="active">Players</a>
     </li>
     <li class="nav-item flex-fill text-center">
       <a routerLink="/setup/settings" class="nav-link" routerLinkActive="active">Settings</a>
     </li>
-  </ul>
+  </ul> -->
   <div class="p-3">
     <router-outlet></router-outlet>
   </div>
