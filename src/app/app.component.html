@@ -1,16 +1,12 @@
 <div class="mm-app-container">
-  <mat-toolbar color="primary" class="mat-elevation-z6">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1>MIRROR MATCH</h1>
-  </mat-toolbar>
   <mat-sidenav-container>
     <mat-sidenav
         #sidenav
-        class="mm-sidenav"
+        class="mm-sidenav mat-typography"
         [mode]="mediaQueryList.matches ? 'side' : 'over'"
         [opened]="mediaQueryList.matches">
+      <h2 style="padding: 1rem 1rem 0;">Mirror Match</h2>
+      <mat-divider></mat-divider>
       <mat-nav-list>
         <a mat-list-item
             routerLink="/setup"
@@ -33,6 +29,12 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h1>MIRROR MATCH</h1>
+      </mat-toolbar>
       <main class="mm-app-main">
         <router-outlet></router-outlet>
       </main>
