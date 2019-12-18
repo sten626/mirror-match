@@ -2,11 +2,13 @@ import { InjectionToken } from '@angular/core';
 import * as fromMessages from '@app/core/reducers/messages.reducer';
 import * as fromPlayers from '@app/core/reducers/players.reducer';
 import { Player } from '@app/shared/models';
+import * as fromRouter from '@ngrx/router-store';
 import { Action, ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
   [fromMessages.messagesFeatureKey]: fromMessages.State;
   [fromPlayers.FEATURE_KEY]: fromPlayers.State;
+  router: fromRouter.RouterReducerState<any>;
 }
 
 export const rootReducers = new InjectionToken<
@@ -14,7 +16,8 @@ export const rootReducers = new InjectionToken<
 >('Root reducers token', {
   factory: () => ({
     [fromMessages.messagesFeatureKey]: fromMessages.reducer,
-    [fromPlayers.FEATURE_KEY]: fromPlayers.reducer
+    [fromPlayers.FEATURE_KEY]: fromPlayers.reducer,
+    router: fromRouter.routerReducer
   })
 });
 
@@ -80,3 +83,19 @@ export const getTotalDroppedPlayers = createSelector(
   getDroppedPlayers,
   (players) => players.length
 );
+
+/**
+ * Router Reducers
+ */
+
+export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
+
+export const {
+  selectCurrentRoute,
+  selectQueryParam,
+  selectQueryParams,
+  selectRouteData,
+  selectRouteParam,
+  selectRouteParams,
+  selectUrl
+} = fromRouter.getSelectors(selectRouter);
