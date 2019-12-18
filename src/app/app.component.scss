@@ -35,6 +35,12 @@
 
   mat-sidenav-container {
     flex: 1;
+
+    mat-sidenav {
+      h2 {
+        padding: 1rem 1rem 0;
+      }
+    }
   }
 
   mat-sidenav-content {

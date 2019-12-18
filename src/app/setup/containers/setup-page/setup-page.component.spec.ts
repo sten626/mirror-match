@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SetupPageComponent } from '@app/setup/containers/setup-page/setup-page.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SetupPageComponent } from './setup-page.component';
 
 describe('SetupPageComponent', () => {
   let component: SetupPageComponent;
   let fixture: ComponentFixture<SetupPageComponent>;
 
-  // tslint:disable-next-line: component-selector
-  @Component({selector: 'router-outlet', template: ''})
-  class RouterOutletStubComponent {}
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatTabsModule,
+        RouterTestingModule
+      ],
       declarations: [
-        RouterOutletStubComponent,
         SetupPageComponent
       ]
     })
