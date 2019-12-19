@@ -14,7 +14,6 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { CoreModule } from '@app/core/core.module';
 import { PlayerEffects } from '@app/core/effects';
-import { HomeModule } from '@app/home/home.module';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -36,7 +35,6 @@ import { environment } from '../environments/environment';
     EffectsModule.forRoot([PlayerEffects]),
     FlexLayoutModule,
     FormsModule,
-    HomeModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
