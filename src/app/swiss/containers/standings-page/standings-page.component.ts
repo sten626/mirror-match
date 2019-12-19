@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
+import { Player, Standing } from '@app/shared/models';
 import { Dictionary } from '@ngrx/entity';
-import { select, Store } from '@ngrx/store';
-import { Player, Standing } from 'app/shared';
-import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,13 +11,13 @@ export class StandingsPageComponent {
   standings$: Observable<Standing[]>;
 
   constructor(
-    private store: Store<fromSwiss.State>
+    // private store: Store<fromSwiss.State>
   ) {
-    this.playerEntities$ = this.store.pipe(
-      select(fromSwiss.getPlayerEntities)
-    );
-    this.standings$ = this.store.pipe(
-      select(fromSwiss.getStandings)
-    );
+    // this.playerEntities$ = this.store.pipe(
+    //   select(fromSwiss.getPlayerEntities)
+    // );
+    // this.standings$ = this.store.pipe(
+    //   select(fromSwiss.getStandings)
+    // );
   }
 }

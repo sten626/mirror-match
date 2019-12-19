@@ -1,8 +1,8 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Pairing, Player } from '@app/shared/models';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { Pairing, Player } from 'app/shared';
 import { PairingsPageActions } from 'app/swiss/actions';
 import { PairingsPageComponent } from 'app/swiss/containers/pairings-page/pairings-page.component';
 import * as fromSwiss from 'app/swiss/reducers';

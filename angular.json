@@ -17,6 +17,7 @@
             "tsConfig": "src/tsconfig.json",
             "assets": [
               "src/assets",
+              "src/mixins",
               "src/android-chrome-192x192.png",
               "src/android-chrome-512x512.png",
               "src/apple-touch-icon.png",
@@ -26,13 +27,10 @@
               "src/site.webmanifest"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -77,12 +75,8 @@
             "tsConfig": "src/tsconfig.json",
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
+            "scripts": [],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "assets": [
@@ -132,7 +126,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "mm",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "mm"

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { PairingStorageService, RoundStorageService } from '@app/core/services';
+import { Pairing } from '@app/shared/models';
+import { PairingsApiActions, PairingsPageActions } from '@app/swiss/actions';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Pairing, PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
 import { combineLatest, of } from 'rxjs';
-import { concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { concatMap, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
@@ -59,29 +60,29 @@ export class PairingEffects implements OnInitEffects {
     )
   ));
 
-  createPairings$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.createPairings),
-    withLatestFrom(
-      this.store.pipe(
-        select(fromSwiss.getActivePlayerIds)
-      ),
-      this.store.pipe(
-        select(fromSwiss.getNumberOfRounds)
-      ),
-      this.store.pipe(
-        select(fromSwiss.getStandings)
-      )
-    ),
-    switchMap(([{roundId}, activePlayerIds, numberOfRounds, standings]) => {
-      const activePlayerStandings = standings.filter(s => activePlayerIds.includes(s.playerId));
-      const isLastRound = roundId === numberOfRounds;
+  // createPairings$ = createEffect(() => this.actions$.pipe(
+  //   ofType(PairingsPageActions.createPairings),
+  //   withLatestFrom(
+  //     this.store.pipe(
+  //       select(fromSwiss.getActivePlayerIds)
+  //     ),
+  //     this.store.pipe(
+  //       select(fromSwiss.getNumberOfRounds)
+  //     ),
+  //     this.store.pipe(
+  //       select(fromSwiss.getStandings)
+  //     )
+  //   ),
+  //   switchMap(([{roundId}, activePlayerIds, numberOfRounds, standings]) => {
+  //     const activePlayerStandings = standings.filter(s => activePlayerIds.includes(s.playerId));
+  //     const isLastRound = roundId === numberOfRounds;
 
-      return this.pairingsService.createPairings(roundId, isLastRound, activePlayerStandings, this.nextId).pipe(
-        tap(pairings => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
-        map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
-      );
-    })
-  ));
+  //     return this.pairingsService.createPairings(roundId, isLastRound, activePlayerStandings, this.nextId).pipe(
+  //       tap(pairings => this.nextId = Math.max(...pairings.map(p => p.id)) + 1),
+  //       map(pairings => PairingsApiActions.createPairingsSuccess({pairings, roundId}))
+  //     );
+  //   })
+  // ));
 
   deletePairings$ = createEffect(() => this.actions$.pipe(
     ofType(PairingsPageActions.deletePairings),
@@ -104,21 +105,21 @@ export class PairingEffects implements OnInitEffects {
     })
   ));
 
-  loadPairings$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsApiActions.loadPairings),
-    switchMap(() =>
-      this.storageService.getPairings().pipe(
-        tap(pairings => {
-          if (pairings.length > 0) {
-            this.nextId = Math.max(...pairings.map(p => p.id)) + 1;
-          } else {
-            this.nextId = 1;
-          }
-        }),
-        map(pairings => PairingsApiActions.loadPairingsSuccess({pairings}))
-      )
-    )
-  ));
+  // loadPairings$ = createEffect(() => this.actions$.pipe(
+  //   ofType(PairingsApiActions.loadPairings),
+  //   switchMap(() =>
+  //     this.storageService.getPairings().pipe(
+  //       tap(pairings => {
+  //         if (pairings.length > 0) {
+  //           this.nextId = Math.max(...pairings.map(p => p.id)) + 1;
+  //         } else {
+  //           this.nextId = 1;
+  //         }
+  //       }),
+  //       map(pairings => PairingsApiActions.loadPairingsSuccess({pairings}))
+  //     )
+  //   )
+  // ));
 
   submitResult$ = createEffect(() => this.actions$.pipe(
     ofType(PairingsPageActions.submitResult),
@@ -139,11 +140,11 @@ export class PairingEffects implements OnInitEffects {
     )
   ));
 
-  private nextId = 1;
+  // private nextId = 1;
 
   constructor(
     private actions$: Actions,
-    private pairingsService: PairingService,
+    // private pairingsService: PairingService,
     private roundStorageService: RoundStorageService,
     private storageService: PairingStorageService,
     private store: Store<fromSwiss.State>

@@ -1,0 +1,10 @@
+<div class="list-group">
+  <a *ngFor="let player of players"
+      class="list-group-item list-group-item-action"
+      (click)="onSelect(player)">
+    <mm-players-list-item
+        [player]="player"
+        [selected]="player === selectedPlayer"
+        (playerNameChange)="playerNameChange.emit($event)"></mm-players-list-item>
+  </a>
+</div>

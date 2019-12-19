@@ -1,7 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Player, SharedModule } from 'app/shared';
+import { Player } from '@app/shared/models';
+import { SharedModule } from '@app/shared/shared.module';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('Player Form Component', () => {
@@ -13,8 +14,8 @@ describe('Player Form Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ SharedModule ],
-      declarations: [ PlayerFormComponent ]
+      imports: [SharedModule],
+      declarations: [PlayerFormComponent]
     });
 
     fixture = TestBed.createComponent(PlayerFormComponent);

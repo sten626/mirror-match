@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { Message } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
 import { MessageActions } from 'app/core/actions';
 import * as fromRoot from 'app/reducers';
-import { Message } from 'app/shared';
 import * as fromSwiss from 'app/swiss/reducers';
 import { Observable } from 'rxjs';
 
@@ -27,9 +27,9 @@ export class SwissComponent {
     this.messages$ = this.store.pipe(
       select(fromRoot.getMessages)
     );
-    this.numberOfActivePlayers$ = this.store.pipe(
-      select(fromSwiss.getTotalActivePlayers)
-    );
+    // this.numberOfActivePlayers$ = this.store.pipe(
+    //   select(fromSwiss.getTotalActivePlayers)
+    // );
   }
 
   dismissMessage(message: Message): void {

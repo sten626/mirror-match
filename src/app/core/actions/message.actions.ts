@@ -1,5 +1,5 @@
+import { Message } from '@app/shared/models';
 import { createAction, props } from '@ngrx/store';
-import { Message } from 'app/shared';
 
 export const addMessage = createAction(
   '[Message] Add Message',
