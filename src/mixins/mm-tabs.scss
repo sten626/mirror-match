@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+
+@mixin mm-tabs-theme($theme) {
+  .mat-tab-link {
+    &.mat-tab-label-active {
+      opacity: 1;
+    }
+  }
+}

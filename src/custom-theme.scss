@@ -5,6 +5,7 @@
 // Plus imports for other components in your app.
 @import 'mixins/mm-footer.scss';
 @import 'mixins/mm-sidenav.scss';
+@import 'mixins/mm-tabs.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -30,3 +31,4 @@ $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent
 
 @include mm-footer-theme($mirror-match-theme);
 @include mm-sidenav-theme($mirror-match-theme);
+@include mm-tabs-theme($mirror-match-theme);
