@@ -2,19 +2,24 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { Player, PlayerStorageService } from 'app/shared';
+import { DatabaseService } from 'app/shared/services/database.service';
 import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { DatabaseService } from 'app/shared/services/database.service';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() => this.actions$.pipe(
     ofType(PlayersPageActions.addPlayer),
     mergeMap(({player}) =>
-      this.storageService.addPlayer(player).pipe(
-        map((value: Player) => PlayersApiActions.addPlayerSuccess({ player: value })),
-        catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
+      this.databaseService.add('players', player).pipe(
+        map((id: number) => PlayersApiActions.addPlayerSuccess({
+          player: {
+            ...player,
+            id: id
+          }
+        })),
+        catchError(() => of(PlayersApiActions.addPlayerFailure({player})))
       )
     )
   ));
@@ -22,8 +27,9 @@ export class PlayerEffects implements OnInitEffects {
   deletePlayers$ = createEffect(() => this.actions$.pipe(
     ofType(PlayersPageActions.deletePlayer),
     mergeMap(({playerId}) =>
-      this.storageService.removePlayers([playerId]).pipe(
+      this.databaseService.removeOne('players', playerId).pipe(
         map(() => PlayersApiActions.deletePlayerSuccess({playerId}))
+        // TODO: Handle error
       )
     )
   ));
@@ -47,8 +53,8 @@ export class PlayerEffects implements OnInitEffects {
   loadPlayers$ = createEffect(() => this.actions$.pipe(
     ofType(PlayersApiActions.loadPlayers),
     switchMap(() =>
-      this.storageService.getPlayers().pipe(
-        map(players => PlayersApiActions.loadPlayersSuccess({players}))
+      this.databaseService.selectAll('players').pipe(
+        map((players: Player[]) => PlayersApiActions.loadPlayersSuccess({players}))
       )
     )
   ));
@@ -97,9 +103,7 @@ export class PlayerEffects implements OnInitEffects {
     private actions$: Actions,
     private databaseService: DatabaseService,
     private storageService: PlayerStorageService
-  ) {
-    this.databaseService.open();
-  }
+  ) {}
 
   ngrxOnInitEffects() {
     return PlayersApiActions.loadPlayers();
