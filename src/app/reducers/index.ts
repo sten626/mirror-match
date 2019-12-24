@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import * as fromLayout from '@app/core/reducers/layout.reducer';
 import * as fromMessages from '@app/core/reducers/messages.reducer';
 import * as fromPlayers from '@app/core/reducers/players.reducer';
 import { Player } from '@app/shared/models';
@@ -6,8 +7,9 @@ import * as fromRouter from '@ngrx/router-store';
 import { Action, ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
+  [fromLayout.layoutFeatureKey]: fromLayout.State;
   [fromMessages.messagesFeatureKey]: fromMessages.State;
-  [fromPlayers.FEATURE_KEY]: fromPlayers.State;
+  [fromPlayers.playersFeatureKey]: fromPlayers.State;
   router: fromRouter.RouterReducerState<any>;
 }
 
@@ -15,11 +17,25 @@ export const rootReducers = new InjectionToken<
   ActionReducerMap<State, Action>
 >('Root reducers token', {
   factory: () => ({
+    [fromLayout.layoutFeatureKey]: fromLayout.reducer,
     [fromMessages.messagesFeatureKey]: fromMessages.reducer,
-    [fromPlayers.FEATURE_KEY]: fromPlayers.reducer,
+    [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
     router: fromRouter.routerReducer
   })
 });
+
+/**
+ * Layout Reducers
+ */
+
+export const getLayoutState = createFeatureSelector<State, fromLayout.State>(
+  fromLayout.layoutFeatureKey
+);
+
+export const selectShowSidenav = createSelector(
+  getLayoutState,
+  fromLayout.selectShowSidenav
+);
 
 /**
  * Messages Reducers
@@ -38,7 +54,7 @@ export const getMessages = createSelector(
  * Players Reducers
  */
 
- export const selectPlayersState = createFeatureSelector<State, fromPlayers.State>(fromPlayers.FEATURE_KEY);
+ export const selectPlayersState = createFeatureSelector<State, fromPlayers.State>(fromPlayers.playersFeatureKey);
 
  export const {
   selectIds: getPlayerIds,

@@ -4,7 +4,7 @@
         #sidenav
         class="mm-sidenav mat-typography"
         [mode]="mediaQueryList.matches ? 'side' : 'over'"
-        [opened]="mediaQueryList.matches">
+        [opened]="showSidenav$ | async">
       <h2>Mirror Match</h2>
       <mat-divider></mat-divider>
       <mat-nav-list>
