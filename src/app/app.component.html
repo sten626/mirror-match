@@ -1,44 +1,39 @@
-<div class="mm-app-container">
+<mm-layout>
+  <mm-sidenav>
+    <a mat-list-item
+        routerLink="/setup"
+        routerLinkActive="mat-list-item-active">
+      <mat-icon matListIcon>build</mat-icon>
+      <span class="mm-nav-text">Setup</span>
+    </a>
+    <a mat-list-item
+        routerLink="/pods"
+        routerLinkActive="mat-list-item-active">
+      <mat-icon matListIcon>group_work</mat-icon>
+      <span class="mm-nav-text">Pods</span>
+    </a>
+    <a mat-list-item
+        routerLink="/pairings"
+        routerLinkActive="mat-list-item-active">
+      <mat-icon matListIcon>group</mat-icon>
+      <span class="mm-nav-text">Pairings</span>
+    </a>
+  </mm-sidenav>
+  <mm-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1>{{pageHeader}}</h1>
+    </mat-toolbar>
+    <main class="mm-app-main">
+      <router-outlet></router-outlet>
+    </main>
+    <mm-layout-footer></mm-layout-footer>
+  </mm-sidenav-content>
+</mm-layout>
+<!-- <div class="mm-app-container">
   <mat-sidenav-container>
-    <mat-sidenav
-        #sidenav
-        class="mm-sidenav mat-typography"
-        [mode]="mediaQueryList.matches ? 'side' : 'over'"
-        [opened]="showSidenav$ | async">
-      <h2>Mirror Match</h2>
-      <mat-divider></mat-divider>
-      <mat-nav-list>
-        <a mat-list-item
-            routerLink="/setup"
-            routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>build</mat-icon>
-          <span class="mm-nav-text">Setup</span>
-        </a>
-        <a mat-list-item
-            routerLink="/pods"
-            routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>group_work</mat-icon>
-          <span class="mm-nav-text">Pods</span>
-        </a>
-        <a mat-list-item
-            routerLink="/pairings"
-            routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>group</mat-icon>
-          <span class="mm-nav-text">Pairings</span>
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar color="primary">
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <h1>{{pageHeader}}</h1>
-      </mat-toolbar>
-      <main class="mm-app-main">
-        <router-outlet></router-outlet>
-      </main>
-      <mm-layout-footer></mm-layout-footer>
-    </mat-sidenav-content>
+    
   </mat-sidenav-container>
-</div>
+</div> -->
