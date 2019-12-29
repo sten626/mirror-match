@@ -1,3 +1,12 @@
-<mat-sidenav-container fullscreen>
-  <ng-content></ng-content>
+<mat-sidenav-container>
+  <mat-sidenav
+      #sidenav
+      class="mm-sidenav mat-typography"
+      [mode]="(isMobile | async) ? 'over' : 'side'"
+      [opened]="!(isMobile | async)">
+    <mm-sidenav></mm-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

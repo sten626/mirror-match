@@ -1,8 +1,7 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as fromRoot from '@app/reducers';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'mm-root',
@@ -10,21 +9,21 @@ import { Subscription, Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy, OnInit {
-  mediaQueryList: MediaQueryList;
+  // mediaQueryList: MediaQueryList;
   pageHeader: string;
   showSidenav$: Observable<boolean>;
 
-  private mobileQueryListener: () => void;
+  // private mobileQueryListener: () => void;
   private urlSubscription: Subscription;
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
+    // changeDetectorRef: ChangeDetectorRef,
+    // media: MediaMatcher,
     private store: Store<fromRoot.State>
   ) {
-    this.mediaQueryList = media.matchMedia('(min-width: 960px)');
-    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mediaQueryList.addListener(this.mobileQueryListener);
+    // this.mediaQueryList = media.matchMedia('(min-width: 960px)');
+    // this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+    // this.mediaQueryList.addListener(this.mobileQueryListener);
     this.showSidenav$ = this.store.select(fromRoot.selectShowSidenav);
   }
 
@@ -40,7 +39,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.mediaQueryList.removeListener(this.mobileQueryListener);
+    // this.mediaQueryList.removeListener(this.mobileQueryListener);
     this.urlSubscription.unsubscribe();
   }
 }

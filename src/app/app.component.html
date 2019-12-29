@@ -1,36 +1,14 @@
 <mm-layout>
-  <mm-sidenav>
-    <a mat-list-item
-        routerLink="/setup"
-        routerLinkActive="mat-list-item-active">
-      <mat-icon matListIcon>build</mat-icon>
-      <span class="mm-nav-text">Setup</span>
-    </a>
-    <a mat-list-item
-        routerLink="/pods"
-        routerLinkActive="mat-list-item-active">
-      <mat-icon matListIcon>group_work</mat-icon>
-      <span class="mm-nav-text">Pods</span>
-    </a>
-    <a mat-list-item
-        routerLink="/pairings"
-        routerLinkActive="mat-list-item-active">
-      <mat-icon matListIcon>group</mat-icon>
-      <span class="mm-nav-text">Pairings</span>
-    </a>
-  </mm-sidenav>
-  <mm-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <h1>{{pageHeader}}</h1>
-    </mat-toolbar>
-    <main class="mm-app-main">
-      <router-outlet></router-outlet>
-    </main>
-    <mm-layout-footer></mm-layout-footer>
-  </mm-sidenav-content>
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>{{pageHeader}}</h1>
+  </mat-toolbar>
+  <main class="mm-app-main">
+    <router-outlet></router-outlet>
+  </main>
+  <mm-layout-footer></mm-layout-footer>
 </mm-layout>
 <!-- <div class="mm-app-container">
   <mat-sidenav-container>
