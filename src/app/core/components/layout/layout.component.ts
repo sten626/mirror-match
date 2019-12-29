@@ -1,8 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -15,14 +15,19 @@ export class LayoutComponent implements OnDestroy, OnInit {
   sidenavMode$: Observable<string>;
   toolbarHeader = '';
 
+  private breakpointState$: Observable<BreakpointState>;
   private urlSubscription: Subscription;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private store: Store<fromRoot.State>
   ) {
-    this.showSidenav$ = this.store.select(fromRoot.selectShowSidenav);
-    this.sidenavMode$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    this.breakpointState$ = this.breakpointObserver.observe(Breakpoints.Handset);
+
+    this.showSidenav$ = this.breakpointState$.pipe(
+      map(state => !state.matches)
+    );
+    this.sidenavMode$ = this.breakpointState$.pipe(
       map(state => state.matches ? 'over' : 'side')
     );
   }
@@ -40,9 +45,5 @@ export class LayoutComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.urlSubscription.unsubscribe();
-  }
-
-  onToggleSidenav() {
-    console.log('tada!');
   }
 }

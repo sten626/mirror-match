@@ -1,7 +1,8 @@
 <div class="mm-layout mat-typography">
-  <mm-toolbar [header]="toolbarHeader" (toggleSidenav)="onToggleSidenav($event)"></mm-toolbar>
+  <mm-toolbar [header]="toolbarHeader" (toggleSidenav)="sidenav.toggle()"></mm-toolbar>
   <mat-sidenav-container>
     <mat-sidenav
+        #sidenav
         class="mm-sidenav"
         [mode]="sidenavMode$ | async"
         [opened]="showSidenav$ | async">
