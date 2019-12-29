@@ -7,18 +7,15 @@
         [mode]="sidenavMode$ | async"
         [opened]="showSidenav$ | async">
       <mat-nav-list class="mm-nav-list">
-        <a mat-list-item routerLink="/setup" routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>build</mat-icon>
-          <span class="mm-nav-text">Setup</span>
-        </a>
-        <a mat-list-item routerLink="/pods" routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>group_work</mat-icon>
-          <span class="mm-nav-text">Pods</span>
-        </a>
-        <a mat-list-item routerLink="/pairings" routerLinkActive="mat-list-item-active">
-          <mat-icon matListIcon>group</mat-icon>
-          <span class="mm-nav-text">Pairings</span>
-        </a>
+        <mm-nav-item icon="build" routerLink="/setup">
+          Setup
+        </mm-nav-item>
+        <mm-nav-item icon="group_work" routerLink="/pods">
+          Pods
+        </mm-nav-item>
+        <mm-nav-item icon="group" routerLink="/pairings">
+          Pairings
+        </mm-nav-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
