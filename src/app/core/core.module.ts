@@ -2,18 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { FooterComponent, LayoutComponent, PageNotFoundComponent, SidenavComponent, SidenavContentComponent } from '@app/core/components';
+import { FooterComponent, PageNotFoundComponent } from '@app/core/components';
 
 const COMPONENTS = [
   FooterComponent,
-  LayoutComponent,
-  PageNotFoundComponent,
-  SidenavComponent,
-  SidenavContentComponent
+  PageNotFoundComponent
 ];
 
 @NgModule({
@@ -21,9 +15,6 @@ const COMPONENTS = [
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatSidenavModule,
     RouterModule
   ],
   declarations: COMPONENTS,

@@ -7,7 +7,3 @@ export const closeSidenav = createAction(
 export const openSidenav = createAction(
   '[Layout] Open Sidenav'
 );
-
-export const toggleSidenav = createAction(
-  '[Layout] Toggle Sidenav'
-);
