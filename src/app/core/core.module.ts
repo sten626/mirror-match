@@ -8,12 +8,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { FooterComponent, LayoutComponent, PageNotFoundComponent } from '@app/core/components';
+import { FooterComponent, LayoutComponent, PageNotFoundComponent, ToolbarComponent } from '@app/core/components';
 
 const COMPONENTS = [
   FooterComponent,
   LayoutComponent,
-  PageNotFoundComponent
+  PageNotFoundComponent,
+  ToolbarComponent
 ];
 
 @NgModule({

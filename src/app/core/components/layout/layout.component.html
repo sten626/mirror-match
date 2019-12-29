@@ -1,13 +1,10 @@
 <div class="mm-layout mat-typography">
-  <mat-toolbar color="primary">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1>{{pageHeader}}</h1>
-  </mat-toolbar>
+  <mm-toolbar [header]="toolbarHeader" (toggleSidenav)="onToggleSidenav($event)"></mm-toolbar>
   <mat-sidenav-container>
-    <mat-sidenav #sidenav class="mm-sidenav" [mode]="isMobile ? 'over' : 'side'"
-      [opened]="showSidenav$ | async">
+    <mat-sidenav
+        class="mm-sidenav"
+        [mode]="sidenavMode$ | async"
+        [opened]="showSidenav$ | async">
       <h2>Mirror Match</h2>
       <mat-divider></mat-divider>
       <mat-nav-list class="mm-nav-list">
