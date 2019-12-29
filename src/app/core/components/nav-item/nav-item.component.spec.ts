@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NavItemComponent } from './nav-item.component';
 
 describe('NavItemComponent', () => {
@@ -8,7 +9,13 @@ describe('NavItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavItemComponent ]
+      imports: [
+        MatIconModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        NavItemComponent
+      ]
     })
     .compileComponents();
   }));
