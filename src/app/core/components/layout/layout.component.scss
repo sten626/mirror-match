@@ -7,6 +7,30 @@
   left: 0;
   right: 0;
 
+  .mm-sidenav {
+    h2 {
+      padding: 1rem 1rem 0;
+    }
+
+    mat-nav-list {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+
+      // .mat-list-item-content {
+      //   padding-left: 0.5rem;
+      //   padding-right: 0.5rem;
+      // }
+
+      .mat-list-item-active {
+        border-radius: 5px;
+      }
+
+      .mm-nav-text {
+        padding-left: 1rem;
+      }
+    }
+  }
+
   mat-sidenav-container {
     flex: 1;
   }
