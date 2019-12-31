@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@app/reducers';
+import { PlayerEditDialogComponent } from '@app/setup/components';
 import { Player } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { PlayerEditDialogComponent } from '@app/setup/components';
+import { SetupPageActions } from '@app/setup/actions';
 
 @Component({
   selector: 'mm-setup-page',
@@ -13,6 +14,8 @@ import { PlayerEditDialogComponent } from '@app/setup/components';
 })
 export class SetupPageComponent {
   players$: Observable<Player[]>;
+
+  // private dialogRef: MatDialogRef<PlayerEditDialogComponent>;
 
   constructor(
     private dialog: MatDialog,
@@ -24,9 +27,22 @@ export class SetupPageComponent {
   }
 
   onEditPlayer(player: Player) {
-    this.dialog.open(PlayerEditDialogComponent, {
+    const dialogRef = this.dialog.open(PlayerEditDialogComponent, {
       data: {
         player: player
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store.dispatch(SetupPageActions.updatePlayer({
+          player: {
+            id: player.id,
+            changes: {
+              name: result
+            }
+          }
+        }))
       }
     });
   }

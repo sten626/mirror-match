@@ -32,7 +32,7 @@ const playersReducer = createReducer(
     loaded: true,
     loading: false
   })),
-  on(PlayersApiActions.updatePlayer, (state, {player}) => adapter.updateOne(player, state)),
+  on(PlayersApiActions.updatePlayerSuccess, (state, {player}) => adapter.updateOne(player, state)),
   on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll(state))
 );
 
