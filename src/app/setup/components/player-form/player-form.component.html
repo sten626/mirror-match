@@ -6,7 +6,7 @@
     </mat-form-field>
     <span class="mm-player-form-buttons">
       <button type="reset" mat-button>Clear</button>
-      <button type="submit" mat-flat-button color="primary" [disabled]="playerForm.invalid">Add</button>
+      <button type="submit" mat-flat-button color="primary" [disabled]="isNameEmpty() || playerForm.invalid">Add</button>
     </span>
   </form>
 </mat-card>

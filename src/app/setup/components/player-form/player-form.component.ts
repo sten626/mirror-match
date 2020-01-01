@@ -22,6 +22,18 @@ export class PlayerFormComponent implements OnChanges {
     });
   }
 
+  isNameEmpty(): boolean {
+    let name: string = this.playerForm.get('name').value;
+
+    if (!name) {
+      return true;
+    }
+
+    name = name.trim();
+
+    return name.length === 0;
+  }
+
   getErrorMessage(): string {
     if (this.playerForm.get('name').hasError('playerAlreadyExists')) {
       return 'Player with this name already registed';
