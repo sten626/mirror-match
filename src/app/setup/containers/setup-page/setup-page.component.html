@@ -1,4 +1,7 @@
 <div class="mm-setup-page">
+  <mm-player-form
+      [players]="players$ | async"
+      (addPlayer)="onAddPlayer($event)"></mm-player-form>
   <mm-players-list
       [players]="players$ | async"
       (editPlayer)="onEditPlayer($event)"></mm-players-list>

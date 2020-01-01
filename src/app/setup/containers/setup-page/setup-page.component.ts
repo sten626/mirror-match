@@ -15,8 +15,6 @@ import { SetupPageActions } from '@app/setup/actions';
 export class SetupPageComponent {
   players$: Observable<Player[]>;
 
-  // private dialogRef: MatDialogRef<PlayerEditDialogComponent>;
-
   constructor(
     private dialog: MatDialog,
     private store: Store<fromRoot.State>
@@ -24,6 +22,15 @@ export class SetupPageComponent {
     this.players$ = this.store.pipe(
       select(fromRoot.getAllPlayers)
     );
+  }
+
+  onAddPlayer(name: string) {
+    const player: Player = {
+      id: null,
+      name: name,
+      dropped: false
+    };
+    this.store.dispatch(SetupPageActions.addPlayer({player}));
   }
 
   onEditPlayer(player: Player) {
