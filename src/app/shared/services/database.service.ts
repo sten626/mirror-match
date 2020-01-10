@@ -37,6 +37,7 @@ enum RequestType {
   ADD,
   REMOVE_ONE,
   SELECT_ALL,
+  UPDATE_MANY,
   UPDATE_ONE
 }
 
@@ -62,6 +63,10 @@ export class DatabaseService {
 
   selectAll(storeName: string): Observable<any> {
     return this.makeRequest(storeName, RequestType.SELECT_ALL);
+  }
+
+  updateMany(storeName: string, entities: Update<any>[]): Observable<boolean> {
+    return this.makeRequest(storeName, RequestType.UPDATE_MANY, IDB_READWRITE, entities);
   }
 
   updateOne(storeName: string, entity: Update<any>): Observable<boolean> {
@@ -100,6 +105,10 @@ export class DatabaseService {
             case RequestType.SELECT_ALL: {
               request = store.getAll();
               request.onsuccess = () => observer.next(request.result);
+              break;
+            }
+            case RequestType.UPDATE_MANY: {
+              const updates = value as Update<any>[];
               break;
             }
             case RequestType.UPDATE_ONE: {

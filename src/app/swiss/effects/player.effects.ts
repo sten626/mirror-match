@@ -28,8 +28,8 @@ export class PlayerEffects implements OnInitEffects {
     ofType(PlayersPageActions.deletePlayer),
     mergeMap(({playerId}) =>
       this.databaseService.removeOne('players', playerId).pipe(
-        map(() => PlayersApiActions.deletePlayerSuccess({playerId}))
-        // TODO: Handle error
+        map(() => PlayersApiActions.deletePlayerSuccess({playerId})),
+        catchError(() => of(PlayersApiActions.deletePlayerFailure({playerId})))
       )
     )
   ));
