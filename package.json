@@ -1,6 +1,6 @@
 {
   "name": "mirror-match",
-  "version": "1.0.0-develop",
+  "version": "1.0.1",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
