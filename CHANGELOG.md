@@ -83,7 +83,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Standings page that lists all players in order based on tiebreakers.
   - Match points > OMW% > GW% > OGW%.
 
-[Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.0...develop
+[Unreleased]: https://github.com/sten626/mirror-match/compare/v1.0.1...develop
+[v1.0.1]: https://github.com/sten626/mirror-match/compare/v1.0.0...v1.0.1
 [v1.0.0]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.6...v1.0.0
 [v1.0.0-beta.6]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.5...v1.0.0-beta.6
 [v1.0.0-beta.5]: https://github.com/sten626/mirror-match/compare/v1.0.0-beta.4...v1.0.0-beta.5
