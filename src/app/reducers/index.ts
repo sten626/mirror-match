@@ -7,7 +7,7 @@ import { Action, ActionReducerMap, createFeatureSelector, createSelector } from 
 
 export interface State {
   [fromMessages.messagesFeatureKey]: fromMessages.State;
-  [fromPlayers.FEATURE_KEY]: fromPlayers.State;
+  [fromPlayers.playersFeatureKey]: fromPlayers.State;
   router: fromRouter.RouterReducerState<any>;
 }
 
@@ -16,7 +16,7 @@ export const rootReducers = new InjectionToken<
 >('Root reducers token', {
   factory: () => ({
     [fromMessages.messagesFeatureKey]: fromMessages.reducer,
-    [fromPlayers.FEATURE_KEY]: fromPlayers.reducer,
+    [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
     router: fromRouter.routerReducer
   })
 });
@@ -38,7 +38,7 @@ export const getMessages = createSelector(
  * Players Reducers
  */
 
- export const selectPlayersState = createFeatureSelector<State, fromPlayers.State>(fromPlayers.FEATURE_KEY);
+ export const selectPlayersState = createFeatureSelector<State, fromPlayers.State>(fromPlayers.playersFeatureKey);
 
  export const {
   selectIds: getPlayerIds,

@@ -1,0 +1,25 @@
+<div class="mm-layout mat-typography">
+  <mm-toolbar class="mat-elevation-z5" [header]="toolbarHeader" (toggleSidenav)="sidenav.toggle()"></mm-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav
+        #sidenav
+        class="mm-sidenav"
+        [mode]="sidenavMode$ | async"
+        [opened]="showSidenav$ | async">
+      <mat-nav-list class="mm-nav-list">
+        <mm-nav-item icon="build" routerLink="/setup">
+          Setup
+        </mm-nav-item>
+        <mm-nav-item icon="group_work" routerLink="/pods">
+          Pods
+        </mm-nav-item>
+        <mm-nav-item icon="group" routerLink="/pairings">
+          Pairings
+        </mm-nav-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

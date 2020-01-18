@@ -1,19 +1,8 @@
-<nav mat-tab-nav-bar backgroundColor="primary">
-  <a mat-tab-link
-      routerLink="/setup/players"
-      routerLinkActive #rlaPlayer="routerLinkActive"
-      [active]="rlaPlayer.isActive">
-    Players
-  </a>
-  <a mat-tab-link
-      routerLink="/setup/settings"
-      routerLinkActive #rlaSettings="routerLinkActive"
-      [active]="rlaSettings.isActive">
-    Settings
-  </a>
-</nav>
-<div class="container-fluid d-flex flex-column flex-sm-row">
-  <div class="p-3">
-    <router-outlet></router-outlet>
-  </div>
+<div class="mm-setup-page">
+  <mm-player-form
+      [players]="players$ | async"
+      (addPlayer)="onAddPlayer($event)"></mm-player-form>
+  <mm-players-list
+      [players]="players$ | async"
+      (editPlayer)="onEditPlayer($event)"></mm-players-list>
 </div>

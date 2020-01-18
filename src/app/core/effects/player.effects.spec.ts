@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayersApiActions } from '@app/core/actions';
 import { PlayerStorageService } from '@app/core/services';
+import { SetupPageActions } from '@app/setup/actions';
 import { generateMockPlayer, Player } from '@app/shared/models';
-import { PlayersPageActions } from '@app/swiss/actions'; // TODO Fix
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -43,7 +43,7 @@ describe('PlayerEffects', () => {
 
   describe('addPlayer', () => {
     it('should create an addPlayerSuccess', () => {
-      const action = PlayersPageActions.addPlayer({ player: player1NoId });
+      const action = SetupPageActions.addPlayer({ player: player1NoId });
       const completion = PlayersApiActions.addPlayerSuccess({ player: player1 });
 
       actions$ = hot('-a', { a: action });
@@ -56,7 +56,7 @@ describe('PlayerEffects', () => {
     });
 
     it('should create an addPlayerFailure when addPlayer throws an error', () => {
-      const action = PlayersPageActions.addPlayer({ player: player1NoId });
+      const action = SetupPageActions.addPlayer({ player: player1NoId });
       const error = 'Cannot add nonexistent player.';
       const completion = PlayersApiActions.addPlayerFailure({ player: player1NoId });
 

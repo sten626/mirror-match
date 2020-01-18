@@ -2,9 +2,9 @@ import { PlayersApiActions } from '@app/core/actions';
 import { Player } from '@app/shared/models';
 import { SwissApiActions } from '@app/swiss/actions'; // TODO Fix
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 
-export const FEATURE_KEY = 'players';
+export const playersFeatureKey = 'players';
 
 export interface State extends EntityState<Player> {
   loaded: boolean;
@@ -18,7 +18,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false
 });
 
-export const reducer = createReducer(
+const playersReducer = createReducer(
   initialState,
   on(PlayersApiActions.addPlayerSuccess, (state, {player}) => adapter.addOne(player, state)),
   on(PlayersApiActions.deletePlayerSuccess, (state, {playerId}) => adapter.removeOne(playerId, state)),
@@ -32,6 +32,10 @@ export const reducer = createReducer(
     loaded: true,
     loading: false
   })),
-  on(PlayersApiActions.updatePlayer, (state, {player}) => adapter.updateOne(player, state)),
+  on(PlayersApiActions.updatePlayerSuccess, (state, {player}) => adapter.updateOne(player, state)),
   on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll(state))
 );
+
+export function reducer(state: State | undefined, action: Action) {
+  return playersReducer(state, action);
+}

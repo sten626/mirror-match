@@ -1,6 +1,6 @@
 import { MessageActions } from '@app/core/actions';
 import { Message } from '@app/shared/models';
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 
 export const messagesFeatureKey = 'messages';
 
@@ -12,7 +12,7 @@ export const initialState: State = {
   messages: []
 };
 
-export const reducer = createReducer(
+const messagesReducer = createReducer(
   initialState,
   on(MessageActions.addMessage, (state, {message}) => ({
     ...state,
@@ -23,5 +23,9 @@ export const reducer = createReducer(
     messages: state.messages.filter(m => m !== message)
   }))
 );
+
+export function reducer(state: State | undefined, action: Action) {
+  return messagesReducer(state, action);
+}
 
 export const getMessages = (state: State) => state.messages;

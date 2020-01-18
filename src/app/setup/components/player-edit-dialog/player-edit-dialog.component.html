@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Edit player</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Name" [formControl]="name" required>
+    <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">CANCEL</button>
+  <button mat-button [mat-dialog-close]="name.value" color="primary" [disabled]="name.invalid">SAVE</button>
+</mat-dialog-actions>

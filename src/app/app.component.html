@@ -1,10 +1,11 @@
-<div class="mm-app-container">
+<mm-layout></mm-layout>
+<!-- <div class="mm-app-container">
   <mat-sidenav-container>
     <mat-sidenav
         #sidenav
         class="mm-sidenav mat-typography"
         [mode]="mediaQueryList.matches ? 'side' : 'over'"
-        [opened]="mediaQueryList.matches">
+        [opened]="showSidenav$ | async">
       <h2>Mirror Match</h2>
       <mat-divider></mat-divider>
       <mat-nav-list>
@@ -41,4 +42,4 @@
       <mm-layout-footer></mm-layout-footer>
     </mat-sidenav-content>
   </mat-sidenav-container>
-</div>
+</div> -->

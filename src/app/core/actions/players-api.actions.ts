@@ -31,7 +31,7 @@ export const loadPlayersSuccess = createAction(
   props<{players: Player[]}>()
 );
 
-export const updatePlayer = createAction(
-  '[Players/API] Update Player',
+export const updatePlayerSuccess = createAction(
+  '[Players/API] Update Player Success',
   props<{player: Update<Player>}>()
 );

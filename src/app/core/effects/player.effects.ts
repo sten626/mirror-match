@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@app/core/actions';
 import { PlayerStorageService } from '@app/core/services';
-import { PlayersPageActions } from '@app/setup/actions';
+import { SetupPageActions } from '@app/setup/actions';
 import { Player } from '@app/shared/models';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() => this.actions$.pipe(
-    ofType(PlayersPageActions.addPlayer),
+    ofType(SetupPageActions.addPlayer),
     mergeMap(({player}) =>
       this.storageService.addPlayer(player).pipe(
         map((value: Player) => PlayersApiActions.addPlayerSuccess({ player: value })),
@@ -74,10 +74,10 @@ export class PlayerEffects implements OnInitEffects {
   // ));
 
   updatePlayer$ = createEffect(() => this.actions$.pipe(
-    ofType(PlayersPageActions.updatePlayer),
+    ofType(SetupPageActions.updatePlayer),
     mergeMap(({player}) =>
       this.storageService.updatePlayer(player).pipe(
-        map(() => PlayersApiActions.updatePlayer({player}))
+        map(() => PlayersApiActions.updatePlayerSuccess({player}))
       )
     )
   ));

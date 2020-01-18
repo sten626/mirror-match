@@ -1,16 +1,46 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Player } from '@app/shared/models';
+import { newPlayerValidator } from '@app/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-form',
-  templateUrl: './player-form.component.html'
+  templateUrl: './player-form.component.html',
+  styleUrls: ['./player-form.component.scss']
 })
-export class PlayerFormComponent {
+export class PlayerFormComponent implements OnChanges {
+  @Input() players: Player[];
   @Output() addPlayer = new EventEmitter<string>();
 
-  playerForm = new FormGroup({
-    name: new FormControl('')
-  });
+  playerForm: FormGroup;
+
+  constructor() {
+    this.playerForm = new FormGroup({
+      name: new FormControl('')
+    });
+  }
+
+  ngOnChanges() {
+    this.playerForm.setControl('name', new FormControl('', [newPlayerValidator(this.players)]))
+  }
+
+  isNameEmpty(): boolean {
+    let name: string = this.playerForm.get('name').value;
+
+    if (!name) {
+      return true;
+    }
+
+    name = name.trim();
+
+    return name.length === 0;
+  }
+
+  getErrorMessage(): string {
+    if (this.playerForm.get('name').hasError('playerAlreadyExists')) {
+      return 'Player with this name already registed';
+    }
+  }
 
   onSubmit() {
     this.addPlayer.emit(this.playerForm.value['name']);

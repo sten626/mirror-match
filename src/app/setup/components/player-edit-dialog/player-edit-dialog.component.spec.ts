@@ -1,37 +1,43 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Player } from '@app/shared/models';
-import { SharedModule } from '@app/shared/shared.module';
-import { PlayerFormComponent } from './player-form.component';
+import { PlayerEditDialogComponent } from './player-edit-dialog.component';
 
-describe('PlayerFormComponent', () => {
-  let component: PlayerFormComponent;
-  let fixture: ComponentFixture<PlayerFormComponent>;
-  const players: Player[] = [];
+describe('PlayerEditDialogComponent', () => {
+  let component: PlayerEditDialogComponent;
+  let fixture: ComponentFixture<PlayerEditDialogComponent>;
+  const player: Player = {
+    id: 1,
+    name: 'Sten',
+    dropped: false
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatCardModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
-        SharedModule
+        ReactiveFormsModule
+      ],
+      providers: [
+        {provide: MAT_DIALOG_DATA, useValue: {player}}
       ],
       declarations: [
-        PlayerFormComponent
+        PlayerEditDialogComponent
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlayerFormComponent);
+    fixture = TestBed.createComponent(PlayerEditDialogComponent);
     component = fixture.componentInstance;
-    component.players = players;
     fixture.detectChanges();
   });
 
