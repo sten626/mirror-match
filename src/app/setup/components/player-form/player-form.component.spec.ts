@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Player } from '@app/shared/models';
 import { SharedModule } from '@app/shared/shared.module';
 import { PlayerFormComponent } from './player-form.component';
-import { Player } from '@app/shared/models';
 
-fdescribe('PlayerFormComponent', () => {
+describe('PlayerFormComponent', () => {
   let component: PlayerFormComponent;
   let fixture: ComponentFixture<PlayerFormComponent>;
   const players: Player[] = [];
@@ -15,6 +17,8 @@ fdescribe('PlayerFormComponent', () => {
       imports: [
         MatCardModule,
         MatFormFieldModule,
+        MatInputModule,
+        NoopAnimationsModule,
         SharedModule
       ],
       declarations: [

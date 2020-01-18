@@ -14,12 +14,14 @@ export class PlayerFormComponent implements OnChanges {
 
   playerForm: FormGroup;
 
-  constructor() {}
+  constructor() {
+    this.playerForm = new FormGroup({
+      name: new FormControl('')
+    });
+  }
 
   ngOnChanges() {
-    this.playerForm = new FormGroup({
-      name: new FormControl('', [newPlayerValidator(this.players)])
-    });
+    this.playerForm.setControl('name', new FormControl('', [newPlayerValidator(this.players)]))
   }
 
   isNameEmpty(): boolean {
