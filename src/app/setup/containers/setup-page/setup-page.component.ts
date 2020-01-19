@@ -33,10 +33,12 @@ export class SetupPageComponent {
     this.store.dispatch(SetupPageActions.addPlayer({player}));
   }
 
-  onEditPlayer(player: Player) {
+  onEditPlayer(event: {player: Player, otherPlayers: Player[]}) {
+    const {player, otherPlayers} = event;
     const dialogRef = this.dialog.open(PlayerEditDialogComponent, {
       data: {
-        player: player
+        player: player,
+        otherPlayers: otherPlayers
       }
     });
 
