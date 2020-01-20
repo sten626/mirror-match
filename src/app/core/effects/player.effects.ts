@@ -19,6 +19,15 @@ export class PlayerEffects implements OnInitEffects {
     )
   ));
 
+  deletePlayer$ = createEffect(() => this.actions$.pipe(
+    ofType(SetupPageActions.deletePlayer),
+    mergeMap(({id}) =>
+      this.storageService.deletePlayer(id).pipe(
+        map(id => PlayersApiActions.deletePlayerSuccess({id}))
+      )
+    )
+  ));
+
   // deletePlayers$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.deletePlayer),
   //   mergeMap(({playerId}) =>

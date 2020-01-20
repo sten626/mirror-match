@@ -32,6 +32,18 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
+  deletePlayer(id: number): Observable<number> {
+    if (!id) {
+      return throwError('Bad ID passed to deletePlayer.');
+    }
+
+    return this.getPlayers().pipe(
+      map(players => players.filter(p => p.id !== id)),
+      tap(players => this.storage.setItem(this.playersKey, JSON.stringify(players))),
+      map(() => id)
+    );
+  }
+
   deletePlayers(): Observable<boolean> {
     return this.supported().pipe(
       tap(() => this.storage.removeItem(this.playersKey))

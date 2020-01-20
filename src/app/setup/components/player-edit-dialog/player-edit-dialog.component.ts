@@ -10,14 +10,17 @@ import { newPlayerValidator } from '@app/shared/new-player.validator';
 })
 export class PlayerEditDialogComponent implements OnInit {
   name: FormControl;
+  dropped: FormControl;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
     const otherPlayers = data.otherPlayers;
     this.name = new FormControl('', [Validators.required, newPlayerValidator(otherPlayers)]);
+    this.dropped = new FormControl(false);
   }
 
   ngOnInit() {
     this.name.setValue(this.data.player.name);
+    this.dropped.setValue(this.data.player.dropped);
   }
 
   getErrorMessage(): string {

@@ -14,7 +14,7 @@ export const addPlayerSuccess = createAction(
 
 export const deletePlayerSuccess = createAction(
   '[Players/API] Delete Player Success',
-  props<{playerId: number}>()
+  props<{id: number}>()
 );
 
 export const dropPlayersSuccess = createAction(

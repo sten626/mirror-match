@@ -44,14 +44,21 @@ export class SetupPageComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.store.dispatch(SetupPageActions.updatePlayer({
-          player: {
-            id: player.id,
-            changes: {
-              name: result
+        const {name, dropped} = result;
+
+        if (dropped) {
+          // TODO Check if tournament has started or not.
+          this.store.dispatch(SetupPageActions.deletePlayer({
+            id: player.id
+          }));
+        } else {
+          this.store.dispatch(SetupPageActions.updatePlayer({
+            player: {
+              id: player.id,
+              changes: {name}
             }
-          }
-        }))
+          }))
+        }
       }
     });
   }

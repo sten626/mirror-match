@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Player } from '@app/shared/models';
 import { PlayerEditDialogComponent } from './player-edit-dialog.component';
@@ -22,11 +23,17 @@ describe('PlayerEditDialogComponent', () => {
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
+        MatSlideToggleModule,
         NoopAnimationsModule,
         ReactiveFormsModule
       ],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: {player}}
+        {
+          provide: MAT_DIALOG_DATA, useValue: {
+            player: player,
+            otherPlayers: []
+          }
+        }
       ],
       declarations: [
         PlayerEditDialogComponent
