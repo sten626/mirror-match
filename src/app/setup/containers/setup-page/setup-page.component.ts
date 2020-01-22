@@ -6,6 +6,7 @@ import { Player } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SetupPageActions } from '@app/setup/actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-setup-page',
@@ -20,7 +21,8 @@ export class SetupPageComponent {
     private store: Store<fromRoot.State>
   ) {
     this.players$ = this.store.pipe(
-      select(fromRoot.getAllPlayers)
+      select(fromRoot.getAllPlayers),
+      map(players => players.slice().reverse())
     );
   }
 
