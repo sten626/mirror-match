@@ -59,7 +59,7 @@ export class SetupPageComponent {
               id: player.id,
               changes: {name}
             }
-          }))
+          }));
         }
       }
     });

@@ -2,6 +2,9 @@
   <mm-player-form
       [players]="players$ | async"
       (addPlayer)="onAddPlayer($event)"></mm-player-form>
+  <section class="mm-start-section">
+    <button mat-raised-button color="primary">Start</button>
+  </section>
   <mm-players-list
       [players]="players$ | async"
       (editPlayer)="onEditPlayer($event)"></mm-players-list>
