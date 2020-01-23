@@ -1,5 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TournamentStartDialogComponent } from './tournament-start-dialog.component';
 
 describe('TournamentStartDialogComponent', () => {
@@ -8,7 +12,22 @@ describe('TournamentStartDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TournamentStartDialogComponent ]
+      imports: [
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NoopAnimationsModule,
+        ReactiveFormsModule
+      ],
+      declarations: [
+        TournamentStartDialogComponent
+      ],
+      providers: [{
+        provide: MAT_DIALOG_DATA,
+        useValue: {
+          recommendedTotalRounds: 3
+        }
+      }]
     })
     .compileComponents();
   }));
