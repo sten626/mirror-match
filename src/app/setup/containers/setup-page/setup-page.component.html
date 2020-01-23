@@ -3,7 +3,10 @@
       [players]="players$ | async"
       (addPlayer)="onAddPlayer($event)"></mm-player-form>
   <section class="mm-start-section" *ngIf="canBeginTournament$ | async">
-    <button mat-raised-button color="primary">Start</button>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="onStartClicked()">Start</button>
   </section>
   <mm-players-list
       [players]="players$ | async"

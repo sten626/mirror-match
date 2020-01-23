@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@app/reducers';
-import { PlayerEditDialogComponent } from '@app/setup/components';
+import { SetupPageActions } from '@app/setup/actions';
+import { PlayerEditDialogComponent, TournamentStartDialogComponent } from '@app/setup/components';
 import { Player } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { SetupPageActions } from '@app/setup/actions';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -13,9 +13,11 @@ import { map } from 'rxjs/operators';
   templateUrl: './setup-page.component.html',
   styleUrls: ['./setup-page.component.scss']
 })
-export class SetupPageComponent {
+export class SetupPageComponent implements OnInit, OnDestroy {
   canBeginTournament$: Observable<boolean>;
   players$: Observable<Player[]>;
+  recommendedTotalRounds: number;
+  recommendedTotalRoundsSub: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -29,6 +31,16 @@ export class SetupPageComponent {
       select(fromRoot.getAllPlayers),
       map(players => players.slice().reverse())
     );
+  }
+
+  ngOnInit() {
+    this.recommendedTotalRoundsSub = this.store.pipe(
+      select(fromRoot.getRecommendedTotalRounds)
+    ).subscribe(value => this.recommendedTotalRounds = value);
+  }
+
+  ngOnDestroy() {
+    this.recommendedTotalRoundsSub.unsubscribe();
   }
 
   onAddPlayer(name: string) {
@@ -66,6 +78,14 @@ export class SetupPageComponent {
             }
           }));
         }
+      }
+    });
+  }
+
+  onStartClicked() {
+    this.dialog.open(TournamentStartDialogComponent, {
+      data: {
+        recommendedTotalRounds: this.recommendedTotalRounds
       }
     });
   }

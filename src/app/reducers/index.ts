@@ -66,7 +66,7 @@ export const getDroppedPlayers = createSelector(
   (players) => players.filter((player) => player.dropped)
 );
 
-export const getRecommendedNumberOfRounds = createSelector(
+export const getRecommendedTotalRounds = createSelector(
   getTotalPlayers,
   (totalPlayers: number) => Math.max(3, Math.ceil(Math.log2(totalPlayers)))
 );

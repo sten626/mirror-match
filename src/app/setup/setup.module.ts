@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { PlayerEditDialogComponent, PlayerFormComponent, PlayersListComponent, PlayersListItemComponent } from '@app/setup/components';
+import { PlayerEditDialogComponent, PlayerFormComponent, PlayersListComponent, PlayersListItemComponent, TournamentStartDialogComponent } from '@app/setup/components';
 import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
 import { SetupRoutingModule } from '@app/setup/setup-routing.module';
 
@@ -17,7 +17,8 @@ const COMPONENTS = [
   PlayerEditDialogComponent,
   PlayerFormComponent,
   PlayersListComponent,
-  PlayersListItemComponent
+  PlayersListItemComponent,
+  TournamentStartDialogComponent
 ];
 
 const CONTAINERS = [
@@ -44,7 +45,8 @@ const CONTAINERS = [
     CONTAINERS
   ],
   entryComponents: [
-    PlayerEditDialogComponent
+    PlayerEditDialogComponent,
+    TournamentStartDialogComponent
   ]
 })
 export class SetupModule {}

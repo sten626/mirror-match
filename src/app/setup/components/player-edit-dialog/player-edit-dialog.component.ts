@@ -27,7 +27,7 @@ export class PlayerEditDialogComponent implements OnInit {
     if (this.name.hasError('required')) {
       return 'You must enter a name';
     } else if (this.name.hasError('playerAlreadyExists')) {
-      return 'Player already exists'
+      return 'Player already exists';
     }
 
     return '';
