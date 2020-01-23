@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import * as fromMessages from '@app/core/reducers/messages.reducer';
 import * as fromPlayers from '@app/core/reducers/players.reducer';
-import { Player } from '@app/shared/models';
 import * as fromRouter from '@ngrx/router-store';
 import { Action, ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
@@ -49,7 +48,7 @@ export const getMessages = createSelector(
 
 export const canBeginTournament = createSelector(
   getTotalPlayers,
-  (totalPlayers: number) => totalPlayers >= 4
+  totalPlayers => totalPlayers >= 4
 );
 
 export const getActivePlayers = createSelector(
@@ -74,9 +73,7 @@ export const getRecommendedNumberOfRounds = createSelector(
 
 export const getTotalActivePlayers = createSelector(
   getActivePlayers,
-  (activePlayers: Player[]) => {
-    return activePlayers.length;
-  }
+  activePlayers => activePlayers.length
 );
 
 export const getTotalDroppedPlayers = createSelector(

@@ -14,12 +14,17 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
+  canBeginTournament$: Observable<boolean>;
   players$: Observable<Player[]>;
 
   constructor(
     private dialog: MatDialog,
     private store: Store<fromRoot.State>
   ) {
+    this.canBeginTournament$ = this.store.pipe(
+      select(fromRoot.canBeginTournament)
+    );
+
     this.players$ = this.store.pipe(
       select(fromRoot.getAllPlayers),
       map(players => players.slice().reverse())
