@@ -5,4 +5,18 @@
       <input matInput type="number" placeholder="Number of rounds" [formControl]="totalRounds" required>
     </mat-form-field>
   </section>
+  <section>
+    <h5 class="mat-h5">Games per match</h5>
+    <mat-radio-group class="mm-radio-group" name="bestOf" [formControl]="bestOf">
+      <mat-radio-button class="mm-radio-button" value="1">Best of 1</mat-radio-button>
+      <mat-radio-button class="mm-radio-button" value="3" checked>Best of 3</mat-radio-button>
+    </mat-radio-group>
+  </section>
+  <section>
+    <mat-slide-toggle [formControl]="createDraftPods">Create draft pods</mat-slide-toggle>
+  </section>
 </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">Cancel</button>
+  <button mat-button mat-dialog-close color="primary">Start</button>
+</mat-dialog-actions>
