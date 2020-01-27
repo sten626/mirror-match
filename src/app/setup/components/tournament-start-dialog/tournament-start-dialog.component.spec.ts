@@ -3,6 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TournamentStartDialogComponent } from './tournament-start-dialog.component';
 
@@ -16,6 +18,8 @@ describe('TournamentStartDialogComponent', () => {
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
+        MatRadioModule,
+        MatSlideToggleModule,
         NoopAnimationsModule,
         ReactiveFormsModule
       ],
