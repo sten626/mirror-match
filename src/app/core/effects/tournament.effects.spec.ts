@@ -3,6 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
 import { TournamentEffects } from './tournament.effects';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TournamentEffects', () => {
   let actions$: Observable<any>;
@@ -10,6 +11,9 @@ describe('TournamentEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
       providers: [
         TournamentEffects,
         provideMockActions(() => actions$)
