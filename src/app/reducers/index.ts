@@ -101,12 +101,11 @@ export const getTotalDroppedPlayers = createSelector(
 
 export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
 
-export const {
-  selectCurrentRoute,
-  selectQueryParam,
-  selectQueryParams,
-  selectRouteData,
-  selectRouteParam,
-  selectRouteParams,
+const {
   selectUrl
 } = fromRouter.getSelectors(selectRouter);
+
+export const getUrl = createSelector(
+  selectUrl,
+  url => url
+);
