@@ -5,8 +5,7 @@ import { newPlayerValidator } from '@app/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-form',
-  templateUrl: './player-form.component.html',
-  styleUrls: ['./player-form.component.scss']
+  templateUrl: './player-form.component.html'
 })
 export class PlayerFormComponent implements OnChanges {
   @Input() players: Player[];
@@ -21,7 +20,7 @@ export class PlayerFormComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.playerForm.setControl('name', new FormControl('', [newPlayerValidator(this.players)]))
+    this.playerForm.setControl('name', new FormControl('', [newPlayerValidator(this.players)]));
   }
 
   isNameEmpty(): boolean {
@@ -38,7 +37,7 @@ export class PlayerFormComponent implements OnChanges {
 
   getErrorMessage(): string {
     if (this.playerForm.get('name').hasError('playerAlreadyExists')) {
-      return 'Player with this name already registed';
+      return 'Player with this name already registered';
     }
   }
 

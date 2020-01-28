@@ -1,14 +1,19 @@
-<div class="mm-setup-page">
+<div class="d-flex col h-100">
   <mm-player-form
+      class="m-3"
       [players]="players$ | async"
       (addPlayer)="onAddPlayer($event)"></mm-player-form>
-  <section class="mm-start-section" *ngIf="canBeginTournament$ | async">
+  <mm-players-list
+      class="fill mb-3 mx-3 players-list"
+      [players]="players$ | async"
+      (editPlayer)="onEditPlayer($event)"></mm-players-list>
+  <section
+      class="d-flex justify-center mb-3"
+      *ngIf="canBeginTournament$ | async">
     <button
+        class="text-uppercase"
         mat-raised-button
         color="primary"
         (click)="onStartClicked()">Start</button>
   </section>
-  <mm-players-list
-      [players]="players$ | async"
-      (editPlayer)="onEditPlayer($event)"></mm-players-list>
 </div>

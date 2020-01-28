@@ -1,12 +1,14 @@
 import { InjectionToken } from '@angular/core';
 import * as fromMessages from '@app/core/reducers/messages.reducer';
 import * as fromPlayers from '@app/core/reducers/players.reducer';
+import * as fromTournament from '@app/core/reducers/tournament.reducer';
 import * as fromRouter from '@ngrx/router-store';
 import { Action, ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
   [fromMessages.messagesFeatureKey]: fromMessages.State;
   [fromPlayers.playersFeatureKey]: fromPlayers.State;
+  [fromTournament.tournamentFeatureKey]: fromTournament.State;
   router: fromRouter.RouterReducerState<any>;
 }
 
@@ -16,6 +18,7 @@ export const rootReducers = new InjectionToken<
   factory: () => ({
     [fromMessages.messagesFeatureKey]: fromMessages.reducer,
     [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
+    [fromTournament.tournamentFeatureKey]: fromTournament.reducer,
     router: fromRouter.routerReducer
   })
 });
@@ -80,6 +83,17 @@ export const getTotalDroppedPlayers = createSelector(
   getDroppedPlayers,
   (players) => players.length
 );
+
+/**
+ * Tournament Reducers
+ */
+
+ export const selectTournamentState = createFeatureSelector<State, fromTournament.State>(fromTournament.tournamentFeatureKey);
+
+ export const getBestOf = createSelector(
+   selectTournamentState,
+   state => state.bestOf
+ );
 
 /**
  * Router Reducers

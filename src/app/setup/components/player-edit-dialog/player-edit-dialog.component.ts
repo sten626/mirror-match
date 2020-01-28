@@ -5,8 +5,7 @@ import { newPlayerValidator } from '@app/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-edit-dialog',
-  templateUrl: './player-edit-dialog.component.html',
-  styleUrls: ['./player-edit-dialog.component.scss']
+  templateUrl: './player-edit-dialog.component.html'
 })
 export class PlayerEditDialogComponent implements OnInit {
   name: FormControl;

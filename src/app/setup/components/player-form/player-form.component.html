@@ -1,12 +1,12 @@
 <mat-card>
   <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+    <mat-form-field class="w-100">
       <input matInput type="text" placeholder="New player" formControlName="name">
       <mat-error *ngIf="playerForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
-    <span class="mm-player-form-buttons">
-      <button type="reset" mat-button>Clear</button>
-      <button type="submit" mat-flat-button color="primary" [disabled]="isNameEmpty() || playerForm.invalid">Add</button>
+    <span class="d-flex justify-end">
+      <button type="reset" class="ml-2 text-uppercase" mat-button>Clear</button>
+      <button type="submit" class="ml-2 text-uppercase" mat-flat-button color="primary" [disabled]="isNameEmpty() || playerForm.invalid">Add</button>
     </span>
   </form>
 </mat-card>

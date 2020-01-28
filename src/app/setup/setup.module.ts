@@ -10,20 +10,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { PlayerEditDialogComponent, PlayerFormComponent, PlayersListComponent, PlayersListItemComponent, TournamentStartDialogComponent } from '@app/setup/components';
-import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
+import {
+  PlayerEditDialogComponent,
+  PlayerFormComponent,
+  PlayersListComponent,
+  TournamentStartDialogComponent
+} from '@app/setup/components';
+import { SetupPageComponent } from '@app/setup/containers';
 import { SetupRoutingModule } from '@app/setup/setup-routing.module';
 
 const COMPONENTS = [
   PlayerEditDialogComponent,
   PlayerFormComponent,
   PlayersListComponent,
-  PlayersListItemComponent,
   TournamentStartDialogComponent
 ];
 
 const CONTAINERS = [
-  PlayersPageComponent,
   SetupPageComponent
 ];
 

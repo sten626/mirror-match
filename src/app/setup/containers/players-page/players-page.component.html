@@ -1,8 +1,0 @@
-<div class="mb-3">
-  <mm-player-form (addPlayer)="onAddPlayer($event)"></mm-player-form>
-</div>
-<div class="mb-3">
-  <mm-players-list
-      [players]="players$ | async"
-      (playerNameChange)="onPlayerNameChange($event)"></mm-players-list>
-</div>

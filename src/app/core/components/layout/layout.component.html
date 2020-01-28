@@ -1,12 +1,12 @@
-<div class="mm-layout mat-typography">
-  <mm-toolbar class="mat-elevation-z5" [header]="toolbarHeader" (toggleSidenav)="sidenav.toggle()"></mm-toolbar>
-  <mat-sidenav-container>
+<div class="d-flex col fullscreen mat-typography">
+  <mm-toolbar class="mat-elevation-z5 toolbar" [header]="toolbarHeader" (toggleSidenav)="sidenav.toggle()"></mm-toolbar>
+  <mat-sidenav-container class="fill">
     <mat-sidenav
         #sidenav
         class="mm-sidenav"
         [mode]="sidenavMode$ | async"
         [opened]="showSidenav$ | async">
-      <mat-nav-list class="mm-nav-list">
+      <mat-nav-list class="px-2">
         <mm-nav-item icon="build" routerLink="/setup">
           Setup
         </mm-nav-item>

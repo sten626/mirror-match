@@ -83,9 +83,18 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   }
 
   onStartClicked() {
-    this.dialog.open(TournamentStartDialogComponent, {
+    const dialogRef = this.dialog.open(TournamentStartDialogComponent, {
       data: {
         recommendedTotalRounds: this.recommendedTotalRounds
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const bestOf = parseInt(result.bestOf);
+        const isDraft: boolean = result.isDraft;
+        const totalRounds: number = result.totalRounds;
+        this.store.dispatch(SetupPageActions.startTournament({bestOf, isDraft, totalRounds}));
       }
     });
   }

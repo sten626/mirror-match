@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { CoreModule } from '@app/core/core.module';
-import { PlayerEffects } from '@app/core/effects';
+import { PlayerEffects, TournamentEffects } from '@app/core/effects';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,7 +26,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     CommonModule,
     CoreModule,
-    EffectsModule.forRoot([PlayerEffects]),
+    EffectsModule.forRoot([PlayerEffects, TournamentEffects]),
     FlexLayoutModule,
     FormsModule,
     SharedModule,

@@ -52,14 +52,22 @@ export class StorageService {
     );
   }
 
+  protected setBoolean(key: string, value: boolean): Observable<boolean> {
+    return this.setValue(key, value) as Observable<boolean>;
+  }
+
   protected setNumber(key: string, value: number): Observable<number> {
-    return this.supported().pipe(
-      tap(() => this.storage.setItem(key, JSON.stringify(value))),
-      map(() => value)
-    );
+    return this.setValue(key, value) as Observable<number>;
   }
 
   protected supported(): Observable<boolean> {
     return this.storage !== null ? of(true) : throwError('Local Storage not supported.');
+  }
+
+  private setValue(key: string, value: boolean | number): Observable<boolean | number> {
+    return this.supported().pipe(
+      tap(() => this.storage.setItem(key, JSON.stringify(value))),
+      map(() => value)
+    );
   }
 }
