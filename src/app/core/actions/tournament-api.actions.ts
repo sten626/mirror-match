@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 
-export const updateBestOfFailure = createAction(
-  '[Tournament/API] Update Best of Failure',
+export const startTournamentFailure = createAction(
+  '[Tournament/API] Start Tournament Failure',
   props<{err: any}>()
 );
 
-export const updateBestOfSuccess = createAction(
-  '[Tournament/API] Update Best of Success',
-  props<{bestOf: number}>()
+export const startTournamentSuccess = createAction(
+  '[Tournament/API] Start Tournament Success',
+  props<{bestOf: number, isDraft: boolean, totalRounds: number}>()
 );

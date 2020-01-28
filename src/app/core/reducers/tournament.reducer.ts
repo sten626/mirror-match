@@ -1,4 +1,5 @@
-import { Action, createReducer } from '@ngrx/store';
+import { TournamentApiActions } from '@app/core/actions';
+import { Action, createReducer, on } from '@ngrx/store';
 
 export const tournamentFeatureKey = 'tournament';
 
@@ -15,7 +16,13 @@ export const initialState: State = {
 };
 
 const tournamentReducer = createReducer(
-  initialState
+  initialState,
+  on(TournamentApiActions.startTournamentSuccess, (state, {bestOf, isDraft, totalRounds}) => ({
+    ...state,
+    bestOf,
+    isDraft,
+    totalRounds
+  }))
 );
 
 export function reducer(state: State | undefined, action: Action) {
