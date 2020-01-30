@@ -8,6 +8,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { PlayerEffects } from './player.effects';
+import { Update } from '@ngrx/entity';
 
 describe('PlayerEffects', () => {
   const player1 = generateMockPlayer();
@@ -20,7 +21,9 @@ describe('PlayerEffects', () => {
   const storageSpy = jasmine.createSpyObj(
     'PlayerStorageService', [
       'addPlayer',
-      'getPlayers'
+      'deletePlayer',
+      'getPlayers',
+      'updatePlayer'
     ]
   );
 
@@ -66,6 +69,110 @@ describe('PlayerEffects', () => {
       storageSpy.addPlayer.and.returnValue(response);
 
       expect(effects.addPlayer$).toBeObservable(expected);
+    });
+  });
+
+  describe('deletePlayer', () => {
+    it('should create a deletePlayerSuccess', () => {
+      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const completion = PlayersApiActions.deletePlayerSuccess({ id: player1.id });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', { a: player1.id });
+      const expected = cold('--c', { c: completion });
+      storageSpy.deletePlayer.and.returnValue(response);
+
+      expect(effects.deletePlayer$).toBeObservable(expected);
+      expect(storageSpy.deletePlayer).toHaveBeenCalledWith(player1.id);
+    });
+
+    it('should create a deletePlayerFailure when deletePlayer throws an error', () => {
+      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const error = 'Unable to delete player.';
+      const completion = PlayersApiActions.deletePlayerFailure({ err: error });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#', {}, error);
+      const expected = cold('--c', { c: completion });
+      storageSpy.deletePlayer.and.returnValue(response);
+
+      expect(effects.deletePlayer$).toBeObservable(expected);
+      expect(storageSpy.deletePlayer).toHaveBeenCalledWith(player1.id);
+    });
+  });
+
+  describe('loadPlayers', () => {
+    it('should create a loadPlayersSuccess', () => {
+      const action = PlayersApiActions.loadPlayers();
+      const players = [player1];
+      const completion = PlayersApiActions.loadPlayersSuccess({ players });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', { a: players });
+      const expected = cold('--c', { c: completion });
+      storageSpy.getPlayers.and.returnValue(response);
+
+      expect(effects.loadPlayers$).toBeObservable(expected);
+      expect(storageSpy.getPlayers).toHaveBeenCalled();
+    });
+
+    it('should create a loadPlayersFailure when getPlayers throws an error', () => {
+      const action = PlayersApiActions.loadPlayers();
+      const error = 'Failed to load players.';
+      const completion = PlayersApiActions.loadPlayersFailure({err: error});
+
+      actions$ = hot('-a', {a: action});
+      const response = cold('-#', {}, error);
+      const expected = cold('--c', {c: completion});
+      storageSpy.getPlayers.and.returnValue(response);
+
+      expect(effects.loadPlayers$).toBeObservable(expected);
+      expect(storageSpy.getPlayers).toHaveBeenCalled();
+    });
+  });
+
+  describe('updatePlayer', () => {
+    it('should create a updatePlayerSuccess', () => {
+      const playerUpdate: Update<Player> = {
+        id: player1.id,
+        changes: {
+          name: 'Sten'
+        }
+      };
+      const action = SetupPageActions.updatePlayer({ player: playerUpdate });
+      const completion = PlayersApiActions.updatePlayerSuccess({ player: playerUpdate });
+
+      actions$ = hot('-a', { a: action });
+      const newPlayer = {
+        ...player1,
+        name: 'Sten'
+      };
+      const response = cold('-a|', { a: newPlayer });
+      const expected = cold('--c', { c: completion });
+      storageSpy.updatePlayer.and.returnValue(response);
+
+      expect(effects.updatePlayer$).toBeObservable(expected);
+      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(playerUpdate);
+    });
+
+    it('should create a updatePlayerFailure when updatePlayer throws an error', () => {
+      const playerUpdate: Update<Player> = {
+        id: player1.id,
+        changes: {
+          name: 'Sten'
+        }
+      };
+      const action = SetupPageActions.updatePlayer({ player: playerUpdate });
+      const error = 'Failed to update player.';
+      const completion = PlayersApiActions.updatePlayerFailure({ err: error });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#', {}, error);
+      const expected = cold('--c', { c: completion });
+      storageSpy.updatePlayer.and.returnValue(response);
+
+      expect(effects.updatePlayer$).toBeObservable(expected);
+      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(playerUpdate);
     });
   });
 });
