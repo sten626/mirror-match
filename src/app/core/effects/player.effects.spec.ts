@@ -5,10 +5,10 @@ import { SetupPageActions } from '@app/setup/actions';
 import { generateMockPlayer, Player } from '@app/shared/models';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Update } from '@ngrx/entity';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { PlayerEffects } from './player.effects';
-import { Update } from '@ngrx/entity';
 
 describe('PlayerEffects', () => {
   const player1 = generateMockPlayer();
@@ -18,13 +18,7 @@ describe('PlayerEffects', () => {
   };
   let actions$: Observable<any>;
   let effects: PlayerEffects;
-  const storageSpy = jasmine.createSpyObj(
-    'PlayerStorageService', [
-      'addPlayer',
-      'deletePlayer',
-      'getPlayers',
-      'updatePlayer'
-    ]
+  const storageSpy = jasmine.createSpyObj('PlayerStorageService', ['addPlayer', 'deletePlayer', 'getPlayers', 'updatePlayer']
   );
 
   beforeEach(() => {
@@ -37,6 +31,8 @@ describe('PlayerEffects', () => {
     });
 
     effects = TestBed.get(PlayerEffects);
+    const load$ = effects.ngrxOnInitEffects();
+    console.log(load$);
     actions$ = TestBed.get(Actions);
   });
 
@@ -119,11 +115,11 @@ describe('PlayerEffects', () => {
     it('should create a loadPlayersFailure when getPlayers throws an error', () => {
       const action = PlayersApiActions.loadPlayers();
       const error = 'Failed to load players.';
-      const completion = PlayersApiActions.loadPlayersFailure({err: error});
+      const completion = PlayersApiActions.loadPlayersFailure({ err: error });
 
-      actions$ = hot('-a', {a: action});
+      actions$ = hot('-a', { a: action });
       const response = cold('-#', {}, error);
-      const expected = cold('--c', {c: completion});
+      const expected = cold('--c', { c: completion });
       storageSpy.getPlayers.and.returnValue(response);
 
       expect(effects.loadPlayers$).toBeObservable(expected);
@@ -173,6 +169,15 @@ describe('PlayerEffects', () => {
 
       expect(effects.updatePlayer$).toBeObservable(expected);
       expect(storageSpy.updatePlayer).toHaveBeenCalledWith(playerUpdate);
+    });
+  });
+
+  describe('onInitEffects', () => {
+    it('should return a loadPlayers', () => {
+      const completion = PlayersApiActions.loadPlayers();
+      const result = effects.ngrxOnInitEffects();
+
+      expect(result).toEqual(completion);
     });
   });
 });
