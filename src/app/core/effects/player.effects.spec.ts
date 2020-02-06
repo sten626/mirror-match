@@ -18,8 +18,12 @@ describe('PlayerEffects', () => {
   };
   let actions$: Observable<any>;
   let effects: PlayerEffects;
-  const storageSpy = jasmine.createSpyObj('PlayerStorageService', ['addPlayer', 'deletePlayer', 'getPlayers', 'updatePlayer']
-  );
+  const storageSpy = jasmine.createSpyObj('PlayerStorageService', [
+    'addPlayer',
+    'deletePlayer',
+    'getPlayers',
+    'updatePlayer'
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,8 +35,6 @@ describe('PlayerEffects', () => {
     });
 
     effects = TestBed.get(PlayerEffects);
-    const load$ = effects.ngrxOnInitEffects();
-    console.log(load$);
     actions$ = TestBed.get(Actions);
   });
 
@@ -43,7 +45,9 @@ describe('PlayerEffects', () => {
   describe('addPlayer', () => {
     it('should create an addPlayerSuccess', () => {
       const action = SetupPageActions.addPlayer({ player: player1NoId });
-      const completion = PlayersApiActions.addPlayerSuccess({ player: player1 });
+      const completion = PlayersApiActions.addPlayerSuccess({
+        player: player1
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', { a: player1 });
@@ -57,7 +61,9 @@ describe('PlayerEffects', () => {
     it('should create an addPlayerFailure when addPlayer throws an error', () => {
       const action = SetupPageActions.addPlayer({ player: player1NoId });
       const error = 'Cannot add nonexistent player.';
-      const completion = PlayersApiActions.addPlayerFailure({ player: player1NoId });
+      const completion = PlayersApiActions.addPlayerFailure({
+        player: player1NoId
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#', {}, error);
@@ -71,7 +77,9 @@ describe('PlayerEffects', () => {
   describe('deletePlayer', () => {
     it('should create a deletePlayerSuccess', () => {
       const action = SetupPageActions.deletePlayer({ id: player1.id });
-      const completion = PlayersApiActions.deletePlayerSuccess({ id: player1.id });
+      const completion = PlayersApiActions.deletePlayerSuccess({
+        id: player1.id
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', { a: player1.id });
@@ -136,7 +144,9 @@ describe('PlayerEffects', () => {
         }
       };
       const action = SetupPageActions.updatePlayer({ player: playerUpdate });
-      const completion = PlayersApiActions.updatePlayerSuccess({ player: playerUpdate });
+      const completion = PlayersApiActions.updatePlayerSuccess({
+        player: playerUpdate
+      });
 
       actions$ = hot('-a', { a: action });
       const newPlayer = {
