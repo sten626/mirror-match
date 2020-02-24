@@ -10,6 +10,7 @@ describe('PlayerStorageService', () => {
   beforeEach(() => {
     storageSpy = jasmine.createSpyObj('Storage', [
       'getItem',
+      'removeItem',
       'setItem'
     ]);
     const players = [{
@@ -74,6 +75,45 @@ describe('PlayerStorageService', () => {
           id: 2
         });
         expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('deletePlayer', () => {
+    it('should throw an error if passed null', (done: DoneFn) => {
+      service.deletePlayer(null).subscribe(() => {
+        fail();
+      }, err => {
+        expect(err).toBe('Bad ID passed to deletePlayer.');
+        expect(storageSpy.setItem).toHaveBeenCalledTimes(0);
+        done();
+      });
+    });
+
+    it('should return the ID of the deleted player', (done: DoneFn) => {
+      const playerId = 1;
+      service.deletePlayer(playerId).subscribe(result => {
+        expect(result).toBe(playerId);
+        expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should behave the same when called with a nonexistent ID', (done: DoneFn) => {
+      const playerId = 5;
+      service.deletePlayer(playerId).subscribe(result => {
+        expect(result).toBe(playerId);
+        expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('deletePlayers', () => {
+    it('should call removeItem', (done: DoneFn) => {
+      service.deletePlayers().subscribe(() => {
+        expect(storageSpy.removeItem).toHaveBeenCalledWith('mm-players');
         done();
       });
     });
