@@ -60,5 +60,22 @@ describe('PlayerStorageService', () => {
         done();
       });
     });
+
+    it('should override any ID given with the correct next ID', (done: DoneFn) => {
+      const player: Player = {
+        id: 5,
+        name: 'Sten',
+        dropped: false
+      };
+
+      service.addPlayer(player).subscribe(result => {
+        expect(result).toEqual({
+          ...player,
+          id: 2
+        });
+        expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 });
