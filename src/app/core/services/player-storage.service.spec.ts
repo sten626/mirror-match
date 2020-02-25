@@ -1,11 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { LOCAL_STORAGE_TOKEN } from '@app/core/services/storage.service';
 import { Player } from '@app/shared/models';
+import { Update } from '@ngrx/entity';
 import { PlayerStorageService } from './player-storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
   let storageSpy: any;
+  const players = [{
+    id: 1,
+    name: 'Spike',
+    dropped: false
+  }];
 
   beforeEach(() => {
     storageSpy = jasmine.createSpyObj('Storage', [
@@ -13,11 +19,6 @@ describe('PlayerStorageService', () => {
       'removeItem',
       'setItem'
     ]);
-    const players = [{
-      id: 1,
-      name: 'Spike',
-      dropped: false
-    }];
     storageSpy.getItem.and.returnValue(JSON.stringify(players));
 
     TestBed.configureTestingModule({
@@ -78,6 +79,24 @@ describe('PlayerStorageService', () => {
         done();
       });
     });
+
+    it('should give the player ID 1 if there are no players', (done: DoneFn) => {
+      storageSpy.getItem.and.returnValue('');
+      const player: Player = {
+        id: null,
+        name: 'Sten',
+        dropped: false
+      };
+
+      service.addPlayer(player).subscribe(result => {
+        expect(result).toEqual({
+          ...player,
+          id: 1
+        });
+        expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 
   describe('deletePlayer', () => {
@@ -110,10 +129,37 @@ describe('PlayerStorageService', () => {
     });
   });
 
-  describe('deletePlayers', () => {
-    it('should call removeItem', (done: DoneFn) => {
-      service.deletePlayers().subscribe(() => {
-        expect(storageSpy.removeItem).toHaveBeenCalledWith('mm-players');
+  // describe('deletePlayers', () => {
+  //   it('should call removeItem', (done: DoneFn) => {
+  //     service.deletePlayers().subscribe(() => {
+  //       expect(storageSpy.removeItem).toHaveBeenCalledWith('mm-players');
+  //       done();
+  //     });
+  //   });
+  // });
+
+  describe('getPlayers', () => {
+    it('should return the list of players in storage', (done: DoneFn) => {
+      service.getPlayers().subscribe(result => {
+        expect(result).toEqual(players);
+        expect(storageSpy.getItem).toHaveBeenCalledWith('mm-players');
+        done();
+      });
+    });
+  });
+
+  describe('updatePlayer', () => {
+    it('should throw an error when called with null ID', (done: DoneFn) => {
+      const update: Update<Player> = {
+        id: null,
+        changes: {
+          name: 'Sten'
+        }
+      };
+
+      service.updatePlayer(update).subscribe(result => {
+        // TODO
+        expect(result).toBeNull();
         done();
       });
     });

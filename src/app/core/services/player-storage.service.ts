@@ -44,31 +44,24 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
-  deletePlayers(): Observable<boolean> {
-    return this.supported().pipe(
-      tap(() => this.storage.removeItem(this.playersKey))
-    );
-  }
+  // deletePlayers(): Observable<boolean> {
+  //   return this.supported().pipe(
+  //     tap(() => this.storage.removeItem(this.playersKey))
+  //   );
+  // }
 
-  dropPlayers(playerIds: number[]): Observable<Player[]> {
-    return this.getPlayers().pipe(
-      map(value => value.map(p => playerIds.includes(p.id) ? {
-        ...p,
-        dropped: true
-      } : p)),
-      tap(value => this.storage.setItem(this.playersKey, JSON.stringify(value)))
-    );
-  }
+  // dropPlayers(playerIds: number[]): Observable<Player[]> {
+  //   return this.getPlayers().pipe(
+  //     map(value => value.map(p => playerIds.includes(p.id) ? {
+  //       ...p,
+  //       dropped: true
+  //     } : p)),
+  //     tap(value => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+  //   );
+  // }
 
   getPlayers(): Observable<Player[]> {
     return this.getArray(this.playersKey);
-  }
-
-  removePlayers(ids: number[]): Observable<Player[]> {
-    return this.getPlayers().pipe(
-      map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
-    );
   }
 
   updatePlayer(player: Update<Player>): Observable<Player> {
