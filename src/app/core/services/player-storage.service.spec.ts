@@ -171,5 +171,18 @@ describe('PlayerStorageService', () => {
         done();
       });
     });
+
+    it('should update a player', (done: DoneFn) => {
+      service.updatePlayer({
+        id: 1,
+        changes: {
+          dropped: true
+        }
+      }).subscribe(player => {
+        expect(player.dropped).toBeTrue();
+        expect(storageSpy.setItem).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 });
