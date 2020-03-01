@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { LOCAL_STORAGE_TOKEN } from '@app/core/services/storage.service';
 import { Player } from '@app/shared/models';
 import { Update } from '@ngrx/entity';
-import { PlayerStorageService } from './player-storage.service';
+import { deleteInvalidIdError, nonexistentPlayerError, PlayerStorageService, updateInvalidIdError } from './player-storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
@@ -40,7 +40,7 @@ describe('PlayerStorageService', () => {
       service.addPlayer(null).subscribe(() => {
         fail();
       }, error => {
-        expect(error).toBe('Cannot add nonexistent player.');
+        expect(error).toBe(nonexistentPlayerError);
         expect(storageSpy.setItem).toHaveBeenCalledTimes(0);
         done();
       });
@@ -104,7 +104,7 @@ describe('PlayerStorageService', () => {
       service.deletePlayer(null).subscribe(() => {
         fail();
       }, err => {
-        expect(err).toBe('Bad ID passed to deletePlayer.');
+        expect(err).toBe(deleteInvalidIdError);
         expect(storageSpy.setItem).toHaveBeenCalledTimes(0);
         done();
       });
@@ -129,15 +129,6 @@ describe('PlayerStorageService', () => {
     });
   });
 
-  // describe('deletePlayers', () => {
-  //   it('should call removeItem', (done: DoneFn) => {
-  //     service.deletePlayers().subscribe(() => {
-  //       expect(storageSpy.removeItem).toHaveBeenCalledWith('mm-players');
-  //       done();
-  //     });
-  //   });
-  // });
-
   describe('getPlayers', () => {
     it('should return the list of players in storage', (done: DoneFn) => {
       service.getPlayers().subscribe(result => {
@@ -157,9 +148,26 @@ describe('PlayerStorageService', () => {
         }
       };
 
-      service.updatePlayer(update).subscribe(result => {
-        // TODO
-        expect(result).toBeNull();
+      service.updatePlayer(update).subscribe(() => {
+        fail();
+      }, err => {
+        expect(err).toEqual(updateInvalidIdError);
+        done();
+      });
+    });
+
+    it('should throw an error when called with nonexistent ID', (done: DoneFn) => {
+      const update: Update<Player> = {
+        id: 5,
+        changes: {
+          name: 'Sten'
+        }
+      };
+
+      service.updatePlayer(update).subscribe(() => {
+        fail();
+      }, err => {
+        expect(err).toEqual(updateInvalidIdError);
         done();
       });
     });
