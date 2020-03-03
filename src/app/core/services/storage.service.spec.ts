@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LOCAL_STORAGE_TOKEN, StorageService } from './storage.service';
 
-fdescribe('StorageService', () => {
+describe('StorageService', () => {
   let service: StorageService;
   let storageSpy: any;
 
