@@ -31,7 +31,29 @@ describe('TournamentStorageService', () => {
       const value = 5;
       service.setBestOf(value).subscribe(result => {
         expect(result).toBe(value);
-        expect(storageSpy.setItem).toHaveBeenCalledWith('mm-best-of', value.toString());
+        expect(storageSpy.setItem).toHaveBeenCalledWith('mm-best-of', JSON.stringify(value));
+        done();
+      });
+    });
+  });
+
+  describe('setIsDraft', () => {
+    it('should set and return the value', (done: DoneFn) => {
+      const value = true;
+      service.setIsDraft(value).subscribe(result => {
+        expect(result).toBe(value);
+        expect(storageSpy.setItem).toHaveBeenCalledWith('mm-is-draft', JSON.stringify(value));
+        done();
+      });
+    });
+  });
+
+  describe('setTotalRounds', () => {
+    it('should set and return the value', (done: DoneFn) => {
+      const value = 4;
+      service.setTotalRounds(value).subscribe(result => {
+        expect(result).toBe(value);
+        expect(storageSpy.setItem).toHaveBeenCalledWith('mm-total-rounds', JSON.stringify(value));
         done();
       });
     });
