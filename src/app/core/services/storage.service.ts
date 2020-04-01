@@ -1,4 +1,4 @@
-import { InjectionToken, Inject } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -35,6 +35,7 @@ export const LOCAL_STORAGE_TOKEN = new InjectionToken(
   }
 );
 
+@Injectable()
 export class StorageService {
   constructor(@Inject(LOCAL_STORAGE_TOKEN) protected storage: Storage) {}
 
