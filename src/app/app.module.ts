@@ -11,7 +11,7 @@ import { PlayerEffects, TournamentEffects } from '@app/core/effects';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -35,7 +35,7 @@ import { environment } from '../environments/environment';
       maxAge: 25,
       logOnly: environment.production
     }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer })
   ],
   bootstrap: [AppComponent]
 })
