@@ -12,14 +12,15 @@
     "noUnusedParameters": true,
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
-    // TODO: Change `target` back to es2015 once the coverage/inheritance bug gets fixed
-    "target": "es5",
+    "target": "es2015",
     "typeRoots": [
       "../node_modules/@types"
     ]
   },
   "files": [
-    "main.ts"
+    "main.ts",
+    "polyfills.ts",
+    "test.ts"
   ],
   "include": [
     "src/**/*.d.ts"
