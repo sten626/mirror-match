@@ -2,11 +2,11 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { generateMockPlayer, Player, SharedModule } from 'app/shared';
-import { PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
-import { PlayersPageComponent } from 'app/swiss/containers/players-page/players-page.component';
-import * as fromSwiss from 'app/swiss/reducers';
+import * as fromRoot from '@app/reducers';
+import { generateMockPlayer, Player, SharedModule } from '@app/shared';
+import { PlayersApiActions, PlayersPageActions } from '@app/swiss/actions';
+import { PlayersPageComponent } from '@app/swiss/containers/players-page/players-page.component';
+import * as fromSwiss from '@app/swiss/reducers';
 
 describe('Players Page Component', () => {
   const player1 = generateMockPlayer();

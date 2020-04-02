@@ -1,6 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
-import { Round } from 'app/shared';
+import { Round } from '@app/shared';
 
 export const addRound = createAction(
   '[Round/API] Add Round',

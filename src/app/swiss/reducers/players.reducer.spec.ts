@@ -1,7 +1,7 @@
 import { Update } from '@ngrx/entity';
-import { Player } from 'app/shared';
-import { PlayersApiActions, SwissApiActions } from 'app/swiss/actions';
-import * as fromPlayers from 'app/swiss/reducers/players.reducer';
+import { Player } from '@app/shared';
+import { PlayersApiActions, SwissApiActions } from '@app/swiss/actions';
+import * as fromPlayers from '@app/swiss/reducers/players.reducer';
 
 describe('PlayersReducer', () => {
   const player1: Player = {

@@ -1,5 +1,5 @@
 import { Dictionary } from '@ngrx/entity';
-import { Pairing, Player, Standing, standingDefaults } from 'app/shared';
+import { Pairing, Player, Standing, standingDefaults } from '@app/shared';
 
 export function calculateStandings(pairings: Pairing[], players: Player[]): Standing[] {
   if (players.length === 0) {

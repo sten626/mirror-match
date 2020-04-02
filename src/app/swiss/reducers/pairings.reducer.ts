@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { Pairing } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions, SwissApiActions } from 'app/swiss/actions';
+import { Pairing } from '@app/shared';
+import { PairingsApiActions, PairingsPageActions, SwissApiActions } from '@app/swiss/actions';
 
 export const pairingsFeatureKey = 'pairings';
 

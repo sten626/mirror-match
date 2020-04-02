@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Round, RoundStorageService, Message, MessageType } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
+import { Round, RoundStorageService, Message, MessageType } from '@app/shared';
+import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from '@app/swiss/actions';
+import * as fromSwiss from '@app/swiss/reducers';
 import { combineLatest } from 'rxjs';
 import { map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { MessageActions } from 'app/core/actions';
+import { MessageActions } from '@app/core/actions';
 
 @Injectable()
 export class RoundEffects implements OnInitEffects {

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Pairing, Player } from 'app/shared';
+import { Pairing, Player } from '@app/shared';
 
 export const changeSelectedRound = createAction(
   '[Pairings Page] Change Selected Round',

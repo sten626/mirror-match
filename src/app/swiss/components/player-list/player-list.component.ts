@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Player } from 'app/shared';
+import { Player } from '@app/shared';
 
 @Component({
   selector: 'mm-player-list',

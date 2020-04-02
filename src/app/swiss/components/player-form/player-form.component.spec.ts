@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Player, SharedModule } from 'app/shared';
+import { Player, SharedModule } from '@app/shared';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('Player Form Component', () => {

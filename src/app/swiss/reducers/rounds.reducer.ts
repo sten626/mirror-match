@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { Round } from 'app/shared';
+import { Round } from '@app/shared';
 import { RoundApiActions, PairingsApiActions, SwissApiActions } from '../actions';
 
 export const roundsFeatureKey = 'rounds';
