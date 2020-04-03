@@ -19,8 +19,8 @@ describe('SwissEffects', () => {
       ]
     });
 
-    effects = TestBed.get(SwissEffects);
-    actions$ = TestBed.get(Actions);
+    effects = TestBed.inject(SwissEffects);
+    actions$ = TestBed.inject(Actions);
   });
 
   it('should be created', () => {

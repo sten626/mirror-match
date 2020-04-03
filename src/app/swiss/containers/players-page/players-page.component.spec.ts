@@ -1,13 +1,13 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import * as fromRoot from '@app/reducers';
 import { generateMockPlayer, Player } from '@app/shared/models';
 import { SharedModule } from '@app/shared/shared.module';
+import { PlayersPageActions } from '@app/swiss/actions';
+import { PlayersPageComponent } from '@app/swiss/containers/players-page/players-page.component';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { PlayersPageActions } from 'app/swiss/actions';
-import { PlayersPageComponent } from 'app/swiss/containers/players-page/players-page.component';
-import * as fromSwiss from 'app/swiss/reducers';
 
 describe('Players Page Component', () => {
   const player1 = generateMockPlayer();
@@ -56,7 +56,7 @@ describe('Players Page Component', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PlayersPageComponent);
     component = fixture.componentInstance;

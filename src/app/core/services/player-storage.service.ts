@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '@app/core/services/storage.service';
 import { Player } from '@app/shared/models';
+import { Update } from '@ngrx/entity';
 import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Update } from '@ngrx/entity';
 
 @Injectable({
   providedIn: 'root'

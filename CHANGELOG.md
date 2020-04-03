@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Updated Angular to version 9.
+
 ## [v1.0.2] - 2020-02-23
 
 ### Fixed

@@ -1,11 +1,11 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import * as fromRoot from '@app/reducers';
 import { Pairing, Player } from '@app/shared/models';
+import { PairingsPageActions } from '@app/swiss/actions';
+import { PairingsPageComponent } from '@app/swiss/containers/pairings-page/pairings-page.component';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { PairingsPageActions } from 'app/swiss/actions';
-import { PairingsPageComponent } from 'app/swiss/containers/pairings-page/pairings-page.component';
-import * as fromSwiss from 'app/swiss/reducers';
 
 describe('PairingsPageComponent', () => {
   let component: PairingsPageComponent;
@@ -86,7 +86,7 @@ describe('PairingsPageComponent', () => {
       name: 'Spike',
       dropped: false
     };
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PairingsPageComponent);
     component = fixture.componentInstance;
