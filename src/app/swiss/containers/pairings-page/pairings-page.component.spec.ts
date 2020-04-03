@@ -86,7 +86,7 @@ describe('PairingsPageComponent', () => {
       name: 'Spike',
       dropped: false
     };
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PairingsPageComponent);
     component = fixture.componentInstance;

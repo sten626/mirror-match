@@ -31,8 +31,8 @@ describe('PlayerEffects', () => {
       ]
     });
 
-    effects = TestBed.get(PlayerEffects);
-    actions$ = TestBed.get(Actions);
+    effects = TestBed.inject(PlayerEffects);
+    actions$ = TestBed.inject(Actions);
   });
 
   it('should be created', () => {

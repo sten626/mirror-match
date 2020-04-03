@@ -27,7 +27,7 @@ describe('SwissComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(SwissComponent);
     component = fixture.componentInstance;
