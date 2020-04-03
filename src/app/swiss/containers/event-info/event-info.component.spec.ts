@@ -1,10 +1,10 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { EventInfoPageActions } from 'app/swiss/actions';
-import { EventInfoComponent } from 'app/swiss/containers/event-info/event-info.component';
-import * as fromSwiss from 'app/swiss/reducers';
+import * as fromRoot from '@app/reducers';
+import { EventInfoPageActions } from '@app/swiss/actions';
+import { EventInfoComponent } from '@app/swiss/containers/event-info/event-info.component';
+import * as fromSwiss from '@app/swiss/reducers';
 
 describe('EventInfoComponent', () => {
   let component: EventInfoComponent;
@@ -36,7 +36,7 @@ describe('EventInfoComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(EventInfoComponent);
     component = fixture.componentInstance;

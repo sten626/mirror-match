@@ -28,7 +28,7 @@ describe('PlayerStorageService', () => {
       ]
     });
 
-    service = TestBed.get(PlayerStorageService);
+    service = TestBed.inject(PlayerStorageService);
   });
 
   it('should be created', () => {

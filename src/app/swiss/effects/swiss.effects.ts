@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EventInfoPageActions, SwissApiActions } from 'app/swiss/actions';
+import { EventInfoPageActions, SwissApiActions } from '@app/swiss/actions';
 import { map, tap } from 'rxjs/operators';
 
 /**

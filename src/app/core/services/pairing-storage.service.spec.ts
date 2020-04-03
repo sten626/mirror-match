@@ -8,7 +8,7 @@ describe('PairingStorageService', () => {
   }));
 
   it('should be created', () => {
-    const service: PairingStorageService = TestBed.get(PairingStorageService);
+    const service: PairingStorageService = TestBed.inject(PairingStorageService);
     expect(service).toBeTruthy();
   });
 });

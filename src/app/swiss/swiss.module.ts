@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 import {
   MatchResultsComponent,
   PairingsListComponent,
@@ -14,12 +12,14 @@ import {
   StandingsTableComponent,
   StartFormComponent,
   SwissMenuComponent
-} from 'app/swiss/components';
-import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, StandingsPageComponent, SwissComponent } from 'app/swiss/containers';
+} from '@app/swiss/components';
+import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, StandingsPageComponent, SwissComponent } from '@app/swiss/containers';
 import { PairingEffects, RoundEffects, SwissEffects } from '@app/swiss/effects';
-import { StandingsGuard, TournamentStartedGuard } from 'app/swiss/guards';
-import * as fromSwiss from 'app/swiss/reducers';
-import { SwissRoutingModule } from 'app/swiss/swiss-routing.module';
+import { StandingsGuard, TournamentStartedGuard } from '@app/swiss/guards';
+import * as fromSwiss from '@app/swiss/reducers';
+import { SwissRoutingModule } from '@app/swiss/swiss-routing.module';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   imports: [
