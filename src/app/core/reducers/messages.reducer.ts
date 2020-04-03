@@ -1,6 +1,6 @@
+import { MessageActions } from '@app/core/actions';
+import { Message } from '@app/shared';
 import { createReducer, on } from '@ngrx/store';
-import { Message } from 'app/shared';
-import { MessageActions } from '../actions';
 
 export const messagesFeatureKey = 'messages';
 

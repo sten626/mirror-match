@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Pairing, PairingService, PairingStorageService, RoundStorageService } from 'app/shared';
-import { PairingsApiActions, PairingsPageActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
+import { Pairing, PairingService, PairingStorageService, RoundStorageService } from '@app/shared';
+import { PairingsApiActions, PairingsPageActions } from '@app/swiss/actions';
+import * as fromSwiss from '@app/swiss/reducers';
 import { combineLatest, of } from 'rxjs';
 import { concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 

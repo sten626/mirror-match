@@ -1,6 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
-import { Player } from 'app/shared';
+import { Player } from '@app/shared';
 
 export const addPlayerFailure = createAction(
   '[Players/API] Add Player Failure',

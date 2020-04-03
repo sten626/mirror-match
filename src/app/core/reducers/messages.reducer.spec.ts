@@ -1,5 +1,5 @@
-import { MessageActions } from 'app/core/actions';
-import { Message, MessageType } from 'app/shared';
+import { MessageActions } from '@app/core/actions';
+import { Message, MessageType } from '@app/shared';
 import { initialState, reducer } from './messages.reducer';
 
 describe('Messages Reducer', () => {

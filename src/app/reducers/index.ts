@@ -1,5 +1,5 @@
 import { ActionReducerMap, Action, createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromMessages from 'app/core/reducers/messages.reducer';
+import * as fromMessages from '@app/core/reducers/messages.reducer';
 import { InjectionToken } from '@angular/core';
 
 export interface State {

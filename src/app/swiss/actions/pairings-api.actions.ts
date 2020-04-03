@@ -1,6 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
-import { Pairing } from 'app/shared';
+import { Pairing } from '@app/shared';
 
 export const addPairings = createAction(
   '[Pairings/API] Add Pairings',

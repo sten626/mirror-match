@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { generateMockPlayer, Player, PlayerStorageService } from 'app/shared';
+import { generateMockPlayer, Player, PlayerStorageService } from '@app/shared';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { PlayersApiActions, PlayersPageActions } from '../actions';
@@ -31,8 +31,8 @@ describe('PlayerEffects', () => {
       ]
     });
 
-    effects = TestBed.get(PlayerEffects);
-    actions$ = TestBed.get(Actions);
+    effects = TestBed.inject(PlayerEffects);
+    actions$ = TestBed.inject(Actions);
   });
 
   it('should be created', () => {

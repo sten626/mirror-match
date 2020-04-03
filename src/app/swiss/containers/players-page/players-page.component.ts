@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Player } from 'app/shared';
-import { PlayersPageActions } from 'app/swiss/actions';
-import * as fromSwiss from 'app/swiss/reducers';
+import { Player } from '@app/shared';
+import { PlayersPageActions } from '@app/swiss/actions';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Observable } from 'rxjs';
 
 @Component({

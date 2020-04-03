@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-import { Player, PlayerStorageService } from 'app/shared';
-import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from 'app/swiss/actions';
+import { Player, PlayerStorageService } from '@app/shared';
+import { PairingsPageActions, PlayersApiActions, PlayersPageActions } from '@app/swiss/actions';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 

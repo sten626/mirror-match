@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { MessageActions } from 'app/core/actions';
-import * as fromRoot from 'app/reducers';
-import { Message } from 'app/shared';
-import * as fromSwiss from 'app/swiss/reducers';
+import { MessageActions } from '@app/core/actions';
+import * as fromRoot from '@app/reducers';
+import { Message } from '@app/shared';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Observable } from 'rxjs';
 
 @Component({

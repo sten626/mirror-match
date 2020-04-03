@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Player, Standing } from 'app/shared';
-import * as fromSwiss from 'app/swiss/reducers';
+import { Player, Standing } from '@app/shared';
+import * as fromSwiss from '@app/swiss/reducers';
 import { Observable } from 'rxjs';
 
 @Component({

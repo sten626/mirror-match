@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PlayerStorageService } from 'app/shared/services/player-storage.service';
-import { LOCAL_STORAGE_TOKEN } from 'app/shared/services/storage.service';
+import { PlayerStorageService } from '@app/shared/services/player-storage.service';
+import { LOCAL_STORAGE_TOKEN } from '@app/shared/services/storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
@@ -24,7 +24,7 @@ describe('PlayerStorageService', () => {
       ]
     });
 
-    service = TestBed.get(PlayerStorageService);
+    service = TestBed.inject(PlayerStorageService);
   });
 
   it('should be created', () => {

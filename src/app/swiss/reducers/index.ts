@@ -1,11 +1,11 @@
 import { Dictionary } from '@ngrx/entity';
 import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
-import { Pairing, Player, Round } from 'app/shared';
-import * as fromPairings from 'app/swiss/reducers/pairings.reducer';
-import * as fromPlayers from 'app/swiss/reducers/players.reducer';
-import * as fromRounds from 'app/swiss/reducers/rounds.reducer';
-import { calculateStandings } from 'app/swiss/reducers/util';
+import * as fromRoot from '@app/reducers';
+import { Pairing, Player, Round } from '@app/shared';
+import * as fromPairings from '@app/swiss/reducers/pairings.reducer';
+import * as fromPlayers from '@app/swiss/reducers/players.reducer';
+import * as fromRounds from '@app/swiss/reducers/rounds.reducer';
+import { calculateStandings } from '@app/swiss/reducers/util';
 
 export const swissFeatureKey = 'swiss';
 
