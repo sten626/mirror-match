@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import * as fromRoot from '@app/reducers';
 import { Store } from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
