@@ -21,6 +21,12 @@
     justify-content: flex-end;
   }
 
+  /* Wrap */
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
   /* Children */
 
   .fill {
