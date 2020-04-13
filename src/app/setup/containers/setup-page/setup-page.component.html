@@ -1,14 +1,14 @@
 <div class="h-100 setup-page">
   <mm-player-form
-      class="m-3 player-form"
+      class="player-form order-md-2"
       [players]="players$ | async"
       (addPlayer)="onAddPlayer($event)"></mm-player-form>
   <mm-players-list
-      class="mb-3 mx-3 players-list"
+      class="order-md-1 players-list"
       [players]="players$ | async"
       (editPlayer)="onEditPlayer($event)"></mm-players-list>
   <section
-      class="d-flex justify-center mb-3 setup-page-button"
+      class="d-flex justify-center mb-3 order-md-3 setup-page-button"
       *ngIf="canBeginTournament$ | async">
     <button
         class="text-uppercase"
