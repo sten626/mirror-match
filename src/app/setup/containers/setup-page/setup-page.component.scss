@@ -1,38 +1,5 @@
-.setup-page {
-  align-items: center;
-  display: flex;
-  flex-flow: column wrap;
-  width: 100%;
-
-  .player-form {
-    box-sizing: border-box;
-    padding: 1rem;
-    width: 100%;
-
-    @media (min-width: 600px) {
-      width: 40%;
-      // order: 2;
-    }
-  }
-
-  .players-list {
-    box-sizing: border-box;
-    flex: 1;
-    overflow: auto;
-    padding: 0 1rem 1rem;
-    width: 100%;
-
-    @media (min-width: 600px) {
-      border-right: solid 1px rgba($color: #000000, $alpha: 0.12);
-      flex: 1 100%;
-      // order: 1;
-      width: 60%;
-    }
-  }
-
-  .setup-page-button {
-    @media (min-width: 600px) {
-      // order: 3;
-    }
+.players-list {
+  @media (min-width: 600px) {
+    flex: 1 100%;
   }
 }

@@ -1,3 +1,7 @@
+.border-right {
+  border-right: 1px solid rgba($color: #000000, $alpha: 0.12);
+}
+
 .fullscreen {
   position: absolute;
   top: 0;
@@ -78,6 +82,10 @@
   margin-right: $spacer !important;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .p-0 {
   padding: 0 !important;
 }
@@ -136,4 +144,18 @@
 
 .w-100 {
   width: 100%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+@media (min-width: #{$screen-md}) {
+  .w-md-100 {
+    width: 100%;
+  }
+
+  .w-md-50 {
+    width: 50%;
+  }
 }

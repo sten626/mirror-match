@@ -7,6 +7,12 @@
 .d-flex {
   display: flex;
 
+  /* Align Items */
+
+  &.align-items-center {
+    align-items: center;
+  }
+
   /* Flex Direction */
 
   &.col {
