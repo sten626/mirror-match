@@ -1,3 +1,5 @@
-@each $value in $overflows {
+@use '../abstracts/variables';
+
+@each $value in variables.$overflows {
   .overflow-#{$value} { overflow: $value !important; }
 }

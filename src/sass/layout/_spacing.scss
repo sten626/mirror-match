@@ -1,12 +1,51 @@
-@each $breakpoint in $breakpoints {
-  @include media-min-width($breakpoint, $breakpoints) {
-    @each $prop, $abbrev in ("margin": "m", "padding": "p") {
-      @for $i from 0 through $num-spacers {
-        .#{$abbrev}-#{$i} { #{$prop}: $i / 4 * $spacer; }
+$num-spacers: 8 !default;
+$spacer: 1rem !default;
+
+@mixin spacing-classes($prefix) {
+  .#{$prefix}m-auto { margin: auto; }
+  .#{$prefix}mt-auto,
+  .#{$prefix}my-auto {
+    margin-top: auto;
+  }
+  .#{$prefix}mr-auto,
+  .#{$prefix}mx-auto {
+    margin-right: auto;
+  }
+  .#{$prefix}mb-auto,
+  .#{$prefix}my-auto {
+    margin-bottom: auto;
+  }
+  .#{$prefix}ml-auto,
+  .#{$prefix}mx-auto {
+    margin-left: auto;
+  }
+
+  @each $prop, $abbrev in ("margin": "m", "padding": "p") {
+    @for $i from 0 through $num-spacers {
+      $length: $i / 4 * $spacer;
+
+      .#{$prefix}#{$abbrev}-#{$i} { #{$prop}: $length; }
+
+      .#{$prefix}#{$abbrev}t-#{$i},
+      .#{$prefix}#{$abbrev}y-#{$i} {
+        #{$prop}-top: $length;
+      }
+      .#{$prefix}#{$abbrev}r-#{$i},
+      .#{$prefix}#{$abbrev}x-#{$i} {
+        #{$prop}-right: $length;
+      }
+      .#{$prefix}#{$abbrev}b-#{$i},
+      .#{$prefix}#{$abbrev}y-#{$i} {
+        #{$prop}-bottom: $length;
+      }
+      .#{$prefix}#{$abbrev}l-#{$i},
+      .#{$prefix}#{$abbrev}x-#{$i} {
+        #{$prop}-left: $length;
       }
     }
   }
 }
+
 // @each $breakpoint in map-keys($grid-breakpoints) {
 //   @include media-breakpoint-up($breakpoint) {
 //     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);

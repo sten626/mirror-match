@@ -8,7 +8,7 @@
   <section class="mb-2">
     <h5 class="mat-h5">Games per match</h5>
     <mat-radio-group class="flex flex-col" name="bestOf" formControlName="bestOf">
-      <mat-radio-button class="mx-2 mb-3" *ngFor="let choice of bestOfChoices | keyvalue" [value]="choice.key">{{choice.value}}</mat-radio-button>
+      <mat-radio-button class="mx-2 mb-4" *ngFor="let choice of bestOfChoices | keyvalue" [value]="choice.key">{{choice.value}}</mat-radio-button>
     </mat-radio-group>
   </section>
   <section class="mb-2">

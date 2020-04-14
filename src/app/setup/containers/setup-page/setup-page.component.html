@@ -1,14 +1,14 @@
-<div class="items-center flex-col flex h-100 w-100 flex-wrap">
+<div class="items-center flex-col flex h-100 w-full flex-wrap">
   <mm-player-form
-      class="p-3 w-100 w-md-50 sm:order-2"
+      class="p-4 w-full sm:order-2 sm:w-1/2"
       [players]="players$ | async"
       (addPlayer)="onAddPlayer($event)"></mm-player-form>
   <mm-players-list
-      class="border-right flex-1 overflow-auto pb-3 px-3 players-list w-100 w-md-50 sm:order-1"
+      class="border-right flex-1 overflow-auto pb-3 px-4 players-list w-full sm:order-1 sm:w-1/2"
       [players]="players$ | async"
       (editPlayer)="onEditPlayer($event)"></mm-players-list>
   <section
-      class="flex justify-center mb-3 sm:order-3"
+      class="flex justify-center mb-4 sm:order-3"
       *ngIf="canBeginTournament$ | async">
     <button
         class="text-uppercase"

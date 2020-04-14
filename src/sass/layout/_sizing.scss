@@ -1,0 +1,4 @@
+@mixin sizing-classes($prefix) {
+  .#{$prefix}w-full { width: 100%; }
+  .#{$prefix}w-1\/2 { width: 50%; }
+}

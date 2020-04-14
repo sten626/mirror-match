@@ -1,11 +1,23 @@
-@import 'sass/abstracts/variables';
+@use 'sass/base/reset';
+@use 'sass/base/typography';
 
-@import 'sass/base/reset';
-@import 'sass/base/typography';
+@use 'sass/layout/breakpoints';
+@use 'sass/layout/display';
+@use 'sass/layout/flex';
+@use 'sass/layout/overflows';
+@use 'sass/layout/sizing';
+@use 'sass/layout/spacing';
+@use 'sass/layout/utils';
 
-@import 'sass/layout/breakpoints';
-@import 'sass/layout/display';
-@import 'sass/layout/flex';
-@import 'sass/layout/overflows';
-@import 'sass/layout/spacing';
-@import 'sass/layout/utils';
+$breakpoints: breakpoints.$breakpoints;
+
+@each $breakpoint in map-keys($breakpoints) {
+  @include breakpoints.media-min-width($breakpoint, $breakpoints) {
+    $prefix: breakpoints.breakpoint-prefix($breakpoint, $breakpoints);
+
+    @include display.display-classes($prefix);
+    @include flex.flex-classes($prefix);
+    @include sizing.sizing-classes($prefix);
+    @include spacing.spacing-classes($prefix);
+  }
+}

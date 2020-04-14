@@ -1,6 +1,6 @@
 <mat-card>
   <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field class="w-100">
+    <mat-form-field class="w-full">
       <input matInput type="text" placeholder="New player" formControlName="name">
       <mat-error *ngIf="playerForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>

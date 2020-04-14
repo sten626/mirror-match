@@ -1,11 +1,9 @@
-@each $breakpoint in map-keys($breakpoints) {
-  @include media-min-width($breakpoint, $breakpoints) {
-    $prefix: breakpoint-prefix($breakpoint, $breakpoints);
+@use '../abstracts/variables';
 
-    .#{$prefix}hidden { display: none; }
+@mixin display-classes($prefix) {
+  .#{$prefix}hidden { display: none; }
 
-    @each $display in $displays {
-      .#{$prefix}#{$display} { display: $display; }
-    }
+  @each $display in variables.$displays {
+    .#{$prefix}#{$display} { display: $display; }
   }
 }
