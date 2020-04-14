@@ -1,7 +1,9 @@
+$displays: flex;
 $overflows: auto, hidden;
 $screen-md: 600px;
 $spacer: 1rem;
 $num-spacers: 8 !default;
+$max-order: 3 !default;
 
 $breakpoints: (
   xs: 0,

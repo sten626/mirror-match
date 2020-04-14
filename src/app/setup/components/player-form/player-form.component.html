@@ -4,7 +4,7 @@
       <input matInput type="text" placeholder="New player" formControlName="name">
       <mat-error *ngIf="playerForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
-    <span class="d-flex justify-end">
+    <span class="flex justify-end">
       <button type="reset" class="ml-2 text-uppercase" mat-button>Clear</button>
       <button type="submit" class="ml-2 text-uppercase" mat-flat-button color="primary" [disabled]="isNameEmpty() || playerForm.invalid">Add</button>
     </span>

@@ -3,6 +3,9 @@
 @import 'sass/base/reset';
 @import 'sass/base/typography';
 
+@import 'sass/layout/breakpoints';
+@import 'sass/layout/display';
 @import 'sass/layout/flex';
 @import 'sass/layout/overflows';
+@import 'sass/layout/spacing';
 @import 'sass/layout/utils';

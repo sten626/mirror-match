@@ -9,7 +9,7 @@
 }
 
 @function breakpoint-prefix($name, $breakpoints) {
-  @return if(breakpoint-min($name, $breakpoints) == null, "", "#{$name}\:");
+  @return if(breakpoint-min($name, $breakpoints) == null, "", "#{$name}\\:");
 }
 
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
