@@ -7,6 +7,9 @@ export const routes: Routes = [{
   redirectTo: '/setup',
   pathMatch: 'full'
 }, {
+  path: 'pods',
+  loadChildren: () => import('./pods/pods.module').then(m => m.PodsModule)
+}, {
   path: 'setup',
   loadChildren: () => import('./setup/setup.module').then(m => m.SetupModule)
 }, {
