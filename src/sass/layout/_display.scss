@@ -1,9 +1,9 @@
-@use '../abstracts/variables';
+$displays: flex;
 
 @mixin display-classes($prefix) {
   .#{$prefix}hidden { display: none; }
 
-  @each $display in variables.$displays {
+  @each $display in $displays {
     .#{$prefix}#{$display} { display: $display; }
   }
 }

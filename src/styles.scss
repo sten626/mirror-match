@@ -1,13 +1,21 @@
 @use 'sass/base/reset';
 @use 'sass/base/typography';
 
+@use 'sass/layout/borders';
 @use 'sass/layout/breakpoints';
 @use 'sass/layout/display';
 @use 'sass/layout/flex';
 @use 'sass/layout/overflows';
 @use 'sass/layout/sizing';
 @use 'sass/layout/spacing';
-@use 'sass/layout/utils';
+
+@use 'custom-theme.scss' as theme;
+
+$theme: theme.$mirror-match-theme;
+$foreground: map-get($theme, "foreground");
+$border-color: theme.mat-color($foreground, "divider");
+
+@include borders.border-classes($border-color);
 
 $breakpoints: breakpoints.$breakpoints;
 
