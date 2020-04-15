@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Start tournament</h2>
+<mat-dialog-content [formGroup]="tournamentStartForm">
+  <section class="mb-2">
+    <mat-form-field>
+      <input matInput type="number" placeholder="Number of rounds" formControlName="totalRounds" required>
+    </mat-form-field>
+  </section>
+  <section class="mb-2">
+    <h5 class="mat-h5">Games per match</h5>
+    <mat-radio-group class="flex flex-col" name="bestOf" formControlName="bestOf">
+      <mat-radio-button class="mx-2 mb-4" *ngFor="let choice of bestOfChoices | keyvalue" [value]="choice.key">{{choice.value}}</mat-radio-button>
+    </mat-radio-group>
+  </section>
+  <section class="mb-2">
+    <mat-slide-toggle formControlName="isDraft">Create draft pods</mat-slide-toggle>
+  </section>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="text-uppercase" mat-button mat-dialog-close color="primary">Cancel</button>
+  <button class="text-uppercase" mat-button [mat-dialog-close]="tournamentStartForm.value" color="primary">Start</button>
+</mat-dialog-actions>

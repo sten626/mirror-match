@@ -1,0 +1,22 @@
+$max-order: 3 !default;
+
+@mixin flex-classes($prefix) {
+  .#{$prefix}flex-1    { flex: 1 1 0; }
+  .#{$prefix}flex-auto { flex: 1 1 auto; }
+
+  .#{$prefix}flex-col { flex-direction: column; }
+  .#{$prefix}flex-row { flex-direction: row; }
+
+  .#{$prefix}flex-grow { flex-grow: 1; }
+
+  .#{$prefix}flex-wrap { flex-wrap: wrap; }
+
+  .#{$prefix}items-center { align-items: center; }
+
+  .#{$prefix}justify-center { justify-content: center; }
+  .#{$prefix}justify-end    { justify-content: flex-end; }
+
+  @for $i from 0 through $max-order {
+    .#{$prefix}order-#{$i} { order: $i; }
+  }
+}

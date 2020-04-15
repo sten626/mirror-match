@@ -1,0 +1,31 @@
+@use 'sass/base/reset';
+@use 'sass/base/typography';
+
+@use 'sass/layout/borders';
+@use 'sass/layout/breakpoints';
+@use 'sass/layout/display';
+@use 'sass/layout/flex';
+@use 'sass/layout/overflows';
+@use 'sass/layout/sizing';
+@use 'sass/layout/spacing';
+
+@use 'custom-theme.scss' as theme;
+
+$theme: theme.$mirror-match-theme;
+$foreground: map-get($theme, "foreground");
+$border-color: theme.mat-color($foreground, "divider");
+
+@include borders.border-classes($border-color);
+
+$breakpoints: breakpoints.$breakpoints;
+
+@each $breakpoint in map-keys($breakpoints) {
+  @include breakpoints.media-min-width($breakpoint, $breakpoints) {
+    $prefix: breakpoints.breakpoint-prefix($breakpoint, $breakpoints);
+
+    @include display.display-classes($prefix);
+    @include flex.flex-classes($prefix);
+    @include sizing.sizing-classes($prefix);
+    @include spacing.spacing-classes($prefix);
+  }
+}

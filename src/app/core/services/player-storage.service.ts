@@ -3,7 +3,11 @@ import { StorageService } from '@app/core/services/storage.service';
 import { Player } from '@app/shared/models';
 import { Update } from '@ngrx/entity';
 import { Observable, throwError } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+
+export const deleteInvalidIdError = 'Tried to delete player with invalid ID.';
+export const nonexistentPlayerError = 'Cannot add nonexistent player.';
+export const updateInvalidIdError = 'Tried to update player with invalid ID.';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +17,7 @@ export class PlayerStorageService extends StorageService {
 
   addPlayer(player: Player): Observable<Player> {
     if (!player) {
-      return throwError('Cannot add nonexistent player.');
+      return throwError(nonexistentPlayerError);
     }
 
     return this.getPlayers().pipe(
@@ -32,47 +36,63 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
-  deletePlayers(): Observable<boolean> {
-    return this.supported().pipe(
-      tap(() => this.storage.removeItem(this.playersKey))
+  deletePlayer(id: number): Observable<number> {
+    if (!id) {
+      return throwError(deleteInvalidIdError);
+    }
+
+    return this.getPlayers().pipe(
+      map(players => players.filter(p => p.id !== id)),
+      tap(players => this.storage.setItem(this.playersKey, JSON.stringify(players))),
+      map(() => id)
     );
   }
 
-  dropPlayers(playerIds: number[]): Observable<Player[]> {
-    return this.getPlayers().pipe(
-      map(value => value.map(p => playerIds.includes(p.id) ? {
-        ...p,
-        dropped: true
-      } : p)),
-      tap(value => this.storage.setItem(this.playersKey, JSON.stringify(value)))
-    );
-  }
+  // deletePlayers(): Observable<boolean> {
+  //   return this.supported().pipe(
+  //     tap(() => this.storage.removeItem(this.playersKey))
+  //   );
+  // }
+
+  // dropPlayers(playerIds: number[]): Observable<Player[]> {
+  //   return this.getPlayers().pipe(
+  //     map(value => value.map(p => playerIds.includes(p.id) ? {
+  //       ...p,
+  //       dropped: true
+  //     } : p)),
+  //     tap(value => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+  //   );
+  // }
 
   getPlayers(): Observable<Player[]> {
     return this.getArray(this.playersKey);
   }
 
-  removePlayers(ids: number[]): Observable<Player[]> {
-    return this.getPlayers().pipe(
-      map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
-    );
-  }
-
   updatePlayer(player: Update<Player>): Observable<Player> {
+    if (!player.id) {
+      return throwError(updateInvalidIdError);
+    }
+
     return this.getPlayers().pipe(
-      map((players: Player[]) => players.map((item: Player) => {
-        if (item.id === player.id) {
-          return {
-            ...item,
-            ...player.changes
-          };
-        } else {
-          return item;
+      map((players: Player[]) => {
+        const playerIndex = players.findIndex(p => p.id === player.id);
+
+        if (playerIndex === -1) {
+          throw new Error(updateInvalidIdError);
         }
-      })),
+
+        const oldPlayer = players[playerIndex];
+
+        players[playerIndex] = {
+          ...oldPlayer,
+          ...player.changes
+        };
+
+        return players;
+      }),
       tap((players: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(players))),
-      map((players: Player[]) => players.find(p => p.id === player.id))
+      map((players: Player[]) => players.find(p => p.id === player.id)),
+      catchError((err: Error) => throwError(err.message))
     );
   }
 }

@@ -7,18 +7,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { CoreModule } from '@app/core/core.module';
-import { PlayerEffects } from '@app/core/effects';
+import { PlayerEffects, TournamentEffects } from '@app/core/effects';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { MinimalRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     AppRoutingModule,
@@ -26,7 +26,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     CommonModule,
     CoreModule,
-    EffectsModule.forRoot([PlayerEffects]),
+    EffectsModule.forRoot([PlayerEffects, TournamentEffects]),
     FlexLayoutModule,
     FormsModule,
     SharedModule,
@@ -35,7 +35,9 @@ import { environment } from '../environments/environment';
       maxAge: 25,
       logOnly: environment.production
     }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot({
+      serializer: MinimalRouterStateSerializer
+    })
   ],
   bootstrap: [AppComponent]
 })

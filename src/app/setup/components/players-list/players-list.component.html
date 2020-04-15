@@ -3,19 +3,8 @@
     <h3 matLine>{{player.name}}</h3>
     <button
         mat-button
-        (click)="editPlayer.emit(player)">
+        (click)="editClicked(player)">
       <mat-icon>edit</mat-icon>
     </button>
   </mat-list-item>
 </mat-list>
-
-<!-- <div class="list-group">
-  <a *ngFor="let player of players"
-      class="list-group-item list-group-item-action"
-      (click)="onSelect(player)">
-    <mm-players-list-item
-        [player]="player"
-        [selected]="player === selectedPlayer"
-        (playerNameChange)="playerNameChange.emit($event)"></mm-players-list-item>
-  </a>
-</div> -->

@@ -21,7 +21,7 @@ export const initialState: State = adapter.getInitialState({
 const playersReducer = createReducer(
   initialState,
   on(PlayersApiActions.addPlayerSuccess, (state, {player}) => adapter.addOne(player, state)),
-  on(PlayersApiActions.deletePlayerSuccess, (state, {playerId}) => adapter.removeOne(playerId, state)),
+  on(PlayersApiActions.deletePlayerSuccess, (state, {id}) => adapter.removeOne(id, state)),
   on(PlayersApiActions.dropPlayersSuccess, (state, {players}) => adapter.updateMany(players, state)),
   on(PlayersApiActions.loadPlayers, state => ({
     ...state,

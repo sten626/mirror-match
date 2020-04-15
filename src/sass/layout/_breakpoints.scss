@@ -1,0 +1,35 @@
+$breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 1024px,
+  lg: 1440px,
+  xl: 1920px
+) !default;
+
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+//
+//    >> breakpoint-min(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
+//    576px
+@function breakpoint-min($name, $breakpoints) {
+  $min: map-get($breakpoints, $name);
+
+  @return if($min != 0, $min, null);
+}
+
+@function breakpoint-prefix($name, $breakpoints) {
+  @return if(breakpoint-min($name, $breakpoints) == null, "", "#{$name}\\:");
+}
+
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-min-width($name, $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

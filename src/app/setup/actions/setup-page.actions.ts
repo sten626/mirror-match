@@ -7,6 +7,16 @@ export const addPlayer = createAction(
   props<{player: Player}>()
 );
 
+export const deletePlayer = createAction(
+  '[Setup Page] Delete Player',
+  props<{id: number}>()
+);
+
+export const startTournament = createAction(
+  '[Setup Page] Start Tournament',
+  props<{bestOf: number, isDraft: boolean, totalRounds: number}>()
+);
+
 export const updatePlayer = createAction(
   '[Setup Page] Update Player',
   props<{player: Update<Player>}>()

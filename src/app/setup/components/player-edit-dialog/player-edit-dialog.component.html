@@ -1,11 +1,16 @@
 <h2 mat-dialog-title>Edit player</h2>
 <mat-dialog-content>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Name" [formControl]="name" required>
-    <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
-  </mat-form-field>
+  <section class="mb-2">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Name" [formControl]="name" required>
+      <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </section>
+  <section class="mb-2">
+    <mat-slide-toggle color="warn" [formControl]="dropped">Dropped</mat-slide-toggle>
+  </section>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close color="primary">CANCEL</button>
-  <button mat-button [mat-dialog-close]="name.value" color="primary" [disabled]="name.invalid">SAVE</button>
+  <button mat-button class="text-uppercase" mat-dialog-close color="primary">Cancel</button>
+  <button mat-button class="text-uppercase" [mat-dialog-close]="{name: name.value, dropped: dropped.value}" color="primary" [disabled]="isNameEmpty() || name.invalid">Save</button>
 </mat-dialog-actions>

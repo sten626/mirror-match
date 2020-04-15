@@ -12,9 +12,14 @@ export const addPlayerSuccess = createAction(
   props<{player: Player}>()
 );
 
+export const deletePlayerFailure = createAction(
+  '[Players/API] Delete Player Failure',
+  props<{err: any}>()
+);
+
 export const deletePlayerSuccess = createAction(
   '[Players/API] Delete Player Success',
-  props<{playerId: number}>()
+  props<{id: number}>()
 );
 
 export const dropPlayersSuccess = createAction(
@@ -26,9 +31,19 @@ export const loadPlayers = createAction(
   '[Players/API] Load Players'
 );
 
+export const loadPlayersFailure = createAction(
+  '[Players/API] Load Players Failure',
+  props<{err: any}>()
+);
+
 export const loadPlayersSuccess = createAction(
   '[Players/API] Load Players Success',
   props<{players: Player[]}>()
+);
+
+export const updatePlayerFailure = createAction(
+  '[Players/API] Update Player Failure',
+  props<{err: any}>()
 );
 
 export const updatePlayerSuccess = createAction(

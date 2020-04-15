@@ -8,19 +8,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { PlayerEditDialogComponent, PlayerFormComponent, PlayersListComponent, PlayersListItemComponent } from '@app/setup/components';
-import { PlayersPageComponent, SetupPageComponent } from '@app/setup/containers';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {
+  PlayerEditDialogComponent,
+  PlayerFormComponent,
+  PlayersListComponent,
+  TournamentStartDialogComponent
+} from '@app/setup/components';
+import { SetupPageComponent } from '@app/setup/containers';
 import { SetupRoutingModule } from '@app/setup/setup-routing.module';
 
 const COMPONENTS = [
   PlayerEditDialogComponent,
   PlayerFormComponent,
   PlayersListComponent,
-  PlayersListItemComponent
+  TournamentStartDialogComponent
 ];
 
 const CONTAINERS = [
-  PlayersPageComponent,
   SetupPageComponent
 ];
 
@@ -34,6 +40,8 @@ const CONTAINERS = [
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
+    MatSlideToggleModule,
     ReactiveFormsModule,
     SetupRoutingModule
   ],
@@ -42,7 +50,8 @@ const CONTAINERS = [
     CONTAINERS
   ],
   entryComponents: [
-    PlayerEditDialogComponent
+    PlayerEditDialogComponent,
+    TournamentStartDialogComponent
   ]
 })
 export class SetupModule {}

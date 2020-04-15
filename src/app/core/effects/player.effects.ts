@@ -19,6 +19,16 @@ export class PlayerEffects implements OnInitEffects {
     )
   ));
 
+  deletePlayer$ = createEffect(() => this.actions$.pipe(
+    ofType(SetupPageActions.deletePlayer),
+    mergeMap(({id}) =>
+      this.storageService.deletePlayer(id).pipe(
+        map(() => PlayersApiActions.deletePlayerSuccess({id})),
+        catchError(err => of(PlayersApiActions.deletePlayerFailure({ err })))
+      )
+    )
+  ));
+
   // deletePlayers$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.deletePlayer),
   //   mergeMap(({playerId}) =>
@@ -48,7 +58,8 @@ export class PlayerEffects implements OnInitEffects {
     ofType(PlayersApiActions.loadPlayers),
     switchMap(() =>
       this.storageService.getPlayers().pipe(
-        map(players => PlayersApiActions.loadPlayersSuccess({players}))
+        map(players => PlayersApiActions.loadPlayersSuccess({players})),
+        catchError(err => of(PlayersApiActions.loadPlayersFailure({err})))
       )
     )
   ));
@@ -77,7 +88,8 @@ export class PlayerEffects implements OnInitEffects {
     ofType(SetupPageActions.updatePlayer),
     mergeMap(({player}) =>
       this.storageService.updatePlayer(player).pipe(
-        map(() => PlayersApiActions.updatePlayerSuccess({player}))
+        map(() => PlayersApiActions.updatePlayerSuccess({player})),
+        catchError(err => of(PlayersApiActions.updatePlayerFailure({err})))
       )
     )
   ));

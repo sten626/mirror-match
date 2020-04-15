@@ -33,7 +33,7 @@ export class LayoutComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.urlSubscription = this.store.select(fromRoot.selectUrl).subscribe(route => {
+    this.urlSubscription = this.store.select(fromRoot.getUrl).subscribe(route => {
       if (route && route.includes('/')) {
         const routeSection = route.split('/')[1];
         this.toolbarHeader = routeSection[0].toUpperCase() + routeSection.slice(1);
