@@ -2,13 +2,37 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TournamentApiActions } from '@app/core/actions';
 import { TournamentStorageService } from '@app/core/services/tournament-storage.service';
+import { buildPods } from '@app/core/util';
+import * as fromRoot from '@app/reducers';
 import { SetupPageActions } from '@app/setup/actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { combineLatest, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class TournamentEffects {
+  startDraft$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetupPageActions.startDraft),
+      withLatestFrom(this.store.pipe(select(fromRoot.getPlayerIds))),
+      mergeMap(([_, playersIds]) => {
+        const pods = buildPods(playersIds as number[]);
+        return this.storageService.setDraftPods(pods).pipe(
+          map(() => TournamentApiActions.startDraftSuccess({pods}))
+        );
+      }),
+      catchError(err => of(TournamentApiActions.startDraftFailure(err)))
+    )
+  );
+
+  startDraftSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TournamentApiActions.startDraftSuccess),
+      tap(() => this.router.navigate(['/pods']))
+    ), { dispatch: false }
+  );
+
   startTournamentSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -51,6 +75,7 @@ export class TournamentEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private storageService: TournamentStorageService
+    private storageService: TournamentStorageService,
+    private store: Store<fromRoot.State>
   ) {}
 }

@@ -53,6 +53,13 @@ export class StorageService {
     );
   }
 
+  protected setArray(key: string, value: any[]): Observable<any[]> {
+    return this.supported().pipe(
+      tap(() => this.storage.setItem(key, JSON.stringify(value))),
+      map(() => value)
+    );
+  }
+
   protected setBoolean(key: string, value: boolean): Observable<boolean> {
     return this.setValue(key, value) as Observable<boolean>;
   }

@@ -94,7 +94,12 @@ export class SetupPageComponent implements OnInit, OnDestroy {
         const bestOf = parseInt(result.bestOf);
         const isDraft: boolean = result.isDraft;
         const totalRounds: number = result.totalRounds;
-        this.store.dispatch(SetupPageActions.startTournament({bestOf, isDraft, totalRounds}));
+
+        if (isDraft) {
+          this.store.dispatch(SetupPageActions.startDraft());
+        } else {
+          this.store.dispatch(SetupPageActions.startTournament({bestOf, isDraft, totalRounds}));
+        }
       }
     });
   }

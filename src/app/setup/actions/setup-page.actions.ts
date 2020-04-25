@@ -12,6 +12,10 @@ export const deletePlayer = createAction(
   props<{id: number}>()
 );
 
+export const startDraft = createAction(
+  '[Setup Page] Start Draft'
+);
+
 export const startTournament = createAction(
   '[Setup Page] Start Tournament',
   props<{bestOf: number, isDraft: boolean, totalRounds: number}>()
