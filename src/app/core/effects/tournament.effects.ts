@@ -15,14 +15,14 @@ export class TournamentEffects {
   startDraft$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SetupPageActions.startDraft),
-      withLatestFrom(this.store.pipe(select(fromRoot.getPlayerIds))),
+      withLatestFrom(this.store.pipe(select(fromRoot.getActivePlayerIds))),
       mergeMap(([_, playersIds]) => {
         const pods = buildPods(playersIds as number[]);
         return this.storageService.setDraftPods(pods).pipe(
-          map(() => TournamentApiActions.startDraftSuccess({pods}))
+          map(() => TournamentApiActions.startDraftSuccess({pods})),
+          catchError(err => of(TournamentApiActions.startDraftFailure({err})))
         );
       }),
-      catchError(err => of(TournamentApiActions.startDraftFailure(err)))
     )
   );
 
