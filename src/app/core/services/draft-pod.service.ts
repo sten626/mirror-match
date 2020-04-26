@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 export type Pod = number[];
 
@@ -8,7 +9,7 @@ export type Pod = number[];
 export class DraftPodService {
   constructor() {}
 
-  buildPods(playerIds: number[]): Pod[] {
+  buildPods(playerIds: number[]): Observable<Pod[]> {
     playerIds = playerIds.slice();
 
     for (let i = playerIds.length; i; i--) {
@@ -25,7 +26,7 @@ export class DraftPodService {
       pods.push(pod);
     }
 
-    return pods;
+    return of(pods);
   }
 
   private getPodSizes(numPlayers: number): number[] {

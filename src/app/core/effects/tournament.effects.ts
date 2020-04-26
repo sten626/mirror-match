@@ -16,13 +16,16 @@ export class TournamentEffects {
     this.actions$.pipe(
       ofType(SetupPageActions.startDraft),
       withLatestFrom(this.store.pipe(select(fromRoot.getActivePlayerIds))),
-      mergeMap(([_, playersIds]) => {
-        const pods = this.draftPodService.buildPods(playersIds as number[]);
-        return this.storageService.setDraftPods(pods).pipe(
-          map(() => TournamentApiActions.startDraftSuccess({pods})),
+      mergeMap(([_, playerIds]) =>
+        this.draftPodService.buildPods(playerIds).pipe(
+          mergeMap(pods =>
+            this.storageService.setDraftPods(pods).pipe(
+              map(() => TournamentApiActions.startDraftSuccess({pods}))
+            )
+          ),
           catchError(err => of(TournamentApiActions.startDraftFailure({err})))
-        );
-      }),
+        )
+      )
     )
   );
 

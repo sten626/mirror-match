@@ -44,14 +44,16 @@ describe('DraftPodService', () => {
     ]);
 
     data.forEach((value, key) => {
-      it(`should return pods ${value} with ${key} players`, () => {
+      it(`should return pods ${value} with ${key} players`, (done: DoneFn) => {
         const playerIds = getMockPlayerIds(key);
-        const pods = service.buildPods(playerIds);
-        const expectedNumPods = value.length;
-        expect(pods.length).toBe(expectedNumPods);
+        service.buildPods(playerIds).subscribe(pods => {
+          expect(pods.length).toBe(value.length);
 
-        value.forEach((podSize, i) => {
-          expect(pods[i].length).toBe(podSize);
+          value.forEach((podSize, i) => {
+            expect(pods[i].length).toBe(podSize);
+          });
+
+          done();
         });
       });
     });
