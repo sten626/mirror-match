@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Pod } from '@app/core/services/draft-pod.service';
 import { StorageService } from '@app/core/services/storage.service';
 import { Observable } from 'rxjs';
-import { Pod } from '@app/core/reducers/tournament.reducer';
 
 @Injectable({
   providedIn: 'root'

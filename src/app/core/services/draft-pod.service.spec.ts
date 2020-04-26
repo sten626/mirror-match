@@ -1,4 +1,5 @@
-import { buildPods } from '@app/core/util';
+import { TestBed } from '@angular/core/testing';
+import { DraftPodService } from './draft-pod.service';
 
 function getMockPlayerIds(numPlayers: number): number[] {
   const playerIds: number[] = [];
@@ -10,7 +11,18 @@ function getMockPlayerIds(numPlayers: number): number[] {
   return playerIds;
 }
 
-describe('util', () => {
+describe('DraftPodService', () => {
+  let service: DraftPodService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(DraftPodService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
   describe('buildPods', () => {
     const data = new Map<number, number[]>([
       [6, [6]],
@@ -34,7 +46,7 @@ describe('util', () => {
     data.forEach((value, key) => {
       it(`should return pods ${value} with ${key} players`, () => {
         const playerIds = getMockPlayerIds(key);
-        const pods = buildPods(playerIds);
+        const pods = service.buildPods(playerIds);
         const expectedNumPods = value.length;
         expect(pods.length).toBe(expectedNumPods);
 

@@ -1,8 +1,8 @@
 import { TournamentApiActions } from '@app/core/actions';
+import { Pod } from '@app/core/services/draft-pod.service';
 import { Action, createReducer, on } from '@ngrx/store';
 
 export const tournamentFeatureKey = 'tournament';
-export type Pod = number[];
 
 export interface State {
   bestOf: number;

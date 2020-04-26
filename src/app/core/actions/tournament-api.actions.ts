@@ -1,4 +1,4 @@
-import { Pod } from '@app/core/reducers/tournament.reducer';
+import { Pod } from '@app/core/services/draft-pod.service';
 import { createAction, props } from '@ngrx/store';
 
 export const startDraftFailure = createAction(

@@ -12,7 +12,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { TournamentEffects } from './tournament.effects';
 
-fdescribe('TournamentEffects', () => {
+describe('TournamentEffects', () => {
   let actions$: Observable<any>;
   let effects: TournamentEffects;
   let router: Router;
