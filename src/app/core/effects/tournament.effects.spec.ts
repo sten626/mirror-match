@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TournamentApiActions } from '@app/core/actions';
+import { DraftPodService } from '@app/core/services/draft-pod.service';
 import { TournamentStorageService } from '@app/core/services/tournament-storage.service';
 import * as fromRoot from '@app/reducers';
 import { SetupPageActions } from '@app/setup/actions';
@@ -9,25 +10,32 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { TournamentEffects } from './tournament.effects';
 
-describe('TournamentEffects', () => {
+fdescribe('TournamentEffects', () => {
   let actions$: Observable<any>;
   let effects: TournamentEffects;
   let router: Router;
   let store: MockStore<fromRoot.State>;
-  const storageSpy = jasmine.createSpyObj('TournamentStorageService', [
-    'setBestOf',
-    'setDraftPods',
-    'setIsDraft',
-    'setTotalRounds'
-  ]);
+  let draftPodSpy;
+  let storageSpy;
 
   beforeEach(() => {
+    draftPodSpy = jasmine.createSpyObj('DraftPodService', [
+      'buildPods'
+    ]);
+    storageSpy = jasmine.createSpyObj('TournamentStorageService', [
+      'setBestOf',
+      'setDraftPods',
+      'setIsDraft',
+      'setTotalRounds'
+    ]);
+
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
+        { provide: DraftPodService, useValue: draftPodSpy },
         { provide: TournamentStorageService, useValue: storageSpy },
         TournamentEffects,
         provideMockActions(() => actions$),
@@ -57,19 +65,32 @@ describe('TournamentEffects', () => {
     it('should call setDraftPods', () => {
       actions$ = of(SetupPageActions.startDraft());
       effects.startDraft$.subscribe();
+      expect(draftPodSpy.buildPods).toHaveBeenCalled();
       expect(storageSpy.setDraftPods).toHaveBeenCalled();
     });
 
-    it('should fail if setDraftPods fails', () => {
-      const action = SetupPageActions.startDraft();
-      const err = 'At least 6 players needed to create draft pods.';
-      const completion = TournamentApiActions.startDraftFailure({err});
-      actions$ = hot('-a', {a: action});
-      const response = cold('-#', {}, err);
-      const expected = cold('--c', {c: completion});
-      storageSpy.setDraftPods.and.returnValue(response);
+    it('should fail if buildPods fails', (done: DoneFn) => {
+      actions$ = of(SetupPageActions.startDraft());
+      const error = 'At least 6 players are required to build pods.';
+      draftPodSpy.buildPods.and.returnValue(throwError(error));
+      const expected = TournamentApiActions.startDraftFailure({err: error});
 
-      expect(effects.startDraft$).toBeObservable(expected);
+      effects.startDraft$.subscribe(action => {
+        expect(action).toEqual(expected);
+        done();
+      });
+    });
+
+    it('should fail if setDraftPods fails', (done: DoneFn) => {
+      actions$ = of(SetupPageActions.startDraft());
+      const error = 'Failed to set draft pods.';
+      storageSpy.setDraftPods.and.returnValue(throwError(error));
+      draftPodSpy.buildPods.and.returnValue(of([]));
+      const expected = TournamentApiActions.startDraftFailure({err: error});
+      effects.startDraft$.subscribe(action => {
+        expect(action).toEqual(expected);
+        done();
+      });
     });
   });
 
