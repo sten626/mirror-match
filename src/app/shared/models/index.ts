@@ -4,3 +4,4 @@ export * from './player.model';
 export * from './player-preferences.model';
 export * from './round.model';
 export * from './standing.model';
+export * from './tournament-info.model';

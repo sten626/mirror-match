@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@app/reducers';
 import { SetupPageActions } from '@app/setup/actions';
-import { PlayerEditDialogComponent, TournamentStartDialogComponent } from '@app/setup/components';
-import { Player } from '@app/shared/models';
+import {
+  PlayerEditDialogComponent,
+  TournamentStartDialogComponent
+} from '@app/setup/components';
+import { Player, TournamentInfo } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,24 +22,21 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   recommendedTotalRounds: number;
   recommendedTotalRoundsSub: Subscription;
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<fromRoot.State>
-  ) {
+  constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.canBeginTournament$ = this.store.pipe(
       select(fromRoot.canBeginTournament)
     );
 
     this.players$ = this.store.pipe(
       select(fromRoot.getAllPlayers),
-      map(players => players.slice().reverse())
+      map((players) => players.slice().reverse())
     );
   }
 
   ngOnInit() {
-    this.recommendedTotalRoundsSub = this.store.pipe(
-      select(fromRoot.getRecommendedTotalRounds)
-    ).subscribe(value => this.recommendedTotalRounds = value);
+    this.recommendedTotalRoundsSub = this.store
+      .pipe(select(fromRoot.getRecommendedTotalRounds))
+      .subscribe((value) => (this.recommendedTotalRounds = value));
   }
 
   ngOnDestroy() {
@@ -49,11 +49,11 @@ export class SetupPageComponent implements OnInit, OnDestroy {
       name: name,
       dropped: false
     };
-    this.store.dispatch(SetupPageActions.addPlayer({player}));
+    this.store.dispatch(SetupPageActions.addPlayer({ player }));
   }
 
-  onEditPlayer(event: {player: Player, otherPlayers: Player[]}) {
-    const {player, otherPlayers} = event;
+  onEditPlayer(event: { player: Player; otherPlayers: Player[] }) {
+    const { player, otherPlayers } = event;
     const dialogRef = this.dialog.open(PlayerEditDialogComponent, {
       data: {
         player: player,
@@ -61,22 +61,26 @@ export class SetupPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const {name, dropped} = result;
+        const { name, dropped } = result;
 
         if (dropped) {
           // TODO Check if tournament has started or not.
-          this.store.dispatch(SetupPageActions.deletePlayer({
-            id: player.id
-          }));
+          this.store.dispatch(
+            SetupPageActions.deletePlayer({
+              id: player.id
+            })
+          );
         } else {
-          this.store.dispatch(SetupPageActions.updatePlayer({
-            player: {
-              id: player.id,
-              changes: {name}
-            }
-          }));
+          this.store.dispatch(
+            SetupPageActions.updatePlayer({
+              player: {
+                id: player.id,
+                changes: { name }
+              }
+            })
+          );
         }
       }
     });
@@ -89,17 +93,32 @@ export class SetupPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const bestOf = parseInt(result.bestOf);
+        const formBestOf = parseInt(result.bestOf);
         const isDraft: boolean = result.isDraft;
         const totalRounds: number = result.totalRounds;
+        let bestOf: 1 | 3 = 3;
 
-        if (isDraft) {
-          this.store.dispatch(SetupPageActions.startDraft());
-        } else {
-          this.store.dispatch(SetupPageActions.startTournament({bestOf, isDraft, totalRounds}));
+        switch (formBestOf) {
+          case 1: {
+            bestOf = 1;
+            break;
+          }
+          default: {
+            bestOf = 3;
+          }
         }
+
+        const tournamentInfo: TournamentInfo = {
+          bestOf,
+          isDraft,
+          totalRounds
+        };
+
+        this.store.dispatch(
+          SetupPageActions.startTournament({ tournamentInfo })
+        );
       }
     });
   }

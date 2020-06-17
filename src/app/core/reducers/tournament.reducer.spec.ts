@@ -1,6 +1,6 @@
-import { reducer, initialState } from './tournament.reducer';
 import { TournamentApiActions } from '@app/core/actions';
-
+import { TournamentInfo } from '@app/shared/models';
+import { initialState, reducer } from './tournament.reducer';
 
 describe('Tournament Reducer', () => {
   describe('an unknown action', () => {
@@ -13,12 +13,15 @@ describe('Tournament Reducer', () => {
     });
   });
 
-  describe('startTournamentSuccess', () => {
+  describe('setTournamentInfoSuccess', () => {
     it('should set all 3 values to the state', () => {
-      const action = TournamentApiActions.startTournamentSuccess({
+      const tournamentInfo: TournamentInfo = {
         bestOf: 3,
         isDraft: false,
         totalRounds: 3
+      };
+      const action = TournamentApiActions.setTournamentInfoSuccess({
+        tournamentInfo
       });
       const state = reducer(initialState, action);
 

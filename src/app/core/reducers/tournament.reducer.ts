@@ -20,16 +20,18 @@ export const initialState: State = {
 
 const tournamentReducer = createReducer(
   initialState,
-  on(TournamentApiActions.startDraftSuccess, (state, {pods}) => ({
+  on(TournamentApiActions.startDraftSuccess, (state, { pods }) => ({
     ...state,
     pods
   })),
-  on(TournamentApiActions.startTournamentSuccess, (state, {bestOf, isDraft, totalRounds}) => ({
-    ...state,
-    bestOf,
-    isDraft,
-    totalRounds
-  }))
+  on(
+    TournamentApiActions.loadTournamentSuccess,
+    TournamentApiActions.setTournamentInfoSuccess,
+    (state, { tournamentInfo }) => ({
+      ...state,
+      ...tournamentInfo
+    })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

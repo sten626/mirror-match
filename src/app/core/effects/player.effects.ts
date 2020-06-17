@@ -9,25 +9,33 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
-  addPlayer$ = createEffect(() => this.actions$.pipe(
-    ofType(SetupPageActions.addPlayer),
-    mergeMap(({player}) =>
-      this.storageService.addPlayer(player).pipe(
-        map((value: Player) => PlayersApiActions.addPlayerSuccess({ player: value })),
-        catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
+  addPlayer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetupPageActions.addPlayer),
+      mergeMap(({ player }) =>
+        this.storageService.addPlayer(player).pipe(
+          map((value: Player) =>
+            PlayersApiActions.addPlayerSuccess({ player: value })
+          ),
+          catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
+        )
       )
     )
-  ));
+  );
 
-  deletePlayer$ = createEffect(() => this.actions$.pipe(
-    ofType(SetupPageActions.deletePlayer),
-    mergeMap(({id}) =>
-      this.storageService.deletePlayer(id).pipe(
-        map(() => PlayersApiActions.deletePlayerSuccess({id})),
-        catchError(err => of(PlayersApiActions.deletePlayerFailure({ err })))
+  deletePlayer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetupPageActions.deletePlayer),
+      mergeMap(({ id }) =>
+        this.storageService.deletePlayer(id).pipe(
+          map(() => PlayersApiActions.deletePlayerSuccess({ id })),
+          catchError((err) =>
+            of(PlayersApiActions.deletePlayerFailure({ err }))
+          )
+        )
       )
     )
-  ));
+  );
 
   // deletePlayers$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.deletePlayer),
@@ -54,15 +62,17 @@ export class PlayerEffects implements OnInitEffects {
   //   )
   // ));
 
-  loadPlayers$ = createEffect(() => this.actions$.pipe(
-    ofType(PlayersApiActions.loadPlayers),
-    switchMap(() =>
-      this.storageService.getPlayers().pipe(
-        map(players => PlayersApiActions.loadPlayersSuccess({players})),
-        catchError(err => of(PlayersApiActions.loadPlayersFailure({err})))
+  loadPlayers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PlayersApiActions.loadPlayers),
+      switchMap(() =>
+        this.storageService.getPlayers().pipe(
+          map((players) => PlayersApiActions.loadPlayersSuccess({ players })),
+          catchError((err) => of(PlayersApiActions.loadPlayersFailure({ err })))
+        )
       )
     )
-  ));
+  );
 
   // togglePlayerDropped$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.togglePlayerDropped),
@@ -84,15 +94,19 @@ export class PlayerEffects implements OnInitEffects {
   //   )
   // ));
 
-  updatePlayer$ = createEffect(() => this.actions$.pipe(
-    ofType(SetupPageActions.updatePlayer),
-    mergeMap(({player}) =>
-      this.storageService.updatePlayer(player).pipe(
-        map(() => PlayersApiActions.updatePlayerSuccess({player})),
-        catchError(err => of(PlayersApiActions.updatePlayerFailure({err})))
+  updatePlayer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetupPageActions.updatePlayer),
+      mergeMap(({ player }) =>
+        this.storageService.updatePlayer(player).pipe(
+          map(() => PlayersApiActions.updatePlayerSuccess({ player })),
+          catchError((err) =>
+            of(PlayersApiActions.updatePlayerFailure({ err }))
+          )
+        )
       )
     )
-  ));
+  );
 
   // updatePlayerName$ = createEffect(() => this.actions$.pipe(
   //   ofType(PlayersPageActions.updatePlayerName),
