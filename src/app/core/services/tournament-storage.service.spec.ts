@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LOCAL_STORAGE_TOKEN } from '@app/core/services/storage.service';
-import { TournamentStorageService } from './tournament-storage.service';
 import { TournamentInfo } from '@app/shared/models';
+import { TournamentStorageService } from './tournament-storage.service';
 
 describe('TournamentStorageService', () => {
   let service: TournamentStorageService;
