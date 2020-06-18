@@ -40,15 +40,6 @@ export class TournamentEffects implements OnInitEffects {
     { dispatch: false }
   );
 
-  startDraftSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(TournamentApiActions.startDraftSuccess),
-        tap(() => this.router.navigate(['/pods']))
-      ),
-    { dispatch: false }
-  );
-
   startTournament$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SetupPageActions.startTournament),
