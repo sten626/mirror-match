@@ -1,4 +1,5 @@
 import { PodsApiActions, PodsPageActions } from '@app/pods/actions';
+import { Pod } from '@app/shared/models';
 import { Action, createReducer, on } from '@ngrx/store';
 
 export const podsFeatureKey = 'pods';
@@ -6,7 +7,7 @@ export const podsFeatureKey = 'pods';
 export interface State {
   loaded: boolean;
   loading: boolean;
-  pods: number[][];
+  pods: Pod[];
 }
 
 export const initialState: State = {

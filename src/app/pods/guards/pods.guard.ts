@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot
-} from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
+import * as fromPods from '@app/pods/reducers';
+import * as fromRoot from '@app/reducers';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PodsGuard implements CanActivate {
-  // constructor(private store: Store<>) {}
-  // canActivate(
-  //   next: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot
-  // ): Observable<boolean> {
-  //   return true;
-  // }
+  constructor(private router: Router, private store: Store<fromPods.State>) {}
 
-  // waitForPodsToLoad(): Observable<boolean> {
+  canActivate(): Observable<boolean> {
+    return this.store.pipe(
+      select(fromRoot.getIsDraft),
+      map((isDraft) => {
+        if (!isDraft) {
+          this.router.navigate(['/']);
+          return false;
+        }
 
-  // }
+        return true;
+      })
+    );
+  }
 }

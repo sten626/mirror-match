@@ -82,6 +82,11 @@ export const getBestOf = createSelector(
   (state) => state.bestOf
 );
 
+export const getIsDraft = createSelector(
+  selectTournamentState,
+  (state) => state.isDraft
+);
+
 /**
  * Router Reducers
  */

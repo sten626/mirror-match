@@ -2,6 +2,7 @@ export * from './message.model';
 export * from './pairing.model';
 export * from './player.model';
 export * from './player-preferences.model';
+export * from './pod.model';
 export * from './round.model';
 export * from './standing.model';
 export * from './tournament-info.model';
