@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MessageActions } from '@app/core/actions';
-import * as fromRoot from '@app/reducers';
 import { Message } from '@app/shared/models';
 import * as fromSwiss from '@app/swiss/reducers';
 import { select, Store } from '@ngrx/store';
@@ -24,9 +23,9 @@ export class SwissComponent {
     this.hasTournamentStarted$ = this.store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
-    this.messages$ = this.store.pipe(
-      select(fromRoot.getMessages)
-    );
+    // this.messages$ = this.store.pipe(
+    //   select(fromRoot.getMessages)
+    // );
     // this.numberOfActivePlayers$ = this.store.pipe(
     //   select(fromSwiss.getTotalActivePlayers)
     // );

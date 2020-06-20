@@ -11,15 +11,16 @@ import { PlayerEffects, TournamentEffects } from '@app/core/effects';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
-import { MinimalRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import {
+  MinimalRouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
