@@ -1,6 +1,11 @@
 import { TournamentInfo } from '@app/shared/models';
 import { createAction, props } from '@ngrx/store';
 
+export const createDraftPods = createAction(
+  '[Tournament/API] Create Draft Pods',
+  props<{ activePlayerIds: number[] }>()
+);
+
 export const loadTournament = createAction('[Tournament/API] Load Tournament');
 
 export const loadTournamentFailure = createAction(
@@ -20,5 +25,5 @@ export const setTournamentInfoFailure = createAction(
 
 export const setTournamentInfoSuccess = createAction(
   '[Tournament/API] Set Tournament Info Success',
-  props<{ tournamentInfo: TournamentInfo }>()
+  props<{ activePlayerIds: number[]; tournamentInfo: TournamentInfo }>()
 );

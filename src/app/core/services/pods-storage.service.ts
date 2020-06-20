@@ -12,4 +12,8 @@ export class PodsStorageService extends StorageService {
   getPods(): Observable<Pod[]> {
     return this.getArray(this.podsKey);
   }
+
+  setPods(pods: Pod[]): Observable<Pod[]> {
+    return this.setArray(this.podsKey, pods);
+  }
 }

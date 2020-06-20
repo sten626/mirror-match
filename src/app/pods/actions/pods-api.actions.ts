@@ -10,3 +10,13 @@ export const loadPodsFailure = createAction(
   '[Pods/API] Load Pods Failure',
   props<{ error: any }>()
 );
+
+export const setPodsSuccess = createAction(
+  '[Pods/API] Set Pods Success',
+  props<{ pods: Pod[] }>()
+);
+
+export const setPodsFailure = createAction(
+  '[Pods/API] Set Pods Failure',
+  props<{ error: any }>()
+);

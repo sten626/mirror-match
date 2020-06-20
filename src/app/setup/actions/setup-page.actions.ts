@@ -18,7 +18,7 @@ export const deletePlayer = createAction(
 
 export const startTournament = createAction(
   '[Setup Page] Start Tournament',
-  props<{ tournamentInfo: TournamentInfo }>()
+  props<{ activePlayerIds: number[]; tournamentInfo: TournamentInfo }>()
 );
 
 export const updatePlayer = createAction(

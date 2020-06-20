@@ -17,6 +17,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent implements OnInit, OnDestroy {
+  activePlayerIds: number[];
+  activePlayerIdsSub: Subscription;
   canBeginTournament$: Observable<boolean>;
   players$: Observable<Player[]>;
   recommendedTotalRounds: number;
@@ -34,12 +36,16 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.activePlayerIdsSub = this.store
+      .pipe(select(fromRoot.getActivePlayerIds))
+      .subscribe((activePlayerIds) => (this.activePlayerIds = activePlayerIds));
     this.recommendedTotalRoundsSub = this.store
       .pipe(select(fromRoot.getRecommendedTotalRounds))
       .subscribe((value) => (this.recommendedTotalRounds = value));
   }
 
   ngOnDestroy() {
+    this.activePlayerIdsSub.unsubscribe();
     this.recommendedTotalRoundsSub.unsubscribe();
   }
 
@@ -117,7 +123,10 @@ export class SetupPageComponent implements OnInit, OnDestroy {
         };
 
         this.store.dispatch(
-          SetupPageActions.startTournament({ tournamentInfo })
+          SetupPageActions.startTournament({
+            activePlayerIds: this.activePlayerIds,
+            tournamentInfo
+          })
         );
       }
     });
