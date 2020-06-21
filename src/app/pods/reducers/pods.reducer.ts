@@ -22,11 +22,16 @@ const podsReducer = createReducer(
     ...state,
     loading: true
   })),
-  on(PodsApiActions.loadPodsSuccess, (_, { pods }) => ({
-    loaded: true,
-    loading: false,
-    pods: [...pods]
-  }))
+  on(
+    PodsApiActions.loadPodsSuccess,
+    PodsApiActions.setDraftPodsSuccess,
+    (state, { pods }) => ({
+      ...state,
+      loaded: true,
+      loading: false,
+      pods: [...pods]
+    })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

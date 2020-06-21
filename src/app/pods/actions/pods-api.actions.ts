@@ -1,8 +1,20 @@
 import { Pod } from '@app/shared/models';
 import { createAction, props } from '@ngrx/store';
 
+export const createDraftPods = createAction('[Pods/API] Create Draft Pods');
+
+export const createDraftPodsSuccess = createAction(
+  '[Pods/API] Create Draft Pods Success',
+  props<{ pods: Pod[] }>()
+);
+
+export const createDraftPodsFailure = createAction(
+  '[Pods/API] Create Draft Pods Failure',
+  props<{ error: any }>()
+);
+
 export const loadPodsSuccess = createAction(
-  '[Pods/Api] Load Pods Success',
+  '[Pods/API] Load Pods Success',
   props<{ pods: Pod[] }>()
 );
 
@@ -11,12 +23,12 @@ export const loadPodsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const setPodsSuccess = createAction(
-  '[Pods/API] Set Pods Success',
+export const setDraftPodsSuccess = createAction(
+  '[Pods/API] Set Draft Pods Success',
   props<{ pods: Pod[] }>()
 );
 
-export const setPodsFailure = createAction(
-  '[Pods/API] Set Pods Failure',
+export const setDraftPodsFailure = createAction(
+  '[Pods/API] Set Draft Pods Failure',
   props<{ error: any }>()
 );
