@@ -1,0 +1,10 @@
+<mat-accordion>
+  <div *ngFor="let pod of pods; index as i">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Table {{ i + 1 }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      {{ pod }}
+    </mat-expansion-panel>
+  </div>
+</mat-accordion>
