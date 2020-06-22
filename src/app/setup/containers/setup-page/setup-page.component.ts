@@ -30,7 +30,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
     );
 
     this.players$ = this.store.pipe(
-      select(fromRoot.getAllPlayers),
+      select(fromRoot.selectAllPlayers),
       map((players) => players.slice().reverse())
     );
   }

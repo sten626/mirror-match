@@ -29,19 +29,27 @@ export const selectPlayersState = createFeatureSelector<
   fromPlayers.State
 >(fromPlayers.playersFeatureKey);
 
-export const {
-  selectIds: getPlayerIds,
-  selectEntities: getPlayerEntities,
-  selectAll: getAllPlayers,
-  selectTotal: getTotalPlayers
-} = fromPlayers.adapter.getSelectors(selectPlayersState);
+export const selectPlayerEntities = createSelector(
+  selectPlayersState,
+  fromPlayers.selectPlayerEntities
+);
+
+export const selectAllPlayers = createSelector(
+  selectPlayersState,
+  fromPlayers.selectAllPlayers
+);
+
+export const selectTotalPlayers = createSelector(
+  selectPlayersState,
+  fromPlayers.selectTotalPlayers
+);
 
 export const canBeginTournament = createSelector(
-  getTotalPlayers,
+  selectTotalPlayers,
   (totalPlayers) => totalPlayers >= 4
 );
 
-export const getActivePlayers = createSelector(getAllPlayers, (players) =>
+export const getActivePlayers = createSelector(selectAllPlayers, (players) =>
   players.filter((player) => !player.dropped)
 );
 
@@ -49,12 +57,12 @@ export const getActivePlayerIds = createSelector(getActivePlayers, (players) =>
   players.map((p) => p.id)
 );
 
-export const getDroppedPlayers = createSelector(getAllPlayers, (players) =>
+export const getDroppedPlayers = createSelector(selectAllPlayers, (players) =>
   players.filter((player) => player.dropped)
 );
 
 export const getRecommendedTotalRounds = createSelector(
-  getTotalPlayers,
+  selectTotalPlayers,
   (totalPlayers: number) => Math.max(3, Math.ceil(Math.log2(totalPlayers)))
 );
 

@@ -38,4 +38,5 @@ export function reducer(state: State | undefined, action: Action) {
   return podsReducer(state, action);
 }
 
-export const getLoaded = (state: State) => state.loaded;
+export const selectLoaded = (state: State) => state.loaded;
+export const selectPods = (state: State) => state.pods;
