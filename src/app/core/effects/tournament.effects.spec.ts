@@ -114,11 +114,11 @@ describe('TournamentEffects', () => {
         totalRounds: 3
       };
       const action = SetupPageActions.startTournament({ tournamentInfo });
-      const err = 'Failed to save tournament info';
-      const completion = TournamentApiActions.setTournamentInfoFailure({ err });
+      const error = 'Failed to save tournament info';
+      const completion = TournamentApiActions.setTournamentInfoFailure({ error });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#', {}, err);
+      const response = cold('-#', {}, error);
       const expected = cold('--c', { c: completion });
       storageSpy.setTournamentInfo.and.returnValue(response);
 

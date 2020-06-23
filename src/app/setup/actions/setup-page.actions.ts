@@ -12,13 +12,9 @@ export const deletePlayer = createAction(
   props<{ id: number }>()
 );
 
-// export const startDraft = createAction(
-//   '[Setup Page] Start Draft'
-// );
-
 export const startTournament = createAction(
   '[Setup Page] Start Tournament',
-  props<{ activePlayerIds: number[]; tournamentInfo: TournamentInfo }>()
+  props<{ tournamentInfo: TournamentInfo }>()
 );
 
 export const updatePlayer = createAction(

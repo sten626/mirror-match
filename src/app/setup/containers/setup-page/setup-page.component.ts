@@ -123,10 +123,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
         };
 
         this.store.dispatch(
-          SetupPageActions.startTournament({
-            activePlayerIds: this.activePlayerIds,
-            tournamentInfo
-          })
+          SetupPageActions.startTournament({ tournamentInfo })
         );
       }
     });

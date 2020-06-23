@@ -1,7 +1,9 @@
 import * as fromPodsApi from './pods-api.actions';
 
-describe('loadPodsApis', () => {
+describe('createDraftPods', () => {
   it('should return an action', () => {
-    expect(fromPodsApi.loadPodsApis().type).toBe('[PodsApi] Load PodsApis');
+    expect(fromPodsApi.createDraftPods().type).toBe(
+      '[Pods/API] Create Draft Pods'
+    );
   });
 });

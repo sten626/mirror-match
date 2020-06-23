@@ -1,7 +1,7 @@
 import * as fromPodsPage from './pods-page.actions';
 
-describe('loadPodsPages', () => {
+describe('enter', () => {
   it('should return an action', () => {
-    expect(fromPodsPage.loadPodsPages().type).toBe('[PodsPage] Load PodsPages');
+    expect(fromPodsPage.enter().type).toBe('[Pods Page] Enter');
   });
 });

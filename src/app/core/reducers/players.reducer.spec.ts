@@ -1,7 +1,6 @@
 import { PlayersApiActions } from '@app/core/actions';
 import * as fromPlayers from '@app/core/reducers/players.reducer';
 import { Player } from '@app/shared/models';
-import { SwissApiActions } from '@app/swiss/actions'; // TODO Fix
 import { Update } from '@ngrx/entity';
 
 describe('PlayersReducer', () => {
@@ -50,19 +49,6 @@ describe('PlayersReducer', () => {
     });
   });
 
-  describe('Clear All Data Success', () => {
-    it('should reset the state', () => {
-      const { initialState } = fromPlayers;
-      const action = SwissApiActions.clearAllDataSuccess();
-      const state = fromPlayers.reducer(populatedState, action);
-
-      expect(state).toEqual({
-        ...initialState,
-        loaded: true
-      });
-    });
-  });
-
   describe('Delete Player Success', () => {
     it('should remove a player from the state', () => {
       const action = PlayersApiActions.deletePlayerSuccess({
@@ -81,7 +67,7 @@ describe('PlayersReducer', () => {
       expect(state).toEqual(expectedResult);
     });
 
-    it('should leave state unchanged when trying to delete a nonexistant player', () => {
+    it('should leave state unchanged when trying to delete a nonexistent player', () => {
       const action = PlayersApiActions.deletePlayerSuccess({id: player3.id});
       const state = fromPlayers.reducer(populatedState, action);
 
