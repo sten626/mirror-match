@@ -1,10 +1,12 @@
-<mat-accordion>
-  <div *ngFor="let pod of pods; index as i">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Table {{ i + 1 }} </mat-panel-title>
-      </mat-expansion-panel-header>
-      {{ pod }}
-    </mat-expansion-panel>
-  </div>
-</mat-accordion>
+<div class="h-full w-full p-4">
+  <mat-accordion>
+    <div *ngFor="let playerNames of pods; index as i">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Table {{ i + 1 }} </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mm-pod-detail [playerNames]="playerNames"></mm-pod-detail>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>
