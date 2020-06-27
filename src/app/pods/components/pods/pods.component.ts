@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./pods.component.scss']
 })
 export class PodsComponent {
+  @Input() isHandset: boolean;
   @Input() pods: string[][];
 
   constructor() {}
