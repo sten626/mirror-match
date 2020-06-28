@@ -37,10 +37,10 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.activePlayerIdsSub = this.store
-      .pipe(select(fromRoot.getActivePlayerIds))
+      .pipe(select(fromRoot.selectActivePlayerIds))
       .subscribe((activePlayerIds) => (this.activePlayerIds = activePlayerIds));
     this.recommendedTotalRoundsSub = this.store
-      .pipe(select(fromRoot.getRecommendedTotalRounds))
+      .pipe(select(fromRoot.selectRecommendedTotalRounds))
       .subscribe((value) => (this.recommendedTotalRounds = value));
   }
 

@@ -49,31 +49,17 @@ export const canBeginTournament = createSelector(
   (totalPlayers) => totalPlayers >= 4
 );
 
-export const getActivePlayers = createSelector(selectAllPlayers, (players) =>
+export const selectActivePlayers = createSelector(selectAllPlayers, (players) =>
   players.filter((player) => !player.dropped)
 );
 
-export const getActivePlayerIds = createSelector(getActivePlayers, (players) =>
+export const selectActivePlayerIds = createSelector(selectActivePlayers, (players) =>
   players.map((p) => p.id)
 );
 
-export const getDroppedPlayers = createSelector(selectAllPlayers, (players) =>
-  players.filter((player) => player.dropped)
-);
-
-export const getRecommendedTotalRounds = createSelector(
+export const selectRecommendedTotalRounds = createSelector(
   selectTotalPlayers,
   (totalPlayers: number) => Math.max(3, Math.ceil(Math.log2(totalPlayers)))
-);
-
-export const getTotalActivePlayers = createSelector(
-  getActivePlayers,
-  (activePlayers) => activePlayers.length
-);
-
-export const getTotalDroppedPlayers = createSelector(
-  getDroppedPlayers,
-  (players) => players.length
 );
 
 /**
@@ -85,14 +71,9 @@ export const selectTournamentState = createFeatureSelector<
   fromTournament.State
 >(fromTournament.tournamentFeatureKey);
 
-export const getBestOf = createSelector(
+export const isDraft = createSelector(
   selectTournamentState,
-  (state) => state.bestOf
-);
-
-export const getIsDraft = createSelector(
-  selectTournamentState,
-  (state) => state.isDraft
+  fromTournament.isDraft
 );
 
 /**

@@ -18,7 +18,7 @@ describe('PodsGuard', () => {
     });
     guard = TestBed.inject(PodsGuard);
     store = TestBed.inject(MockStore);
-    mockIsDraftSelector = store.overrideSelector(fromRoot.getIsDraft, true);
+    mockIsDraftSelector = store.overrideSelector(fromRoot.isDraft, true);
   });
 
   it('should be created', () => {

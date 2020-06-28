@@ -39,7 +39,7 @@ describe('TournamentEffects', () => {
         provideMockStore({
           selectors: [
             {
-              selector: fromRoot.getActivePlayerIds,
+              selector: fromRoot.selectActivePlayerIds,
               value: [1, 2, 3, 4, 5, 6, 7, 8]
             }
           ]

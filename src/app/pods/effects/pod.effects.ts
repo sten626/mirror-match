@@ -22,7 +22,7 @@ export class PodEffects {
       ofType(PodsApiActions.createDraftPods),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(this.store.pipe(select(fromRoot.getActivePlayerIds)))
+          withLatestFrom(this.store.pipe(select(fromRoot.selectActivePlayerIds)))
         )
       ),
       switchMap(([_, activePlayerIds]) =>

@@ -14,7 +14,7 @@ export class PodsGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.store.pipe(
-      select(fromRoot.getIsDraft),
+      select(fromRoot.isDraft),
       map((isDraft) => {
         if (!isDraft) {
           this.router.navigate(['/']);

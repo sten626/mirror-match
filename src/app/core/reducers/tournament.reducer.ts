@@ -33,3 +33,5 @@ const tournamentReducer = createReducer(
 export function reducer(state: State | undefined, action: Action) {
   return tournamentReducer(state, action);
 }
+
+export const isDraft = (state: State) => state.isDraft;
