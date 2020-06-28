@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatTableModule } from '@angular/material/table';
 import { PodDetailComponent } from './pod-detail.component';
 
 describe('PodDetailComponent', () => {
@@ -8,9 +8,9 @@ describe('PodDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PodDetailComponent ]
-    })
-    .compileComponents();
+      imports: [MatTableModule],
+      declarations: [PodDetailComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

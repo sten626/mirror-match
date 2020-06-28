@@ -17,13 +17,14 @@ import { TournamentEffects } from './tournament.effects';
 describe('TournamentEffects', () => {
   let actions$: Observable<any>;
   let effects: TournamentEffects;
-  let router: Router;
+  let routerSpy: jasmine.SpyObj<Router>;
   let store: MockStore<fromRoot.State>;
   let draftPodSpy: jasmine.SpyObj<DraftPodService>;
   let storageSpy: jasmine.SpyObj<TournamentStorageService>;
 
   beforeEach(() => {
     draftPodSpy = jasmine.createSpyObj('DraftPodService', ['buildPods']);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     storageSpy = jasmine.createSpyObj('TournamentStorageService', [
       'setDraftPods',
       'setTournamentInfo'
@@ -33,6 +34,7 @@ describe('TournamentEffects', () => {
       imports: [RouterTestingModule],
       providers: [
         { provide: DraftPodService, useValue: draftPodSpy },
+        { provide: Router, useValue: routerSpy },
         { provide: TournamentStorageService, useValue: storageSpy },
         TournamentEffects,
         provideMockActions(() => actions$),
@@ -48,9 +50,7 @@ describe('TournamentEffects', () => {
     });
 
     effects = TestBed.get<TournamentEffects>(TournamentEffects);
-    router = TestBed.get(Router);
     store = TestBed.get(Store);
-    spyOn(router, 'navigate').and.callThrough();
     spyOn(store, 'pipe').and.callThrough();
   });
 
@@ -69,7 +69,7 @@ describe('TournamentEffects', () => {
         TournamentApiActions.setTournamentInfoSuccess({ tournamentInfo })
       );
       effects.setTournamentInfoSuccess$.subscribe();
-      expect(router.navigate).toHaveBeenCalledWith(['/pods']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/pods']);
     });
 
     it('should navigate to /pairings if isDraft is false', () => {
@@ -82,7 +82,7 @@ describe('TournamentEffects', () => {
         TournamentApiActions.setTournamentInfoSuccess({ tournamentInfo })
       );
       effects.setTournamentInfoSuccess$.subscribe();
-      expect(router.navigate).toHaveBeenCalledWith(['/pairings']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/pairings']);
     });
   });
 

@@ -1,8 +1,9 @@
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import * as fromPlayers from '@app/core/reducers/players.reducer';
 import * as fromPods from '@app/pods/reducers/pods.reducer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PodsPageComponent } from './pods-page.component';
-import * as fromPlayers from '@app/core/reducers/players.reducer';
 
 describe('PodsPageComponent', () => {
   let component: PodsPageComponent;
@@ -13,10 +14,14 @@ describe('PodsPageComponent', () => {
     [fromPods.podsFeatureKey]: fromPods.initialState
   };
 
+  @Component({ selector: 'mm-pods', template: '' })
+  class PodsStubComponent {}
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PodsPageComponent],
-      providers: [provideMockStore({ initialState })]
+      declarations: [PodsPageComponent, PodsStubComponent],
+      providers: [provideMockStore({ initialState })],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
