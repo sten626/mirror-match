@@ -1,6 +1,6 @@
 <mat-list>
   <mat-list-item *ngFor="let player of players">
-    <h3 matLine>{{player.name}}</h3>
+    <h3 matLine>{{player.name}}<span class="dropped-label" *ngIf="player.dropped"> (dropped)</span></h3>
     <button
         mat-button
         (click)="editClicked(player)">

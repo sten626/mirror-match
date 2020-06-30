@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+
+@mixin players-list($theme) {
+  $warn: map-get($theme, warn);
+
+  .dropped-label {
+    color: mat-color($warn);
+  }
+}
