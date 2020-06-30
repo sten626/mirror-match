@@ -20,7 +20,7 @@ describe('TournamentStorageService', () => {
       ]
     });
 
-    service = TestBed.get(TournamentStorageService);
+    service = TestBed.inject(TournamentStorageService);
   });
 
   it('should be created', () => {

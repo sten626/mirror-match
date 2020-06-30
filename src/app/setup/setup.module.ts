@@ -26,9 +26,7 @@ const COMPONENTS = [
   TournamentStartDialogComponent
 ];
 
-const CONTAINERS = [
-  SetupPageComponent
-];
+const CONTAINERS = [SetupPageComponent];
 
 @NgModule({
   imports: [
@@ -45,13 +43,6 @@ const CONTAINERS = [
     ReactiveFormsModule,
     SetupRoutingModule
   ],
-  declarations: [
-    COMPONENTS,
-    CONTAINERS
-  ],
-  entryComponents: [
-    PlayerEditDialogComponent,
-    TournamentStartDialogComponent
-  ]
+  declarations: [COMPONENTS, CONTAINERS]
 })
 export class SetupModule {}

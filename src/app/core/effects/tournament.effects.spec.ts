@@ -8,7 +8,6 @@ import * as fromRoot from '@app/reducers';
 import { SetupPageActions } from '@app/setup/actions';
 import { TournamentInfo } from '@app/shared/models';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -57,8 +56,8 @@ describe('TournamentEffects', () => {
       ]
     });
 
-    effects = TestBed.get<TournamentEffects>(TournamentEffects);
-    store = TestBed.get(Store);
+    effects = TestBed.inject<TournamentEffects>(TournamentEffects);
+    store = TestBed.inject(MockStore);
     spyOn(store, 'pipe').and.callThrough();
   });
 

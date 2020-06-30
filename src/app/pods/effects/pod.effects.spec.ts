@@ -25,7 +25,7 @@ describe('PodEffects', () => {
       ]
     });
 
-    effects = TestBed.get<PodEffects>(PodEffects);
+    effects = TestBed.inject<PodEffects>(PodEffects);
     // mockStore = TestBed.inject(MockStore);
   });
 
