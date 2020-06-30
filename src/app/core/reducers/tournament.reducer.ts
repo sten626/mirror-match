@@ -1,21 +1,22 @@
 import { TournamentApiActions } from '@app/core/actions';
-import { Pod } from '@app/core/services/draft-pod.service';
 import { Action, createReducer, on } from '@ngrx/store';
 
 export const tournamentFeatureKey = 'tournament';
 
 export interface State {
   bestOf: number;
+  hasDraftStarted: boolean;
+  hasSwissStarted: boolean;
   isDraft: boolean;
   totalRounds: number;
-  pods: Pod[];
 }
 
 export const initialState: State = {
   bestOf: 0,
+  hasDraftStarted: false,
+  hasSwissStarted: false,
   isDraft: true,
-  totalRounds: 0,
-  pods: []
+  totalRounds: 0
 };
 
 const tournamentReducer = createReducer(
@@ -34,4 +35,6 @@ export function reducer(state: State | undefined, action: Action) {
   return tournamentReducer(state, action);
 }
 
+export const hasDraftStarted = (state: State) => state.hasDraftStarted;
+export const hasSwissStarted = (state: State) => state.hasSwissStarted;
 export const isDraft = (state: State) => state.isDraft;

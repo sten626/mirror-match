@@ -31,6 +31,8 @@ describe('TournamentStorageService', () => {
     it('should set and return the value', (done: DoneFn) => {
       const tournamentInfo: TournamentInfo = {
         bestOf: 3,
+        hasDraftStarted: true,
+        hasSwissStarted: false,
         isDraft: true,
         totalRounds: 5
       };

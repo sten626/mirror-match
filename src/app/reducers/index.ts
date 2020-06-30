@@ -53,8 +53,9 @@ export const selectActivePlayers = createSelector(selectAllPlayers, (players) =>
   players.filter((player) => !player.dropped)
 );
 
-export const selectActivePlayerIds = createSelector(selectActivePlayers, (players) =>
-  players.map((p) => p.id)
+export const selectActivePlayerIds = createSelector(
+  selectActivePlayers,
+  (players) => players.map((p) => p.id)
 );
 
 export const selectRecommendedTotalRounds = createSelector(
@@ -71,9 +72,25 @@ export const selectTournamentState = createFeatureSelector<
   fromTournament.State
 >(fromTournament.tournamentFeatureKey);
 
+export const hasDraftStarted = createSelector(
+  selectTournamentState,
+  fromTournament.hasDraftStarted
+);
+
+export const hasSwissStarted = createSelector(
+  selectTournamentState,
+  fromTournament.hasSwissStarted
+);
+
 export const isDraft = createSelector(
   selectTournamentState,
   fromTournament.isDraft
+);
+
+export const hasAnythingStarted = createSelector(
+  hasDraftStarted,
+  hasSwissStarted,
+  (draftStarted, swissStarted) => draftStarted || swissStarted
 );
 
 /**

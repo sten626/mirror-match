@@ -14,9 +14,11 @@ describe('Tournament Reducer', () => {
   });
 
   describe('setTournamentInfoSuccess', () => {
-    it('should set all 3 values to the state', () => {
+    it('should set all values to the state', () => {
       const tournamentInfo: TournamentInfo = {
         bestOf: 3,
+        hasDraftStarted: false,
+        hasSwissStarted: false,
         isDraft: false,
         totalRounds: 3
       };
@@ -27,9 +29,7 @@ describe('Tournament Reducer', () => {
 
       expect(state).toEqual({
         ...initialState,
-        bestOf: 3,
-        isDraft: false,
-        totalRounds: 3
+        ...tournamentInfo
       });
     });
   });

@@ -20,6 +20,8 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   activePlayerIds: number[];
   activePlayerIdsSub: Subscription;
   canBeginTournament$: Observable<boolean>;
+  hasAnythingStarted = false;
+  hasAnythingStartedSub: Subscription;
   players$: Observable<Player[]>;
   recommendedTotalRounds: number;
   recommendedTotalRoundsSub: Subscription;
@@ -39,6 +41,11 @@ export class SetupPageComponent implements OnInit, OnDestroy {
     this.activePlayerIdsSub = this.store
       .pipe(select(fromRoot.selectActivePlayerIds))
       .subscribe((activePlayerIds) => (this.activePlayerIds = activePlayerIds));
+    this.hasAnythingStartedSub = this.store
+      .pipe(select(fromRoot.hasAnythingStarted))
+      .subscribe(
+        (hasAnythingStarted) => (this.hasAnythingStarted = hasAnythingStarted)
+      );
     this.recommendedTotalRoundsSub = this.store
       .pipe(select(fromRoot.selectRecommendedTotalRounds))
       .subscribe((value) => (this.recommendedTotalRounds = value));
@@ -46,6 +53,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.activePlayerIdsSub.unsubscribe();
+    this.hasAnythingStartedSub.unsubscribe();
     this.recommendedTotalRoundsSub.unsubscribe();
   }
 
@@ -71,8 +79,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
       if (result) {
         const { name, dropped } = result;
 
-        if (dropped) {
-          // TODO Check if tournament has started or not.
+        if (dropped && !this.hasAnythingStarted) {
           this.store.dispatch(
             SetupPageActions.deletePlayer({
               id: player.id
@@ -83,7 +90,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
             SetupPageActions.updatePlayer({
               player: {
                 id: player.id,
-                changes: { name }
+                changes: { name, dropped }
               }
             })
           );
@@ -118,6 +125,8 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
         const tournamentInfo: TournamentInfo = {
           bestOf,
+          hasDraftStarted: isDraft,
+          hasSwissStarted: !isDraft,
           isDraft,
           totalRounds
         };

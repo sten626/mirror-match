@@ -8,9 +8,10 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TournamentStorageService extends StorageService {
-  // private readonly draftPodsKey = 'mm-draft-pods';
   private readonly defaultTournamentInfo: TournamentInfo = {
     bestOf: 3,
+    hasDraftStarted: false,
+    hasSwissStarted: false,
     isDraft: false,
     totalRounds: 3
   };
@@ -37,8 +38,4 @@ export class TournamentStorageService extends StorageService {
       )
     );
   }
-
-  // setDraftPods(draftPods: Pod[]): Observable<Pod[]> {
-  //   return this.setArray(this.draftPodsKey, draftPods);
-  // }
 }

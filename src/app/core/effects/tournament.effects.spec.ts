@@ -15,6 +15,14 @@ import { Observable, of } from 'rxjs';
 import { TournamentEffects } from './tournament.effects';
 
 describe('TournamentEffects', () => {
+  const tournamentInfo: TournamentInfo = {
+    bestOf: 3,
+    hasDraftStarted: true,
+    hasSwissStarted: false,
+    isDraft: true,
+    totalRounds: 3
+  };
+
   let actions$: Observable<any>;
   let effects: TournamentEffects;
   let routerSpy: jasmine.SpyObj<Router>;
@@ -60,11 +68,6 @@ describe('TournamentEffects', () => {
 
   describe('setTournamentInfoSuccess', () => {
     it('should navigate to /pods if isDraft is true', () => {
-      const tournamentInfo: TournamentInfo = {
-        bestOf: 3,
-        isDraft: true,
-        totalRounds: 3
-      };
       actions$ = of(
         TournamentApiActions.setTournamentInfoSuccess({ tournamentInfo })
       );
@@ -73,13 +76,12 @@ describe('TournamentEffects', () => {
     });
 
     it('should navigate to /pairings if isDraft is false', () => {
-      const tournamentInfo: TournamentInfo = {
-        bestOf: 3,
-        isDraft: false,
-        totalRounds: 3
+      const info = {
+        ...tournamentInfo,
+        isDraft: false
       };
       actions$ = of(
-        TournamentApiActions.setTournamentInfoSuccess({ tournamentInfo })
+        TournamentApiActions.setTournamentInfoSuccess({ tournamentInfo: info })
       );
       effects.setTournamentInfoSuccess$.subscribe();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/pairings']);
@@ -88,11 +90,6 @@ describe('TournamentEffects', () => {
 
   describe('startTournament', () => {
     it('should create a setTournamentInfoSuccess', () => {
-      const tournamentInfo: TournamentInfo = {
-        bestOf: 3,
-        isDraft: true,
-        totalRounds: 3
-      };
       const action = SetupPageActions.startTournament({ tournamentInfo });
       const completion = TournamentApiActions.setTournamentInfoSuccess({
         tournamentInfo
@@ -108,14 +105,11 @@ describe('TournamentEffects', () => {
     });
 
     it('should create a setTournamentInfoFailure if setTournamentInfo fails', () => {
-      const tournamentInfo: TournamentInfo = {
-        bestOf: 3,
-        isDraft: true,
-        totalRounds: 3
-      };
       const action = SetupPageActions.startTournament({ tournamentInfo });
       const error = 'Failed to save tournament info';
-      const completion = TournamentApiActions.setTournamentInfoFailure({ error });
+      const completion = TournamentApiActions.setTournamentInfoFailure({
+        error
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#', {}, error);
