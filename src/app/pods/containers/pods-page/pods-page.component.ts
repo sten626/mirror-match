@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-pods-page',
-  templateUrl: './pods-page.component.html'
+  templateUrl: './pods-page.component.html',
+  styleUrls: ['./pods-page.component.scss']
 })
 export class PodsPageComponent implements OnInit {
   isHandset$: Observable<boolean>;

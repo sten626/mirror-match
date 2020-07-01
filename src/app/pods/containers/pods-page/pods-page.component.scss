@@ -1,0 +1,21 @@
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+button {
+  text-transform: uppercase;
+}
+
+mm-pods {
+  overflow: auto;
+  width: 100%;
+}
+
+section {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}

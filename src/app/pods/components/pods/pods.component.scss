@@ -1,21 +1,14 @@
 :host {
   display: block;
-  padding: 1rem;
+  padding: 0 0.5rem 1rem;
 }
 
 .card-container {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
 
-  mat-card {
-    width: 50%;
-
-    &:nth-of-type(odd) {
-      margin-right: 0.5rem;
-    }
-
-    &:nth-of-type(even) {
-      margin-left: 0.5rem;
-    }
+  .card-wrapper {
+    flex: 1 50%;
+    padding: 0.5rem 0.5rem;
   }
 }
