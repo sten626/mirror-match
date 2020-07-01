@@ -1,5 +1,5 @@
 <!-- Mobile View -->
-<div *ngIf="isHandset" class="p-4">
+<div *ngIf="isHandset">
   <mat-accordion>
     <mat-expansion-panel *ngFor="let playerNames of pods; index as i">
       <mat-expansion-panel-header>
@@ -11,8 +11,8 @@
 </div>
 
 <!-- Non-Mobile View -->
-<div *ngIf="!isHandset" class="flex flex-row p-2">
-  <mat-card *ngFor="let playerNames of pods; index as i" class="m-2 w-1/2">
+<div class="card-container" *ngIf="!isHandset">
+  <mat-card *ngFor="let playerNames of pods; index as i">
     <mat-card-header>
       <mat-card-title>Table {{ i + 1 }}</mat-card-title>
     </mat-card-header>
