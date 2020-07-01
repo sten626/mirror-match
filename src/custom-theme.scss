@@ -23,7 +23,14 @@ $mirror-match-accent: mat-palette($mat-pink, A200, A100, A400);
 $mirror-match-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent, $mirror-match-warn);
+// $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent, $mirror-match-warn);
+$mirror-match-theme: mat-light-theme((
+  color: (
+    primary: $mirror-match-primary,
+    accent: $mirror-match-accent,
+    warn: $mirror-match-warn
+  )
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -33,4 +40,4 @@ $mirror-match-theme: mat-light-theme($mirror-match-primary, $mirror-match-accent
 @include mm-footer-theme($mirror-match-theme);
 @include mm-sidenav-theme($mirror-match-theme);
 @include mm-tabs-theme($mirror-match-theme);
-@include players-list($mirror-match-theme);
+@include players-list-theme($mirror-match-theme);

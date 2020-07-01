@@ -1,26 +1,24 @@
-<div class="h-full w-full">
-  <!-- Mobile View -->
-  <div *ngIf="isHandset" class="p-4">
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let playerNames of pods; index as i">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Table {{ i + 1 }} </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mm-pod-detail [playerNames]="playerNames"></mm-pod-detail>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+<!-- Mobile View -->
+<div *ngIf="isHandset" class="p-4">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let playerNames of pods; index as i">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Table {{ i + 1 }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mm-pod-detail [playerNames]="playerNames"></mm-pod-detail>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 
-  <!-- Non-Mobile View -->
-  <div *ngIf="!isHandset" class="flex flex-row p-2">
-    <mat-card *ngFor="let playerNames of pods; index as i" class="m-2 w-1/2">
-      <mat-card-header>
-        <mat-card-title>Table {{ i + 1 }}</mat-card-title>
-      </mat-card-header>
+<!-- Non-Mobile View -->
+<div *ngIf="!isHandset" class="flex flex-row p-2">
+  <mat-card *ngFor="let playerNames of pods; index as i" class="m-2 w-1/2">
+    <mat-card-header>
+      <mat-card-title>Table {{ i + 1 }}</mat-card-title>
+    </mat-card-header>
 
-      <mat-card-content>
-        <mm-pod-detail [playerNames]="playerNames"></mm-pod-detail>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <mat-card-content>
+      <mm-pod-detail [playerNames]="playerNames"></mm-pod-detail>
+    </mat-card-content>
+  </mat-card>
 </div>
