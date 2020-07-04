@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
@@ -9,6 +7,7 @@ import { PodsPageComponent } from '@app/pods/containers';
 import { PodEffects } from '@app/pods/effects/pod.effects';
 import { PodsRoutingModule } from '@app/pods/pods-routing.module';
 import * as fromPods from '@app/pods/reducers/pods.reducer';
+import { SharedModule } from '@app/shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -18,13 +17,12 @@ const CONTAINERS = [PodsPageComponent];
 @NgModule({
   declarations: [COMPONENTS, CONTAINERS],
   imports: [
-    CommonModule,
-    MatButtonModule,
+    EffectsModule.forFeature([PodEffects]),
     MatCardModule,
     MatExpansionModule,
     MatTableModule,
     PodsRoutingModule,
-    EffectsModule.forFeature([PodEffects]),
+    SharedModule,
     StoreModule.forFeature(fromPods.podsFeatureKey, fromPods.reducer)
   ]
 })

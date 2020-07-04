@@ -1,6 +1,6 @@
 :host {
   display: block;
-  padding: 0 0.5rem 1rem;
+  padding: 0.5rem 0.5rem 1rem;
 }
 
 .card-container {
@@ -11,4 +11,8 @@
     flex: 1 50%;
     padding: 0.5rem 0.5rem;
   }
+}
+
+.accordion-container {
+  padding-top: 0.5rem;
 }
