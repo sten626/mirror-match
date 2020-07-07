@@ -1,7 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatTableModule } from '@angular/material/table';
 import { PodDetailComponent, PodsComponent } from '@app/pods/components';
 import { PodsPageComponent } from '@app/pods/containers';
 import { PodEffects } from '@app/pods/effects/pod.effects';
@@ -18,9 +15,6 @@ const CONTAINERS = [PodsPageComponent];
   declarations: [COMPONENTS, CONTAINERS],
   imports: [
     EffectsModule.forFeature([PodEffects]),
-    MatCardModule,
-    MatExpansionModule,
-    MatTableModule,
     PodsRoutingModule,
     SharedModule,
     StoreModule.forFeature(fromPods.podsFeatureKey, fromPods.reducer)

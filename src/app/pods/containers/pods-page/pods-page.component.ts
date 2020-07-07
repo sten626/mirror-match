@@ -5,6 +5,7 @@ import * as fromPods from '@app/pods/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PodListData } from '@app/shared/models';
 
 @Component({
   selector: 'mm-pods-page',
@@ -13,7 +14,7 @@ import { map } from 'rxjs/operators';
 })
 export class PodsPageComponent implements OnInit {
   isHandset$: Observable<boolean>;
-  pods$: Observable<string[][]>;
+  pods$: Observable<PodListData[]>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -22,7 +23,7 @@ export class PodsPageComponent implements OnInit {
     this.isHandset$ = this.breakpointObserver
       .observe(Breakpoints.Handset)
       .pipe(map((result) => result.matches));
-    this.pods$ = this.store.pipe(select(fromPods.selectPodPlayerNames));
+    this.pods$ = this.store.pipe(select(fromPods.selectPodListData));
   }
 
   ngOnInit(): void {

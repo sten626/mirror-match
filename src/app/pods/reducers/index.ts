@@ -1,5 +1,6 @@
 import * as fromPods from '@app/pods/reducers/pods.reducer';
 import * as fromRoot from '@app/reducers';
+import { PodListData } from '@app/shared/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State extends fromRoot.State {
@@ -21,9 +22,15 @@ export const selectPodsLoaded = createSelector(
 
 /* Combinations */
 
-export const selectPodPlayerNames = createSelector(
+export const selectPodListData = createSelector(
   selectPods,
   fromRoot.selectPlayerEntities,
   (pods, playerEntities) =>
-    pods.map((pod) => pod.map((playerId) => playerEntities[playerId].name))
+    pods.map(
+      (pod, index) =>
+        ({
+          table: index + 1,
+          playerNames: pod.map((id) => playerEntities[id].name)
+        } as PodListData)
+    )
 );
