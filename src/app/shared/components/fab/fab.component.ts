@@ -1,7 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 
-export type FabPosition = 'center' | 'right' | undefined;
+export type FabPosition = 'bottom-center' | 'bottom-right' | 'top-left' | undefined;
 
 @Component({
   selector: 'mm-fab',
@@ -10,11 +10,15 @@ export type FabPosition = 'center' | 'right' | undefined;
 })
 export class FabComponent {
   @Input() color: ThemePalette;
-  @Input() position: FabPosition = 'right';
+  @Input() position: FabPosition = 'bottom-right';
 
   constructor() {}
 
-  @HostBinding('class.centered') centered(): boolean {
-    return this.position === 'center';
+  @HostBinding('class.bottom-center') get bottomCenter(): boolean {
+    return this.position === 'bottom-center';
+  }
+
+  @HostBinding('class.top-left') get topLeft(): boolean {
+    return this.position === 'top-left';
   }
 }
