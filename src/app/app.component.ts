@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, HostBinding } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-root',
@@ -6,5 +9,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor() {}
+  isMobile$: Observable<boolean>;
+
+  constructor(private breakpointObserver: BreakpointObserver) {
+    this.isMobile$ = this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(map((result) => !result.matches));
+  }
+
+  @HostBinding('class.mat-typography') get typography() {
+    return true;
+  }
 }

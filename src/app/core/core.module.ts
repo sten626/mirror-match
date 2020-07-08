@@ -7,14 +7,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { LayoutComponent, NavItemComponent, PageNotFoundComponent, ToolbarComponent } from '@app/core/components';
+import { PageNotFoundComponent, ToolbarComponent } from '@app/core/components';
+import { SharedModule } from '@app/shared/shared.module';
 
-const COMPONENTS = [
-  LayoutComponent,
-  NavItemComponent,
-  PageNotFoundComponent,
-  ToolbarComponent
-];
+const COMPONENTS = [PageNotFoundComponent, ToolbarComponent];
 
 @NgModule({
   imports: [
@@ -25,7 +21,8 @@ const COMPONENTS = [
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS

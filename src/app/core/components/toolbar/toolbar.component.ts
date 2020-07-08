@@ -1,12 +1,27 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import * as fromRoot from '@app/reducers';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'mm-toolbar',
-  templateUrl: './toolbar.component.html'
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
-  @Input() header: string;
-  @Output() toggleSidenav = new EventEmitter();
+  @Input() color: ThemePalette;
 
-  constructor() {}
+  hasAnythingStarted$: Observable<boolean>;
+  hasDraftStarted$: Observable<boolean>;
+
+  constructor(private store: Store<fromRoot.State>) {
+    this.hasAnythingStarted$ = this.store.pipe(
+      select(fromRoot.hasAnythingStarted)
+    );
+
+    this.hasDraftStarted$ = this.store.pipe(
+      select(fromRoot.hasDraftStarted)
+    );
+  }
 }

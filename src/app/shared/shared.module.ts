@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { FabComponent } from '@app/shared/components';
 import { PairingsFilterPipe, SortStandingsPipe } from '@app/shared/pipes';
 
@@ -13,7 +15,9 @@ const MATERIAL = [
   MatButtonModule,
   MatCardModule,
   MatExpansionModule,
-  MatTableModule
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule
 ];
 
 @NgModule({
