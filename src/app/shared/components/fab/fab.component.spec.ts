@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatButtonModule } from '@angular/material/button';
 import { FabComponent } from './fab.component';
 
 describe('FabComponent', () => {
@@ -8,9 +8,9 @@ describe('FabComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FabComponent ]
-    })
-    .compileComponents();
+      imports: [MatButtonModule],
+      declarations: [FabComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
