@@ -22,15 +22,19 @@ $nav-link-height: 48px;
   flex-direction: column;
   min-height: 100%;
 
-  .body-container {
-    display: flex;
-  }
-
   .content-container {
-    margin-top: $height-mobile + $nav-link-height;
+    margin-top: $height-mobile;
     width: 100%;
 
     &.large {
+      margin-top: $height-desktop;
+    }
+
+    &.with-tabs {
+      margin-top: $height-mobile + $nav-link-height;
+    }
+
+    &.large.with-tabs {
       margin-top: $height-desktop + $nav-link-height;
     }
   }

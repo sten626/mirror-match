@@ -1,4 +1,4 @@
-<div class="items-center flex-col flex h-full w-full flex-wrap">
+<!-- <div class="items-center flex-col flex h-full w-full flex-wrap">
   <mm-player-form
     class="p-4 w-full sm:w-1/2"
     [players]="players$ | async"
@@ -23,4 +23,5 @@
       Start
     </button>
   </section>
-</div>
+</div> -->
+<mm-players-list [players]="players$ | async"></mm-players-list>

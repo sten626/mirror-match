@@ -7,7 +7,7 @@ import { PodsGuard } from './pods.guard';
 
 describe('PodsGuard', () => {
   let guard: PodsGuard;
-  let mockIsDraftSelector: MemoizedSelector<fromRoot.State, boolean>;
+  let mockHasDraftStartedSelector: MemoizedSelector<fromRoot.State, boolean>;
   let routerSpy: jasmine.SpyObj<Router>;
   let store: MockStore;
 
@@ -18,7 +18,10 @@ describe('PodsGuard', () => {
     });
     guard = TestBed.inject(PodsGuard);
     store = TestBed.inject(MockStore);
-    mockIsDraftSelector = store.overrideSelector(fromRoot.isDraft, true);
+    mockHasDraftStartedSelector = store.overrideSelector(
+      fromRoot.hasDraftStarted,
+      true
+    );
   });
 
   it('should be created', () => {
@@ -27,7 +30,7 @@ describe('PodsGuard', () => {
 
   describe('canActivate', () => {
     it('should navigate home and return false when isDraft is false', (done: DoneFn) => {
-      mockIsDraftSelector.setResult(false);
+      mockHasDraftStartedSelector.setResult(false);
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(false);
         expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
@@ -36,7 +39,7 @@ describe('PodsGuard', () => {
     });
 
     it('should not call the router and return true when isDraft is true', (done: DoneFn) => {
-      mockIsDraftSelector.setResult(true);
+      mockHasDraftStartedSelector.setResult(true);
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(true);
         expect(routerSpy.navigate).toHaveBeenCalledTimes(0);
