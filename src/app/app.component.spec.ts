@@ -1,27 +1,33 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import * as fromRoot from '@app/reducers';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  @Component({selector: 'mm-layout', template: ''})
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let mockStore: MockStore;
+  @Component({ selector: 'mm-layout', template: '' })
   class LayoutStubComponent {}
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        LayoutStubComponent
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-    .compileComponents();
+      declarations: [AppComponent, LayoutStubComponent],
+      providers: [provideMockStore()],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    mockStore = TestBed.inject(MockStore);
+    mockStore.overrideSelector(fromRoot.hasAnythingStarted, false);
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', async(() => {
+    expect(component).toBeTruthy();
   }));
 });
