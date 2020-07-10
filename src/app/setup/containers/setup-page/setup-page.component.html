@@ -24,12 +24,19 @@
     </button>
   </section>
 </div> -->
-<mm-players-list [players]="players$ | async"></mm-players-list>
-<footer>
-  <mat-icon>delete</mat-icon>
+<div class="content-container">
+  <mm-players-list [players]="players$ | async"></mm-players-list>
+</div>
+
+<footer class="mat-elevation-8">
+  <button mat-icon-button>
+    <mat-icon>delete</mat-icon>
+  </button>
   <span class="spacer"></span>
-  <mat-icon>done</mat-icon>
-  <button mat-mini-fab color="accent">
+  <button mat-icon-button>
+    <mat-icon>done</mat-icon>
+  </button>
+  <button mat-mini-fab color="accent" class="fab">
     <mat-icon>add</mat-icon>
   </button>
 </footer>

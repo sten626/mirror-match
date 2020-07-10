@@ -8,27 +8,37 @@
 
 $primary: map-get($mirror-match-theme, primary);
 
-footer {
-  align-items: center;
-  color: mat-color($primary, default-contrast);
-  background: mat-color($primary);
-  bottom: 0;
+:host {
   display: flex;
-  flex-direction: row;
-  height: 56px;
-  padding: 0 16px;
-  position: fixed;
-  width: 100%;
-  white-space: nowrap;
+  flex-direction: column;
 
-  button {
-    position: fixed;
-    left: 50%;
-    bottom: 56px;
-    transform: translate(-50%, 50%);
+  .content-container {
+    margin-bottom: 56px;
+    min-height: 0;
   }
 
-  .spacer {
-    flex: 1 1 auto;
+  footer {
+    align-items: center;
+    color: mat-color($primary, default-contrast);
+    background: mat-color($primary);
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    min-height: 56px;
+    padding: 0 16px;
+    position: fixed;
+    width: 100%;
+    white-space: nowrap;
+
+    .fab {
+      position: fixed;
+      left: 50%;
+      bottom: 56px;
+      transform: translate(-50%, 50%);
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
   }
 }
