@@ -8,6 +8,7 @@ import { CoreModule } from '@app/core/core.module';
 import { PlayerEffects, TournamentEffects } from '@app/core/effects';
 import { rootReducers } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
+import { TournamentModule } from '@app/tournament';
 import { EffectsModule } from '@ngrx/effects';
 import {
   MinimalRouterStateSerializer,
@@ -34,7 +35,8 @@ import { environment } from '../environments/environment';
     }),
     StoreRouterConnectingModule.forRoot({
       serializer: MinimalRouterStateSerializer
-    })
+    }),
+    TournamentModule
   ],
   bootstrap: [AppComponent]
 })
