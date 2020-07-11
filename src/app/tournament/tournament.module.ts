@@ -7,27 +7,45 @@ import {
   PlayerEditDialogComponent,
   PlayerFormComponent,
   PlayersListComponent,
+  PodDetailComponent,
+  PodsComponent,
   TournamentStartDialogComponent
 } from '@app/tournament/components';
-import { SetupPageComponent } from '@app/tournament/containers';
-import { TournamentRoutingModule } from '@app/tournament/tournament-routing.module';
+import {
+  PodsPageComponent,
+  SetupPageComponent
+} from '@app/tournament/containers';
+import {
+  PlayerEffects,
+  PodEffects,
+  TournamentEffects
+} from '@app/tournament/effects';
+import * as fromTournament from '@app/tournament/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 const COMPONENTS = [
   PlayerEditDialogComponent,
   PlayerFormComponent,
   PlayersListComponent,
+  PodDetailComponent,
+  PodsComponent,
   TournamentStartDialogComponent
 ];
 
-const CONTAINERS = [SetupPageComponent];
+const CONTAINERS = [PodsPageComponent, SetupPageComponent];
 
 @NgModule({
   imports: [
     CommonModule,
+    EffectsModule.forFeature([PlayerEffects, PodEffects, TournamentEffects]),
     MaterialModule,
     ReactiveFormsModule,
     SharedModule,
-    TournamentRoutingModule
+    StoreModule.forFeature(
+      fromTournament.tournamentFeatureKey,
+      fromTournament.reducers
+    )
   ],
   declarations: [COMPONENTS, CONTAINERS]
 })

@@ -1,13 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@app/core/components';
+import {
+  PodsPageComponent,
+  SetupPageComponent
+} from '@app/tournament/containers';
 
 export const routes: Routes = [
-  //   {
-  //   path: '',
-  //   redirectTo: '/setup',
-  //   pathMatch: 'full'
-  // }, {
+  {
+    path: '',
+    redirectTo: '/setup',
+    pathMatch: 'full'
+  },
+  {
+    path: 'pods',
+    component: PodsPageComponent
+  },
+  {
+    path: 'setup',
+    component: SetupPageComponent
+  },
+  // {
   //   path: 'pods',
   //   loadChildren: () => import('./pods/pods.module').then(m => m.PodsModule)
   // }, {
@@ -17,11 +30,6 @@ export const routes: Routes = [
   //   path: 'swiss',
   //   loadChildren: () => import('./swiss/swiss.module').then(m => m.SwissModule)
   // },
-  {
-    path: '',
-    loadChildren: () =>
-      import('./tournament/tournament.module').then((m) => m.TournamentModule)
-  },
   {
     path: '**',
     component: PageNotFoundComponent,

@@ -10,6 +10,7 @@ import {
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as fromTournament from '@app/tournament/reducers';
 
 @Component({
   selector: 'mm-setup-page',
@@ -28,26 +29,26 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.canBeginTournament$ = this.store.pipe(
-      select(fromRoot.canBeginTournament)
+      select(fromTournament.canBeginTournament)
     );
 
     this.players$ = this.store.pipe(
-      select(fromRoot.selectAllPlayers),
+      select(fromTournament.selectAllPlayers),
       map((players) => players.slice().reverse())
     );
   }
 
   ngOnInit() {
     this.activePlayerIdsSub = this.store
-      .pipe(select(fromRoot.selectActivePlayerIds))
+      .pipe(select(fromTournament.selectActivePlayerIds))
       .subscribe((activePlayerIds) => (this.activePlayerIds = activePlayerIds));
     this.hasAnythingStartedSub = this.store
-      .pipe(select(fromRoot.hasAnythingStarted))
+      .pipe(select(fromTournament.hasAnythingStarted))
       .subscribe(
         (hasAnythingStarted) => (this.hasAnythingStarted = hasAnythingStarted)
       );
     this.recommendedTotalRoundsSub = this.store
-      .pipe(select(fromRoot.selectRecommendedTotalRounds))
+      .pipe(select(fromTournament.selectRecommendedTotalRounds))
       .subscribe((value) => (this.recommendedTotalRounds = value));
   }
 

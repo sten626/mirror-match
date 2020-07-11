@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { PodsStorageService } from '@app/core/services';
 import { DraftPodService } from '@app/core/services/draft-pod.service';
-import { PodsApiActions, PodsPageActions } from '@app/pods/actions';
 import * as fromRoot from '@app/reducers';
 import { Pod } from '@app/shared/models';
+import { PodsApiActions, PodsPageActions } from '@app/tournament/actions';
+import * as fromTournament from '@app/tournament/reducers';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -22,7 +23,9 @@ export class PodEffects {
       ofType(PodsApiActions.createDraftPods),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(this.store.pipe(select(fromRoot.selectActivePlayerIds)))
+          withLatestFrom(
+            this.store.pipe(select(fromTournament.selectActivePlayerIds))
+          )
         )
       ),
       switchMap(([_, activePlayerIds]) =>

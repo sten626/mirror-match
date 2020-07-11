@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { TournamentApiActions } from '@app/core/actions';
 import { TournamentStorageService } from '@app/core/services/tournament-storage.service';
-import { SetupPageActions } from '@app/tournament/actions';
+import {
+  SetupPageActions,
+  TournamentApiActions
+} from '@app/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';

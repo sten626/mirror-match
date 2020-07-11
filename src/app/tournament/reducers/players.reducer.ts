@@ -1,5 +1,5 @@
-import { PlayersApiActions } from '@app/core/actions';
 import { Player } from '@app/shared/models';
+import { PlayersApiActions } from '@app/tournament/actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
@@ -33,7 +33,7 @@ const playersReducer = createReducer(
     loading: true
   })),
   on(PlayersApiActions.loadPlayersSuccess, (state, { players }) =>
-    adapter.addAll(players, {
+    adapter.setAll(players, {
       ...state,
       loaded: true,
       loading: false

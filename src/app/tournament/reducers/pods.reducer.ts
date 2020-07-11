@@ -1,5 +1,5 @@
-import { PodsApiActions, PodsPageActions } from '@app/pods/actions';
 import { Pod } from '@app/shared/models';
+import { PodsApiActions, PodsPageActions } from '@app/tournament/actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
 export const podsFeatureKey = 'pods';
