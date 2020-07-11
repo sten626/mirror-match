@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedModule } from '@app/shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { PairingsListFormComponent } from './pairings-list-form.component';
 
 describe('PairingsListFormComponent', () => {
@@ -8,10 +8,9 @@ describe('PairingsListFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [ReactiveFormsModule],
       declarations: [PairingsListFormComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

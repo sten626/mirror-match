@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Player } from '@app/shared/models';
-import { SharedModule } from '@app/shared/shared.module';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('Player Form Component', () => {
@@ -14,7 +14,7 @@ describe('Player Form Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [ReactiveFormsModule],
       declarations: [PlayerFormComponent]
     });
 
@@ -35,7 +35,7 @@ describe('Player Form Component', () => {
 
   it('should emit event when reset() called', () => {
     let called = false;
-    component.reset.subscribe(() => called = true);
+    component.reset.subscribe(() => (called = true));
     component.reset.emit();
 
     expect(called).toBeTruthy();
@@ -71,7 +71,7 @@ describe('Player Form Component', () => {
       fixture.detectChanges();
       let addedPlayerName: string;
       component.addMode = true;
-      component.addPlayer.subscribe((name: string) => addedPlayerName = name);
+      component.addPlayer.subscribe((name: string) => (addedPlayerName = name));
       component.submit();
       fixture.detectChanges();
       expect(addedPlayerName).toBe(playerName);

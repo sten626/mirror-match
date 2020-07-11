@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '@app/material';
 import { SharedModule } from '@app/shared/shared.module';
 import {
   PlayerEditDialogComponent,
@@ -19,7 +22,13 @@ const COMPONENTS = [
 const CONTAINERS = [SetupPageComponent];
 
 @NgModule({
-  imports: [SharedModule, TournamentRoutingModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    SharedModule,
+    TournamentRoutingModule
+  ],
   declarations: [COMPONENTS, CONTAINERS]
 })
 export class TournamentModule {}

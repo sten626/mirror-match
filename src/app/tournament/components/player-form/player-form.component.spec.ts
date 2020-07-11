@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Player } from '@app/shared/models';
-import { SharedModule } from '@app/shared/shared.module';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('PlayerFormComponent', () => {
@@ -19,13 +19,10 @@ describe('PlayerFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
-        SharedModule
+        ReactiveFormsModule
       ],
-      declarations: [
-        PlayerFormComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [PlayerFormComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
