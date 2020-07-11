@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MessageActions } from '@app/core/actions';
 import { Message } from '@app/shared/models';
 import * as fromSwiss from '@app/swiss/reducers';
 import { select, Store } from '@ngrx/store';
@@ -14,9 +13,7 @@ export class SwissComponent {
   messages$: Observable<Message[]>;
   numberOfActivePlayers$: Observable<number>;
 
-  constructor(
-    private store: Store<fromSwiss.State>
-  ) {
+  constructor(private store: Store<fromSwiss.State>) {
     this.hasCompletedRounds$ = this.store.pipe(
       select(fromSwiss.hasCompletedRounds)
     );
@@ -31,7 +28,7 @@ export class SwissComponent {
     // );
   }
 
-  dismissMessage(message: Message): void {
-    this.store.dispatch(MessageActions.deleteMessage({message}));
-  }
+  // dismissMessage(message: Message): void {
+  //   this.store.dispatch(MessageActions.deleteMessage({message}));
+  // }
 }

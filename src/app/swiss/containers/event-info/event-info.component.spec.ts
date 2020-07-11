@@ -1,94 +1,94 @@
-import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from '@app/reducers';
-import { EventInfoPageActions } from '@app/swiss/actions';
-import { EventInfoComponent } from '@app/swiss/containers/event-info/event-info.component';
-import * as fromSwiss from '@app/swiss/reducers';
+// import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { Store, StoreModule } from '@ngrx/store';
+// import * as fromRoot from '@app/reducers';
+// import { EventInfoPageActions } from '@app/swiss/actions';
+// import { EventInfoComponent } from '@app/swiss/containers/event-info/event-info.component';
+// import * as fromSwiss from '@app/swiss/reducers';
 
-describe('EventInfoComponent', () => {
-  let component: EventInfoComponent;
-  let fixture: ComponentFixture<EventInfoComponent>;
-  let store: Store<fromSwiss.State>;
+// describe('EventInfoComponent', () => {
+//   let component: EventInfoComponent;
+//   let fixture: ComponentFixture<EventInfoComponent>;
+//   let store: Store<fromSwiss.State>;
 
-  @Component({ selector: 'mm-players-info', template: '' })
-  class PlayersInfoStubComponent {}
+//   @Component({ selector: 'mm-players-info', template: '' })
+//   class PlayersInfoStubComponent {}
 
-  @Component({ selector: 'mm-round-info', template: '' })
-  class RoundInfoStubComponent {}
+//   @Component({ selector: 'mm-round-info', template: '' })
+//   class RoundInfoStubComponent {}
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.rootReducers,
-          swiss: fromSwiss.reducers
-        })
-      ],
-      declarations: [
-        EventInfoComponent,
-        PlayersInfoStubComponent,
-        RoundInfoStubComponent
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       imports: [
+//         StoreModule.forRoot({
+//           ...fromRoot.rootReducers,
+//           swiss: fromSwiss.reducers
+//         })
+//       ],
+//       declarations: [
+//         EventInfoComponent,
+//         PlayersInfoStubComponent,
+//         RoundInfoStubComponent
+//       ],
+//       schemas: [ NO_ERRORS_SCHEMA ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
-    fixture = TestBed.createComponent(EventInfoComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     store = TestBed.inject(Store);
+//     spyOn(store, 'dispatch').and.callThrough();
+//     fixture = TestBed.createComponent(EventInfoComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
 
-  /* cancelEndEvent */
+//   /* cancelEndEvent */
 
-  it('should hide the warning when cancelEndEvent called', () => {
-    const eventInfoDe: DebugElement = fixture.debugElement;
-    const eventInfoEl: HTMLElement = eventInfoDe.nativeElement;
-    let alert: Element;
+//   it('should hide the warning when cancelEndEvent called', () => {
+//     const eventInfoDe: DebugElement = fixture.debugElement;
+//     const eventInfoEl: HTMLElement = eventInfoDe.nativeElement;
+//     let alert: Element;
 
-    component.showEndEventConfirmation = true;
-    fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
-    expect(alert).toBeTruthy();
+//     component.showEndEventConfirmation = true;
+//     fixture.detectChanges();
+//     alert = eventInfoEl.querySelector('.alert');
+//     expect(alert).toBeTruthy();
 
-    component.cancelEndEvent();
-    expect(component.showEndEventConfirmation).toEqual(false);
-    fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
-    expect(alert).toBeNull();
-  });
+//     component.cancelEndEvent();
+//     expect(component.showEndEventConfirmation).toEqual(false);
+//     fixture.detectChanges();
+//     alert = eventInfoEl.querySelector('.alert');
+//     expect(alert).toBeNull();
+//   });
 
-  /* endEventConfirm */
+//   /* endEventConfirm */
 
-  it('should dispatch action when endEventConfirm called', () => {
-    const action = EventInfoPageActions.endEventConfirmed();
-    component.endEventConfirm();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
+//   it('should dispatch action when endEventConfirm called', () => {
+//     const action = EventInfoPageActions.endEventConfirmed();
+//     component.endEventConfirm();
+//     expect(store.dispatch).toHaveBeenCalledWith(action);
+//   });
 
-  /* endEventClicked */
+//   /* endEventClicked */
 
-  it('should display warning when endEventClicked called', () => {
-    const eventInfoDe: DebugElement = fixture.debugElement;
-    const eventInfoEl: HTMLElement = eventInfoDe.nativeElement;
-    let alert: Element;
+//   it('should display warning when endEventClicked called', () => {
+//     const eventInfoDe: DebugElement = fixture.debugElement;
+//     const eventInfoEl: HTMLElement = eventInfoDe.nativeElement;
+//     let alert: Element;
 
-    expect(component.showEndEventConfirmation).toEqual(false);
-    alert = eventInfoEl.querySelector('.alert');
-    expect(alert).toBeNull();
+//     expect(component.showEndEventConfirmation).toEqual(false);
+//     alert = eventInfoEl.querySelector('.alert');
+//     expect(alert).toBeNull();
 
-    component.endEventClicked();
-    fixture.detectChanges();
-    expect(component.showEndEventConfirmation).toEqual(true);
-    alert = eventInfoEl.querySelector('.alert');
-    expect(alert).toBeTruthy();
-  });
-});
+//     component.endEventClicked();
+//     fixture.detectChanges();
+//     expect(component.showEndEventConfirmation).toEqual(true);
+//     alert = eventInfoEl.querySelector('.alert');
+//     expect(alert).toBeTruthy();
+//   });
+// });

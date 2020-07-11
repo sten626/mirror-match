@@ -1,6 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import * as fromRoot from '@app/reducers';
+import * as fromTournament from '@app/tournament/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
 
@@ -21,7 +21,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     mockStore = TestBed.inject(MockStore);
-    mockStore.overrideSelector(fromRoot.hasAnythingStarted, false);
+    mockStore.overrideSelector(fromTournament.hasAnythingStarted, false);
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

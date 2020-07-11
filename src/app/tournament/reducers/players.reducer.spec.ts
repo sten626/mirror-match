@@ -1,13 +1,13 @@
-import { PlayersApiActions } from '@app/core/actions';
-import * as fromPlayers from '@app/core/reducers/players.reducer';
 import { Player } from '@app/shared/models';
+import { PlayersApiActions } from '@app/tournament/actions';
+import * as fromPlayers from '@app/tournament/reducers/players.reducer';
 import { Update } from '@ngrx/entity';
 
 describe('PlayersReducer', () => {
   const player1: Player = {
     id: 1,
     name: 'Steven',
-    dropped: false,
+    dropped: false
   };
   const player2: Player = {
     id: 2,
@@ -68,7 +68,7 @@ describe('PlayersReducer', () => {
     });
 
     it('should leave state unchanged when trying to delete a nonexistent player', () => {
-      const action = PlayersApiActions.deletePlayerSuccess({id: player3.id});
+      const action = PlayersApiActions.deletePlayerSuccess({ id: player3.id });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(populatedState);
@@ -90,7 +90,9 @@ describe('PlayersReducer', () => {
           dropped: true
         }
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update]
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(populatedState);
@@ -103,7 +105,9 @@ describe('PlayersReducer', () => {
           dropped: true
         }
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update]
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state.entities[player1.id].dropped).toEqual(true);
@@ -123,7 +127,9 @@ describe('PlayersReducer', () => {
           dropped: true
         }
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update1, update2] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update1, update2]
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state.entities[player1.id].dropped).toEqual(true);
@@ -171,7 +177,9 @@ describe('PlayersReducer', () => {
           name: 'Sten'
         }
       };
-      const action = PlayersApiActions.updatePlayerSuccess({ player: playerChanges });
+      const action = PlayersApiActions.updatePlayerSuccess({
+        player: playerChanges
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state.entities['1'].name).toEqual('Sten');

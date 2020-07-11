@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PodsStorageService } from '@app/core/services';
-import { PodsApiActions, PodsPageActions } from '@app/pods/actions';
 import { Pod } from '@app/shared/models';
+import { PodsApiActions, PodsPageActions } from '@app/tournament/actions';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';

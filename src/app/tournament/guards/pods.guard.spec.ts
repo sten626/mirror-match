@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import * as fromRoot from '@app/reducers';
+import * as fromTournament from '@app/tournament/reducers';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PodsGuard } from './pods.guard';
 
 describe('PodsGuard', () => {
   let guard: PodsGuard;
-  let mockHasDraftStartedSelector: MemoizedSelector<fromRoot.State, boolean>;
+  let mockHasDraftStartedSelector: MemoizedSelector<
+    fromTournament.State,
+    boolean
+  >;
   let routerSpy: jasmine.SpyObj<Router>;
   let store: MockStore;
 
@@ -19,7 +22,7 @@ describe('PodsGuard', () => {
     guard = TestBed.inject(PodsGuard);
     store = TestBed.inject(MockStore);
     mockHasDraftStartedSelector = store.overrideSelector(
-      fromRoot.hasDraftStarted,
+      fromTournament.hasDraftStarted,
       true
     );
   });
