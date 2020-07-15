@@ -1,4 +1,14 @@
-<div class="no-content">
-  <h1>No players</h1>
-  <h3>Add players and they will appear here.</h3>
+<div class="container" [class.xsmall]="isXSmallDisplay$ | async">
+  <div class="no-content">
+    <h1>No players</h1>
+    <h3>Add players and they will appear here.</h3>
+  </div>
 </div>
+
+<button mat-mini-fab *ngIf="useMiniFab$ | async" class="add-button mini">
+  <mat-icon>add</mat-icon>
+</button>
+
+<button mat-fab *ngIf="!(useMiniFab$ | async)" class="add-button">
+  <mat-icon>add</mat-icon>
+</button>

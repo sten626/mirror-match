@@ -1,4 +1,4 @@
-import { TournamentApiActions } from '@app/tournament/actions';
+import { TournamentApiActions } from '@app/core/actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
 export const tournamentFeatureKey = 'tournament';

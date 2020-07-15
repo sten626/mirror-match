@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import * as fromTournament from '@app/tournament/reducers';
+import * as fromRoot from '@app/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -15,13 +15,11 @@ export class ToolbarComponent {
   hasAnythingStarted$: Observable<boolean>;
   hasDraftStarted$: Observable<boolean>;
 
-  constructor(private store: Store<fromTournament.State>) {
+  constructor(private store: Store<fromRoot.State>) {
     this.hasAnythingStarted$ = this.store.pipe(
-      select(fromTournament.hasAnythingStarted)
+      select(fromRoot.hasAnythingStarted)
     );
 
-    this.hasDraftStarted$ = this.store.pipe(
-      select(fromTournament.hasDraftStarted)
-    );
+    this.hasDraftStarted$ = this.store.pipe(select(fromRoot.hasDraftStarted));
   }
 }

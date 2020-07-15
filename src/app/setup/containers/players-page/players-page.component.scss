@@ -1,12 +1,32 @@
+$fab-spacing: 16px;
+$toolbar-height-desktop: 64px;
+$toolbar-height-mobile: 56px;
+
 :host {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-  padding-bottom: 64px; //TODO: Make these paddings constants somewhere.
 
-  &.xsmall {
-    padding-bottom: 56px;
+  .add-button {
+    position: fixed;
+    bottom: $toolbar-height-desktop + $fab-spacing;
+    right: 50%;
+    transform: translateX(50%);
+
+    &.mini {
+      bottom: $toolbar-height-mobile + $fab-spacing;
+    }
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    padding-bottom: $toolbar-height-desktop;
+
+    &.xsmall {
+      padding-bottom: $toolbar-height-mobile;
+    }
   }
 
   .no-content {

@@ -15,12 +15,8 @@ import {
   PodsPageComponent,
   SetupPageComponent
 } from '@app/tournament/containers';
-import {
-  PlayerEffects,
-  PodEffects,
-  TournamentEffects
-} from '@app/tournament/effects';
-import * as fromTournament from '@app/tournament/reducers';
+import { PodEffects } from '@app/tournament/effects';
+import * as fromPods from '@app/tournament/reducers/pods.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -38,14 +34,11 @@ const CONTAINERS = [PodsPageComponent, SetupPageComponent];
 @NgModule({
   imports: [
     CommonModule,
-    EffectsModule.forFeature([PlayerEffects, PodEffects, TournamentEffects]),
+    EffectsModule.forFeature([PodEffects]),
     MaterialModule,
     ReactiveFormsModule,
     SharedModule,
-    StoreModule.forFeature(
-      fromTournament.tournamentFeatureKey,
-      fromTournament.reducers
-    )
+    StoreModule.forFeature(fromPods.podsFeatureKey, fromPods.reducer)
   ],
   declarations: [COMPONENTS, CONTAINERS]
 })

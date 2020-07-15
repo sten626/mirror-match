@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { CoreModule } from '@app/core/core.module';
+import { PlayerEffects, TournamentEffects } from '@app/core/effects';
+import { ROOT_REDUCERS } from '@app/reducers';
 import { SharedModule } from '@app/shared/shared.module';
 import { TournamentModule } from '@app/tournament';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,10 +21,10 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     BrowserModule,
     CoreModule,
-    EffectsModule.forRoot(),
+    EffectsModule.forRoot([PlayerEffects, TournamentEffects]),
     FormsModule,
     SharedModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(ROOT_REDUCERS),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production

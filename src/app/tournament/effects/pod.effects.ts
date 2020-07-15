@@ -4,7 +4,6 @@ import { DraftPodService } from '@app/core/services/draft-pod.service';
 import * as fromRoot from '@app/reducers';
 import { Pod } from '@app/shared/models';
 import { PodsApiActions, PodsPageActions } from '@app/tournament/actions';
-import * as fromTournament from '@app/tournament/reducers';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -24,7 +23,7 @@ export class PodEffects {
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
-            this.store.pipe(select(fromTournament.selectActivePlayerIds))
+            this.store.pipe(select(fromRoot.selectActivePlayerIds))
           )
         )
       ),

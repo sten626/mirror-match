@@ -1,7 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, HostBinding } from '@angular/core';
 import * as fromRoot from '@app/reducers';
-import * as fromTournament from '@app/tournament/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +19,7 @@ export class AppComponent {
     private store: Store<fromRoot.State>
   ) {
     this.hasAnythingStarted$ = this.store.pipe(
-      select(fromTournament.hasAnythingStarted)
+      select(fromRoot.hasAnythingStarted)
     );
 
     this.isMobile$ = this.breakpointObserver
