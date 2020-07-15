@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  padding-bottom: 64px; //TODO: Make these paddings constants somewhere.
+
+  &.xsmall {
+    padding-bottom: 56px;
+  }
+
+  .no-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

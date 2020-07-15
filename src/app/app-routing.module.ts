@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@app/core/components';
-import {
-  PodsPageComponent,
-  SetupPageComponent
-} from '@app/tournament/containers';
 
 export const routes: Routes = [
   {
@@ -13,12 +9,9 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'pods',
-    component: PodsPageComponent
-  },
-  {
     path: 'setup',
-    component: SetupPageComponent
+    loadChildren: () =>
+      import('./setup/setup.module').then((m) => m.SetupModule)
   },
   // {
   //   path: 'pods',

@@ -1,0 +1,38 @@
+@import '../../../../theme-setup.scss';
+
+$primary: map-get($mirror-match-theme, primary);
+
+mat-toolbar {
+  position: fixed;
+  bottom: 0;
+  z-index: 8;
+
+  button {
+    flex: 1;
+    float: right;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  .dot {
+    background-color: mat-color($primary, lighter);
+    border-radius: 4px;
+    height: 8px;
+    margin: 0 4px;
+    width: 8px;
+
+    &.active {
+      background-color: mat-color($primary);
+    }
+  }
+
+  .dots {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+}
