@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import * as fromTournament from '@app/tournament/reducers';
+import * as fromRoot from '@app/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ToolbarComponent } from './toolbar.component';
 
@@ -19,8 +19,8 @@ describe('ToolbarComponent', () => {
 
   beforeEach(() => {
     mockStore = TestBed.inject(MockStore);
-    mockStore.overrideSelector(fromTournament.hasAnythingStarted, false);
-    mockStore.overrideSelector(fromTournament.hasDraftStarted, false);
+    mockStore.overrideSelector(fromRoot.hasAnythingStarted, false);
+    mockStore.overrideSelector(fromRoot.hasDraftStarted, false);
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

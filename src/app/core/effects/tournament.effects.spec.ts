@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TournamentApiActions } from '@app/core/actions';
 import { DraftPodService } from '@app/core/services/draft-pod.service';
 import { TournamentStorageService } from '@app/core/services/tournament-storage.service';
+import * as fromRoot from '@app/reducers';
 import { TournamentInfo } from '@app/shared/models';
-import {
-  SetupPageActions,
-  TournamentApiActions
-} from '@app/tournament/actions';
-import * as fromTournament from '@app/tournament/reducers';
+import { SetupPageActions } from '@app/tournament/actions';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -27,7 +25,7 @@ describe('TournamentEffects', () => {
   let actions$: Observable<any>;
   let effects: TournamentEffects;
   let routerSpy: jasmine.SpyObj<Router>;
-  let store: MockStore<fromTournament.State>;
+  let store: MockStore<fromRoot.State>;
   let draftPodSpy: jasmine.SpyObj<DraftPodService>;
   let storageSpy: jasmine.SpyObj<TournamentStorageService>;
 
@@ -50,7 +48,7 @@ describe('TournamentEffects', () => {
         provideMockStore({
           selectors: [
             {
-              selector: fromTournament.selectActivePlayerIds,
+              selector: fromRoot.selectActivePlayerIds,
               value: [1, 2, 3, 4, 5, 6, 7, 8]
             }
           ]

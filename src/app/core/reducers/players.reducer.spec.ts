@@ -1,7 +1,7 @@
+import { PlayersApiActions } from '@app/core/actions';
 import { Player } from '@app/shared/models';
-import { PlayersApiActions } from '@app/tournament/actions';
-import * as fromPlayers from '@app/tournament/reducers/players.reducer';
 import { Update } from '@ngrx/entity';
+import * as fromPlayers from './players.reducer';
 
 describe('PlayersReducer', () => {
   const player1: Player = {

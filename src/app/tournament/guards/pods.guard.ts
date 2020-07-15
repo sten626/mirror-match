@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import * as fromTournament from '@app/tournament/reducers';
+import * as fromRoot from '@app/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,14 +9,11 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PodsGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private store: Store<fromTournament.State>
-  ) {}
+  constructor(private router: Router, private store: Store<fromRoot.State>) {}
 
   canActivate(): Observable<boolean> {
     return this.store.pipe(
-      select(fromTournament.hasDraftStarted),
+      select(fromRoot.hasDraftStarted),
       map((isDraft) => {
         if (!isDraft) {
           this.router.navigate(['/']);
