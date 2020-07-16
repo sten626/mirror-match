@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  AddPlayerComponent,
   PlayersPageComponent,
   SetupPageComponent
 } from '@app/setup/containers';
@@ -12,7 +13,13 @@ export const ROUTES: Routes = [
     children: [
       {
         path: '',
-        component: PlayersPageComponent
+        component: PlayersPageComponent,
+        data: { animation: 'PlayersPage' }
+      },
+      {
+        path: 'add',
+        component: AddPlayerComponent,
+        data: { animation: 'AddPlayer' }
       }
     ]
   }

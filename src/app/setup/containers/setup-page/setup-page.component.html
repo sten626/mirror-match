@@ -1,4 +1,6 @@
-<router-outlet></router-outlet>
+<div [@routeAnimations]="prepareRoute(outlet)">
+  <router-outlet #outlet=outlet></router-outlet>
+</div>
 <mat-toolbar class="mat-elevation-z8">
   <span class="spacer"></span>
   <span class="dots">
