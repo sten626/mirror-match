@@ -1,5 +1,13 @@
+import {
+  animate,
+  animateChild,
+  query,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import * as fromRoot from '@app/reducers';
 import { Player } from '@app/shared/models';
@@ -7,10 +15,26 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+const animations = [
+  trigger('test', [transition(':leave', [query(':leave', animateChild())])]),
+  trigger('addPlayer', [
+    transition(':leave', [
+      animate(
+        '5s',
+        style({
+          height: '100vh',
+          width: '100vw'
+        })
+      )
+    ])
+  ])
+];
+
 @Component({
   selector: 'mm-players-page',
   templateUrl: './players-page.component.html',
-  styleUrls: ['./players-page.component.scss']
+  styleUrls: ['./players-page.component.scss'],
+  animations: [animations]
 })
 export class PlayersPageComponent {
   isXSmallDisplay$: Observable<boolean>;
@@ -33,6 +57,7 @@ export class PlayersPageComponent {
       .pipe(map((result) => result.matches));
   }
 
+  @HostBinding('@test')
   addPlayerClicked() {
     this.router.navigate(['/setup/add']);
   }

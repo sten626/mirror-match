@@ -4,7 +4,8 @@ import {
   style,
   transition,
   trigger,
-  group
+  group,
+  animateChild
 } from '@angular/animations';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
@@ -20,14 +21,15 @@ const animations = trigger('routeAnimations', [
     }),
     query(':enter', [
       style({
-        position: 'absolute',
-        top: 'unset',
-        right: '60px',
-        bottom: '60px',
-        left: 'unset'
+        'border-radius': '8px',
+        transform: 'scale(0)',
+        'transform-origin': 'bottom',
+        bottom: '64px',
+        opacity: 0
       })
     ]),
     group([
+      query(':leave', animateChild()),
       query(':leave', [
         animate('5s ease-out', style({
           opacity: 0
@@ -37,10 +39,10 @@ const animations = trigger('routeAnimations', [
         animate(
           '5s ease-out',
           style({
-            top: 0,
-            right: 0,
+            'border-radius': 0,
+            transform: 'scale(1)',
             bottom: 0,
-            left: 0
+            opacity: 1
           })
         )
       ])

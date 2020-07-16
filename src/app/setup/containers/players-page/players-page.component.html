@@ -5,10 +5,21 @@
   </div>
 </div>
 
-<button mat-mini-fab *ngIf="useMiniFab$ | async" class="add-button mini" (click)="addPlayerClicked()">
+<button
+  mat-mini-fab
+  *ngIf="useMiniFab$ | async"
+  class="add-button mini"
+  (click)="addPlayerClicked()"
+  [@addPlayer]
+>
   <mat-icon>add</mat-icon>
 </button>
 
-<button mat-fab *ngIf="!(useMiniFab$ | async)" class="add-button" (click)="addPlayerClicked()">
+<button
+  mat-fab
+  *ngIf="!(useMiniFab$ | async)"
+  class="add-button"
+  (click)="addPlayerClicked()"
+>
   <mat-icon>add</mat-icon>
 </button>
