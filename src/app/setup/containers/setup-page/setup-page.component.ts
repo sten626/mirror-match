@@ -1,10 +1,10 @@
 import {
   animate,
+  group,
   query,
   style,
   transition,
   trigger,
-  group,
   animateChild
 } from '@angular/animations';
 import { Component } from '@angular/core';
@@ -21,31 +21,58 @@ const animations = trigger('routeAnimations', [
     }),
     query(':enter', [
       style({
-        'border-radius': '8px',
         transform: 'scale(0)',
         'transform-origin': 'bottom',
         bottom: '64px',
         opacity: 0
+      }),
+    ]),
+    group([
+      query(':leave', [animateChild()]),
+      query(':enter', [
+        group([
+          animate(
+            '60ms 60ms',
+            style({
+              opacity: 1
+            })
+          ),
+          animate(
+            '300ms ease-out',
+            style({
+              transform: 'scale(1)',
+              bottom: 0
+            })
+          )
+        ])
+      ])
+    ])
+  ]),
+  transition('AddPlayer => PlayersPage', [
+    style({
+      position: 'relative'
+    }),
+    query(':leave', [
+      style({
+        opacity: 1,
+        bottom: 0,
+        transform: 'scale(1)',
+        'transform-origin': 'bottom'
       })
     ]),
     group([
-      query(':leave', animateChild()),
       query(':leave', [
-        animate('5s ease-out', style({
-          opacity: 0
-        }))
+        group([
+          animate('67ms 50ms', style({
+            opacity: 0
+          })),
+          animate('250ms ease-out', style({
+            bottom: '64px',
+            transform: 'scale(0)'
+          }))
+        ])
       ]),
-      query(':enter', [
-        animate(
-          '5s ease-out',
-          style({
-            'border-radius': 0,
-            transform: 'scale(1)',
-            bottom: 0,
-            opacity: 1
-          })
-        )
-      ])
+      query(':enter', [animateChild()])
     ])
   ])
 ]);

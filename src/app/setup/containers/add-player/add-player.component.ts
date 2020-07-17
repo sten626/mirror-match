@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-player.component.scss']
 })
 export class AddPlayerComponent implements OnInit {
+  constructor(private location: Location) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  back() {
+    this.location.back();
   }
-
 }

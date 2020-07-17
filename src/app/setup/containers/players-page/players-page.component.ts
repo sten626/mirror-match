@@ -1,6 +1,5 @@
 import {
   animate,
-  animateChild,
   query,
   style,
   transition,
@@ -16,18 +15,61 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const animations = [
-  trigger('test', [transition(':leave', [query(':leave', animateChild())])]),
-  trigger('addPlayer', [
-    transition(':leave', [
-      animate(
-        '5s',
+  trigger('playersPage', [
+    transition(':enter', [
+      query('.scrim', [
         style({
+          position: 'absolute',
+          top: 0,
           height: '100vh',
-          width: '100vw'
-        })
-      )
+          width: '100vw',
+          background: 'black',
+          opacity: 0.5,
+          'z-index': 20
+        }),
+        animate('250ms ease-out', style({
+          opacity: 0
+        }))
+      ])
+    ]),
+    transition(':leave', [
+      query('.scrim', [
+        style({
+          position: 'absolute',
+          top: 0,
+          height: '100vh',
+          width: '100vw',
+          background: 'black',
+          opacity: 0,
+          'z-index': 20
+        }),
+        animate(
+          '90ms',
+          style({
+            opacity: 0.5
+          })
+        )
+      ])
     ])
   ])
+  // trigger('scrim', [
+  //   transition(':leave', [
+  //     style({
+  //       position: 'absolute',
+  //       top: 0,
+  //       height: '100vh',
+  //       width: '100vw',
+  //       background: 'grey',
+  //       opacity: 0
+  //     }),
+  //     animate(
+  //       '900ms',
+  //       style({
+  //         opacity: 1
+  //       })
+  //     )
+  //   ])
+  // ])
 ];
 
 @Component({
@@ -57,7 +99,7 @@ export class PlayersPageComponent {
       .pipe(map((result) => result.matches));
   }
 
-  @HostBinding('@test')
+  @HostBinding('@playersPage')
   addPlayerClicked() {
     this.router.navigate(['/setup/add']);
   }

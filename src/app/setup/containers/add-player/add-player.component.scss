@@ -3,8 +3,7 @@
 $background: map-get($mirror-match-theme, background);
 
 :host {
-  // background: mat-color($background, background);
-  background: red;
+  background: mat-color($background, background);
   display: block;
   position: absolute;
   right: 0;
