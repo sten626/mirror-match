@@ -1,6 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import * as fromRoot from '@app/reducers';
 import { Player } from '@app/shared/models';
 import { select, Store } from '@ngrx/store';
@@ -13,13 +12,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./players-page.component.scss']
 })
 export class PlayersPageComponent {
+  isAddingPlayer = false;
   isXSmallDisplay$: Observable<boolean>;
   players$: Observable<Player[]>;
   useMiniFab$: Observable<boolean>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router,
     private store: Store<fromRoot.State>
   ) {
     this.isXSmallDisplay$ = this.breakpointObserver
@@ -34,6 +33,6 @@ export class PlayersPageComponent {
   }
 
   addPlayerClicked() {
-    this.router.navigate(['/setup/add']);
+    this.isAddingPlayer = true;
   }
 }

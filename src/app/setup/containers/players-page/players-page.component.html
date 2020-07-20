@@ -22,3 +22,7 @@
 >
   <mat-icon>add</mat-icon>
 </button>
+
+<mm-bottom-sheet [show]="isAddingPlayer" (close)="isAddingPlayer = false">
+  <mm-add-player-sheet></mm-add-player-sheet>
+</mm-bottom-sheet>
