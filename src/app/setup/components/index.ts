@@ -1,1 +1,1 @@
-export * from './add-player-sheet/add-player-sheet.component';
+export * from './add-player-form/add-player-form.component';

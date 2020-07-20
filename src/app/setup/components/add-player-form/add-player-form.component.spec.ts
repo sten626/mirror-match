@@ -3,15 +3,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AddPlayerSheetComponent } from './add-player-sheet.component';
+import { AddPlayerFormComponent } from './add-player-form.component';
 
-describe('AddPlayerSheetComponent', () => {
-  let component: AddPlayerSheetComponent;
-  let fixture: ComponentFixture<AddPlayerSheetComponent>;
+describe('AddPlayerFormComponent', () => {
+  let component: AddPlayerFormComponent;
+  let fixture: ComponentFixture<AddPlayerFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddPlayerSheetComponent],
+      declarations: [AddPlayerFormComponent],
       imports: [
         MatFormFieldModule,
         MatIconModule,
@@ -22,7 +22,7 @@ describe('AddPlayerSheetComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddPlayerSheetComponent);
+    fixture = TestBed.createComponent(AddPlayerFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

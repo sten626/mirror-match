@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AddPlayerSheetComponent } from '@app/setup/components';
+import { AddPlayerFormComponent } from '@app/setup/components';
 import {
   PlayersPageComponent,
   SetupPageComponent
@@ -15,7 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    AddPlayerSheetComponent,
+    AddPlayerFormComponent,
     PlayersPageComponent,
     SetupPageComponent
   ],
