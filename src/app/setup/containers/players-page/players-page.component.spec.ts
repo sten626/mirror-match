@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,10 +12,22 @@ describe('PlayersPageComponent', () => {
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: MockStore;
 
+  @Component({ selector: 'mm-add-player-sheet', template: '' })
+  class AddPlayerSheetStubComponent {}
+
+  @Component({ selector: 'mm-bottom-sheet', template: '' })
+  class BottomSheetStubComponent {
+    @Input() show: boolean;
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [provideMockStore()],
-      declarations: [PlayersPageComponent],
+      declarations: [
+        AddPlayerSheetStubComponent,
+        BottomSheetStubComponent,
+        PlayersPageComponent
+      ],
       imports: [MatIconModule, NoopAnimationsModule, RouterTestingModule]
     }).compileComponents();
   }));
