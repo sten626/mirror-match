@@ -12,8 +12,8 @@ describe('PlayersPageComponent', () => {
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: MockStore;
 
-  @Component({ selector: 'mm-add-player-sheet', template: '' })
-  class AddPlayerSheetStubComponent {}
+  @Component({ selector: 'mm-add-player-form', template: '' })
+  class AddPlayerFormStubComponent {}
 
   @Component({ selector: 'mm-bottom-sheet', template: '' })
   class BottomSheetStubComponent {
@@ -24,7 +24,7 @@ describe('PlayersPageComponent', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore()],
       declarations: [
-        AddPlayerSheetStubComponent,
+        AddPlayerFormStubComponent,
         BottomSheetStubComponent,
         PlayersPageComponent
       ],
