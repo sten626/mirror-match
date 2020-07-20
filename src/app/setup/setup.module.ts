@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AddPlayerSheetComponent } from '@app/setup/components';
 import {
-  AddPlayerComponent,
   PlayersPageComponent,
   SetupPageComponent
 } from '@app/setup/containers';
@@ -16,7 +15,6 @@ import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    AddPlayerComponent,
     AddPlayerSheetComponent,
     PlayersPageComponent,
     SetupPageComponent
