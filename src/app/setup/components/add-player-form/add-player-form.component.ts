@@ -7,7 +7,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { newPlayerValidator } from '@app/shared/new-player.validator';
+import { newPlayerValidator } from '@app/shared/directives';
 
 @Component({
   selector: 'mm-add-player-form',
@@ -36,6 +36,20 @@ export class AddPlayerFormComponent implements OnChanges {
     this.playerGroup.reset({
       name: ''
     });
+  }
+
+  getErrorMessage(): string | null {
+    const control = this.playerGroup.get('name');
+
+    if (control.hasError('nameEmpty')) {
+      return control.getError('nameEmpty');
+    }
+
+    if (control.hasError('playerExists')) {
+      return control.getError('playerExists');
+    }
+
+    return null;
   }
 
   onSubmit() {

@@ -19,8 +19,8 @@
     >
       <mat-icon>clear</mat-icon>
     </button>
-    <mat-error *ngIf="playerGroup.get('name').hasError('playerExists')">
-      {{ playerGroup.get('name').getError('playerExists') }}
+    <mat-error *ngIf="playerGroup.get('name').invalid">
+      {{ getErrorMessage() }}
     </mat-error>
   </mat-form-field>
   <div>
