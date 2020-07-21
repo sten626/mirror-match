@@ -50,6 +50,16 @@ export const selectActivePlayerIds = createSelector(
   (players) => players.map((p) => p.id)
 );
 
+export const selectPlayerNamesLowerCaseSet = createSelector(selectAllPlayers, (players) => {
+  const playerNames = new Set<string>();
+
+  for (const player of players) {
+    playerNames.add(player.name.toLowerCase());
+  }
+
+  return playerNames;
+});
+
 export const selectRecommendedTotalRounds = createSelector(
   selectTotalPlayers,
   (totalPlayers: number) => Math.max(3, Math.ceil(Math.log2(totalPlayers)))

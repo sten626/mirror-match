@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Player } from '@app/shared/models';
-import { newPlayerValidator } from '@app/shared/new-player.validator';
+// import { newPlayerValidator } from '@app/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-form',
@@ -20,7 +20,7 @@ export class PlayerFormComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.playerForm.setControl('name', new FormControl('', [newPlayerValidator(this.players)]));
+    this.playerForm.setControl('name', new FormControl(''));
   }
 
   isNameEmpty(): boolean {

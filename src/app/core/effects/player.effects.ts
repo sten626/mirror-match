@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@app/core/actions';
 import { PlayerStorageService } from '@app/core/services';
 import { Player } from '@app/shared/models';
-import { SetupPageActions } from '@app/tournament/actions';
+import { SetupPageActions, PlayersPageActions } from '@app/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.addPlayer),
+      ofType(PlayersPageActions.addPlayer),
       mergeMap(({ player }) =>
         this.storageService.addPlayer(player).pipe(
           map((value: Player) =>

@@ -13,7 +13,9 @@ describe('PlayersPageComponent', () => {
   let store: MockStore;
 
   @Component({ selector: 'mm-add-player-form', template: '' })
-  class AddPlayerFormStubComponent {}
+  class AddPlayerFormStubComponent {
+    @Input() playerNames: Set<string>;
+  }
 
   @Component({ selector: 'mm-bottom-sheet', template: '' })
   class BottomSheetStubComponent {

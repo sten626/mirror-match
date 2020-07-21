@@ -2,8 +2,13 @@
   display: flex;
   flex-direction: column;
 
-  .add-button {
-    text-transform: uppercase;
-    width: 100%;
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .add-button {
+      text-transform: uppercase;
+      width: 100%;
+    }
   }
 }

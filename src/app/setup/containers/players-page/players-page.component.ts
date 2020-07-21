@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import * as fromRoot from '@app/reducers';
 import { Player } from '@app/shared/models';
+import { PlayersPageActions } from '@app/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,6 +15,7 @@ import { map } from 'rxjs/operators';
 export class PlayersPageComponent {
   isAddingPlayer = false;
   isXSmallDisplay$: Observable<boolean>;
+  playerNames$: Observable<Set<string>>;
   players$: Observable<Player[]>;
   useMiniFab$: Observable<boolean>;
 
@@ -27,6 +29,10 @@ export class PlayersPageComponent {
 
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
 
+    this.playerNames$ = this.store.pipe(
+      select(fromRoot.selectPlayerNamesLowerCaseSet)
+    );
+
     this.useMiniFab$ = this.breakpointObserver
       .observe('(max-width: 460px)') // According to https://material.io/components/buttons-floating-action-button#anatomy
       .pipe(map((result) => result.matches));
@@ -34,5 +40,18 @@ export class PlayersPageComponent {
 
   addPlayerClicked() {
     this.isAddingPlayer = true;
+  }
+
+  onAddPlayer(playerName: string) {
+    if (!playerName) {
+      return;
+    }
+
+    const player: Player = {
+      name: playerName,
+      dropped: false
+    };
+    this.store.dispatch(PlayersPageActions.addPlayer({ player }));
+    this.isAddingPlayer = false;
   }
 }

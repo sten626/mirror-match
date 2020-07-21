@@ -1,5 +1,5 @@
 interface PlayerInterface {
-  id: number;
+  id?: number;
   name: string;
   dropped: boolean;
 }

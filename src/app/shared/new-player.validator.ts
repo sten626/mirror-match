@@ -1,22 +1,16 @@
-import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Player } from '@app/shared/models';
+import { FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function newPlayerValidator(players: Player[]): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    let newPlayerName: string = control.value;
-
-    if (!newPlayerName) {
+export function newPlayerValidator(playerNames: Set<string>): ValidatorFn {
+  return (control: FormControl): ValidationErrors | null => {
+    console.log('validating');
+    if (!control.value) {
       return null;
     }
 
-    newPlayerName = newPlayerName.trim().toLowerCase();
+    const newName: string = control.value.trim().toLowerCase();
 
-    for (const player of players) {
-      if (player.name.toLowerCase() === newPlayerName) {
-        return {
-          'playerAlreadyExists': true
-        };
-      }
+    if (playerNames.has(newName)) {
+      return { playerExists: 'A player with this name is already added.' };
     }
 
     return null;

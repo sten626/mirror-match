@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { newPlayerValidator } from '@app/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-edit-dialog',
@@ -12,8 +11,7 @@ export class PlayerEditDialogComponent implements OnInit {
   dropped: FormControl;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
-    const otherPlayers = data.otherPlayers;
-    this.name = new FormControl('', [Validators.required, newPlayerValidator(otherPlayers)]);
+    this.name = new FormControl('', [Validators.required]);
     this.dropped = new FormControl(false);
   }
 

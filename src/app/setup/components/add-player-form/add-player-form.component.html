@@ -1,10 +1,37 @@
-<mat-form-field appearance="outline">
-  <mat-label>Name</mat-label>
-  <input matInput type="text" autocomplete="off" required />
-  <button mat-button matSuffix mat-icon-button aria-label="Clear">
-    <mat-icon>clear</mat-icon>
-  </button>
-</mat-form-field>
-<div>
-  <button mat-raised-button color="primary" class="add-button">Add</button>
-</div>
+<form [formGroup]="playerGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input
+      matInput
+      type="text"
+      autocomplete="off"
+      required
+      formControlName="name"
+    />
+    <button
+      mat-button
+      matSuffix
+      mat-icon-button
+      type="reset"
+      aria-label="Clear"
+      *ngIf="playerGroup.get('name').dirty"
+      (click)="clear()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <mat-error *ngIf="playerGroup.get('name').hasError('playerExists')">
+      {{ playerGroup.get('name').getError('playerExists') }}
+    </mat-error>
+  </mat-form-field>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="add-button"
+      [disabled]="playerGroup.invalid"
+    >
+      Add
+    </button>
+  </div>
+</form>
