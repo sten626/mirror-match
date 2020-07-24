@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
+import { BottomSheetService } from '@app/core/services';
 import * as fromRoot from '@app/reducers';
 import { Player } from '@app/shared/models';
 import { PlayersPageActions } from '@app/tournament/actions';
@@ -20,6 +21,7 @@ export class PlayersPageComponent {
   useMiniFab$: Observable<boolean>;
 
   constructor(
+    private bottomSheet: BottomSheetService,
     private breakpointObserver: BreakpointObserver,
     private store: Store<fromRoot.State>
   ) {
@@ -39,7 +41,8 @@ export class PlayersPageComponent {
   }
 
   addPlayerClicked() {
-    this.isAddingPlayer = true;
+    // this.isAddingPlayer = true;
+    this.bottomSheet.open();
   }
 
   onAddPlayer(playerName: string) {
