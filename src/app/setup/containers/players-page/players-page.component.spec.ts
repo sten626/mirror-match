@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BottomSheetService } from '@app/core/services';
 import * as fromRoot from '@app/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PlayersPageComponent } from './players-page.component';
@@ -22,9 +23,14 @@ describe('PlayersPageComponent', () => {
     @Input() show: boolean;
   }
 
+  const bottomSheetServiceStub: Partial<BottomSheetService> = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [provideMockStore()],
+      providers: [
+        provideMockStore(),
+        { provide: BottomSheetService, useValue: bottomSheetServiceStub }
+      ],
       declarations: [
         AddPlayerFormStubComponent,
         BottomSheetStubComponent,

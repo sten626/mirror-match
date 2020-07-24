@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BottomSheetContainerComponent } from './bottom-sheet-container.component';
 
 describe('BottomSheetContainerComponent', () => {
@@ -8,9 +8,9 @@ describe('BottomSheetContainerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BottomSheetContainerComponent ]
-    })
-    .compileComponents();
+      declarations: [BottomSheetContainerComponent],
+      imports: [NoopAnimationsModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

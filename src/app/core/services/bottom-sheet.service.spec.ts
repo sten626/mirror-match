@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { BottomSheetService } from './bottom-sheet.service';
 
 describe('BottomSheetService', () => {
