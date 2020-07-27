@@ -1,3 +1,4 @@
+import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -16,7 +17,13 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, RouterModule, SharedModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    PortalModule,
+    RouterModule,
+    SharedModule
+  ],
   declarations: COMPONENTS,
   exports: COMPONENTS
 })

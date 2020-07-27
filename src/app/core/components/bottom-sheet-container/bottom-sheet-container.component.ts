@@ -1,5 +1,18 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  BasePortalOutlet,
+  CdkPortalOutlet,
+  ComponentPortal,
+  TemplatePortal
+} from '@angular/cdk/portal';
+import {
+  Component,
+  ComponentRef,
+  EmbeddedViewRef,
+  EventEmitter,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 @Component({
   selector: 'mm-bottom-sheet-container',
@@ -18,10 +31,20 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     ])
   ]
 })
-export class BottomSheetContainerComponent implements OnInit {
+export class BottomSheetContainerComponent extends BasePortalOutlet {
   @Output() close = new EventEmitter();
+  @ViewChild(CdkPortalOutlet, { static: true }) portalOutlet: CdkPortalOutlet;
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
-  ngOnInit(): void {}
+  attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
+    return this.portalOutlet.attachComponentPortal(portal);
+  }
+
+  attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
+    portal = portal;
+    throw new Error('Method not implemented.');
+  }
 }

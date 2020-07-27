@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { BottomSheetService } from '@app/core/services';
 import * as fromRoot from '@app/reducers';
+import { AddPlayerFormComponent } from '@app/setup/components';
 import { Player } from '@app/shared/models';
 import { PlayersPageActions } from '@app/tournament/actions';
 import { select, Store } from '@ngrx/store';
@@ -41,8 +42,7 @@ export class PlayersPageComponent {
   }
 
   addPlayerClicked() {
-    // this.isAddingPlayer = true;
-    this.bottomSheet.open();
+    this.bottomSheet.open(AddPlayerFormComponent);
   }
 
   onAddPlayer(playerName: string) {
