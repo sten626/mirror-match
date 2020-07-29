@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   BasePortalOutlet,
   CdkPortalOutlet,
@@ -11,32 +10,32 @@ import {
   EmbeddedViewRef,
   EventEmitter,
   Output,
-  ViewChild
+  ViewChild,
+  HostBinding,
+  HostListener
 } from '@angular/core';
+import { bottomSheetContainer } from './bottom-sheet-container-animations';
 
 @Component({
   selector: 'mm-bottom-sheet-container',
   templateUrl: './bottom-sheet-container.component.html',
   styleUrls: ['./bottom-sheet-container.component.scss'],
-  animations: [
-    trigger('backdrop', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('250ms', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('200ms', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+  animations: [bottomSheetContainer]
 })
 export class BottomSheetContainerComponent extends BasePortalOutlet {
   @Output() close = new EventEmitter();
   @ViewChild(CdkPortalOutlet, { static: true }) portalOutlet: CdkPortalOutlet;
 
+  @HostBinding('@bottomSheetContainer')
+  state: 'void' | 'enter' | 'exit' = 'enter';
+
   constructor() {
     super();
+  }
+
+  @HostListener('@bottomSheetContainer.start')
+  onAnimationStart(event: AnimationEvent) {
+    console.log(event);
   }
 
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {

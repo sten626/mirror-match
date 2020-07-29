@@ -1,12 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BottomSheetService } from '@app/core/services';
 import * as fromRoot from '@app/reducers';
 import { AddPlayerFormComponent } from '@app/setup/components';
 import { Player } from '@app/shared/models';
 import { PlayersPageActions } from '@app/tournament/actions';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -14,10 +14,11 @@ import { map } from 'rxjs/operators';
   templateUrl: './players-page.component.html',
   styleUrls: ['./players-page.component.scss']
 })
-export class PlayersPageComponent {
+export class PlayersPageComponent implements OnInit, OnDestroy {
   isAddingPlayer = false;
   isXSmallDisplay$: Observable<boolean>;
-  playerNames$: Observable<Set<string>>;
+  playerNames: Set<string>;
+  playerNamesSub: Subscription;
   players$: Observable<Player[]>;
   useMiniFab$: Observable<boolean>;
 
@@ -32,17 +33,25 @@ export class PlayersPageComponent {
 
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
 
-    this.playerNames$ = this.store.pipe(
-      select(fromRoot.selectPlayerNamesLowerCaseSet)
-    );
-
     this.useMiniFab$ = this.breakpointObserver
       .observe('(max-width: 460px)') // According to https://material.io/components/buttons-floating-action-button#anatomy
       .pipe(map((result) => result.matches));
   }
 
+  ngOnInit() {
+    this.playerNamesSub = this.store
+      .pipe(select(fromRoot.selectPlayerNamesLowerCaseSet))
+      .subscribe((playerNames) => (this.playerNames = playerNames));
+  }
+
+  ngOnDestroy() {
+    this.playerNamesSub.unsubscribe();
+  }
+
   addPlayerClicked() {
-    this.bottomSheet.open(AddPlayerFormComponent);
+    this.bottomSheet.open(AddPlayerFormComponent, {
+      data: { playerNames: this.playerNames }
+    });
   }
 
   onAddPlayer(playerName: string) {

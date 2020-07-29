@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { BOTTOM_SHEET_DATA } from '@app/core/services';
 import { newPlayerValidator } from '@app/shared/directives';
 
 @Component({
@@ -14,23 +8,23 @@ import { newPlayerValidator } from '@app/shared/directives';
   templateUrl: './add-player-form.component.html',
   styleUrls: ['./add-player-form.component.scss']
 })
-export class AddPlayerFormComponent implements OnChanges {
-  @Input() playerNames: Set<string>;
+export class AddPlayerFormComponent {
+  // @Input() playerNames: Set<string>;
   @Output() addPlayer = new EventEmitter<string>();
 
-  playerGroup = new FormGroup({
-    name: new FormControl('')
-  });
+  playerGroup: FormGroup;
 
-  constructor() {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['playerNames']) {
-      this.playerGroup
-        .get('name')
-        .setValidators(newPlayerValidator(this.playerNames));
-    }
+  constructor(@Inject(BOTTOM_SHEET_DATA) public data: any) {
+    this.createForm();
   }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['playerNames']) {
+  //     this.playerGroup
+  //       .get('name')
+  //       .setValidators(newPlayerValidator(this.playerNames));
+  //   }
+  // }
 
   clear() {
     this.playerGroup.reset({
@@ -55,5 +49,14 @@ export class AddPlayerFormComponent implements OnChanges {
   onSubmit() {
     const playerName = this.playerGroup.value['name'];
     this.addPlayer.emit(playerName);
+  }
+
+  private createForm() {
+    this.playerGroup = new FormGroup({
+      name: new FormControl(
+        '',
+        newPlayerValidator(this.data['playerNames'] || new Set())
+      )
+    });
   }
 }

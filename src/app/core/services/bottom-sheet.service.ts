@@ -1,6 +1,11 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
-import { Injectable, Injector, StaticProvider } from '@angular/core';
+import {
+  Injectable,
+  InjectionToken,
+  Injector,
+  StaticProvider
+} from '@angular/core';
 import { BottomSheetContainerComponent } from '@app/core/components';
 import { BottomSheetConfig } from './bottom-sheet-config';
 
@@ -17,6 +22,8 @@ class BottomSheetRef<T> {
     });
   }
 }
+
+export const BOTTOM_SHEET_DATA = new InjectionToken<any>('BottomSheetData');
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +44,8 @@ export class BottomSheetService {
     const bottomSheetRef = this.attachBottomSheetContent(
       component,
       bottomSheetContainer,
-      overlayRef
+      overlayRef,
+      config
     );
 
     return bottomSheetRef;
@@ -66,13 +74,15 @@ export class BottomSheetService {
   private attachBottomSheetContent<T>(
     component: ComponentType<T>,
     bottomSheetContainer: BottomSheetContainerComponent,
-    overlayRef: OverlayRef
+    overlayRef: OverlayRef,
+    config: BottomSheetConfig
   ): BottomSheetRef<T> {
     const bottomSheetRef = new BottomSheetRef<T>(
       overlayRef,
       bottomSheetContainer
     );
     const injector = this.createInjector<T>(
+      config,
       bottomSheetRef,
       bottomSheetContainer
     );
@@ -86,6 +96,7 @@ export class BottomSheetService {
   }
 
   private createInjector<T>(
+    config: BottomSheetConfig,
     bottomSheetRef: BottomSheetRef<T>,
     bottomSheetContainer: BottomSheetContainerComponent
   ): Injector {
@@ -94,6 +105,7 @@ export class BottomSheetService {
         provide: BottomSheetContainerComponent,
         useValue: bottomSheetContainer
       },
+      { provide: BOTTOM_SHEET_DATA, useValue: config.data },
       { provide: BottomSheetRef, useValue: bottomSheetRef }
     ];
 
