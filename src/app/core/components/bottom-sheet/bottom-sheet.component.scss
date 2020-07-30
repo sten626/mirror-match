@@ -1,0 +1,29 @@
+@import '../../../../theme-setup.scss';
+
+$background: map-get($mirror-match-theme, background);
+$scrimColor: rgba(0, 0, 0, 0.32);
+
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 100; //TODO Fix
+
+  .content {
+    background: mat-color($background, background);
+    bottom: 0;
+    position: absolute;
+    width: 100vw;
+  }
+
+  .scrim {
+    background: $scrimColor;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

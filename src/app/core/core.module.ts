@@ -3,18 +3,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  BottomSheetContainerComponent,
+  BottomSheetComponent,
   PageNotFoundComponent,
   ToolbarComponent
 } from '@app/core/components';
 import { MaterialModule } from '@app/material';
 import { SharedModule } from '@app/shared/shared.module';
-
-const COMPONENTS = [
-  BottomSheetContainerComponent,
-  PageNotFoundComponent,
-  ToolbarComponent
-];
 
 @NgModule({
   imports: [
@@ -24,7 +18,7 @@ const COMPONENTS = [
     RouterModule,
     SharedModule
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS
+  declarations: [BottomSheetComponent, PageNotFoundComponent, ToolbarComponent],
+  exports: [PageNotFoundComponent]
 })
 export class CoreModule {}

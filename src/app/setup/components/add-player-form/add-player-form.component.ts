@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BOTTOM_SHEET_DATA } from '@app/core/services';
 import { newPlayerValidator } from '@app/shared/directives';
 
 @Component({
@@ -14,7 +13,7 @@ export class AddPlayerFormComponent {
 
   playerGroup: FormGroup;
 
-  constructor(@Inject(BOTTOM_SHEET_DATA) public data: any) {
+  constructor() {
     this.createForm();
   }
 
@@ -55,7 +54,7 @@ export class AddPlayerFormComponent {
     this.playerGroup = new FormGroup({
       name: new FormControl(
         '',
-        newPlayerValidator(this.data['playerNames'] || new Set())
+        newPlayerValidator(new Set())
       )
     });
   }

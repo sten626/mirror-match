@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@app/material';
-import { BottomSheetComponent, FabComponent } from '@app/shared/components';
+import { FabComponent } from '@app/shared/components';
 import { PairingsFilterPipe, SortStandingsPipe } from '@app/shared/pipes';
+import { BottomSheetContentDirective } from './directives/bottom-sheet-content.directive';
 
-const COMPONENTS = [BottomSheetComponent, FabComponent];
+const COMPONENTS = [FabComponent];
 const PIPES = [PairingsFilterPipe, SortStandingsPipe];
 
 @NgModule({
   imports: [CommonModule, MaterialModule],
-  declarations: [COMPONENTS, PIPES],
-  exports: [COMPONENTS, PIPES]
+  declarations: [COMPONENTS, PIPES, BottomSheetContentDirective],
+  exports: [COMPONENTS, PIPES, BottomSheetContentDirective]
 })
 export class SharedModule {}
