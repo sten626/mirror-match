@@ -27,5 +27,9 @@ export class BottomSheetService {
     ) as NgElement & WithProperties<BottomSheetComponent>;
     this.document.body.appendChild(bottomSheetEl);
     bottomSheetEl.contentComponent = component;
+
+    bottomSheetEl.addEventListener('close', () =>
+      document.body.removeChild(bottomSheetEl)
+    );
   }
 }
