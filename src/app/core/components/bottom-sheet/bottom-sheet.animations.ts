@@ -13,7 +13,7 @@ const STANDARD_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 export const bottomSheetAnimations = [
   trigger('state', [
-    transition(':enter', [
+    transition('* => showing', [
       query('.content', style({ transform: 'translateY(100%)' })),
       query('.scrim', style({ opacity: 0 })),
       group([
@@ -30,7 +30,7 @@ export const bottomSheetAnimations = [
         )
       ])
     ]),
-    transition(':leave', [
+    transition('* => hidden', [
       query('.content', style({ transform: 'translateY(0%)' })),
       query('.scrim', style({ opacity: 1 })),
       group([

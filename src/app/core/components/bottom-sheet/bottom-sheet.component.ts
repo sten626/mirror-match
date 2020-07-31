@@ -1,8 +1,10 @@
+import { AnimationEvent } from '@angular/animations';
 import {
   Component,
   ComponentFactoryResolver,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   Output,
   Type,
@@ -18,16 +20,20 @@ import { bottomSheetAnimations } from './bottom-sheet.animations';
   animations: bottomSheetAnimations
 })
 export class BottomSheetComponent {
-  @Output() close = new EventEmitter();
+  @Output() animationStateChanged = new EventEmitter<AnimationEvent>();
+  @Output() scrimClicked = new EventEmitter();
 
-  @HostBinding('@state') state: 'opened' | 'closed' = 'closed';
+  @Input()
+  @HostBinding('@state') state: 'showing' | 'hidden' = 'showing';
 
   @ViewChild(BottomSheetContentDirective, { static: true })
   content: BottomSheetContentDirective;
 
   private _contentComponent: Type<any>;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
   @Input()
   set contentComponent(component: Type<any>) {
@@ -42,7 +48,14 @@ export class BottomSheetComponent {
     return this._contentComponent;
   }
 
-  scrimClicked() {
-    this.close.emit();
+  @HostListener('@state.done', ['$event'])
+  onAnimationDone(event: AnimationEvent) {
+    console.log(`done ${event}`);
+    this.animationStateChanged.emit(event);
   }
+
+  // scrimClicked() {
+  //   this.state = 'hidden';
+  //   // this.changeDetectorRef.markForCheck();
+  // }
 }
