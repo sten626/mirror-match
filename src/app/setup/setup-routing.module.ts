@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   PlayersPageComponent,
   SetupPageComponent
-} from '@app/setup/containers';
+} from '@mm/setup/containers';
 
 export const ROUTES: Routes = [
   {

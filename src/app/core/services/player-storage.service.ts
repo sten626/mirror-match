@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from '@app/core/services/storage.service';
-import { Player } from '@app/shared/models';
+import { StorageService } from '@mm/core/services/storage.service';
+import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';

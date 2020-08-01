@@ -1,5 +1,5 @@
-import { Pairing } from '@app/shared/models';
-import { PairingsApiActions, PairingsPageActions, SwissApiActions } from '@app/swiss/actions';
+import { Pairing } from '@mm/shared/models';
+import { PairingsApiActions, PairingsPageActions, SwissApiActions } from '@mm/swiss/actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 

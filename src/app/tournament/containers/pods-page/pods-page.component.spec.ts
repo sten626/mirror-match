@@ -1,6 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import * as fromTournament from '@app/tournament/reducers';
+import * as fromTournament from '@mm/tournament/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PodsPageComponent } from './pods-page.component';
 

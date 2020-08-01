@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import * as fromSwiss from '@app/swiss/reducers';
+import * as fromSwiss from '@mm/swiss/reducers';
 import { Observable } from 'rxjs';
-import { EventInfoPageActions } from '@app/swiss/actions';
+import { EventInfoPageActions } from '@mm/swiss/actions';
 
 @Component({
   templateUrl: './event-info.component.html'

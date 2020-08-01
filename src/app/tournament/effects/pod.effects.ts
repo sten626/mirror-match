@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PodsStorageService } from '@app/core/services';
-import { DraftPodService } from '@app/core/services/draft-pod.service';
-import * as fromRoot from '@app/reducers';
-import { Pod } from '@app/shared/models';
-import { PodsApiActions, PodsPageActions } from '@app/tournament/actions';
+import { PodsStorageService } from '@mm/core/services';
+import { DraftPodService } from '@mm/core/services/draft-pod.service';
+import * as fromRoot from '@mm/reducers';
+import { Pod } from '@mm/shared/models';
+import { PodsApiActions, PodsPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';

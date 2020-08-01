@@ -1,5 +1,5 @@
-import * as fromRounds from '@app/swiss/reducers/rounds.reducer';
-import { RoundApiActions } from '@app/swiss/actions';
+import * as fromRounds from '@mm/swiss/reducers/rounds.reducer';
+import { RoundApiActions } from '@mm/swiss/actions';
 
 describe('RoundsReducer', () => {
   let initialState: fromRounds.State;

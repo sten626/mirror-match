@@ -1,8 +1,8 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { PodListData } from '@app/shared/models';
-import { PodsPageActions } from '@app/tournament/actions';
-import * as fromTournament from '@app/tournament/reducers';
+import { PodListData } from '@mm/shared/models';
+import { PodsPageActions } from '@mm/tournament/actions';
+import * as fromTournament from '@mm/tournament/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

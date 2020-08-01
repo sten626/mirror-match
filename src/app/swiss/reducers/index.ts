@@ -1,7 +1,7 @@
-import * as fromRoot from '@app/reducers';
-import { Pairing, Round } from '@app/shared/models';
-import * as fromPairings from '@app/swiss/reducers/pairings.reducer';
-import * as fromRounds from '@app/swiss/reducers/rounds.reducer';
+import * as fromRoot from '@mm/reducers';
+import { Pairing, Round } from '@mm/shared/models';
+import * as fromPairings from '@mm/swiss/reducers/pairings.reducer';
+import * as fromRounds from '@mm/swiss/reducers/rounds.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
 

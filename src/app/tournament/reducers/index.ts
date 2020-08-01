@@ -1,6 +1,6 @@
-import * as fromRoot from '@app/reducers';
-import { PodListData } from '@app/shared/models';
-import * as fromPods from '@app/tournament/reducers/pods.reducer';
+import * as fromRoot from '@mm/reducers';
+import { PodListData } from '@mm/shared/models';
+import * as fromPods from '@mm/tournament/reducers/pods.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const tournamentFeatureKey = 'tournament';

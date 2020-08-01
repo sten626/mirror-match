@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Pairing, Player } from '@app/shared/models';
+import { Pairing, Player } from '@mm/shared/models';
 import { Dictionary } from '@ngrx/entity';
 
 @Component({

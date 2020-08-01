@@ -1,5 +1,5 @@
-import { PlayersApiActions } from '@app/core/actions';
-import { Player } from '@app/shared/models';
+import { PlayersApiActions } from '@mm/core/actions';
+import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import * as fromPlayers from './players.reducer';
 

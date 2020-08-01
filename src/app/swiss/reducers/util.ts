@@ -1,4 +1,4 @@
-import { Pairing, Player, Standing, standingDefaults } from '@app/shared/models';
+import { Pairing, Player, Standing, standingDefaults } from '@mm/shared/models';
 import { Dictionary } from '@ngrx/entity';
 
 export function calculateStandings(pairings: Pairing[], players: Player[]): Standing[] {

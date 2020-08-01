@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '@app/material';
-import { FabComponent } from '@app/shared/components';
-import { PairingsFilterPipe, SortStandingsPipe } from '@app/shared/pipes';
+import { MaterialModule } from '@mm/material';
+import { FabComponent } from '@mm/shared/components';
+import { PairingsFilterPipe, SortStandingsPipe } from '@mm/shared/pipes';
 import { BottomSheetContentDirective } from './directives/bottom-sheet-content.directive';
 
 const COMPONENTS = [FabComponent];

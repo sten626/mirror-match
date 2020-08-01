@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Pairing, Player } from '@app/shared/models';
-import { PairingsPageActions } from '@app/swiss/actions';
-import * as fromSwiss from '@app/swiss/reducers';
+import { Pairing, Player } from '@mm/shared/models';
+import { PairingsPageActions } from '@mm/swiss/actions';
+import * as fromSwiss from '@mm/swiss/reducers';
 import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from '@app/core/services/storage.service';
-import { Pairing } from '@app/shared/models';
+import { StorageService } from '@mm/core/services/storage.service';
+import { Pairing } from '@mm/shared/models';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

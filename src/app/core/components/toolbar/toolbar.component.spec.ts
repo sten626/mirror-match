@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import * as fromRoot from '@app/reducers';
+import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ToolbarComponent } from './toolbar.component';
 

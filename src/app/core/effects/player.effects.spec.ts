@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { PlayersApiActions } from '@app/core/actions';
-import { PlayerStorageService } from '@app/core/services';
-import { generateMockPlayer, Player } from '@app/shared/models';
-import { PlayersPageActions, SetupPageActions } from '@app/tournament/actions';
+import { PlayersApiActions } from '@mm/core/actions';
+import { PlayerStorageService } from '@mm/core/services';
+import { generateMockPlayer, Player } from '@mm/shared/models';
+import { PlayersPageActions, SetupPageActions } from '@mm/tournament/actions';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Update } from '@ngrx/entity';

@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BottomSheetService } from '@app/core/services';
-import * as fromRoot from '@app/reducers';
+import { BottomSheetService } from '@mm/core/services';
+import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PlayersPageComponent } from './players-page.component';
 

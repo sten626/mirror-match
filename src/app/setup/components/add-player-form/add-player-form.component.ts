@@ -1,9 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BOTTOM_SHEET_DATA } from '@app/core/services/bottom-sheet-config';
-import { BottomSheetRef } from '@app/core/services/bottom-sheet-ref';
-import { newPlayerValidator } from '@app/shared/directives';
+import { BOTTOM_SHEET_DATA } from '@mm/core/services/bottom-sheet-config';
+import { BottomSheetRef } from '@mm/core/services/bottom-sheet-ref';
+import { newPlayerValidator } from '@mm/shared/directives';
 
 @Component({
   selector: 'mm-add-player-form',

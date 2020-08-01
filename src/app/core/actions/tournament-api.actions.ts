@@ -1,4 +1,4 @@
-import { TournamentInfo } from '@app/shared/models';
+import { TournamentInfo } from '@mm/shared/models';
 import { createAction, props } from '@ngrx/store';
 
 export const loadTournament = createAction('[Tournament/API] Load Tournament');

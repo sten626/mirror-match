@@ -1,10 +1,10 @@
 // import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import * as fromRoot from '@app/reducers';
-// import { Pairing, Player } from '@app/shared/models';
-// import { PairingsPageActions } from '@app/swiss/actions';
-// import { PairingsPageComponent } from '@app/swiss/containers/pairings-page/pairings-page.component';
-// import * as fromSwiss from '@app/swiss/reducers';
+// import * as fromRoot from '@mm/reducers';
+// import { Pairing, Player } from '@mm/shared/models';
+// import { PairingsPageActions } from '@mm/swiss/actions';
+// import { PairingsPageComponent } from '@mm/swiss/containers/pairings-page/pairings-page.component';
+// import * as fromSwiss from '@mm/swiss/reducers';
 // import { Store, StoreModule } from '@ngrx/store';
 
 // describe('PairingsPageComponent', () => {

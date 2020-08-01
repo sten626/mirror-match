@@ -1,4 +1,4 @@
-import { Pod } from '@app/shared/models';
+import { Pod } from '@mm/shared/models';
 import { createAction, props } from '@ngrx/store';
 
 export const createDraftPods = createAction('[Pods/API] Create Draft Pods');

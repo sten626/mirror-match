@@ -1,4 +1,4 @@
-import { Pairing, Player } from '@app/shared/models';
+import { Pairing, Player } from '@mm/shared/models';
 import { createAction, props } from '@ngrx/store';
 
 export const changeSelectedRound = createAction(

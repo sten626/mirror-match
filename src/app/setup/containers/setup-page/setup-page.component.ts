@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import * as fromRoot from '@app/reducers';
-import { routeAnimations } from '@app/setup/animations';
+import * as fromRoot from '@mm/reducers';
+import { routeAnimations } from '@mm/setup/animations';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

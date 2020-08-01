@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@app/material';
-import { SharedModule } from '@app/shared/shared.module';
+import { MaterialModule } from '@mm/material';
+import { SharedModule } from '@mm/shared/shared.module';
 import {
   PlayerEditDialogComponent,
   PlayerFormComponent,
@@ -10,13 +10,13 @@ import {
   PodDetailComponent,
   PodsComponent,
   TournamentStartDialogComponent
-} from '@app/tournament/components';
+} from '@mm/tournament/components';
 import {
   PodsPageComponent,
   SetupPageComponent
-} from '@app/tournament/containers';
-import { PodEffects } from '@app/tournament/effects';
-import * as fromPods from '@app/tournament/reducers/pods.reducer';
+} from '@mm/tournament/containers';
+import { PodEffects } from '@mm/tournament/effects';
+import * as fromPods from '@mm/tournament/reducers/pods.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 

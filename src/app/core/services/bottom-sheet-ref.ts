@@ -1,5 +1,5 @@
 import { ApplicationRef, ComponentRef, Injector, Type } from '@angular/core';
-import { BottomSheetComponent } from '@app/core/components';
+import { BottomSheetComponent } from '@mm/core/components';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 

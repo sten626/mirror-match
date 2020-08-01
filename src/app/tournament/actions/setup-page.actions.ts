@@ -1,4 +1,4 @@
-import { Player, TournamentInfo } from '@app/shared/models';
+import { Player, TournamentInfo } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 

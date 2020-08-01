@@ -1,4 +1,4 @@
-import { Player } from '@app/shared/models';
+import { Player } from '@mm/shared/models';
 import { createAction, props } from '@ngrx/store';
 
 export const addPlayer = createAction(

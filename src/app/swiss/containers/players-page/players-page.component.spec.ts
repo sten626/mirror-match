@@ -1,12 +1,12 @@
 // import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { Router } from '@angular/router';
-// import * as fromRoot from '@app/reducers';
-// import { generateMockPlayer, Player } from '@app/shared/models';
-// import { SharedModule } from '@app/shared/shared.module';
-// import { PlayersPageActions } from '@app/swiss/actions';
-// import { PlayersPageComponent } from '@app/swiss/containers/players-page/players-page.component';
-// import * as fromSwiss from '@app/swiss/reducers';
+// import * as fromRoot from '@mm/reducers';
+// import { generateMockPlayer, Player } from '@mm/shared/models';
+// import { SharedModule } from '@mm/shared/shared.module';
+// import { PlayersPageActions } from '@mm/swiss/actions';
+// import { PlayersPageComponent } from '@mm/swiss/containers/players-page/players-page.component';
+// import * as fromSwiss from '@mm/swiss/reducers';
 // import { Store, StoreModule } from '@ngrx/store';
 
 // describe('Players Page Component', () => {

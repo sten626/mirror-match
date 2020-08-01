@@ -1,10 +1,10 @@
 // import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 // import { Store, StoreModule } from '@ngrx/store';
-// import * as fromRoot from '@app/reducers';
-// import { EventInfoPageActions } from '@app/swiss/actions';
-// import { EventInfoComponent } from '@app/swiss/containers/event-info/event-info.component';
-// import * as fromSwiss from '@app/swiss/reducers';
+// import * as fromRoot from '@mm/reducers';
+// import { EventInfoPageActions } from '@mm/swiss/actions';
+// import { EventInfoComponent } from '@mm/swiss/containers/event-info/event-info.component';
+// import * as fromSwiss from '@mm/swiss/reducers';
 
 // describe('EventInfoComponent', () => {
 //   let component: EventInfoComponent;

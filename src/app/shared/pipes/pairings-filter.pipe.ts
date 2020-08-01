@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
-import { Pairing, Player } from '@app/shared/models';
+import { Pairing, Player } from '@mm/shared/models';
 
 @Pipe({
   name: 'pairingsFilter'

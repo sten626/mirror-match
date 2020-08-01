@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import * as fromRoot from '@app/reducers';
+import * as fromRoot from '@mm/reducers';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PodsGuard } from './pods.guard';

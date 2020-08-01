@@ -1,5 +1,5 @@
-import { TournamentApiActions } from '@app/core/actions';
-import { TournamentInfo } from '@app/shared/models';
+import { TournamentApiActions } from '@mm/core/actions';
+import { TournamentInfo } from '@mm/shared/models';
 import { initialState, reducer } from './tournament.reducer';
 
 describe('Tournament Reducer', () => {

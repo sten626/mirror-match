@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import * as fromRoot from '@app/reducers';
+import * as fromRoot from '@mm/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 

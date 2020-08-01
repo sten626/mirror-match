@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Player } from '@app/shared/models';
+import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-player-form',

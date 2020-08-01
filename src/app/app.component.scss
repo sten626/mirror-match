@@ -1,5 +1,5 @@
 @import '~@angular/material/theming';
-@import '../theme-setup.scss';
+@import 'theme-setup.scss';
 
 $primary: map-get($mirror-match-theme, primary);
 $background: map-get($mirror-match-theme, background);

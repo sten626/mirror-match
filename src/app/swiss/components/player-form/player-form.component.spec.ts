@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Player } from '@app/shared/models';
+import { Player } from '@mm/shared/models';
 import { PlayerFormComponent } from './player-form.component';
 
 describe('Player Form Component', () => {

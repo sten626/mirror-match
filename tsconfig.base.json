@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "importHelpers": true,
     "paths": {
-      "@app/*": [
+      "@mm/*": [
         "src/app/*"
       ]
     },

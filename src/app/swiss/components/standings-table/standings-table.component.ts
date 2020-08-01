@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Player, Standing } from '@app/shared/models';
+import { Player, Standing } from '@mm/shared/models';
 import { Dictionary } from '@ngrx/entity';
 
 @Component({

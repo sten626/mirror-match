@@ -6,9 +6,9 @@ import {
   BottomSheetComponent,
   PageNotFoundComponent,
   ToolbarComponent
-} from '@app/core/components';
-import { MaterialModule } from '@app/material';
-import { SharedModule } from '@app/shared/shared.module';
+} from '@mm/core/components';
+import { MaterialModule } from '@mm/material';
+import { SharedModule } from '@mm/shared/shared.module';
 
 @NgModule({
   imports: [

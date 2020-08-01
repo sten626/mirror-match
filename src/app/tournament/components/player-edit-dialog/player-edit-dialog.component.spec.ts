@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Player } from '@app/shared/models';
+import { Player } from '@mm/shared/models';
 import { PlayerEditDialogComponent } from './player-edit-dialog.component';
 
 describe('PlayerEditDialogComponent', () => {

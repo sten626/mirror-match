@@ -1,4 +1,4 @@
-import { Round } from '@app/shared/models';
+import { Round } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 

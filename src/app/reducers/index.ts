@@ -1,5 +1,5 @@
-import * as fromPlayers from '@app/core/reducers/players.reducer';
-import * as fromTournament from '@app/core/reducers/tournament.reducer';
+import * as fromPlayers from '@mm/core/reducers/players.reducer';
+import * as fromTournament from '@mm/core/reducers/tournament.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {

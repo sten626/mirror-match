@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Player } from '@app/shared/models';
-// import { newPlayerValidator } from '@app/shared/new-player.validator';
+import { Player } from '@mm/shared/models';
+// import { newPlayerValidator } from '@mm/shared/new-player.validator';
 
 @Component({
   selector: 'mm-player-form',

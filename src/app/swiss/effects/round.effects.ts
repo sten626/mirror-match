@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageActions } from '@app/core/actions';
-import { RoundStorageService } from '@app/core/services';
-import { Message, MessageType, Round } from '@app/shared/models';
-import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from '@app/swiss/actions';
-import * as fromSwiss from '@app/swiss/reducers';
+import { MessageActions } from '@mm/core/actions';
+import { RoundStorageService } from '@mm/core/services';
+import { Message, MessageType, Round } from '@mm/shared/models';
+import { PairingsApiActions, PairingsPageActions, PlayersPageActions, RoundApiActions } from '@mm/swiss/actions';
+import * as fromSwiss from '@mm/swiss/reducers';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';

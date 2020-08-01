@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Standing } from '@app/shared/models/standing.model';
+import { Standing } from '@mm/shared/models/standing.model';
 import { standingsTiebreakerComparator } from '../comparators';
 
 @Pipe({

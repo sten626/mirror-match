@@ -8,7 +8,7 @@ import {
   StaticProvider,
   Type
 } from '@angular/core';
-import { BottomSheetComponent } from '@app/core/components';
+import { BottomSheetComponent } from '@mm/core/components';
 import { BottomSheetConfig, BOTTOM_SHEET_DATA } from './bottom-sheet-config';
 import { BottomSheetRef } from './bottom-sheet-ref';
 

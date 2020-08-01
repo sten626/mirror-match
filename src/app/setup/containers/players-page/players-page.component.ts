@@ -1,10 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BottomSheetService } from '@app/core/services';
-import * as fromRoot from '@app/reducers';
-import { AddPlayerFormComponent } from '@app/setup/components';
-import { Player } from '@app/shared/models';
-import { PlayersPageActions } from '@app/tournament/actions';
+import { BottomSheetService } from '@mm/core/services';
+import * as fromRoot from '@mm/reducers';
+import { AddPlayerFormComponent } from '@mm/setup/components';
+import { Player } from '@mm/shared/models';
+import { PlayersPageActions } from '@mm/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';

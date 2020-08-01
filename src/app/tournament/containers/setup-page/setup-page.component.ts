@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import * as fromRoot from '@app/reducers';
-import { Player, TournamentInfo } from '@app/shared/models';
-import { SetupPageActions } from '@app/tournament/actions';
+import * as fromRoot from '@mm/reducers';
+import { Player, TournamentInfo } from '@mm/shared/models';
+import { SetupPageActions } from '@mm/tournament/actions';
 import {
   PlayerEditDialogComponent,
   TournamentStartDialogComponent
-} from '@app/tournament/components';
+} from '@mm/tournament/components';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';

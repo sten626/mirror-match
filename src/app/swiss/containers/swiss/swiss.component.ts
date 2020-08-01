@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Message } from '@app/shared/models';
-import * as fromSwiss from '@app/swiss/reducers';
+import { Message } from '@mm/shared/models';
+import * as fromSwiss from '@mm/swiss/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 

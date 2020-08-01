@@ -1,4 +1,4 @@
-import { Round } from '@app/shared/models';
+import { Round } from '@mm/shared/models';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { PairingsApiActions, RoundApiActions, SwissApiActions } from '../actions';

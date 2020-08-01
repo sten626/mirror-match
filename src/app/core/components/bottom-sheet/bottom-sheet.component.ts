@@ -11,7 +11,7 @@ import {
   ViewChild,
   Injector
 } from '@angular/core';
-import { BottomSheetContentDirective } from '@app/shared/directives';
+import { BottomSheetContentDirective } from '@mm/shared/directives';
 import { bottomSheetAnimations } from './bottom-sheet.animations';
 
 @Component({

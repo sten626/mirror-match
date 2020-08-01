@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PairingStorageService, RoundStorageService } from '@app/core/services';
-import { Pairing } from '@app/shared/models';
-import { PairingsApiActions, PairingsPageActions } from '@app/swiss/actions';
-import * as fromSwiss from '@app/swiss/reducers';
+import { PairingStorageService, RoundStorageService } from '@mm/core/services';
+import { Pairing } from '@mm/shared/models';
+import { PairingsApiActions, PairingsPageActions } from '@mm/swiss/actions';
+import * as fromSwiss from '@mm/swiss/reducers';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';

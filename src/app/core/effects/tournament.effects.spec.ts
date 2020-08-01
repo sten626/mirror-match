@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TournamentApiActions } from '@app/core/actions';
-import { DraftPodService } from '@app/core/services/draft-pod.service';
-import { TournamentStorageService } from '@app/core/services/tournament-storage.service';
-import * as fromRoot from '@app/reducers';
-import { TournamentInfo } from '@app/shared/models';
-import { SetupPageActions } from '@app/tournament/actions';
+import { TournamentApiActions } from '@mm/core/actions';
+import { DraftPodService } from '@mm/core/services/draft-pod.service';
+import { TournamentStorageService } from '@mm/core/services/tournament-storage.service';
+import * as fromRoot from '@mm/reducers';
+import { TournamentInfo } from '@mm/shared/models';
+import { SetupPageActions } from '@mm/tournament/actions';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
