@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./players-page.component.scss']
 })
 export class PlayersPageComponent implements OnInit, OnDestroy {
-  isAddingPlayer = false;
   isXSmallDisplay$: Observable<boolean>;
   playerNames: Set<string>;
   playerNamesSub: Subscription;
@@ -60,24 +59,7 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
           dropped: false
         };
         this.store.dispatch(PlayersPageActions.addPlayer({ player }));
-        this.isAddingPlayer = false;
       }
     });
-    // this.bottomSheet.open(AddPlayerFormComponent, {
-    //   data: { playerNames: this.playerNames }
-    // });
-  }
-
-  onAddPlayer(playerName: string) {
-    if (!playerName) {
-      return;
-    }
-
-    const player: Player = {
-      name: playerName,
-      dropped: false
-    };
-    this.store.dispatch(PlayersPageActions.addPlayer({ player }));
-    this.isAddingPlayer = false;
   }
 }

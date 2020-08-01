@@ -1,21 +1,17 @@
+import { ApplicationRef, ComponentRef, Injector, Type } from '@angular/core';
 import { BottomSheetComponent } from '@app/core/components';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { Type, ApplicationRef, ComponentRef, Injector } from '@angular/core';
 
 export class BottomSheetRef<R = any> {
   private afterDismissedSubject = new Subject<R>();
-  // private result: R | undefined;
 
   constructor(
     private applicationRef: ApplicationRef,
     private componentRef: ComponentRef<BottomSheetComponent>,
     private document: Document,
-    host: HTMLElement,
-    // private instance: BottomSheetComponent
+    host: HTMLElement
   ) {
-    // instance.contentComponent = contentComponent;
-
     componentRef.instance.animationStateChanged
       .pipe(
         filter(
@@ -40,7 +36,6 @@ export class BottomSheetRef<R = any> {
   }
 
   dismiss(result?: R) {
-    // this.result = result;
     this.componentRef.instance.state = 'hidden';
     this.afterDismissedSubject.next(result);
     this.afterDismissedSubject.complete();

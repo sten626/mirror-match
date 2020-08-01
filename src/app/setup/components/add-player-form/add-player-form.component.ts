@@ -1,9 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BOTTOM_SHEET_DATA } from '@app/core/services/bottom-sheet-config';
-import { newPlayerValidator } from '@app/shared/directives';
 import { BottomSheetRef } from '@app/core/services/bottom-sheet-ref';
+import { newPlayerValidator } from '@app/shared/directives';
 
 @Component({
   selector: 'mm-add-player-form',
@@ -11,9 +11,6 @@ import { BottomSheetRef } from '@app/core/services/bottom-sheet-ref';
   styleUrls: ['./add-player-form.component.scss']
 })
 export class AddPlayerFormComponent implements OnInit {
-  // @Input() playerNames: Set<string>;
-  @Output() addPlayer = new EventEmitter<string>();
-
   playerGroup: FormGroup;
 
   constructor(
@@ -31,14 +28,6 @@ export class AddPlayerFormComponent implements OnInit {
       input.focus();
     }
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['playerNames']) {
-  //     this.playerGroup
-  //       .get('name')
-  //       .setValidators(newPlayerValidator(this.playerNames));
-  //   }
-  // }
 
   clear() {
     this.playerGroup.reset({
@@ -62,12 +51,7 @@ export class AddPlayerFormComponent implements OnInit {
 
   onSubmit() {
     const playerName = this.playerGroup.value['name'];
-    // this.addPlayer.emit(playerName);
     this.bottomSheetRef.dismiss(playerName);
-  }
-
-  log(msg: string) {
-    console.log(msg);
   }
 
   private createForm() {
