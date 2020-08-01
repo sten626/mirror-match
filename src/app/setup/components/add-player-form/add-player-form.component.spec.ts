@@ -4,14 +4,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BOTTOM_SHEET_DATA } from '@app/core/services/bottom-sheet-config';
+import { BottomSheetRef } from '@app/core/services/bottom-sheet-ref';
 import { AddPlayerFormComponent } from './add-player-form.component';
 
 describe('AddPlayerFormComponent', () => {
   let component: AddPlayerFormComponent;
   let fixture: ComponentFixture<AddPlayerFormComponent>;
 
+  class BottomSheetRefStub {}
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        { provide: BOTTOM_SHEET_DATA, useValue: {} },
+        { provide: BottomSheetRef, useValue: BottomSheetRefStub }
+      ],
       declarations: [AddPlayerFormComponent],
       imports: [
         MatFormFieldModule,
