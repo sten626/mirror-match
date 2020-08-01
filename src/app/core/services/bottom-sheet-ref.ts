@@ -1,43 +1,47 @@
-import { AnimationEvent } from '@angular/animations';
-import { NgElement, WithProperties } from '@angular/elements';
 import { BottomSheetComponent } from '@app/core/components';
-import { Type } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { Type, ApplicationRef, ComponentRef, Injector } from '@angular/core';
 
-export type BottomSheetElement = NgElement & WithProperties<BottomSheetComponent>;
-
-export class BottomSheetRef<T, R = any> {
+export class BottomSheetRef<R = any> {
   private afterDismissedSubject = new Subject<R>();
   // private result: R | undefined;
 
   constructor(
-    public element: BottomSheetElement,
-    contentComponent: Type<T>
+    private applicationRef: ApplicationRef,
+    private componentRef: ComponentRef<BottomSheetComponent>,
+    private document: Document,
+    host: HTMLElement,
+    // private instance: BottomSheetComponent
   ) {
-    element.contentComponent = contentComponent;
+    // instance.contentComponent = contentComponent;
 
-    element.addEventListener('animationStateChanged', (event: CustomEvent) => {
-      const animationEvent = event.detail as AnimationEvent;
-      if (
-        animationEvent.phaseName === 'done' &&
-        animationEvent.toState === 'hidden'
-      ) {
-        document.body.removeChild(element);
-      }
-    });
+    componentRef.instance.animationStateChanged
+      .pipe(
+        filter(
+          (event) => event.phaseName === 'done' && event.toState === 'hidden'
+        ),
+        take(1)
+      )
+      .subscribe(() => {
+        this.document.body.removeChild(host);
+        this.applicationRef.detachView(componentRef.hostView);
+      });
 
-    element.addEventListener('scrimClicked', () => {
-      this.dismiss();
-    });
+    componentRef.instance.scrimClicked.subscribe(() => this.dismiss());
   }
 
   afterDismissed(): Observable<R | undefined> {
     return this.afterDismissedSubject.asObservable();
   }
 
+  attach<T>(component: Type<T>, injector: Injector) {
+    this.componentRef.instance.attach(component, injector);
+  }
+
   dismiss(result?: R) {
     // this.result = result;
-    this.element.state = 'hidden';
+    this.componentRef.instance.state = 'hidden';
     this.afterDismissedSubject.next(result);
     this.afterDismissedSubject.complete();
   }

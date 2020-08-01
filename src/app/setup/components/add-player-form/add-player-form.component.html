@@ -1,7 +1,8 @@
-<form [formGroup]="playerGroup" (ngSubmit)="onSubmit()">
+<form [formGroup]="playerGroup" (ngSubmit)="onSubmit()" novalidate>
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
     <input
+      id="add-player-input"
       matInput
       type="text"
       autocomplete="off"
@@ -23,7 +24,7 @@
       {{ getErrorMessage() }}
     </mat-error>
   </mat-form-field>
-  <div>
+  <span>
     <button
       mat-raised-button
       color="primary"
@@ -33,5 +34,5 @@
     >
       Add
     </button>
-  </div>
+  </span>
 </form>

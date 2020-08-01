@@ -8,7 +8,8 @@ import {
   Input,
   Output,
   Type,
-  ViewChild
+  ViewChild,
+  Injector
 } from '@angular/core';
 import { BottomSheetContentDirective } from '@app/shared/directives';
 import { bottomSheetAnimations } from './bottom-sheet.animations';
@@ -29,33 +30,23 @@ export class BottomSheetComponent {
   @ViewChild(BottomSheetContentDirective, { static: true })
   content: BottomSheetContentDirective;
 
-  private _contentComponent: Type<any>;
+  private contentComponent: Type<any>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
-  @Input()
-  set contentComponent(component: Type<any>) {
-    this._contentComponent = component;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this._contentComponent
-    );
-    const viewContainerRef = this.content.viewContainerRef;
-    viewContainerRef.createComponent(componentFactory);
-  }
-  get contentComponent(): Type<any> {
-    return this._contentComponent;
-  }
-
   @HostListener('@state.done', ['$event'])
   onAnimationDone(event: AnimationEvent) {
-    console.log(`done ${event}`);
     this.animationStateChanged.emit(event);
   }
 
-  // scrimClicked() {
-  //   this.state = 'hidden';
-  //   // this.changeDetectorRef.markForCheck();
-  // }
+  attach<T>(component: Type<T>, injector: Injector) {
+    this.contentComponent = component;
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+      this.contentComponent
+    );
+    const viewContainerRef = this.content.viewContainerRef;
+    viewContainerRef.createComponent(componentFactory, null, injector);
+  }
 }

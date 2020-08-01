@@ -1,13 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BottomSheetService } from '@app/core/services';
 import * as fromRoot from '@app/reducers';
+import { AddPlayerFormComponent } from '@app/setup/components';
 import { Player } from '@app/shared/models';
 import { PlayersPageActions } from '@app/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BottomSheetService } from '@app/core/services';
-import { AddPlayerFormComponent } from '@app/setup/components';
 
 @Component({
   selector: 'mm-players-page',
@@ -49,7 +49,20 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   }
 
   addPlayerClicked() {
-    this.bottomSheet.open(AddPlayerFormComponent);
+    const bottomSheetRef = this.bottomSheet.open(AddPlayerFormComponent, {
+      data: { playerNames: this.playerNames }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe((result) => {
+      if (result) {
+        const player: Player = {
+          name: result,
+          dropped: false
+        };
+        this.store.dispatch(PlayersPageActions.addPlayer({ player }));
+        this.isAddingPlayer = false;
+      }
+    });
     // this.bottomSheet.open(AddPlayerFormComponent, {
     //   data: { playerNames: this.playerNames }
     // });
