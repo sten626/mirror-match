@@ -9,7 +9,7 @@ $scrimColor: rgba(0, 0, 0, 0.32);
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 100; //TODO Fix
+  z-index: 16;
 
   .content {
     background: mat-color($background, background);

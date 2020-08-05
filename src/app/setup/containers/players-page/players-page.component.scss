@@ -21,17 +21,23 @@ $toolbar-height-mobile: 56px;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    justify-content: center;
     padding-bottom: $toolbar-height-desktop;
 
     &.xsmall {
       padding-bottom: $toolbar-height-mobile;
     }
-  }
 
-  .no-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    .no-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .no-content-container {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 }

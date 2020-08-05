@@ -6,7 +6,6 @@ import { SharedModule } from '@mm/shared/shared.module';
 import {
   PlayerEditDialogComponent,
   PlayerFormComponent,
-  PlayersListComponent,
   PodDetailComponent,
   PodsComponent,
   TournamentStartDialogComponent
@@ -23,7 +22,6 @@ import { StoreModule } from '@ngrx/store';
 const COMPONENTS = [
   PlayerEditDialogComponent,
   PlayerFormComponent,
-  PlayersListComponent,
   PodDetailComponent,
   PodsComponent,
   TournamentStartDialogComponent

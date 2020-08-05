@@ -1,8 +1,15 @@
 <div class="container" [class.xsmall]="isXSmallDisplay$ | async">
-  <div class="no-content">
-    <h1>No players</h1>
-    <h3>Add players and they will appear here.</h3>
+  <div class="no-content-container" *ngIf="!(hasPlayers$ | async)">
+    <div class="no-content">
+      <h1>No players</h1>
+      <h3>Add players and they will appear here.</h3>
+    </div>
   </div>
+  <mm-players-list
+    *ngIf="hasPlayers$ | async"
+    [isXSmallDisplay]="isXSmallDisplay$ | async"
+    [players]="players$ | async"
+  ></mm-players-list>
 </div>
 
 <button

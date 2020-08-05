@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./players-page.component.scss']
 })
 export class PlayersPageComponent implements OnInit, OnDestroy {
+  hasPlayers$: Observable<boolean>;
   isXSmallDisplay$: Observable<boolean>;
   playerNames: Set<string>;
   playerNamesSub: Subscription;
@@ -31,6 +32,10 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
       .pipe(map((result) => result.matches));
 
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
+
+    this.hasPlayers$ = this.players$.pipe(
+      map((players) => players.length > 0)
+    );
 
     this.useMiniFab$ = this.breakpointObserver
       .observe('(max-width: 460px)') // According to https://material.io/components/buttons-floating-action-button#anatomy

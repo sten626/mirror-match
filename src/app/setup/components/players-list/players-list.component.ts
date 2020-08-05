@@ -3,9 +3,11 @@ import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-players-list',
-  templateUrl: './players-list.component.html'
+  templateUrl: './players-list.component.html',
+  styleUrls: ['./players-list.component.scss']
 })
 export class PlayersListComponent {
+  @Input() isXSmallDisplay: boolean;
   @Input() players: Player[];
   @Output() editPlayer = new EventEmitter<{player: Player, otherPlayers: Player[]}>();
 

@@ -6,17 +6,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AddPlayerFormComponent } from '@mm/setup/components';
 import {
-  PlayersPageComponent,
-  SetupPageComponent
-} from '@mm/setup/containers';
+  AddPlayerFormComponent,
+  PlayersListComponent
+} from '@mm/setup/components';
+import { PlayersPageComponent, SetupPageComponent } from '@mm/setup/containers';
 import { SetupRoutingModule } from '@mm/setup/setup-routing.module';
 import { SharedModule } from '@mm/shared/shared.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     AddPlayerFormComponent,
+    PlayersListComponent,
     PlayersPageComponent,
     SetupPageComponent
   ],
@@ -26,6 +28,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatToolbarModule,
     ReactiveFormsModule,
     SetupRoutingModule,

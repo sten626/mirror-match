@@ -1,0 +1,24 @@
+$toolbar-height-desktop: 64px;
+$toolbar-height-mobile: 56px;
+
+:host {
+  overflow: auto;
+
+  mat-action-list {
+    margin-top: $toolbar-height-desktop;
+
+    &.xsmall {
+      margin-top: $toolbar-height-mobile;
+    }
+  }
+
+  mat-toolbar {
+    position: absolute;
+    top: 0;
+    z-index: 4;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
