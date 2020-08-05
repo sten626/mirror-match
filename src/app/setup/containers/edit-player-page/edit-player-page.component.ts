@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class EditPlayerPageComponent implements OnInit {
   id: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private location: Location, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -17,4 +18,7 @@ export class EditPlayerPageComponent implements OnInit {
     });
   }
 
+  back() {
+    this.location.back();
+  }
 }

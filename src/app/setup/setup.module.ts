@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   AddPlayerFormComponent,
+  EditPlayerFormComponent,
   PlayersListComponent
 } from '@mm/setup/components';
 import {
@@ -22,6 +23,7 @@ import { SharedModule } from '@mm/shared/shared.module';
 @NgModule({
   declarations: [
     AddPlayerFormComponent,
+    EditPlayerFormComponent,
     EditPlayerPageComponent,
     PlayersListComponent,
     PlayersPageComponent,
