@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BottomSheetService } from '@mm/core/services';
@@ -36,7 +37,12 @@ describe('PlayersPageComponent', () => {
         BottomSheetStubComponent,
         PlayersPageComponent
       ],
-      imports: [MatIconModule, NoopAnimationsModule, RouterTestingModule]
+      imports: [
+        MatIconModule,
+        MatToolbarModule,
+        NoopAnimationsModule,
+        RouterTestingModule
+      ]
     }).compileComponents();
   }));
 
