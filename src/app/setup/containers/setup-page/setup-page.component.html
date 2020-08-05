@@ -1,4 +1,4 @@
-<div [@routeAnimations]="prepareRoute(outlet)">
+<div [@routeAnimations]="prepareRoute(outlet)" class="router-container" [class.xsmall]="isXSmallDisplay$ | async">
   <router-outlet #outlet=outlet></router-outlet>
 </div>
 <mat-toolbar class="mat-elevation-z8">

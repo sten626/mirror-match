@@ -7,7 +7,6 @@ import { Player } from '@mm/shared/models';
   styleUrls: ['./players-list.component.scss']
 })
 export class PlayersListComponent {
-  @Input() isXSmallDisplay: boolean;
   @Input() players: Player[];
   @Output() editPlayer = new EventEmitter<{player: Player, otherPlayers: Player[]}>();
 

@@ -1,5 +1,8 @@
 @import 'theme-setup.scss';
 
+$toolbar-height-desktop: 64px;
+$toolbar-height-mobile: 56px;
+
 $primary: map-get($mirror-match-theme, primary);
 
 mat-toolbar {
@@ -34,5 +37,14 @@ mat-toolbar {
 
   .spacer {
     flex: 1;
+  }
+}
+
+.router-container {
+  height: 100%;
+  padding-bottom: $toolbar-height-desktop;
+
+  &.xsmall {
+    padding-bottom: $toolbar-height-mobile;
   }
 }

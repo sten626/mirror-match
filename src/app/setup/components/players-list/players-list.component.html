@@ -1,9 +1,4 @@
-<mat-toolbar color="primary" class="mat-elevation-z4">
-  <span>Players</span>
-  <span class="spacer"></span>
-  <mat-icon>search</mat-icon>
-</mat-toolbar>
-<mat-action-list class="players-list" [class.xsmall]="isXSmallDisplay">
+<mat-action-list>
   <button mat-list-item *ngFor="let player of players">
     <!-- <mat-icon mat-list-icon>edit</mat-icon> -->
     <span mat-line>{{player.name}}</span>

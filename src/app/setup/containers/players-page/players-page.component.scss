@@ -6,6 +6,16 @@ $toolbar-height-mobile: 56px;
   display: flex;
   flex-direction: column;
 
+  mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 4;
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+
   .add-button {
     position: fixed;
     bottom: $toolbar-height-desktop + $fab-spacing;
@@ -20,11 +30,10 @@ $toolbar-height-mobile: 56px;
   .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    padding-bottom: $toolbar-height-desktop;
+    padding-top: $toolbar-height-desktop;
 
     &.xsmall {
-      padding-bottom: $toolbar-height-mobile;
+      padding-top: $toolbar-height-mobile;
     }
 
     .no-content {
