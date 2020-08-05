@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   PlayersPageComponent,
-  SetupPageComponent
+  SetupPageComponent,
+  EditPlayerPageComponent
 } from '@mm/setup/containers';
 
 export const ROUTES: Routes = [
@@ -12,6 +13,15 @@ export const ROUTES: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'players',
+        pathMatch: 'full'
+      },
+      {
+        path: 'edit/:id',
+        component: EditPlayerPageComponent
+      },
+      {
+        path: 'players',
         component: PlayersPageComponent,
         data: { animation: 'PlayersPage' }
       }

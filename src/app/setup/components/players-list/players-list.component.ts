@@ -8,12 +8,13 @@ import { Player } from '@mm/shared/models';
 })
 export class PlayersListComponent {
   @Input() players: Player[];
-  @Output() editPlayer = new EventEmitter<{player: Player, otherPlayers: Player[]}>();
+  // @Output() editPlayer = new EventEmitter<{player: Player, otherPlayers: Player[]}>();
+  @Output() editPlayer = new EventEmitter<Player>();
 
   constructor() {}
 
-  editClicked(player: Player) {
-    const otherPlayers = this.players.filter(p => p !== player);
-    this.editPlayer.emit({player, otherPlayers});
-  }
+  // edit(player: Player) {
+  //   const otherPlayers = this.players.filter(p => p !== player);
+  //   this.editPlayer.emit({player, otherPlayers});
+  // }
 }

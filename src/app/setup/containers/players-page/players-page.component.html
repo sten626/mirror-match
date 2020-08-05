@@ -13,6 +13,7 @@
   <mm-players-list
     *ngIf="hasPlayers$ | async"
     [players]="players$ | async"
+    (editPlayer)="onEditPlayer($event)"
   ></mm-players-list>
 </div>
 

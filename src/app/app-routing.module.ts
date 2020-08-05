@@ -5,7 +5,7 @@ import { PageNotFoundComponent } from '@mm/core/components';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/setup',
+    redirectTo: '/setup/players',
     pathMatch: 'full'
   },
   {

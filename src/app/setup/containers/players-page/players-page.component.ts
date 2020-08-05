@@ -8,6 +8,7 @@ import { PlayersPageActions } from '@mm/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mm-players-page',
@@ -25,6 +26,7 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   constructor(
     private bottomSheet: BottomSheetService,
     private breakpointObserver: BreakpointObserver,
+    private router: Router,
     private store: Store<fromRoot.State>
   ) {
     this.isXSmallDisplay$ = this.breakpointObserver
@@ -66,5 +68,9 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(PlayersPageActions.addPlayer({ player }));
       }
     });
+  }
+
+  onEditPlayer(player: Player) {
+    this.router.navigate(['/setup/edit', player.id]);
   }
 }

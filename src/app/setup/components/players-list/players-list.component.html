@@ -1,7 +1,5 @@
 <mat-action-list>
-  <button mat-list-item *ngFor="let player of players">
-    <!-- <mat-icon mat-list-icon>edit</mat-icon> -->
-    <span mat-line>{{player.name}}</span>
-    <!-- <span matLine class="dropped-label" *ngIf="player.dropped">Dropped</span> -->
+  <button mat-list-item *ngFor="let player of players" (click)="editPlayer.emit(player)">
+    {{player.name}}
   </button>
 </mat-action-list>
