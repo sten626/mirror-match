@@ -1,4 +1,3 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as fromRoot from '@mm/reducers';
@@ -15,20 +14,12 @@ import { map } from 'rxjs/operators';
 })
 export class SetupPageComponent {
   isNextButtonEnabled$: Observable<boolean>;
-  isXSmallDisplay$: Observable<boolean>;
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private store: Store<fromRoot.State>
-  ) {
+  constructor(private store: Store<fromRoot.State>) {
     this.isNextButtonEnabled$ = this.store.pipe(
       select(fromRoot.selectAllPlayers),
       map((players) => players.length >= 4)
     );
-
-    this.isXSmallDisplay$ = this.breakpointObserver
-      .observe(Breakpoints.XSmall)
-      .pipe(map((result) => result.matches));
   }
 
   prepareRoute(outlet: RouterOutlet) {

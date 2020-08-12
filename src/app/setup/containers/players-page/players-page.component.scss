@@ -5,10 +5,10 @@ $toolbar-height-mobile: 56px;
 :host {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   mat-toolbar {
-    position: fixed;
-    top: 0;
+    flex: 0 0 auto;
     z-index: 4;
 
     .spacer {
@@ -29,12 +29,9 @@ $toolbar-height-mobile: 56px;
 
   .container {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    padding-top: $toolbar-height-desktop;
-
-    &.xsmall {
-      padding-top: $toolbar-height-mobile;
-    }
+    overflow: auto;
 
     .no-content {
       display: flex;

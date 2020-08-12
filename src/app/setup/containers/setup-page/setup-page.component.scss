@@ -1,50 +1,47 @@
 @import 'theme-setup.scss';
 
-$toolbar-height-desktop: 64px;
-$toolbar-height-mobile: 56px;
-
 $primary: map-get($mirror-match-theme, primary);
 
-mat-toolbar {
-  position: fixed;
-  bottom: 0;
-  z-index: 8;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 
-  button {
+  .router-container {
     flex: 1;
-    float: right;
-    padding: 0;
-    text-transform: uppercase;
+    overflow: auto;
   }
 
-  .dot {
-    background-color: mat-color($primary, lighter);
-    border-radius: 4px;
-    height: 8px;
-    margin: 0 4px;
-    width: 8px;
+  mat-toolbar {
+    z-index: 8;
 
-    &.active {
-      background-color: mat-color($primary);
+    button {
+      flex: 1;
+      float: right;
+      padding: 0;
+      text-transform: uppercase;
     }
-  }
 
-  .dots {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-  }
+    .dot {
+      background-color: mat-color($primary, lighter);
+      border-radius: 4px;
+      height: 8px;
+      margin: 0 4px;
+      width: 8px;
 
-  .spacer {
-    flex: 1;
-  }
-}
+      &.active {
+        background-color: mat-color($primary);
+      }
+    }
 
-.router-container {
-  height: 100%;
-  padding-bottom: $toolbar-height-desktop;
+    .dots {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+    }
 
-  &.xsmall {
-    padding-bottom: $toolbar-height-mobile;
+    .spacer {
+      flex: 1;
+    }
   }
 }

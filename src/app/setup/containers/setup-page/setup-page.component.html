@@ -1,5 +1,5 @@
-<div [@routeAnimations]="prepareRoute(outlet)" class="router-container" [class.xsmall]="isXSmallDisplay$ | async">
-  <router-outlet #outlet=outlet></router-outlet>
+<div [@routeAnimations]="prepareRoute(outlet)" class="router-container">
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>
 <mat-toolbar class="mat-elevation-z8">
   <span class="spacer"></span>
@@ -10,6 +10,12 @@
     <span class="spacer"></span>
   </span>
   <span class="spacer">
-    <button mat-button [disabled]="!(isNextButtonEnabled$ | async)" color="primary">Next<mat-icon>chevron_right</mat-icon></button>
+    <button
+      mat-button
+      [disabled]="!(isNextButtonEnabled$ | async)"
+      color="primary"
+    >
+      Next<mat-icon>chevron_right</mat-icon>
+    </button>
   </span>
 </mat-toolbar>
