@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  PlayersPageComponent,
-  SetupPageComponent,
-  EditPlayerPageComponent
-} from '@mm/setup/containers';
+import { PlayersPageComponent, SetupPageComponent } from '@mm/setup/containers';
 
 export const ROUTES: Routes = [
   {
@@ -15,10 +11,6 @@ export const ROUTES: Routes = [
         path: '',
         redirectTo: 'players',
         pathMatch: 'full'
-      },
-      {
-        path: 'edit/:id',
-        component: EditPlayerPageComponent
       },
       {
         path: 'players',

@@ -2,13 +2,12 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BottomSheetService } from '@mm/core/services';
 import * as fromRoot from '@mm/reducers';
-import { AddPlayerFormComponent } from '@mm/setup/components';
+import { PlayerSheetComponent } from '@mm/setup/components';
 import { Player } from '@mm/shared/models';
 import { PlayersPageActions } from '@mm/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'mm-players-page',
@@ -26,7 +25,6 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   constructor(
     private bottomSheet: BottomSheetService,
     private breakpointObserver: BreakpointObserver,
-    private router: Router,
     private store: Store<fromRoot.State>
   ) {
     this.isXSmallDisplay$ = this.breakpointObserver
@@ -35,9 +33,7 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
 
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
 
-    this.hasPlayers$ = this.players$.pipe(
-      map((players) => players.length > 0)
-    );
+    this.hasPlayers$ = this.players$.pipe(map((players) => players.length > 0));
 
     this.useMiniFab$ = this.breakpointObserver
       .observe('(max-width: 460px)') // According to https://material.io/components/buttons-floating-action-button#anatomy
@@ -55,7 +51,7 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   }
 
   addPlayerClicked() {
-    const bottomSheetRef = this.bottomSheet.open(AddPlayerFormComponent, {
+    const bottomSheetRef = this.bottomSheet.open(PlayerSheetComponent, {
       data: { playerNames: this.playerNames }
     });
 
@@ -70,7 +66,15 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onEditPlayer(player: Player) {
-    this.router.navigate(['/setup/edit', player.id]);
+  editPlayer(player: Player) {
+    const playerNames = this.playerNames;
+    playerNames.delete(player.name.toLowerCase());
+
+    this.bottomSheet.open(PlayerSheetComponent, {
+      data: {
+        player,
+        playerNames
+      }
+    });
   }
 }

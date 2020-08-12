@@ -4,13 +4,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { BOTTOM_SHEET_DATA } from '@mm/core/services/bottom-sheet-config';
 import { BottomSheetRef } from '@mm/core/services/bottom-sheet-ref';
 import { newPlayerValidator } from '@mm/shared/directives';
+import { Player } from '@mm/shared/models';
 
 @Component({
-  selector: 'mm-add-player-form',
-  templateUrl: './add-player-form.component.html',
-  styleUrls: ['./add-player-form.component.scss']
+  selector: 'mm-player-sheet',
+  templateUrl: './player-sheet.component.html',
+  styleUrls: ['./player-sheet.component.scss']
 })
-export class AddPlayerFormComponent implements OnInit {
+export class PlayerSheetComponent implements OnInit {
+  editPlayer: Player;
   playerGroup: FormGroup;
 
   constructor(
@@ -18,6 +20,7 @@ export class AddPlayerFormComponent implements OnInit {
     @Inject(BOTTOM_SHEET_DATA) private data: any,
     @Inject(DOCUMENT) private document: Document
   ) {
+    this.editPlayer = this.data.player || null;
     this.createForm();
   }
 
@@ -49,17 +52,27 @@ export class AddPlayerFormComponent implements OnInit {
     return null;
   }
 
-  onSubmit() {
+  submit() {
     const playerName = this.playerGroup.value['name'];
     this.bottomSheetRef.dismiss(playerName);
   }
 
   private createForm() {
-    this.playerGroup = new FormGroup({
-      name: new FormControl(
-        '',
-        newPlayerValidator(this.data.playerNames || new Set())
-      )
-    });
+    const playerNames = this.data.playerNames || new Set();
+
+    if (this.editPlayer) {
+      this.playerGroup = new FormGroup({
+        name: new FormControl(
+          this.editPlayer.name,
+          newPlayerValidator(playerNames)
+        ),
+        dropped: new FormControl(this.editPlayer.dropped)
+      });
+    } else {
+      this.playerGroup = new FormGroup({
+        name: new FormControl('', newPlayerValidator(playerNames)),
+        dropped: new FormControl(false)
+      });
+    }
   }
 }

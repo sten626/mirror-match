@@ -6,11 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BOTTOM_SHEET_DATA } from '@mm/core/services/bottom-sheet-config';
 import { BottomSheetRef } from '@mm/core/services/bottom-sheet-ref';
-import { AddPlayerFormComponent } from './add-player-form.component';
+import { PlayerSheetComponent } from './player-sheet.component';
 
-describe('AddPlayerFormComponent', () => {
-  let component: AddPlayerFormComponent;
-  let fixture: ComponentFixture<AddPlayerFormComponent>;
+describe('PlayerSheetComponent', () => {
+  let component: PlayerSheetComponent;
+  let fixture: ComponentFixture<PlayerSheetComponent>;
 
   class BottomSheetRefStub {}
 
@@ -20,7 +20,7 @@ describe('AddPlayerFormComponent', () => {
         { provide: BOTTOM_SHEET_DATA, useValue: {} },
         { provide: BottomSheetRef, useValue: BottomSheetRefStub }
       ],
-      declarations: [AddPlayerFormComponent],
+      declarations: [PlayerSheetComponent],
       imports: [
         MatFormFieldModule,
         MatIconModule,
@@ -32,7 +32,7 @@ describe('AddPlayerFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddPlayerFormComponent);
+    fixture = TestBed.createComponent(PlayerSheetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
