@@ -24,9 +24,11 @@
       {{ getErrorMessage() }}
     </mat-error>
   </mat-form-field>
+
   <mat-slide-toggle *ngIf="editPlayer" color="warn" formControlName="dropped"
     >Dropped</mat-slide-toggle
   >
+
   <span>
     <button
       mat-raised-button

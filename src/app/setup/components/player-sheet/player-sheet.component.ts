@@ -5,6 +5,7 @@ import { BOTTOM_SHEET_DATA } from '@mm/core/services/bottom-sheet-config';
 import { BottomSheetRef } from '@mm/core/services/bottom-sheet-ref';
 import { newPlayerValidator } from '@mm/shared/directives';
 import { Player } from '@mm/shared/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'mm-player-sheet',
@@ -54,7 +55,28 @@ export class PlayerSheetComponent implements OnInit {
 
   submit() {
     const playerName = this.playerGroup.value['name'];
-    this.bottomSheetRef.dismiss(playerName);
+
+    if (this.editPlayer) {
+      const changes = {};
+
+      // tslint:disable-next-line: forin
+      for (const key in this.playerGroup.controls) {
+        const control = this.playerGroup.controls[key];
+
+        if (control.dirty) {
+          changes[key] = control.value;
+        }
+      }
+
+      const update: Update<Player> = {
+        id: this.editPlayer.id,
+        changes
+      };
+
+      this.bottomSheetRef.dismiss(update);
+    } else {
+      this.bottomSheetRef.dismiss(playerName);
+    }
   }
 
   private createForm() {

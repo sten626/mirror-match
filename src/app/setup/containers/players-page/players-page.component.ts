@@ -70,11 +70,15 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
     const playerNames = this.playerNames;
     playerNames.delete(player.name.toLowerCase());
 
-    this.bottomSheet.open(PlayerSheetComponent, {
+    const bottomSheetRef = this.bottomSheet.open(PlayerSheetComponent, {
       data: {
         player,
         playerNames
       }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe((result) => {
+      console.log(result);
     });
   }
 }
