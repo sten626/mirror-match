@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
+import { PlayersPageActions } from '@mm/setup/actions';
 import { Player } from '@mm/shared/models';
-import { SetupPageActions, PlayersPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class PlayerEffects implements OnInitEffects {
 
   deletePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.deletePlayer),
+      ofType(PlayersPageActions.deletePlayer),
       mergeMap(({ id }) =>
         this.storageService.deletePlayer(id).pipe(
           map(() => PlayersApiActions.deletePlayerSuccess({ id })),
@@ -46,22 +46,6 @@ export class PlayerEffects implements OnInitEffects {
   //   )
   // ));
 
-  // dropPlayers$ = createEffect(() => this.actions$.pipe(
-  //   ofType(PairingsPageActions.dropPlayers),
-  //   map(({players}) => players.map(p => p.id)),
-  //   mergeMap(playerIds =>
-  //     this.storageService.dropPlayers(playerIds).pipe(
-  //       map(() => playerIds.map(pid => ({
-  //         id: pid,
-  //         changes: {
-  //           dropped: true
-  //         }
-  //       }) as Update<Player>)),
-  //       map((players) => PlayersApiActions.dropPlayersSuccess({players}))
-  //     )
-  //   )
-  // ));
-
   loadPlayers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayersApiActions.loadPlayers),
@@ -74,29 +58,9 @@ export class PlayerEffects implements OnInitEffects {
     )
   );
 
-  // togglePlayerDropped$ = createEffect(() => this.actions$.pipe(
-  //   ofType(PlayersPageActions.togglePlayerDropped),
-  //   map(({player}) => ({
-  //     ...player,
-  //     dropped: !player.dropped
-  //   }) as Player),
-  //   mergeMap(player =>
-  //     this.storageService.updatePlayer(player).pipe(
-  //       map(() => PlayersApiActions.updatePlayer({
-  //         player: {
-  //           id: player.id,
-  //           changes: {
-  //             dropped: player.dropped
-  //           }
-  //         }
-  //       }))
-  //     )
-  //   )
-  // ));
-
   updatePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.updatePlayer),
+      ofType(PlayersPageActions.updatePlayer),
       mergeMap(({ player }) =>
         this.storageService.updatePlayer(player).pipe(
           map(() => PlayersApiActions.updatePlayerSuccess({ player })),

@@ -2,9 +2,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BottomSheetService } from '@mm/core/services';
 import * as fromRoot from '@mm/reducers';
+import { PlayersPageActions } from '@mm/setup/actions';
 import { PlayerSheetComponent } from '@mm/setup/components';
 import { Player } from '@mm/shared/models';
-import { PlayersPageActions } from '@mm/tournament/actions';
+import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -77,8 +78,19 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    bottomSheetRef.afterDismissed().subscribe((result) => {
-      console.log(result);
+    bottomSheetRef.afterDismissed().subscribe((result: Update<Player>) => {
+      if (result) {
+        if (result.changes.dropped) {
+          // Since this is during setup, dropping a player can just remove them from the tournament.
+          this.store.dispatch(
+            PlayersPageActions.deletePlayer({ id: result.id as number })
+          );
+        } else {
+          this.store.dispatch(
+            PlayersPageActions.updatePlayer({ player: result })
+          );
+        }
+      }
     });
   }
 }
