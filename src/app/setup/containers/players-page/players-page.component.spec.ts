@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,15 +14,8 @@ describe('PlayersPageComponent', () => {
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: MockStore;
 
-  @Component({ selector: 'mm-add-player-form', template: '' })
-  class AddPlayerFormStubComponent {
-    @Input() playerNames: Set<string>;
-  }
-
-  @Component({ selector: 'mm-bottom-sheet', template: '' })
-  class BottomSheetStubComponent {
-    @Input() show: boolean;
-  }
+  @Component({ selector: 'mm-players-toolbar', template: '' })
+  class PlayersToolbarStubComponent {}
 
   const bottomSheetServiceStub: Partial<BottomSheetService> = {};
 
@@ -33,9 +26,8 @@ describe('PlayersPageComponent', () => {
         { provide: BottomSheetService, useValue: bottomSheetServiceStub }
       ],
       declarations: [
-        AddPlayerFormStubComponent,
-        BottomSheetStubComponent,
-        PlayersPageComponent
+        PlayersPageComponent,
+        PlayersToolbarStubComponent
       ],
       imports: [
         MatIconModule,
