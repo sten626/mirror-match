@@ -3,16 +3,22 @@
 $primary: map-get($mirror-match-theme, primary);
 
 :host {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  margin-bottom: $toolbar-height-mobile;
 
-  .router-container {
-    flex: 1;
-    overflow: auto;
+  &.large-toolbar {
+    margin-bottom: $toolbar-height-desktop;
   }
 
+  // .router-container {
+  //   flex: 1;
+  // }
+
   mat-toolbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     z-index: 8;
 
     button {

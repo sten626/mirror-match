@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <ng-container *ngIf="searching">
+    <button mat-icon-button (click)="searching = false">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-form-field class="search-field">
+      <input matInput type="text" #searchInput>
+    </mat-form-field>
+  </ng-container>
+
+  <ng-container *ngIf="!searching">
+    <span>Players</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="searching = true">
+      <mat-icon>search</mat-icon>
+    </button>
+  </ng-container>
+</mat-toolbar>

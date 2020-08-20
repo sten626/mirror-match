@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BOTTOM_SHEET_DATA } from '@mm/core/services/bottom-sheet-config';
 import { BottomSheetRef } from '@mm/core/services/bottom-sheet-ref';
@@ -19,14 +18,16 @@ export class PlayerSheetComponent implements OnInit {
   constructor(
     private bottomSheetRef: BottomSheetRef,
     @Inject(BOTTOM_SHEET_DATA) private data: any,
-    @Inject(DOCUMENT) private document: Document
+    private elementRef: ElementRef
   ) {
     this.editPlayer = this.data.player || null;
     this.createForm();
   }
 
   ngOnInit() {
-    const input = this.document.querySelector<HTMLElement>('#add-player-input');
+    const input = this.elementRef.nativeElement.querySelector(
+      '#add-player-input'
+    );
 
     if (input) {
       input.focus();

@@ -29,3 +29,8 @@ $breakpoints: breakpoints.$breakpoints;
     @include spacing.spacing-classes($prefix);
   }
 }
+
+.mm-scroll-block {
+  position: fixed;
+  width: 100%;
+}

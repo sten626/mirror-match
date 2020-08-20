@@ -10,7 +10,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   PlayerSheetComponent,
-  PlayersListComponent
+  PlayersListComponent,
+  PlayersToolbarComponent
 } from '@mm/setup/components';
 import { PlayersPageComponent, SetupPageComponent } from '@mm/setup/containers';
 import { SetupRoutingModule } from '@mm/setup/setup-routing.module';
@@ -21,6 +22,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     PlayerSheetComponent,
     PlayersListComponent,
     PlayersPageComponent,
+    PlayersToolbarComponent,
     SetupPageComponent
   ],
   imports: [

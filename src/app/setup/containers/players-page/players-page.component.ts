@@ -1,4 +1,4 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BottomSheetService } from '@mm/core/services';
 import * as fromRoot from '@mm/reducers';
@@ -17,7 +17,6 @@ import { map } from 'rxjs/operators';
 })
 export class PlayersPageComponent implements OnInit, OnDestroy {
   hasPlayers$: Observable<boolean>;
-  isXSmallDisplay$: Observable<boolean>;
   playerNames: Set<string>;
   playerNamesSub: Subscription;
   players$: Observable<Player[]>;
@@ -28,10 +27,6 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private store: Store<fromRoot.State>
   ) {
-    this.isXSmallDisplay$ = this.breakpointObserver
-      .observe(Breakpoints.XSmall)
-      .pipe(map((result) => result.matches));
-
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
 
     this.hasPlayers$ = this.players$.pipe(map((players) => players.length > 0));

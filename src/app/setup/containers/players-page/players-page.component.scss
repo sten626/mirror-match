@@ -1,49 +1,38 @@
+@import 'theme-setup.scss';
+
 $fab-spacing: 16px;
-$toolbar-height-desktop: 64px;
-$toolbar-height-mobile: 56px;
 
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.add-button {
+  position: fixed;
+  bottom: $toolbar-height-mobile + $fab-spacing;
+  right: 50%;
+  transform: translateX(50%);
 
-  mat-toolbar {
-    flex: 0 0 auto;
-    z-index: 4;
-
-    .spacer {
-      flex: 1 1 auto;
-    }
-  }
-
-  .add-button {
-    position: fixed;
+  .large-toolbar & {
     bottom: $toolbar-height-desktop + $fab-spacing;
-    right: 50%;
-    transform: translateX(50%);
+  }
+}
 
-    &.mini {
-      bottom: $toolbar-height-mobile + $fab-spacing;
-    }
+.container {
+  margin-top: $toolbar-height-mobile;
+
+  .large-toolbar & {
+    margin-top: $toolbar-height-desktop;
   }
 
-  .container {
+  .no-content-container {
+    position: fixed;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
-    flex: 1;
     flex-direction: column;
-    overflow: auto;
+    justify-content: center;
 
     .no-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .no-content-container {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      justify-content: center;
     }
   }
 }

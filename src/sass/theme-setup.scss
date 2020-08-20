@@ -18,3 +18,7 @@ $mirror-match-theme: mat-light-theme((
     warn: $mirror-match-warn
   )
 ));
+
+$toolbar-height-desktop: 64px;
+$toolbar-height-mobile: 56px;
+$breakpoint-small: 600px;

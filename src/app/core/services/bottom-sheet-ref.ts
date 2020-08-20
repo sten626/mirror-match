@@ -5,6 +5,7 @@ import { filter, take } from 'rxjs/operators';
 
 export class BottomSheetRef<R = any> {
   private afterDismissedSubject = new Subject<R>();
+  private previousScrollTop: number;
 
   constructor(
     private applicationRef: ApplicationRef,
@@ -35,9 +36,26 @@ export class BottomSheetRef<R = any> {
     this.componentRef.instance.attach(component, injector);
   }
 
+  disableScrollBlock() {
+    const documentElement = this.document.documentElement;
+    documentElement.style.top = '';
+    documentElement.classList.remove('mm-scroll-block');
+    documentElement.scroll(0, this.previousScrollTop);
+    this.previousScrollTop = 0;
+  }
+
   dismiss(result?: R) {
     this.componentRef.instance.state = 'hidden';
+    this.disableScrollBlock();
     this.afterDismissedSubject.next(result);
     this.afterDismissedSubject.complete();
+  }
+
+  enableScrollBlock() {
+    const documentElement = this.document.documentElement;
+    const documentRect = documentElement.getBoundingClientRect();
+    this.previousScrollTop = -documentRect.top;
+    documentElement.style.top = `${-this.previousScrollTop}px`;
+    documentElement.classList.add('mm-scroll-block');
   }
 }

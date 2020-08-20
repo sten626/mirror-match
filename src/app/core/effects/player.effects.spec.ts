@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
+import { PlayersPageActions } from '@mm/setup/actions';
 import { generateMockPlayer, Player } from '@mm/shared/models';
-import { PlayersPageActions, SetupPageActions } from '@mm/tournament/actions';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Update } from '@ngrx/entity';
@@ -76,7 +76,7 @@ describe('PlayerEffects', () => {
 
   describe('deletePlayer', () => {
     it('should create a deletePlayerSuccess', () => {
-      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const action = PlayersPageActions.deletePlayer({ id: player1.id });
       const completion = PlayersApiActions.deletePlayerSuccess({
         id: player1.id
       });
@@ -91,7 +91,7 @@ describe('PlayerEffects', () => {
     });
 
     it('should create a deletePlayerFailure when deletePlayer throws an error', () => {
-      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const action = PlayersPageActions.deletePlayer({ id: player1.id });
       const error = 'Unable to delete player.';
       const completion = PlayersApiActions.deletePlayerFailure({ err: error });
 
@@ -143,7 +143,7 @@ describe('PlayerEffects', () => {
           name: 'Sten'
         }
       };
-      const action = SetupPageActions.updatePlayer({ player: playerUpdate });
+      const action = PlayersPageActions.updatePlayer({ player: playerUpdate });
       const completion = PlayersApiActions.updatePlayerSuccess({
         player: playerUpdate
       });
@@ -168,7 +168,7 @@ describe('PlayerEffects', () => {
           name: 'Sten'
         }
       };
-      const action = SetupPageActions.updatePlayer({ player: playerUpdate });
+      const action = PlayersPageActions.updatePlayer({ player: playerUpdate });
       const error = 'Failed to update player.';
       const completion = PlayersApiActions.updatePlayerFailure({ err: error });
 

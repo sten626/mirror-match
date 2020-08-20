@@ -33,6 +33,7 @@ export class BottomSheetService {
     const bottomSheetRef = this.createBottomSheet();
     const injector = this.createInjector(fullConfig, bottomSheetRef);
     bottomSheetRef.attach(component, injector);
+    bottomSheetRef.enableScrollBlock();
     // const bottomSheetRef = new BottomSheetRef(bottomSheetEl, component);
     return bottomSheetRef;
   }
