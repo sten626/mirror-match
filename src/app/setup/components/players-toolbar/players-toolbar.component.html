@@ -3,7 +3,10 @@
     <button mat-icon-button (click)="searching = false">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <mm-search-box (search)="onSearch($event)"></mm-search-box>
+    <mm-search-box
+      (focused)="onSearch($event)"
+      (searched)="onSearch($event)"
+    ></mm-search-box>
   </ng-container>
 
   <ng-container *ngIf="!searching">

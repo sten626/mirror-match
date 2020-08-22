@@ -2,11 +2,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnInit,
   Output,
   ViewChild
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -14,26 +13,30 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss']
 })
-export class SearchBoxComponent implements OnInit {
-  @Output() search = new EventEmitter<string>();
+export class SearchBoxComponent {
+  @Output() focused = new EventEmitter<string>();
+  @Output() searched: Observable<string>;
   @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
 
   private debounceTime = 300;
   private searchSubject = new Subject<string>();
 
-  constructor() {}
+  constructor() {
+    this.searched = this.searchSubject.pipe(
+      distinctUntilChanged(),
+      debounceTime(this.debounceTime)
+    );
+  }
 
-  ngOnInit() {
-    this.searchSubject
-      .pipe(distinctUntilChanged(), debounceTime(this.debounceTime))
-      .subscribe((query) => this.search.emit(query));
+  private get query(): string {
+    return this.searchBox.nativeElement.value;
+  }
+
+  doFocus() {
+    this.focused.emit(this.query);
   }
 
   doSearch() {
-    this.searchSubject.next(this.query());
-  }
-
-  private query(): string {
-    return this.searchBox.nativeElement.value;
+    this.searchSubject.next(this.query);
   }
 }
