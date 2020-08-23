@@ -1,4 +1,4 @@
-<mm-players-toolbar></mm-players-toolbar>
+<mm-players-toolbar (searched)=onSearch($event)></mm-players-toolbar>
 <div class="container">
   <div class="no-content-container" *ngIf="!(hasPlayers$ | async)">
     <div class="no-content">

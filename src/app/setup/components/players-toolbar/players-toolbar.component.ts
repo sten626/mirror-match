@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'mm-players-toolbar',
@@ -6,14 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./players-toolbar.component.scss']
 })
 export class PlayersToolbarComponent {
-  searching = false;
+  @Output() searched = new EventEmitter<string>();
 
-  // @ViewChildren('searchInput')
-  // private searchInput: QueryList<ElementRef>;
+  searching = false;
 
   constructor() {}
 
   onSearch(query: string) {
-    console.log(query);
+    this.searched.emit(query);
   }
 }
