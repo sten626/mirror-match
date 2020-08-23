@@ -7,8 +7,8 @@ import { PlayerSheetComponent } from '@mm/setup/components';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-players-page',
@@ -22,27 +22,26 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   players$: Observable<Player[]>;
   useMiniFab$: Observable<boolean>;
 
-  private searchQuery = new Subject<string>();
+  private searchQuery = new BehaviorSubject<string>('');
 
   constructor(
     private bottomSheet: BottomSheetService,
     private breakpointObserver: BreakpointObserver,
     private store: Store<fromRoot.State>
   ) {
-    // this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
-    this.players$ = this.searchQuery.pipe(
-      switchMap((query) =>
-        this.store.pipe(
-          select(fromRoot.selectAllPlayers),
-          map((players) => {
-            if (!query) {
-              return players;
-            }
+    const allPlayers$ = this.store.pipe(select(fromRoot.selectAllPlayers));
+    this.players$ = combineLatest([allPlayers$, this.searchQuery]).pipe(
+      map(([players, query]) => {
+        if (!query) {
+          return players;
+        }
 
-            return players.filter((player) => player.name.includes(query));
-          })
-        )
-      )
+        const queryLowered = query.toLowerCase();
+
+        return players.filter((player) =>
+          player.name.toLowerCase().includes(queryLowered)
+        );
+      })
     );
 
     this.hasPlayers$ = this.players$.pipe(map((players) => players.length > 0));
