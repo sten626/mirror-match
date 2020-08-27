@@ -22,7 +22,8 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
   players$: Observable<Player[]>;
   useMiniFab$: Observable<boolean>;
 
-  private searchQuery = new BehaviorSubject<string>('');
+  private searching$ = new BehaviorSubject<boolean>(false);
+  private searchQuery$ = new BehaviorSubject<string>('');
 
   constructor(
     private bottomSheet: BottomSheetService,
@@ -30,9 +31,13 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
     private store: Store<fromRoot.State>
   ) {
     const allPlayers$ = this.store.pipe(select(fromRoot.selectAllPlayers));
-    this.players$ = combineLatest([allPlayers$, this.searchQuery]).pipe(
-      map(([players, query]) => {
-        if (!query) {
+    this.players$ = combineLatest([
+      allPlayers$,
+      this.searching$,
+      this.searchQuery$
+    ]).pipe(
+      map(([players, isSearching, query]) => {
+        if (!isSearching || !query) {
           return players;
         }
 
@@ -104,7 +109,12 @@ export class PlayersPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSearch(query: string) {
-    this.searchQuery.next(query);
+  onSearchQueryChanged(query: string) {
+    this.searchQuery$.next(query);
+  }
+
+  onSearchingChanged(searching: boolean) {
+    this.searching$.next(searching);
+    this.searchQuery$.next('');
   }
 }
