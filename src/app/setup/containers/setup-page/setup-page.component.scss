@@ -3,51 +3,74 @@
 $primary: map-get($mirror-match-theme, primary);
 
 :host {
-  // display: flex;
-  // flex-direction: column;
-  margin-bottom: $toolbar-height-mobile;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 
-  &.large-toolbar {
-    margin-bottom: $toolbar-height-desktop;
+  mat-drawer-container {
+    flex: 1;
+    overflow-y: scroll;
   }
+
+  .start-fab {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    height: 48px;
+    border-radius: 24px;
+    line-height: 48px;
+    padding: 0 20px 0 0;
+    text-transform: uppercase;
+    z-index: 6;
+
+    mat-icon {
+      margin: 0 12px;
+    }
+  }
+  // margin-bottom: $toolbar-height-mobile;
+
+  // &.large-toolbar {
+  //   margin-bottom: $toolbar-height-desktop;
+  // }
 
   // .router-container {
   //   flex: 1;
   // }
 
-  mat-toolbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 8;
+  // mat-toolbar {
+  //   position: fixed;
+  //   bottom: 0;
+  //   width: 100%;
+  //   z-index: 8;
 
-    button {
-      flex: 1;
-      float: right;
-      padding: 0;
-      text-transform: uppercase;
-    }
+  //   button {
+  //     flex: 1;
+  //     float: right;
+  //     padding: 0;
+  //     text-transform: uppercase;
+  //   }
 
-    .dot {
-      background-color: mat-color($primary, lighter);
-      border-radius: 4px;
-      height: 8px;
-      margin: 0 4px;
-      width: 8px;
+  //   .dot {
+  //     background-color: mat-color($primary, lighter);
+  //     border-radius: 4px;
+  //     height: 8px;
+  //     margin: 0 4px;
+  //     width: 8px;
 
-      &.active {
-        background-color: mat-color($primary);
-      }
-    }
+  //     &.active {
+  //       background-color: mat-color($primary);
+  //     }
+  //   }
 
-    .dots {
-      display: flex;
-      flex: 1;
-      flex-direction: row;
-    }
+  //   .dots {
+  //     display: flex;
+  //     flex: 1;
+  //     flex-direction: row;
+  //   }
 
-    .spacer {
-      flex: 1;
-    }
-  }
+  //   .spacer {
+  //     flex: 1;
+  //   }
+  // }
 }

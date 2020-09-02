@@ -12,8 +12,8 @@
 @use 'custom-theme.scss' as theme;
 
 $theme: theme.$mirror-match-theme;
-$foreground: map-get($theme, "foreground");
-$border-color: theme.mat-color($foreground, "divider");
+$foreground: map-get($theme, 'foreground');
+$border-color: theme.mat-color($foreground, 'divider');
 
 @include borders.border-classes($border-color);
 
@@ -33,4 +33,15 @@ $breakpoints: breakpoints.$breakpoints;
 .mm-scroll-block {
   position: fixed;
   width: 100%;
+}
+
+mm-setup-page {
+  .mat-drawer-backdrop {
+    position: fixed;
+    z-index: 16;
+  }
+
+  .mat-sidenav {
+    z-index: 16;
+  }
 }

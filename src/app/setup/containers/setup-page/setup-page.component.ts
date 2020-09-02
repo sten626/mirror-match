@@ -3,6 +3,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as fromRoot from '@mm/reducers';
 import { routeAnimations } from '@mm/setup/animations';
+import { Player } from '@mm/shared/models';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,6 +19,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   breakpointSub: Subscription;
   isNextButtonEnabled$: Observable<boolean>;
+  players$: Observable<Player[]>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -27,6 +29,8 @@ export class SetupPageComponent implements OnInit, OnDestroy {
       select(fromRoot.selectAllPlayers),
       map((players) => players.length >= 4)
     );
+
+    this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
   ngOnInit() {

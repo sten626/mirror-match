@@ -1,4 +1,24 @@
-<div [@routeAnimations]="prepareRoute(outlet)" class="router-container">
+<mat-toolbar class="mat-elevation-z4" color="primary">
+  <span>Add Players</span>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mm-players-list [players]="players$ | async"></mm-players-list>
+  <mat-sidenav position="end" #sidenav [fixedInViewport]="true">
+    blah blah
+  </mat-sidenav>
+
+  <button
+    mat-raised-button
+    class="start-fab"
+    color="primary"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon>done</mat-icon>Start
+  </button>
+</mat-sidenav-container>
+
+<!-- <div [@routeAnimations]="prepareRoute(outlet)" class="router-container">
   <router-outlet #outlet="outlet"></router-outlet>
 </div>
 <mat-toolbar class="mat-elevation-z8">
@@ -18,4 +38,4 @@
       Next<mat-icon>chevron_right</mat-icon>
     </button>
   </span>
-</mat-toolbar>
+</mat-toolbar> -->
