@@ -1,0 +1,23 @@
+<form [formGroup]="startForm">
+  <section>
+    <mat-form-field appearance="fill">
+      <mat-label>Rounds</mat-label>
+      <input formControlName="rounds" matInput type="number" />
+    </mat-form-field>
+  </section>
+
+  <section>
+    <label>Best of</label>
+    <mat-radio-group formControlName="bestOf">
+      <mat-radio-button [value]="1">1</mat-radio-button>
+      <mat-radio-button [value]="3">3</mat-radio-button>
+      <mat-radio-button [value]="5">5</mat-radio-button>
+    </mat-radio-group>
+  </section>
+
+  <section>
+    <mat-slide-toggle formControlName="makeDraftPods"
+      >Draft Pods</mat-slide-toggle
+    >
+  </section>
+</form>

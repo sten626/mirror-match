@@ -5,7 +5,9 @@
 <mat-sidenav-container>
   <mm-players-list [players]="players$ | async"></mm-players-list>
   <mat-sidenav position="end" #sidenav [fixedInViewport]="true">
-    blah blah
+    <mm-start-event-form
+      [recommendedTotalRounds]="recommendedTotalRounds$ | async"
+    ></mm-start-event-form>
   </mat-sidenav>
 
   <button

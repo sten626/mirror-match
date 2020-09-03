@@ -6,13 +6,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   PlayerSheetComponent,
   PlayersListComponent,
-  PlayersToolbarComponent
+  PlayersToolbarComponent,
+  StartEventFormComponent
 } from '@mm/setup/components';
 import { PlayersPageComponent, SetupPageComponent } from '@mm/setup/containers';
 import { SetupRoutingModule } from '@mm/setup/setup-routing.module';
@@ -24,7 +26,8 @@ import { SharedModule } from '@mm/shared/shared.module';
     PlayersListComponent,
     PlayersPageComponent,
     PlayersToolbarComponent,
-    SetupPageComponent
+    SetupPageComponent,
+    StartEventFormComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +36,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
     MatSidenavModule,
     MatSlideToggleModule,
     MatToolbarModule,
