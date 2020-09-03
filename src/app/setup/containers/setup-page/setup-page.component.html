@@ -4,7 +4,13 @@
 
 <mat-sidenav-container>
   <mm-players-list [players]="players$ | async"></mm-players-list>
-  <mat-sidenav position="end" #sidenav [fixedInViewport]="true">
+  <mat-sidenav
+    position="end"
+    #sidenav
+    [fixedInViewport]="sheetFixed"
+    [mode]="sheetMode"
+    [opened]="sheetOpened"
+  >
     <mm-start-event-form
       [recommendedTotalRounds]="recommendedTotalRounds$ | async"
     ></mm-start-event-form>
@@ -14,6 +20,7 @@
     mat-raised-button
     class="start-fab"
     color="primary"
+    *ngIf="!sheetOpened"
     (click)="sidenav.toggle()"
   >
     <mat-icon>done</mat-icon>Start

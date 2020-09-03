@@ -8,9 +8,8 @@ $primary: map-get($mirror-match-theme, primary);
   height: 100vh;
   overflow: hidden;
 
-  mat-drawer-container {
+  mat-sidenav-container {
     flex: 1;
-    overflow-y: scroll;
   }
 
   .start-fab {
