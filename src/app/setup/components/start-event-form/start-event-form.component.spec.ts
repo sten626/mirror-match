@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StartEventFormComponent } from './start-event-form.component';
 
 fdescribe('StartEventFormComponent', () => {
@@ -15,29 +17,15 @@ fdescribe('StartEventFormComponent', () => {
   @Component({ selector: 'mat-form-field', template: '' })
   class MatFormFieldStubComponent {}
 
-  // tslint:disable-next-line: component-selector
-  @Component({ selector: 'mat-radio-button', template: '' })
-  class MatRadioButtonStubComponent {
-    @Input() value: number;
-  }
-
-  // tslint:disable-next-line: component-selector
-  @Component({ selector: 'mat-radio-group', template: '' })
-  class MatRadioGroupStubComponent {
-    @Input() value: number;
-  }
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [
           MatLabelStubComponent,
           MatFormFieldStubComponent,
-          MatRadioButtonStubComponent,
-          MatRadioGroupStubComponent,
           StartEventFormComponent
         ],
-        imports: [ReactiveFormsModule]
+        imports: [MatRadioModule, MatSlideToggleModule, ReactiveFormsModule]
       }).compileComponents();
     })
   );
