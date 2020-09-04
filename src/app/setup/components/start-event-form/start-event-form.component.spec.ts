@@ -5,7 +5,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StartEventFormComponent } from './start-event-form.component';
 
-fdescribe('StartEventFormComponent', () => {
+describe('StartEventFormComponent', () => {
   let component: StartEventFormComponent;
   let fixture: ComponentFixture<StartEventFormComponent>;
 
