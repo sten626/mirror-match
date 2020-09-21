@@ -2,7 +2,17 @@
   <span>Add Players</span>
 </mat-toolbar>
 
-<mat-sidenav-container>
+<div class="body-container">
+  <div class="content-container">
+    <mm-players-list [players]="players$ | async"></mm-players-list>
+  </div>
+
+  <mm-setup-side-sheet
+    [recommendedTotalRounds]="recommendedTotalRounds$ | async"
+  ></mm-setup-side-sheet>
+</div>
+
+<!-- <mat-sidenav-container>
   <mm-players-list [players]="players$ | async"></mm-players-list>
   <mat-sidenav
     position="end"
@@ -25,26 +35,4 @@
   >
     <mat-icon>done</mat-icon>Start
   </button>
-</mat-sidenav-container>
-
-<!-- <div [@routeAnimations]="prepareRoute(outlet)" class="router-container">
-  <router-outlet #outlet="outlet"></router-outlet>
-</div>
-<mat-toolbar class="mat-elevation-z8">
-  <span class="spacer"></span>
-  <span class="dots">
-    <span class="spacer"></span>
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="spacer"></span>
-  </span>
-  <span class="spacer">
-    <button
-      mat-button
-      [disabled]="!(isNextButtonEnabled$ | async)"
-      color="primary"
-    >
-      Next<mat-icon>chevron_right</mat-icon>
-    </button>
-  </span>
-</mat-toolbar> -->
+</mat-sidenav-container> -->

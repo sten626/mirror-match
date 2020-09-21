@@ -3,14 +3,37 @@
 $primary: map-get($mirror-match-theme, primary);
 
 :host {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100vh;
+  // overflow: hidden;
 
-  mat-sidenav-container {
-    flex: 1;
+
+  mat-toolbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
   }
+
+  .body-container {
+    display: flex;
+    max-width: 100%;
+  }
+
+  .content-container {
+    width: 100%;
+
+    margin-top: 56px;
+
+    @media (min-width: 600px) {
+      margin-top: 64px;
+    }
+  }
+
+  // mat-sidenav-container {
+  //   flex: 1;
+  // }
 
   .start-fab {
     position: fixed;

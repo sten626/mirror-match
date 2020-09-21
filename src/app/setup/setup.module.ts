@@ -14,6 +14,7 @@ import {
   PlayerSheetComponent,
   PlayersListComponent,
   PlayersToolbarComponent,
+  SetupSideSheetComponent,
   StartEventFormComponent
 } from '@mm/setup/components';
 import { PlayersPageComponent, SetupPageComponent } from '@mm/setup/containers';
@@ -27,6 +28,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     PlayersPageComponent,
     PlayersToolbarComponent,
     SetupPageComponent,
+    SetupSideSheetComponent,
     StartEventFormComponent
   ],
   imports: [

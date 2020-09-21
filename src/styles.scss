@@ -34,14 +34,3 @@ $breakpoints: breakpoints.$breakpoints;
   position: fixed;
   width: 100%;
 }
-
-mm-setup-page {
-  .mat-drawer-backdrop {
-    position: fixed;
-    z-index: 16;
-  }
-
-  .mat-sidenav {
-    z-index: 16;
-  }
-}
