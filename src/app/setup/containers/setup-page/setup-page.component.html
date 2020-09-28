@@ -8,9 +8,21 @@
   </div>
 
   <mm-setup-side-sheet
+    #sideSheet
+    [mode]="(isMobile$ | async) ? 'modal' : 'standard'"
     [recommendedTotalRounds]="recommendedTotalRounds$ | async"
   ></mm-setup-side-sheet>
 </div>
+
+<button
+  mat-raised-button
+  class="start-fab"
+  color="primary"
+  *ngIf="isMobile$ | async"
+  (click)="sideSheet.open()"
+>
+  <mat-icon>done</mat-icon>Start
+</button>
 
 <!-- <mat-sidenav-container>
   <mm-players-list [players]="players$ | async"></mm-players-list>

@@ -1,23 +1,47 @@
-import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import * as fromRoot from '@mm/reducers';
 import { Player } from '@mm/shared/models';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-setup-page',
   templateUrl: './setup-page.component.html',
   styleUrls: ['./setup-page.component.scss']
 })
-export class SetupPageComponent {
+export class SetupPageComponent implements OnInit, OnDestroy {
+  @HostBinding('class.large-toolbar') largeToolbar = false;
+
   isMobile$: Observable<boolean>;
   players$: Observable<Player[]>;
   recommendedTotalRounds$: Observable<number>;
 
-  constructor(store: Store<fromRoot.State>) {
+  private largeToolbarSub: Subscription;
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    store: Store<fromRoot.State>
+  ) {
+    this.isMobile$ = breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(map((result) => result.matches));
     this.players$ = store.pipe(select(fromRoot.selectAllPlayers));
     this.recommendedTotalRounds$ = store.pipe(
       select(fromRoot.selectRecommendedTotalRounds)
     );
+  }
+
+  ngOnInit() {
+    this.largeToolbarSub = this.breakpointObserver
+      .observe('(min-width: 600px)')
+      .subscribe((result) => {
+        this.largeToolbar = result.matches;
+      });
+  }
+
+  ngOnDestroy() {
+    this.largeToolbarSub.unsubscribe();
   }
 }

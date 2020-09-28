@@ -23,12 +23,7 @@ $primary: map-get($mirror-match-theme, primary);
 
   .content-container {
     width: 100%;
-
     margin-top: 56px;
-
-    @media (min-width: 600px) {
-      margin-top: 64px;
-    }
   }
 
   // mat-sidenav-container {
@@ -44,7 +39,7 @@ $primary: map-get($mirror-match-theme, primary);
     line-height: 48px;
     padding: 0 20px 0 0;
     text-transform: uppercase;
-    z-index: 6;
+    z-index: 2;
 
     mat-icon {
       margin: 0 12px;
@@ -95,4 +90,10 @@ $primary: map-get($mirror-match-theme, primary);
   //     flex: 1;
   //   }
   // }
+}
+
+:host(.large-toolbar) {
+  .content-container {
+    margin-top: 64px;
+  }
 }
