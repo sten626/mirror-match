@@ -1,0 +1,6 @@
+<mat-list-item (click)="adding = true">
+  <span *ngIf="!adding">+ Add Player</span>
+  <div *ngIf="adding">
+    <input matInput autofocus type="text" />
+  </div>
+</mat-list-item>

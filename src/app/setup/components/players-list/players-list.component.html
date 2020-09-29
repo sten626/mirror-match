@@ -2,4 +2,6 @@
   <button mat-list-item *ngFor="let player of players" (click)="playerClicked.emit(player)">
     {{player.name}}
   </button>
+  <!-- <button mat-list-item class="mm-add-player-item">Add Player</button> -->
+  <mm-add-player-list-item></mm-add-player-list-item>
 </mat-action-list>

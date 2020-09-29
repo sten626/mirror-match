@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
+  AddPlayerListItemComponent,
   PlayerSheetComponent,
   PlayersListComponent,
   PlayersToolbarComponent,
@@ -23,6 +24,7 @@ import { SharedModule } from '@mm/shared/shared.module';
 
 @NgModule({
   declarations: [
+    AddPlayerListItemComponent,
     PlayerSheetComponent,
     PlayersListComponent,
     PlayersPageComponent,

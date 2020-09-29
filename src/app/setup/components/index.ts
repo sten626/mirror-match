@@ -1,3 +1,4 @@
+export * from './add-player-list-item/add-player-list-item.component';
 export * from './player-sheet/player-sheet.component';
 export * from './players-list/players-list.component';
 export * from './players-toolbar/players-toolbar.component';
