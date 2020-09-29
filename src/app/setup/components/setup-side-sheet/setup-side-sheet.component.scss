@@ -18,6 +18,16 @@ $foreground: map-get($mirror-match-theme, foreground);
     padding-top: 56px;
   }
 
+  .mm-scrim {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+  }
+
   :host-context(.large-toolbar) .drawer {
     padding-top: 64px;
   }
@@ -30,10 +40,18 @@ $foreground: map-get($mirror-match-theme, foreground);
     display: none;
     right: 0;
     padding-top: unset;
-    z-index: 3;
+    z-index: 16;
 
     &.mm-drawer--opened {
       display: block;
+
+      & + .mm-scrim {
+        display: block;
+      }
     }
+  }
+
+  .mm-scrim {
+    background-color: rgba(0, 0, 0, 0.32);
   }
 }

@@ -1,5 +1,15 @@
-<aside class="mm-drawer" [class.mm-drawer--opened]="opened">
+<aside
+  class="mm-drawer"
+  [class]="{ 'mat-elevation-z16': opened, 'mm-drawer--opened': opened }"
+  [@openClose]="opened ? 'open' : 'close'"
+  (@openClose.done)="animationDoneListener($event)"
+>
   <mm-start-event-form
     [recommendedTotalRounds]="recommendedTotalRounds"
   ></mm-start-event-form>
 </aside>
+<div
+  class="mm-scrim"
+  [@showHideScrim]="opened ? 'show' : 'hide'"
+  (click)="close()"
+></div>
