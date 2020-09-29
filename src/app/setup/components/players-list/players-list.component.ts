@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 })
 export class PlayersListComponent {
   @Input() players: Player[];
+  @Output() addPlayer = new EventEmitter<Player>();
   @Output() playerClicked = new EventEmitter<Player>();
 
   addingPlayer = false;

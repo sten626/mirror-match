@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import * as fromRoot from '@mm/reducers';
 import { Player } from '@mm/shared/models';
+import { SetupPageActions } from '@mm/tournament/actions';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -22,7 +23,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>
   ) {
     this.isMobile$ = breakpointObserver
       .observe(Breakpoints.Handset)
@@ -43,5 +44,9 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.largeToolbarSub.unsubscribe();
+  }
+
+  onAddPlayer(player: Player) {
+    this.store.dispatch(SetupPageActions.addPlayer({ player }));
   }
 }

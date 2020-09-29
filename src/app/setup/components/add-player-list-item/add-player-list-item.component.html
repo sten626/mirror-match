@@ -1,6 +1,6 @@
 <mat-list-item (click)="adding = true">
   <span *ngIf="!adding">+ Add Player</span>
-  <div *ngIf="adding">
-    <input matInput autofocus type="text" />
-  </div>
+  <form *ngIf="adding" [formGroup]="newPlayerForm" (ngSubmit)="onSubmit()">
+    <input matInput mmPlayerNameInput formControlName="name" type="text" (blur)="adding = false" />
+  </form>
 </mat-list-item>

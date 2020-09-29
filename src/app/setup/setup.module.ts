@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   AddPlayerListItemComponent,
+  PlayerNameInputDirective,
   PlayerSheetComponent,
   PlayersListComponent,
   PlayersToolbarComponent,
@@ -25,6 +26,7 @@ import { SharedModule } from '@mm/shared/shared.module';
 @NgModule({
   declarations: [
     AddPlayerListItemComponent,
+    PlayerNameInputDirective,
     PlayerSheetComponent,
     PlayersListComponent,
     PlayersPageComponent,

@@ -3,6 +3,7 @@ import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
 import { PlayersPageActions } from '@mm/setup/actions';
 import { Player } from '@mm/shared/models';
+import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -11,7 +12,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PlayersPageActions.addPlayer),
+      ofType(SetupPageActions.addPlayer),
       mergeMap(({ player }) =>
         this.storageService.addPlayer(player).pipe(
           map((value: Player) =>

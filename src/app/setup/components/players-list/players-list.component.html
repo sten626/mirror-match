@@ -3,5 +3,5 @@
     {{player.name}}
   </button>
   <!-- <button mat-list-item class="mm-add-player-item">Add Player</button> -->
-  <mm-add-player-list-item></mm-add-player-list-item>
+  <mm-add-player-list-item (addPlayer)="addPlayer.emit($event)"></mm-add-player-list-item>
 </mat-action-list>

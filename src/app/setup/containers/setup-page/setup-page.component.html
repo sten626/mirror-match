@@ -4,7 +4,10 @@
 
 <div class="body-container">
   <div class="content-container">
-    <mm-players-list [players]="players$ | async"></mm-players-list>
+    <mm-players-list
+      [players]="players$ | async"
+      (addPlayer)="onAddPlayer($event)"
+    ></mm-players-list>
   </div>
 
   <mm-setup-side-sheet
