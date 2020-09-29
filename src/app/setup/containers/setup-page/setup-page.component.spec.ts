@@ -14,16 +14,10 @@ describe('SetupPageComponent', () => {
   let fixture: ComponentFixture<SetupPageComponent>;
   let store: MockStore;
 
-  // tslint:disable-next-line: component-selector
-  @Component({ selector: 'mat-sidenav-container', template: '' })
-  class MatSidenavContainerStubComponent {}
-
-  // tslint:disable-next-line: component-selector
-  @Component({ selector: 'mat-sidenav', template: '' })
-  class MatSidenavStubComponent {
-    @Input() fixedInViewport: boolean;
-    @Input() mode: string;
-    @Input() opened: boolean;
+  @Component({ selector: 'mm-setup-side-sheet', template: '' })
+  class SetupSideSheetStubComponent {
+    @Input() mode: any;
+    @Input() recommendedTotalRounds: number;
   }
 
   @Component({ selector: 'mm-players-list', template: '' })
@@ -31,21 +25,14 @@ describe('SetupPageComponent', () => {
     @Input() players: Player[];
   }
 
-  @Component({ selector: 'mm-start-event-form', template: '' })
-  class StartEventFormStubComponent {
-    @Input() recommendedTotalRounds: number;
-  }
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         providers: [provideMockStore()],
         declarations: [
-          MatSidenavContainerStubComponent,
-          MatSidenavStubComponent,
           PlayersListStubComponent,
           SetupPageComponent,
-          StartEventFormStubComponent
+          SetupSideSheetStubComponent
         ],
         imports: [
           MatIconModule,
