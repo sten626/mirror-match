@@ -22,6 +22,7 @@ describe('SetupPageComponent', () => {
 
   @Component({ selector: 'mm-players-list', template: '' })
   class PlayersListStubComponent {
+    @Input() playerNames: Set<string>;
     @Input() players: Player[];
   }
 
