@@ -11,6 +11,7 @@ import {
   Output
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { newPlayerValidator } from '@mm/shared/directives';
 import { Player } from '@mm/shared/models';
 
@@ -42,7 +43,7 @@ export class AddPlayerListItemComponent implements OnChanges {
     name: new FormControl('')
   });
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   ngOnChanges() {
     this.newPlayerForm
@@ -50,7 +51,30 @@ export class AddPlayerListItemComponent implements OnChanges {
       .setValidators(newPlayerValidator(this.playerNames));
   }
 
-  getErrorMessage(): string | null {
+  onBlur() {
+    this.adding = false;
+    this.newPlayerForm.reset();
+  }
+
+  onSubmit() {
+    if (this.newPlayerForm.invalid) {
+      this.snackBar.open(this.getErrorMessage(), null, {
+        duration: 4000
+      });
+      return;
+    }
+
+    const newPlayer: Player = {
+      name: this.newPlayerForm.get('name').value,
+      dropped: false
+    };
+
+    this.addPlayer.emit(newPlayer);
+    this.newPlayerForm.reset();
+    this.adding = false;
+  }
+
+  private getErrorMessage(): string | null {
     const control = this.newPlayerForm.get('name');
 
     if (control.hasError('nameEmpty')) {
@@ -62,23 +86,5 @@ export class AddPlayerListItemComponent implements OnChanges {
     }
 
     return null;
-  }
-
-  onBlur() {
-    this.adding = false;
-    this.newPlayerForm.reset();
-  }
-
-  onSubmit() {
-    if (this.newPlayerForm.valid) {
-      const newPlayer: Player = {
-        name: this.newPlayerForm.get('name').value,
-        dropped: false
-      };
-
-      this.addPlayer.emit(newPlayer);
-      this.newPlayerForm.reset();
-      this.adding = false;
-    }
   }
 }

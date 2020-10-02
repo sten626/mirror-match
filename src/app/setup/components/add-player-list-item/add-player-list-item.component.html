@@ -1,15 +1,13 @@
 <mat-list-item (click)="adding = true">
   <span *ngIf="!adding">+ Add Player</span>
   <form *ngIf="adding" [formGroup]="newPlayerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <input
-        matInput
-        mmPlayerNameInput
-        formControlName="name"
-        type="text"
-        (blur)="onBlur()"
-      />
-      <mat-error *ngIf="newPlayerForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
-    </mat-form-field>
+    <input
+      autocomplete="given-name"
+      matInput
+      mmPlayerNameInput
+      formControlName="name"
+      type="text"
+      (blur)="onBlur()"
+    />
   </form>
 </mat-list-item>
