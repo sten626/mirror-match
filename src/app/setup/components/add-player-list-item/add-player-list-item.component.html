@@ -1,6 +1,15 @@
 <mat-list-item (click)="adding = true">
   <span *ngIf="!adding">+ Add Player</span>
   <form *ngIf="adding" [formGroup]="newPlayerForm" (ngSubmit)="onSubmit()">
-    <input matInput mmPlayerNameInput formControlName="name" type="text" (blur)="adding = false" />
+    <mat-form-field>
+      <input
+        matInput
+        mmPlayerNameInput
+        formControlName="name"
+        type="text"
+        (blur)="onBlur()"
+      />
+      <mat-error *ngIf="newPlayerForm.get('name').invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
   </form>
 </mat-list-item>

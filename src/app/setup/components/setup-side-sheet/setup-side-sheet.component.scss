@@ -8,6 +8,7 @@ $foreground: map-get($mirror-match-theme, foreground);
   top: 0;
   bottom: 0;
   min-width: 320px;
+  touch-action: none;
 
   .mm-drawer {
     position: fixed;

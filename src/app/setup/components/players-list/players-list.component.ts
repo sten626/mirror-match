@@ -1,46 +1,38 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
+import {
+  AfterViewChecked,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output
+} from '@angular/core';
 import { Player } from '@mm/shared/models';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'mm-players-list',
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss']
 })
-export class PlayersListComponent {
+export class PlayersListComponent implements AfterViewChecked {
   @Input() players: Player[];
+  @Input() playerNames: Set<string>;
   @Output() addPlayer = new EventEmitter<Player>();
   @Output() playerClicked = new EventEmitter<Player>();
 
-  addingPlayer = false;
-  newPlayerName = new FormControl('');
+  private scrollDownNeeded = false;
 
-  private addingPlayerChanged = new Subject<boolean>();
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
-  constructor(elementRef: ElementRef) {
-    const element = elementRef.nativeElement as HTMLElement;
-
-    this.addingPlayerChanged.subscribe((addingPlayer) => {
-      if (addingPlayer) {
-        const input = element.querySelector('input');
-
-        if (input) {
-          input.focus();
-        }
-      }
-    });
+  ngAfterViewChecked() {
+    if (this.scrollDownNeeded) {
+      this.scrollDownNeeded = false;
+      window.scrollTo(0, this.document.body.scrollHeight);
+    }
   }
 
-  startAddingPlayer() {
-    this.addingPlayer = true;
-
-    this.addingPlayerChanged.next(true);
-    // const element = this.elementRef.nativeElement as HTMLElement;
-    // const input = element.querySelector('input');
-
-    // if (input) {
-    //   input.focus();
-    // }
+  onAddPlayer(player: Player) {
+    this.scrollDownNeeded = true;
+    this.addPlayer.emit(player);
   }
 }

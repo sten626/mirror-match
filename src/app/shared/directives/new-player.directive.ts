@@ -13,7 +13,7 @@ export function newPlayerValidator(playerNames: Set<string>): ValidatorFn {
     }
 
     if (playerNames.has(newName)) {
-      return { playerExists: 'A player with this name is already added.' };
+      return { playerExists: 'Player already added.' };
     }
 
     return null;

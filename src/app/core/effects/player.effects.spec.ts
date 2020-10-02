@@ -3,6 +3,7 @@ import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
 import { PlayersPageActions } from '@mm/setup/actions';
 import { generateMockPlayer, Player } from '@mm/shared/models';
+import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Update } from '@ngrx/entity';
@@ -44,7 +45,7 @@ describe('PlayerEffects', () => {
 
   describe('addPlayer', () => {
     it('should create an addPlayerSuccess', () => {
-      const action = PlayersPageActions.addPlayer({ player: player1NoId });
+      const action = SetupPageActions.addPlayer({ player: player1NoId });
       const completion = PlayersApiActions.addPlayerSuccess({
         player: player1
       });
@@ -59,7 +60,7 @@ describe('PlayerEffects', () => {
     });
 
     it('should create an addPlayerFailure when addPlayer throws an error', () => {
-      const action = PlayersPageActions.addPlayer({ player: player1NoId });
+      const action = SetupPageActions.addPlayer({ player: player1NoId });
       const error = 'Cannot add nonexistent player.';
       const completion = PlayersApiActions.addPlayerFailure({
         player: player1NoId

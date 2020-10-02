@@ -1,5 +1,6 @@
 <aside
   class="mm-drawer"
+  #drawer
   [class]="{ 'mat-elevation-z16': opened, 'mm-drawer--opened': opened }"
   [@openClose]="opened ? 'open' : 'close'"
   (@openClose.done)="animationDoneListener($event)"

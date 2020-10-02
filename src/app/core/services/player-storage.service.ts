@@ -6,6 +6,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 export const deleteInvalidIdError = 'Tried to delete player with invalid ID.';
+export const duplicatePlayerNameError =
+  'A player with the given name already exists.';
 export const nonexistentPlayerError = 'Cannot add nonexistent player.';
 export const updateInvalidIdError = 'Tried to update player with invalid ID.';
 
@@ -22,16 +24,26 @@ export class PlayerStorageService extends StorageService {
 
     return this.getPlayers().pipe(
       map((value: Player[]) => {
+        const playerName = player.name.toLowerCase();
+
+        for (const p of value) {
+          if (playerName === p.name.toLowerCase()) {
+            throw duplicatePlayerNameError;
+          }
+        }
         // Assumption that they're in order, which they should be.
         const lastId = value.length ? value[value.length - 1].id : 0;
         return [
-          ...value, {
+          ...value,
+          {
             ...player,
             id: lastId + 1
           }
         ];
       }),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),
+      tap((value: Player[]) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(value))
+      ),
       map((value: Player[]) => value[value.length - 1])
     );
   }
@@ -42,8 +54,10 @@ export class PlayerStorageService extends StorageService {
     }
 
     return this.getPlayers().pipe(
-      map(players => players.filter(p => p.id !== id)),
-      tap(players => this.storage.setItem(this.playersKey, JSON.stringify(players))),
+      map((players) => players.filter((p) => p.id !== id)),
+      tap((players) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(players))
+      ),
       map(() => id)
     );
   }
@@ -75,7 +89,7 @@ export class PlayerStorageService extends StorageService {
 
     return this.getPlayers().pipe(
       map((players: Player[]) => {
-        const playerIndex = players.findIndex(p => p.id === player.id);
+        const playerIndex = players.findIndex((p) => p.id === player.id);
 
         if (playerIndex === -1) {
           throw new Error(updateInvalidIdError);
@@ -90,8 +104,10 @@ export class PlayerStorageService extends StorageService {
 
         return players;
       }),
-      tap((players: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(players))),
-      map((players: Player[]) => players.find(p => p.id === player.id)),
+      tap((players: Player[]) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(players))
+      ),
+      map((players: Player[]) => players.find((p) => p.id === player.id)),
       catchError((err: Error) => throwError(err.message))
     );
   }

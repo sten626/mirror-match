@@ -16,6 +16,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.large-toolbar') largeToolbar = false;
 
   isMobile$: Observable<boolean>;
+  playerNames$: Observable<Set<string>>;
   players$: Observable<Player[]>;
   recommendedTotalRounds$: Observable<number>;
 
@@ -28,6 +29,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
     this.isMobile$ = breakpointObserver
       .observe(Breakpoints.Handset)
       .pipe(map((result) => result.matches));
+    this.playerNames$ = store.pipe(select(fromRoot.selectPlayerNamesLowerCaseSet));
     this.players$ = store.pipe(select(fromRoot.selectAllPlayers));
     this.recommendedTotalRounds$ = store.pipe(
       select(fromRoot.selectRecommendedTotalRounds)
