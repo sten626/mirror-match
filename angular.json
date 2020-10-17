@@ -30,7 +30,7 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.scss"
+              "src/sass/main.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/sass"]
