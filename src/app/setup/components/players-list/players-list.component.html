@@ -1,7 +1,11 @@
 <mat-action-list>
+  <button mat-list-item [disableRipple]="true">
+    <mat-icon matListIcon color="primary">add</mat-icon>
+    Add a player
+  </button>
   <button
     mat-list-item
-    *ngFor="let player of players"
+    *ngFor="let player of players.reverse()"
     (click)="playerClicked.emit(player)"
   >
     {{ player.name }}
