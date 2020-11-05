@@ -1,4 +1,4 @@
-@import 'theme-setup.scss';
+@import 'themes/theme';
 
 $background: map-get($mirror-match-theme, background);
 $foreground: map-get($mirror-match-theme, foreground);

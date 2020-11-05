@@ -3,8 +3,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mirror-match-primary: mat-palette($mat-indigo);
-$mirror-match-accent: mat-palette($mat-pink, A200, A100, A400);
+$mirror-match-primary: mat-palette($mat-blue-grey);
+$mirror-match-accent: mat-palette($mat-blue, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $mirror-match-warn: mat-palette($mat-red);
@@ -18,7 +18,3 @@ $mirror-match-theme: mat-light-theme((
     warn: $mirror-match-warn
   )
 ));
-
-$toolbar-height-desktop: 64px;
-$toolbar-height-mobile: 56px;
-$breakpoint-small: 600px;

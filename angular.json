@@ -29,7 +29,6 @@
               "src/site.webmanifest"
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/sass/main.scss"
             ],
             "stylePreprocessorOptions": {

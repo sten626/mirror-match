@@ -1,24 +1,24 @@
-@import 'theme-setup.scss';
+@import 'themes/theme';
 
 $fab-spacing: 16px;
 
 .add-button {
   position: fixed;
-  bottom: $toolbar-height-mobile + $fab-spacing;
+  // bottom: $toolbar-height-mobile + $fab-spacing;
   right: 50%;
   transform: translateX(50%);
 
-  .large-toolbar & {
-    bottom: $toolbar-height-desktop + $fab-spacing;
-  }
+  // .large-toolbar & {
+  //   bottom: $toolbar-height-desktop + $fab-spacing;
+  // }
 }
 
 .container {
-  margin-top: $toolbar-height-mobile;
+  // margin-top: $toolbar-height-mobile;
 
-  .large-toolbar & {
-    margin-top: $toolbar-height-desktop;
-  }
+  // .large-toolbar & {
+  //   margin-top: $toolbar-height-desktop;
+  // }
 
   .no-content-container {
     position: fixed;
