@@ -5,7 +5,7 @@
   </button>
   <button
     mat-list-item
-    *ngFor="let player of players.reverse()"
+    *ngFor="let player of players?.reverse()"
     (click)="playerClicked.emit(player)"
   >
     {{ player.name }}
