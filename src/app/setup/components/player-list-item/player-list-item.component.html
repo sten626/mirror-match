@@ -1,0 +1,7 @@
+<mat-list-item (click)="edit()">
+  <!-- {{ player.name }} -->
+  <span [class.hidden]="isEditing">{{ player.name }}!!!</span>
+  <form [class.hidden]="!isEditing" [formGroup]="playerForm" (ngSubmit)="submit()">
+    <input matInput autocomplete="off" formControlName="name" type="text" (blur)="submit()" />
+  </form>
+</mat-list-item>

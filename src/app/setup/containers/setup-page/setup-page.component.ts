@@ -3,6 +3,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import * as fromRoot from '@mm/reducers';
 import { Player } from '@mm/shared/models';
 import { SetupPageActions } from '@mm/tournament/actions';
+import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -48,7 +49,15 @@ export class SetupPageComponent implements OnInit, OnDestroy {
     this.largeToolbarSub.unsubscribe();
   }
 
-  onAddPlayer(player: Player) {
+  onAddPlayer() {
+    const player: Player = {
+      name: '',
+      dropped: false
+    };
     this.store.dispatch(SetupPageActions.addPlayer({ player }));
+  }
+
+  onUpdatePlayer(player: Update<Player>) {
+    this.store.dispatch(SetupPageActions.updatePlayer({ player }));
   }
 }

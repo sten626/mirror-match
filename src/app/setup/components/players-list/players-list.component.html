@@ -1,18 +1,24 @@
-<mat-action-list>
-  <button mat-list-item [disableRipple]="true">
-    <mat-icon matListIcon color="primary">add</mat-icon>
+<mat-list>
+  <mat-list-item (click)="addPlayerClicked()">
+    <mat-icon class="add-icon" color="primary">add</mat-icon>
     Add a player
-  </button>
-  <button
+  </mat-list-item>
+  <mm-player-list-item
+    *ngFor="let player of players?.reverse()"
+    [player]="player"
+    (updatePlayer)="updatePlayer.emit($event)"
+  ></mm-player-list-item>
+  <!-- <button
     mat-list-item
     *ngFor="let player of players?.reverse()"
     (click)="playerClicked.emit(player)"
   >
     {{ player.name }}
   </button>
-  <!-- <button mat-list-item class="mm-add-player-item">Add Player</button> -->
+  <button mat-list-item class="mm-add-player-item">Add Player</button>
   <mm-add-player-list-item
     [playerNames]="playerNames"
     (addPlayer)="onAddPlayer($event)"
   ></mm-add-player-list-item>
-</mat-action-list>
+  -->
+</mat-list>

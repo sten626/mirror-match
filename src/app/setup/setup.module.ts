@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   AddPlayerListItemComponent,
+  PlayerListItemComponent,
   PlayerNameInputDirective,
   PlayerSheetComponent,
   PlayersListComponent,
@@ -29,6 +30,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     PlayerNameInputDirective,
     PlayerSheetComponent,
     PlayersListComponent,
+    PlayerListItemComponent,
     PlayersPageComponent,
     PlayersToolbarComponent,
     SetupPageComponent,

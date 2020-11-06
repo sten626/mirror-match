@@ -6,7 +6,8 @@
   <div class="content-container">
     <mm-players-list
       [players]="players$ | async"
-      (addPlayer)="onAddPlayer($event)"
+      (addPlayer)="onAddPlayer()"
+      (updatePlayer)="onUpdatePlayer($event)"
     ></mm-players-list>
   </div>
 

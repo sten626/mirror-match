@@ -10,6 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Player } from '@mm/shared/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'mm-players-list',
@@ -19,8 +20,9 @@ import { Player } from '@mm/shared/models';
 export class PlayersListComponent implements AfterViewChecked, OnChanges {
   @Input() players: Player[];
   // @Input() playerNames: Set<string>;
-  @Output() addPlayer = new EventEmitter<Player>();
+  @Output() addPlayer = new EventEmitter();
   @Output() playerClicked = new EventEmitter<Player>();
+  @Output() updatePlayer = new EventEmitter<Update<Player>>();
 
   playerNames = new Set<string>();
 
@@ -43,8 +45,12 @@ export class PlayersListComponent implements AfterViewChecked, OnChanges {
     }
   }
 
-  onAddPlayer(player: Player) {
-    this.scrollDownNeeded = true;
-    this.addPlayer.emit(player);
+  addPlayerClicked() {
+    this.addPlayer.emit();
   }
+
+  // onAddPlayer(player: Player) {
+  //   this.scrollDownNeeded = true;
+  //   this.addPlayer.emit(player);
+  // }
 }
