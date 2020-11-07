@@ -5,20 +5,9 @@
   </mat-list-item>
   <mm-player-list-item
     *ngFor="let player of players?.reverse()"
+    [isEditing]="player.id === selectedPlayer?.id"
     [player]="player"
+    (click)="selectedPlayer = player"
     (updatePlayer)="updatePlayer.emit($event)"
   ></mm-player-list-item>
-  <!-- <button
-    mat-list-item
-    *ngFor="let player of players?.reverse()"
-    (click)="playerClicked.emit(player)"
-  >
-    {{ player.name }}
-  </button>
-  <button mat-list-item class="mm-add-player-item">Add Player</button>
-  <mm-add-player-list-item
-    [playerNames]="playerNames"
-    (addPlayer)="onAddPlayer($event)"
-  ></mm-add-player-list-item>
-  -->
 </mat-list>

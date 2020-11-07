@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -16,15 +15,15 @@ import { Update } from '@ngrx/entity';
   styleUrls: ['./player-list-item.component.scss']
 })
 export class PlayerListItemComponent implements OnChanges {
+  @Input() isEditing = false;
   @Input() player: Player;
   @Output() updatePlayer = new EventEmitter<Update<Player>>();
 
-  isEditing = false;
   playerForm = new FormGroup({
     name: new FormControl('')
   });
 
-  constructor(private elementRef: ElementRef<HTMLElement>) {}
+  constructor() {}
 
   ngOnChanges() {
     this.playerForm.reset({
@@ -32,11 +31,9 @@ export class PlayerListItemComponent implements OnChanges {
     });
   }
 
-  edit() {
-    this.isEditing = true;
-    const element = this.elementRef.nativeElement.querySelector('input');
-    setTimeout(() => element.focus(), 10);
-  }
+  // edit() {
+  //   this.isEditing = true;
+  // }
 
   submit() {
     this.updatePlayer.emit({
@@ -45,6 +42,5 @@ export class PlayerListItemComponent implements OnChanges {
         name: this.playerForm.value['name']
       }
     });
-    this.isEditing = false;
   }
 }

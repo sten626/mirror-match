@@ -2,15 +2,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@mm/material';
 import { FabComponent, SearchBoxComponent } from '@mm/shared/components';
+import {
+  AutofocusDirective,
+  BottomSheetContentDirective
+} from '@mm/shared/directives';
 import { PairingsFilterPipe, SortStandingsPipe } from '@mm/shared/pipes';
-import { BottomSheetContentDirective } from './directives/bottom-sheet-content.directive';
 
 const COMPONENTS = [FabComponent, SearchBoxComponent];
+const DIRECTIVES = [AutofocusDirective, BottomSheetContentDirective];
 const PIPES = [PairingsFilterPipe, SortStandingsPipe];
 
 @NgModule({
   imports: [CommonModule, MaterialModule],
-  declarations: [COMPONENTS, PIPES, BottomSheetContentDirective],
-  exports: [COMPONENTS, PIPES, BottomSheetContentDirective]
+  declarations: [COMPONENTS, DIRECTIVES, PIPES],
+  exports: [COMPONENTS, DIRECTIVES, PIPES]
 })
 export class SharedModule {}

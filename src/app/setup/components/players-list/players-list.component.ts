@@ -1,9 +1,6 @@
-import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewChecked,
   Component,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   Output,
@@ -17,40 +14,31 @@ import { Update } from '@ngrx/entity';
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss']
 })
-export class PlayersListComponent implements AfterViewChecked, OnChanges {
+export class PlayersListComponent implements OnChanges {
   @Input() players: Player[];
-  // @Input() playerNames: Set<string>;
   @Output() addPlayer = new EventEmitter();
-  @Output() playerClicked = new EventEmitter<Player>();
   @Output() updatePlayer = new EventEmitter<Update<Player>>();
 
-  playerNames = new Set<string>();
+  selectedPlayer: Player;
 
-  private scrollDownNeeded = false;
-
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.players) {
-      const players = changes.players.currentValue as Player[];
-      const playerNames = players.map((player) => player.name);
-      this.playerNames = new Set(playerNames);
-    }
-  }
+    if (changes.players && !changes.players.firstChange) {
+      const previous = changes.players.previousValue as Player[];
+      const current = changes.players.currentValue as Player[];
 
-  ngAfterViewChecked() {
-    if (this.scrollDownNeeded) {
-      this.scrollDownNeeded = false;
-      window.scrollTo(0, this.document.body.scrollHeight);
+      if (current.length > previous.length) {
+        // There's a new player.
+        this.selectedPlayer = current[current.length - 1];
+      } else {
+        // A player was updated.
+        this.selectedPlayer = null;
+      }
     }
   }
 
   addPlayerClicked() {
     this.addPlayer.emit();
   }
-
-  // onAddPlayer(player: Player) {
-  //   this.scrollDownNeeded = true;
-  //   this.addPlayer.emit(player);
-  // }
 }
