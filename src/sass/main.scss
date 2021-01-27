@@ -1,8 +1,3 @@
-// @import 'abstracts/variables';
-
 @import 'base/reset';
 
 @import 'themes/theme';
-
-@include mat-core();
-@include angular-material-theme($mirror-match-theme);
