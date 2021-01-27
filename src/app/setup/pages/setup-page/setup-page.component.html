@@ -2,6 +2,6 @@
   <span>Mirror Match</span>
 </mat-toolbar>
 
-<mm-players-list></mm-players-list>
+<mm-players-list [players]="players$ | async"></mm-players-list>
 
 <mm-setup-footer class="footer mat-elevation-z8"></mm-setup-footer>

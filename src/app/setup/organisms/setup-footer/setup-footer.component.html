@@ -1,8 +1,12 @@
 <mat-toolbar color="primary">
-  <mat-icon>delete</mat-icon>
+  <button mat-icon-button aria-label="Delete all players button">
+    <mat-icon>delete</mat-icon>
+  </button>
   <span class="spacer"></span>
-  <mat-icon>done</mat-icon>
+  <button mat-icon-button aria-label="Finished adding players button">
+    <mat-icon>done</mat-icon>
+  </button>
 </mat-toolbar>
-<button mat-fab class="fab">
+<button mat-fab aria-label="Add a player button" class="fab">
   <mat-icon>add</mat-icon>
 </button>

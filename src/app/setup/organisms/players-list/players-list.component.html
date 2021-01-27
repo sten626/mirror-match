@@ -1,1 +1,5 @@
-<p>players-list works!</p>
+<mat-action-list>
+  <button mat-list-item *ngFor="let player of players?.reverse()">
+    {{ player.name }}
+  </button>
+</mat-action-list>
