@@ -1,6 +1,6 @@
 <mat-list-item>
   <!-- {{ player.name }} -->
-  <span *ngIf="!isEditing">{{ player.name }}!!!</span>
+  <span *ngIf="!isEditing">{{ player?.name }}</span>
   <form *ngIf="isEditing" [formGroup]="playerForm" (ngSubmit)="submit()">
     <input matInput mmAutofocus autocomplete="off" formControlName="name" type="text" (blur)="submit()" />
   </form>
