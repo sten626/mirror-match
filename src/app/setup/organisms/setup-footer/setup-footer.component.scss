@@ -1,7 +1,23 @@
+@import '~@angular/material/theming';
+
+$mat-fab-size: 56px;
+
+@mixin _fab-bottom($toolbar-height) {
+  bottom: $toolbar-height - ($mat-fab-size / 2);
+}
+
+@mixin fab-position() {
+  left: calc(50% - (#{$mat-fab-size} / 2));
+  @include _fab-bottom($mat-toolbar-height-desktop);
+
+  @media ($mat-xsmall) {
+    @include _fab-bottom($mat-toolbar-height-mobile);
+  }
+}
+
 .fab {
   position: fixed;
-  bottom: calc(56px / 2);
-  left: calc(50% - (56px / 2));
+  @include fab-position();
 }
 
 .spacer {
