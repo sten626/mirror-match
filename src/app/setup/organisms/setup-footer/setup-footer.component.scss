@@ -2,22 +2,19 @@
 
 $mat-fab-size: 56px;
 
-@mixin _fab-bottom($toolbar-height) {
+@mixin fab-bottom($toolbar-height) {
   bottom: $toolbar-height - ($mat-fab-size / 2);
-}
-
-@mixin fab-position() {
-  left: calc(50% - (#{$mat-fab-size} / 2));
-  @include _fab-bottom($mat-toolbar-height-desktop);
-
-  @media ($mat-xsmall) {
-    @include _fab-bottom($mat-toolbar-height-mobile);
-  }
 }
 
 .fab {
   position: fixed;
-  @include fab-position();
+  left: calc(50% - (#{$mat-fab-size} / 2));
+
+  @include fab-bottom($mat-toolbar-height-desktop);
+
+  @media ($mat-xsmall) {
+    @include fab-bottom($mat-toolbar-height-mobile);
+  }
 }
 
 .spacer {

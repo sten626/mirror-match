@@ -4,7 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SetupFooterComponent } from '@mm/setup/organisms';
+import {
+  PlayersListComponent,
+  SetupFooterComponent
+} from '@mm/setup/organisms';
 import { SetupPageComponent } from '@mm/setup/pages';
 import { SetupRoutingModule } from '@mm/setup/setup-routing.module';
 import { SharedModule } from '@mm/shared/shared.module';
@@ -18,6 +21,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     // PlayerListItemComponent,
     // PlayersPageComponent,
     // PlayersToolbarComponent,
+    PlayersListComponent,
     SetupFooterComponent,
     SetupPageComponent
     // SetupSideSheetComponent,
