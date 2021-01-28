@@ -1,6 +1,16 @@
+@import '~@angular/material/theming';
+
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
   z-index: 8;
+}
+
+.players-list {
+  margin-bottom: $mat-toolbar-height-desktop;
+
+  @media ($mat-xsmall) {
+    margin-bottom: $mat-toolbar-height-mobile;
+  }
 }
