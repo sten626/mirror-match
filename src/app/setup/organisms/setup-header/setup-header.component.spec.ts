@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { SetupHeaderComponent } from './setup-header.component';
 
 describe('SetupHeaderComponent', () => {
@@ -8,9 +8,9 @@ describe('SetupHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SetupHeaderComponent ]
-    })
-    .compileComponents();
+      imports: [MatToolbarModule],
+      declarations: [SetupHeaderComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

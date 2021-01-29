@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatListModule } from '@angular/material/list';
 import { PlayersListComponent } from './players-list.component';
 
 describe('PlayersListComponent', () => {
@@ -8,9 +8,9 @@ describe('PlayersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PlayersListComponent ]
-    })
-    .compileComponents();
+      imports: [MatListModule],
+      declarations: [PlayersListComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
