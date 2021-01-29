@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'mm-setup-footer',
@@ -6,7 +6,5 @@ import { Component, HostBinding } from '@angular/core';
   styleUrls: ['./setup-footer.component.scss']
 })
 export class SetupFooterComponent {
-  @HostBinding('class.mm-setup-footer') setupFooter = true;
-
   constructor() {}
 }

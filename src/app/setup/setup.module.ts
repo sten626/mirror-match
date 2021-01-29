@@ -7,7 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   PlayersListComponent,
-  SetupFooterComponent
+  SetupFooterComponent,
+  SetupHeaderComponent
 } from '@mm/setup/organisms';
 import { SetupPageComponent } from '@mm/setup/pages';
 import { SetupRoutingModule } from '@mm/setup/setup-routing.module';
@@ -24,6 +25,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     // PlayersToolbarComponent,
     PlayersListComponent,
     SetupFooterComponent,
+    SetupHeaderComponent,
     SetupPageComponent
     // SetupSideSheetComponent,
     // StartEventFormComponent,

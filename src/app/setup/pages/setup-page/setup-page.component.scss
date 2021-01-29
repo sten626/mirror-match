@@ -1,16 +1,31 @@
 @import '~@angular/material/theming';
 
-.footer {
+@mixin body-margins($margin-height) {
+  margin-top: $margin-height;
+  margin-bottom: $margin-height;
+}
+
+@mixin fixed-toolbar() {
   position: fixed;
-  bottom: 0;
   width: 100%;
+}
+
+.footer {
+  @include fixed-toolbar();
+  bottom: 0;
   z-index: 8;
 }
 
+.header {
+  @include fixed-toolbar();
+  top: 0;
+  z-index: 4;
+}
+
 .players-list {
-  margin-bottom: $mat-toolbar-height-desktop;
+  @include body-margins($mat-toolbar-height-desktop);
 
   @media ($mat-xsmall) {
-    margin-bottom: $mat-toolbar-height-mobile;
+    @include body-margins($mat-toolbar-height-mobile);
   }
 }
