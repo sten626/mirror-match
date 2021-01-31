@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BottomSheetService } from '@mm/core/services';
 import * as fromRoot from '@mm/reducers';
 import { PlayersPageActions } from '@mm/setup/actions';
-import { PlayerSheetComponent } from '@mm/setup/components';
+import { PlayerSheetComponent } from '@mm/setup/components/old-player-sheet/player-sheet.component';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';

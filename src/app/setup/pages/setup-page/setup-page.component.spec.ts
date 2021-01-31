@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -10,6 +11,14 @@ describe('SetupPageComponent', () => {
   let component: SetupPageComponent;
   let fixture: ComponentFixture<SetupPageComponent>;
   let mockStore: MockStore;
+
+  class MockMatBottomSheet {
+    open() {
+      return {
+        afterDismissed: () => of('')
+      };
+    }
+  }
 
   class MockMatDialog {
     open() {
@@ -39,6 +48,7 @@ describe('SetupPageComponent', () => {
         SetupPageComponent
       ],
       providers: [
+        { provide: MatBottomSheet, useClass: MockMatBottomSheet },
         { provide: MatDialog, useClass: MockMatDialog },
         provideMockStore()
       ]
