@@ -1,24 +1,37 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { PlayersPageActions } from '@mm/setup/actions';
-import { Player } from '@mm/shared/models';
-import { SetupPageActions } from '@mm/tournament/actions';
+import { PlayersPageActions, SetupPageActions } from '@mm/setup/actions';
+// import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class PlayerEffects implements OnInitEffects {
-  addPlayer$ = createEffect(() =>
+  // addPlayer$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(SetupPageActions.addPlayer),
+  //     mergeMap(({ player }) =>
+  //       this.storageService.addPlayer(player).pipe(
+  //         map((value: Player) =>
+  //           PlayersApiActions.addPlayerSuccess({ player: value })
+  //         ),
+  //         catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
+  //       )
+  //     )
+  //   )
+  // );
+
+  clearPlayers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.addPlayer),
-      mergeMap(({ player }) =>
-        this.storageService.addPlayer(player).pipe(
-          map((value: Player) =>
-            PlayersApiActions.addPlayerSuccess({ player: value })
-          ),
-          catchError(() => of(PlayersApiActions.addPlayerFailure({ player })))
+      ofType(SetupPageActions.clearPlayers),
+      mergeMap(() =>
+        this.storageService.clearPlayers().pipe(
+          map(() => PlayersApiActions.clearPlayersSuccess()),
+          catchError((err) =>
+            of(PlayersApiActions.clearPlayersFailure({ err }))
+          )
         )
       )
     )

@@ -1,13 +1,23 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
 import { SetupPageComponent } from './setup-page.component';
 
 describe('SetupPageComponent', () => {
   let component: SetupPageComponent;
   let fixture: ComponentFixture<SetupPageComponent>;
   let mockStore: MockStore;
+
+  class MockMatDialog {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  }
 
   @Component({ selector: 'mm-players-list', template: '' })
   class PlayersListStubComponent {
@@ -28,7 +38,10 @@ describe('SetupPageComponent', () => {
         SetupHeaderStubComponent,
         SetupPageComponent
       ],
-      providers: [provideMockStore()]
+      providers: [
+        { provide: MatDialog, useClass: MockMatDialog },
+        provideMockStore()
+      ]
     }).compileComponents();
   });
 

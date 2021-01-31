@@ -22,6 +22,9 @@ const playersReducer = createReducer(
   on(PlayersApiActions.addPlayerSuccess, (state, { player }) =>
     adapter.addOne(player, state)
   ),
+  on(PlayersApiActions.clearPlayersSuccess, (state) =>
+    adapter.removeAll(state)
+  ),
   on(PlayersApiActions.deletePlayerSuccess, (state, { id }) =>
     adapter.removeOne(id, state)
   ),

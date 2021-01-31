@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
+import { SetupPageActions } from '@mm/setup/actions';
 import { Player } from '@mm/shared/models';
+import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -12,7 +15,22 @@ import { Observable } from 'rxjs';
 export class SetupPageComponent {
   players$: Observable<Player[]>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
+  }
+
+  onDeleteAll() {
+    const data: AlertDialogData = {
+      title: 'Delete all players?',
+      content: 'This will delete all registered players and cannot be undone.',
+      confirmButtonText: 'Delete All'
+    };
+    const dialogRef = this.dialog.open(AlertDialogComponent, { data });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.store.dispatch(SetupPageActions.clearPlayers());
+      }
+    });
   }
 }

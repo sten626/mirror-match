@@ -48,6 +48,10 @@ export class PlayerStorageService extends StorageService {
     );
   }
 
+  clearPlayers(): Observable<Player[]> {
+    return this.setArray(this.playersKey, []);
+  }
+
   deletePlayer(id: number): Observable<number> {
     if (!id) {
       return throwError(deleteInvalidIdError);

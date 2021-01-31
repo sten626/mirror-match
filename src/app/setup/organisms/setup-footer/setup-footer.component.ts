@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'mm-setup-footer',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./setup-footer.component.scss']
 })
 export class SetupFooterComponent {
+  @Output() deleteAll = new EventEmitter();
+
   constructor() {}
+
+  deleteAllClicked() {
+    this.deleteAll.emit();
+  }
 }

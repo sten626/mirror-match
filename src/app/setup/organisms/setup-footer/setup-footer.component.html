@@ -1,5 +1,9 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button aria-label="Delete all players button">
+  <button
+    mat-icon-button
+    aria-label="Delete all players button"
+    (click)="deleteAllClicked()"
+  >
     <mat-icon>delete</mat-icon>
   </button>
   <span class="spacer"></span>
