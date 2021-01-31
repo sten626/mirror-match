@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
 import { SetupPageActions } from '@mm/setup/actions';
+import { NewPlayerSheetComponent } from '@mm/setup/organisms';
 import { Player } from '@mm/shared/models';
 import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
 import { select, Store } from '@ngrx/store';
@@ -15,8 +17,20 @@ import { Observable } from 'rxjs';
 export class SetupPageComponent {
   players$: Observable<Player[]>;
 
-  constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
+  constructor(
+    private bottomSheet: MatBottomSheet,
+    private dialog: MatDialog,
+    private store: Store<fromRoot.State>
+  ) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
+  }
+
+  onAdd() {
+    const bottomSheetRef = this.bottomSheet.open(NewPlayerSheetComponent, {
+      autoFocus: true
+    });
+
+    bottomSheetRef.afterDismissed().subscribe((name) => console.log(name));
   }
 
   onDeleteAll() {

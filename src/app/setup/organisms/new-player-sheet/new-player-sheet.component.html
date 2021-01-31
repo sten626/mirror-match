@@ -1,0 +1,8 @@
+<mat-form-field class="name-field">
+  <mat-label>Name</mat-label>
+  <input matInput type="text" [formControl]="name" (keyup.enter)="submit()" />
+</mat-form-field>
+
+<button mat-button color="primary" class="add-button" (click)="submit()">
+  Add
+</button>

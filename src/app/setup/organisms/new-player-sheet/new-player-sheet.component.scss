@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+
+  .add-button {
+    text-transform: uppercase;
+  }
+
+  .name-field {
+    flex: 1;
+  }
+}
