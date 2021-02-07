@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
+  hideFooter = false;
   players$: Observable<Player[]>;
 
   constructor(
@@ -26,11 +27,24 @@ export class SetupPageComponent {
   }
 
   onAdd() {
+    this.hideFooter = true;
     const bottomSheetRef = this.bottomSheet.open(NewPlayerSheetComponent, {
       autoFocus: true
     });
 
-    bottomSheetRef.afterDismissed().subscribe((name) => console.log(name));
+    bottomSheetRef.backdropClick().subscribe(() => {
+      this.hideFooter = false;
+    });
+
+    bottomSheetRef.keydownEvents().subscribe((event) => {
+      if (event.code == 'Escape') {
+        this.hideFooter = false;
+      }
+    });
+
+    bottomSheetRef.afterDismissed().subscribe((name) => {
+      console.log(name);
+    });
   }
 
   onDeleteAll() {

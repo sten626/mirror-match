@@ -6,7 +6,8 @@
 ></mm-players-list>
 
 <mm-setup-footer
-  class="footer mat-elevation-z8"
+  class="footer"
+  [isHidden]="hideFooter"
   (add)="onAdd()"
   (deleteAll)="onDeleteAll()"
 ></mm-setup-footer>
