@@ -1,24 +1,22 @@
-<div class="container" [@showHide]="isHidden ? 'hidden' : 'shown'">
-  <mat-toolbar color="primary" class="mat-elevation-z8">
-    <button
-      mat-icon-button
-      aria-label="Delete all players button"
-      (click)="deleteAllClicked()"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    <button mat-icon-button aria-label="Finished adding players button">
-      <mat-icon>done</mat-icon>
-    </button>
-  </mat-toolbar>
-
+<mat-toolbar color="primary" class="mat-elevation-z8">
   <button
-    mat-fab
-    aria-label="Add a player button"
-    class="fab"
-    (click)="addClicked()"
+    mat-icon-button
+    aria-label="Delete all players button"
+    (click)="deleteAllClicked()"
   >
-    <mat-icon>add</mat-icon>
+    <mat-icon>delete</mat-icon>
   </button>
-</div>
+  <span class="spacer"></span>
+  <button mat-icon-button aria-label="Finished adding players button">
+    <mat-icon>done</mat-icon>
+  </button>
+</mat-toolbar>
+
+<button
+  mat-fab
+  aria-label="Add a player button"
+  class="fab"
+  (click)="addClicked()"
+>
+  <mat-icon>add</mat-icon>
+</button>

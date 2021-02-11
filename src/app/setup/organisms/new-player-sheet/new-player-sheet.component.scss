@@ -1,5 +1,17 @@
+@import '~@angular/material/theming';
+@import 'abstracts/variables';
+
+@mixin min-height($toolbar-height) {
+  min-height: $toolbar-height + $mat-fab-size / 2;
+}
+
 :host {
   display: flex;
+  @include min-height($mat-toolbar-height-desktop);
+
+  @media ($mat-xsmall) {
+    @include min-height($mat-toolbar-height-mobile);
+  }
 
   .add-button {
     text-transform: uppercase;

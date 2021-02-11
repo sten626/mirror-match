@@ -1,6 +1,5 @@
 @import '~@angular/material/theming';
-
-$mat-fab-size: 56px;
+@import 'abstracts/variables';
 
 @mixin fab-bottom($toolbar-height) {
   bottom: $toolbar-height - ($mat-fab-size / 2);
