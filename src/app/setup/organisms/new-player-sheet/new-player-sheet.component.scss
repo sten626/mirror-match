@@ -7,6 +7,7 @@
 
 :host {
   display: flex;
+  align-items: center;
   @include min-height($mat-toolbar-height-desktop);
 
   @media ($mat-xsmall) {

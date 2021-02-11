@@ -10,22 +10,26 @@
   width: 100%;
 }
 
-.footer {
-  @include fixed-toolbar();
-  bottom: 0;
-  z-index: 8;
-}
+:host {
+  min-height: 100vh;
 
-.header {
-  @include fixed-toolbar();
-  top: 0;
-  z-index: 4;
-}
+  .footer {
+    @include fixed-toolbar();
+    bottom: 0;
+    z-index: 8;
+  }
 
-.players-list {
-  @include body-margins($mat-toolbar-height-desktop);
+  .header {
+    @include fixed-toolbar();
+    top: 0;
+    z-index: 4;
+  }
 
-  @media ($mat-xsmall) {
-    @include body-margins($mat-toolbar-height-mobile);
+  .players-list {
+    @include body-margins($mat-toolbar-height-desktop);
+
+    @media ($mat-xsmall) {
+      @include body-margins($mat-toolbar-height-mobile);
+    }
   }
 }

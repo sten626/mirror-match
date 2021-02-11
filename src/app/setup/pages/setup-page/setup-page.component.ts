@@ -31,7 +31,11 @@ export class SetupPageComponent {
     });
 
     bottomSheetRef.afterDismissed().subscribe((name) => {
-      console.log(name);
+      const player: Player = {
+        name,
+        dropped: false
+      };
+      this.store.dispatch(SetupPageActions.addPlayer({ player }));
     });
   }
 
