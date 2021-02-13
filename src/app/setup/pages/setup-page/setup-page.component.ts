@@ -45,7 +45,10 @@ export class SetupPageComponent {
       content: 'This will delete all registered players and cannot be undone.',
       confirmButtonText: 'Delete All'
     };
-    const dialogRef = this.dialog.open(AlertDialogComponent, { data });
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      data,
+      autoFocus: false
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
