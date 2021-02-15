@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
 import { SetupPageActions } from '@mm/setup/actions';
-import { NewPlayerSheetComponent } from '@mm/setup/organisms';
 import { Player } from '@mm/shared/models';
 import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
 import { select, Store } from '@ngrx/store';
@@ -15,10 +13,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
+  isAdding = false;
   players$: Observable<Player[]>;
 
   constructor(
-    private bottomSheet: MatBottomSheet,
+    // private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
     private store: Store<fromRoot.State>
   ) {
@@ -26,17 +25,18 @@ export class SetupPageComponent {
   }
 
   onAdd() {
-    const bottomSheetRef = this.bottomSheet.open(NewPlayerSheetComponent, {
-      autoFocus: true
-    });
+    this.isAdding = true;
+    // const bottomSheetRef = this.bottomSheet.open(NewPlayerSheetComponent, {
+    //   autoFocus: true
+    // });
 
-    bottomSheetRef.afterDismissed().subscribe((name) => {
-      const player: Player = {
-        name,
-        dropped: false
-      };
-      this.store.dispatch(SetupPageActions.addPlayer({ player }));
-    });
+    // bottomSheetRef.afterDismissed().subscribe((name) => {
+    //   const player: Player = {
+    //     name,
+    //     dropped: false
+    //   };
+    //   this.store.dispatch(SetupPageActions.addPlayer({ player }));
+    // });
   }
 
   onDeleteAll() {

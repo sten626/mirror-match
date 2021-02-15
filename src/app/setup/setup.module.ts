@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NewPlayerListItemComponent } from '@mm/setup/molecules';
 import {
   NewPlayerSheetComponent,
   PlayersListComponent,
@@ -27,6 +28,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     // PlayerListItemComponent,
     // PlayersPageComponent,
     // PlayersToolbarComponent,
+    NewPlayerListItemComponent,
     NewPlayerSheetComponent,
     PlayersListComponent,
     SetupFooterComponent,

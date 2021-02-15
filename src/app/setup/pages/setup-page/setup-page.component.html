@@ -1,6 +1,7 @@
 <mm-setup-header class="header mat-elevation-z4"></mm-setup-header>
 
 <mm-players-list
+  [isAdding]="isAdding"
   [players]="players$ | async"
   class="players-list"
 ></mm-players-list>

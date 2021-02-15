@@ -1,0 +1,27 @@
+<button mat-list-item (click)="onClick()">
+  <!-- <span *ngIf="!isAdding">
+    <em>New player name</em>
+  </span> -->
+
+  <mat-form-field class="name-form-field">
+    <mat-label>New player name</mat-label>
+    <input
+      matInput
+      autocomplete="off"
+      class="name-input"
+      type="text"
+      #nameInput
+      (keyup)="onKeyup($event)"
+    />
+    <button
+      mat-button
+      mat-icon-button
+      matSuffix
+      aria-label="Clear"
+      *ngIf="nameInput.value"
+      (click)="nameInput.value = ''"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</button>

@@ -9,6 +9,7 @@ import { Player } from '@mm/shared/models';
   styleUrls: ['./players-list.component.scss']
 })
 export class PlayersListComponent implements OnInit {
+  @Input() isAdding: boolean;
   @Input() players: Player[];
 
   initialPlayers: Set<Player>;
