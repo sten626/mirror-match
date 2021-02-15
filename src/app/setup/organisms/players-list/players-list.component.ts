@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { playerListAnimations } from '@mm/setup/organisms/players-list/player-list-animations';
 import { Player } from '@mm/shared/models';
 
@@ -11,6 +11,8 @@ import { Player } from '@mm/shared/models';
 export class PlayersListComponent implements OnInit {
   @Input() isAdding: boolean;
   @Input() players: Player[];
+  @Output() cancel = new EventEmitter();
+  @Output() newPlayer = new EventEmitter<Player>();
 
   initialPlayers: Set<Player>;
 
@@ -18,5 +20,13 @@ export class PlayersListComponent implements OnInit {
 
   ngOnInit() {
     this.initialPlayers = new Set(this.players);
+  }
+
+  onCancel() {
+    this.cancel.emit();
+  }
+
+  onNewPlayer(player: Player) {
+    this.newPlayer.emit(player);
   }
 }

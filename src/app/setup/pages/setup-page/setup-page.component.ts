@@ -16,27 +16,16 @@ export class SetupPageComponent {
   isAdding = false;
   players$: Observable<Player[]>;
 
-  constructor(
-    // private bottomSheet: MatBottomSheet,
-    private dialog: MatDialog,
-    private store: Store<fromRoot.State>
-  ) {
+  constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
   onAdd() {
     this.isAdding = true;
-    // const bottomSheetRef = this.bottomSheet.open(NewPlayerSheetComponent, {
-    //   autoFocus: true
-    // });
+  }
 
-    // bottomSheetRef.afterDismissed().subscribe((name) => {
-    //   const player: Player = {
-    //     name,
-    //     dropped: false
-    //   };
-    //   this.store.dispatch(SetupPageActions.addPlayer({ player }));
-    // });
+  onCancel() {
+    this.isAdding = false;
   }
 
   onDeleteAll() {
@@ -55,5 +44,9 @@ export class SetupPageComponent {
         this.store.dispatch(SetupPageActions.clearPlayers());
       }
     });
+  }
+
+  onNewPlayer(player: Player) {
+    this.store.dispatch(SetupPageActions.addPlayer({ player }));
   }
 }
