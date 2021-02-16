@@ -33,7 +33,7 @@ export class SetupPageComponent {
     this.isAdding = false;
   }
 
-  onDeleteAll() {
+  deleteAllPlayers() {
     const data: AlertDialogData = {
       title: 'Delete all players?',
       content: 'This will delete all registered players and cannot be undone.',
@@ -51,8 +51,12 @@ export class SetupPageComponent {
     });
   }
 
-  onNewPlayer(player: Player) {
-    this.store.dispatch(SetupPageActions.addPlayer({ player }));
+  startAdding() {
+    this.isAdding = true;
+  }
+
+  stopAdding() {
+    this.isAdding = false;
   }
 
   playerChanged(update: Update<Player>) {

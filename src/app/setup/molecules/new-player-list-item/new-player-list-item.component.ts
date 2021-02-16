@@ -33,12 +33,18 @@ export class NewPlayerListItemComponent implements AfterViewInit {
       this.cancel.emit();
     } else if (event.code === 'Enter') {
       const inputElement = this.nameInput.nativeElement;
+      const newPlayerName = inputElement.value.trim();
 
-      this.newPlayer.emit({
-        name: this.nameInput.nativeElement.value,
-        dropped: false
-      });
-      inputElement.value = '';
+      if (newPlayerName === '') {
+        this.cancel.emit();
+      } else {
+        // TODO: Validation
+        this.newPlayer.emit({
+          name: this.nameInput.nativeElement.value,
+          dropped: false
+        });
+        inputElement.value = '';
+      }
     }
   }
 }

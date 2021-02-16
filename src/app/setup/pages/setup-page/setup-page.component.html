@@ -2,16 +2,15 @@
 
 <mm-players-list
   class="players-list"
-  [isAdding]="isAdding"
+  [adding]="isAdding"
   [players]="players$ | async"
   (cancel)="onCancel()"
   (deletePlayer)="deletePlayer($event)"
-  (newPlayer)="onNewPlayer($event)"
   (playerChanged)="playerChanged($event)"
 ></mm-players-list>
 
 <mm-setup-footer
   class="footer"
-  (add)="onAdd()"
-  (deleteAll)="onDeleteAll()"
+  (add)="startAdding()"
+  (deleteAll)="deleteAllPlayers()"
 ></mm-setup-footer>
