@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { playerListAnimations } from '@mm/setup/organisms/players-list/player-list-animations';
 import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-players-list',
-  animations: playerListAnimations,
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss']
 })
