@@ -1,9 +1,5 @@
 <mat-action-list>
-  <button
-    mat-list-item
-    [@listItem]="initialPlayers.has(player) ? 'initial' : 'new'"
-    *ngFor="let player of players"
-  >
+  <button mat-list-item *ngFor="let player of players">
     {{ player.name }}
   </button>
   <mm-new-player-list-item
