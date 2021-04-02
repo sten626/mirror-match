@@ -5,6 +5,7 @@
   [isAdding]="isAdding"
   [players]="players$ | async"
   (cancel)="onCancel()"
+  (deletePlayer)="deletePlayer($event)"
   (newPlayer)="onNewPlayer($event)"
   (playerChanged)="playerChanged($event)"
 ></mm-players-list>

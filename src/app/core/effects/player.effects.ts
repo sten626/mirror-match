@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { PlayersPageActions, SetupPageActions } from '@mm/setup/actions';
+import { SetupPageActions } from '@mm/setup/actions';
 import { Player } from '@mm/shared/models';
 // import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
@@ -40,7 +40,7 @@ export class PlayerEffects implements OnInitEffects {
 
   deletePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PlayersPageActions.deletePlayer),
+      ofType(SetupPageActions.deletePlayer),
       mergeMap(({ id }) =>
         this.storageService.deletePlayer(id).pipe(
           map(() => PlayersApiActions.deletePlayerSuccess({ id })),

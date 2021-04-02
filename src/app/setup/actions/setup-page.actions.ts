@@ -9,6 +9,11 @@ export const addPlayer = createAction(
 
 export const clearPlayers = createAction('[Setup Page] Clear Players');
 
+export const deletePlayer = createAction(
+  '[Setup Page] Delete Player',
+  props<{ id: number }>()
+);
+
 export const updatePlayer = createAction(
   '[Setup Page] Update Player',
   props<{ update: Update<Player> }>()

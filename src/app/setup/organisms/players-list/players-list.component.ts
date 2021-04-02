@@ -11,6 +11,7 @@ export class PlayersListComponent implements OnInit {
   @Input() isAdding: boolean;
   @Input() players: Player[];
   @Output() cancel = new EventEmitter();
+  @Output() deletePlayer = new EventEmitter<number>();
   @Output() newPlayer = new EventEmitter<Player>();
   @Output() playerChanged = new EventEmitter<Update<Player>>();
 
@@ -25,6 +26,10 @@ export class PlayersListComponent implements OnInit {
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  onCleared(player: Player) {
+    this.deletePlayer.emit(player.id);
   }
 
   onNewPlayer(player: Player) {

@@ -21,6 +21,10 @@ export class SetupPageComponent {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
+  deletePlayer(id: number) {
+    this.store.dispatch(SetupPageActions.deletePlayer({ id }));
+  }
+
   onAdd() {
     this.isAdding = true;
   }

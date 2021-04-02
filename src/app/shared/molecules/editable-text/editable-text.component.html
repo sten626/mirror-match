@@ -1,2 +1,8 @@
 <div *ngIf="!editing">{{ text }}</div>
-<input #input *ngIf="editing" [value]="text" (blur)="stopEditing()" />
+<input
+  #input
+  *ngIf="editing"
+  [value]="text"
+  (blur)="stopEditing()"
+  (keyup)="onKeyup($event)"
+/>
