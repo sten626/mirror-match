@@ -6,12 +6,15 @@ import {
   AutofocusDirective,
   BottomSheetContentDirective
 } from '@mm/shared/directives';
-import { AlertDialogComponent } from '@mm/shared/molecules';
+import {
+  AlertDialogComponent,
+  EditableTextComponent
+} from '@mm/shared/molecules';
 import { PairingsFilterPipe, SortStandingsPipe } from '@mm/shared/pipes';
 
 const COMPONENTS = [FabComponent, SearchBoxComponent];
 const DIRECTIVES = [AutofocusDirective, BottomSheetContentDirective];
-const MOLECULES = [AlertDialogComponent]
+const MOLECULES = [AlertDialogComponent, EditableTextComponent];
 const PIPES = [PairingsFilterPipe, SortStandingsPipe];
 
 @NgModule({

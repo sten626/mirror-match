@@ -2,9 +2,7 @@
   <button mat-list-item *ngFor="let player of players">
     {{ player.name }}
   </button>
-  <mm-new-player-list-item
-    *ngIf="isAdding"
-    (cancel)="onCancel()"
-    (newPlayer)="onNewPlayer($event)"
-  ></mm-new-player-list-item>
+  <button mat-list-item *ngFor="let player of players">
+    <mm-editable-text [text]="player.name"></mm-editable-text>
+  </button>
 </mat-action-list>
