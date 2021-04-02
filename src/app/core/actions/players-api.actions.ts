@@ -14,7 +14,7 @@ export const addPlayerSuccess = createAction(
 
 export const clearPlayersFailure = createAction(
   '[Players/API] Clear Players Failure',
-  props<{ err: any}>()
+  props<{ err: any }>()
 );
 
 export const clearPlayersSuccess = createAction(
@@ -55,5 +55,5 @@ export const updatePlayerFailure = createAction(
 
 export const updatePlayerSuccess = createAction(
   '[Players/API] Update Player Success',
-  props<{ player: Update<Player> }>()
+  props<{ update: Update<Player> }>()
 );

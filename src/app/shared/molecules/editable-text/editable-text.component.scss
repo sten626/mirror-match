@@ -1,6 +1,11 @@
-textarea {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  resize: none;
+:host {
+  width: 100%;
+
+  input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    width: 100%;
+  }
 }

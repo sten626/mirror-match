@@ -4,6 +4,7 @@ import * as fromRoot from '@mm/reducers';
 import { SetupPageActions } from '@mm/setup/actions';
 import { Player } from '@mm/shared/models';
 import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
+import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -48,5 +49,9 @@ export class SetupPageComponent {
 
   onNewPlayer(player: Player) {
     this.store.dispatch(SetupPageActions.addPlayer({ player }));
+  }
+
+  playerChanged(update: Update<Player>) {
+    this.store.dispatch(SetupPageActions.updatePlayer({ update }));
   }
 }

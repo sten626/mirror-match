@@ -75,10 +75,10 @@ export class PlayerEffects implements OnInitEffects {
 
   updatePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PlayersPageActions.updatePlayer),
-      mergeMap(({ player }) =>
-        this.storageService.updatePlayer(player).pipe(
-          map(() => PlayersApiActions.updatePlayerSuccess({ player })),
+      ofType(SetupPageActions.updatePlayer),
+      mergeMap(({ update }) =>
+        this.storageService.updatePlayer(update).pipe(
+          map(() => PlayersApiActions.updatePlayerSuccess({ update })),
           catchError((err) =>
             of(PlayersApiActions.updatePlayerFailure({ err }))
           )

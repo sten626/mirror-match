@@ -6,6 +6,7 @@
   [players]="players$ | async"
   (cancel)="onCancel()"
   (newPlayer)="onNewPlayer($event)"
+  (playerChanged)="playerChanged($event)"
 ></mm-players-list>
 
 <mm-setup-footer

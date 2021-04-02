@@ -1,2 +1,2 @@
 <div *ngIf="!editing">{{ text }}</div>
-<textarea *ngIf="editing">{{ text }}</textarea>
+<input #input *ngIf="editing" [value]="text" (blur)="stopEditing()" />

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Player } from '@mm/shared/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'mm-players-list',
@@ -11,7 +12,9 @@ export class PlayersListComponent implements OnInit {
   @Input() players: Player[];
   @Output() cancel = new EventEmitter();
   @Output() newPlayer = new EventEmitter<Player>();
+  @Output() playerChanged = new EventEmitter<Update<Player>>();
 
+  editingPlayer: Player;
   initialPlayers: Set<Player>;
 
   constructor() {}
@@ -26,5 +29,16 @@ export class PlayersListComponent implements OnInit {
 
   onNewPlayer(player: Player) {
     this.newPlayer.emit(player);
+  }
+
+  onPlayerEdited(player: Player, name: string) {
+    this.editingPlayer = null;
+
+    if (player.name !== name) {
+      this.playerChanged.emit({
+        id: player.id,
+        changes: { name }
+      });
+    }
   }
 }

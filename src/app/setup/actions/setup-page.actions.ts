@@ -1,4 +1,5 @@
 import { Player } from '@mm/shared/models';
+import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 
 export const addPlayer = createAction(
@@ -7,3 +8,8 @@ export const addPlayer = createAction(
 );
 
 export const clearPlayers = createAction('[Setup Page] Clear Players');
+
+export const updatePlayer = createAction(
+  '[Setup Page] Update Player',
+  props<{ update: Update<Player> }>()
+);

@@ -40,12 +40,11 @@ $mirror-match-theme: mat-light-theme(
   $config: $mirror-match-typography;
 
   mm-editable-text {
-    textarea {
+    input {
       font: {
         family: mat-font-family($config, subheading-2);
         size: mat-font-size($config, subheading-2);
       }
-      line-height: inherit;
     }
   }
 }

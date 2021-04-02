@@ -2,7 +2,15 @@
   <button mat-list-item *ngFor="let player of players">
     {{ player.name }}
   </button>
-  <button mat-list-item *ngFor="let player of players">
-    <mm-editable-text [text]="player.name"></mm-editable-text>
+  <button
+    mat-list-item
+    (click)="editingPlayer = player"
+    *ngFor="let player of players"
+  >
+    <mm-editable-text
+      [editing]="editingPlayer == player"
+      [text]="player.name"
+      (doneEditing)="onPlayerEdited(player, $event)"
+    ></mm-editable-text>
   </button>
 </mat-action-list>

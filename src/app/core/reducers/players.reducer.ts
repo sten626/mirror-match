@@ -42,8 +42,8 @@ const playersReducer = createReducer(
       loading: false
     })
   ),
-  on(PlayersApiActions.updatePlayerSuccess, (state, { player }) =>
-    adapter.updateOne(player, state)
+  on(PlayersApiActions.updatePlayerSuccess, (state, { update }) =>
+    adapter.updateOne(update, state)
   )
 );
 
