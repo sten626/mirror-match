@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
@@ -11,7 +11,7 @@ describe('AppComponent', () => {
   @Component({ selector: 'mm-layout', template: '' })
   class LayoutStubComponent {}
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent, LayoutStubComponent],
       providers: [provideMockStore()],
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', async(() => {
+  it('should create', waitForAsync(() => {
     expect(component).toBeTruthy();
   }));
 });

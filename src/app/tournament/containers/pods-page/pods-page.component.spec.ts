@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import * as fromTournament from '@mm/tournament/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PodsPageComponent } from './pods-page.component';
@@ -12,7 +12,7 @@ describe('PodsPageComponent', () => {
   @Component({ selector: 'mm-pods', template: '' })
   class PodsStubComponent {}
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PodsPageComponent, PodsStubComponent],
       providers: [provideMockStore()],

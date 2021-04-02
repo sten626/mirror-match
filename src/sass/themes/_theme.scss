@@ -36,15 +36,15 @@ $mirror-match-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($mirror-match-theme);
 
-@mixin mm-editable-text-typography($config-or-theme) {
-  // @debug "#{$config-or-theme}";
-  $config: mat-get-typography-config($config-or-theme);
+// @mixin mm-editable-text-typography($config-or-theme) {
+//   // @debug "#{$config-or-theme}";
+//   $config: mat-get-typography-config($config-or-theme);
 
-  mm-editable-text {
-    font: {
-      family: mat-font-family($config, body-1);
-    }
-  }
-}
+//   mm-editable-text {
+//     font: {
+//       family: mat-font-family($config, body-1);
+//     }
+//   }
+// }
 
-@include mm-editable-text-typography($mirror-match-theme);
+// @include mm-editable-text-typography($mirror-match-theme);

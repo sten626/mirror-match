@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SearchBoxComponent } from './search-box.component';
 
 describe('SearchBoxComponent', () => {
@@ -10,7 +10,7 @@ describe('SearchBoxComponent', () => {
   @Component({ selector: 'mat-form-field', template: '' })
   class MatFormFieldStubComponent {}
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MatFormFieldStubComponent, SearchBoxComponent]
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -9,7 +9,7 @@ describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
   let mockStore: MockStore;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MatToolbarModule],
       declarations: [ToolbarComponent],

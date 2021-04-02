@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { PodDetailComponent } from './pod-detail.component';
 
@@ -6,7 +6,7 @@ describe('PodDetailComponent', () => {
   let component: PodDetailComponent;
   let fixture: ComponentFixture<PodDetailComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MatTableModule],
       declarations: [PodDetailComponent]
