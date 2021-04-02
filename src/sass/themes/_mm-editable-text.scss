@@ -1,11 +1,12 @@
-@import '~angular/material/theming';
-
 @mixin mm-editable-text-typography($config-or-theme) {
   $config: mat-get-typography-config($config-or-theme);
 
   mm-editable-text {
-    font: {
-      family: mat-font-family($config, body);
+    input {
+      font: {
+        family: mat-font-family($config, subheading-2);
+        size: mat-font-size($config, subheading-2);
+      }
     }
   }
 }
