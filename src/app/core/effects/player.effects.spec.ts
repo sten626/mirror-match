@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { PlayersPageActions } from '@mm/setup/actions';
+import { SetupPageActions } from '@mm/setup/actions';
 import { generateMockPlayer, Player } from '@mm/shared/models';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -76,7 +76,7 @@ describe('PlayerEffects', () => {
 
   describe('deletePlayer', () => {
     it('should create a deletePlayerSuccess', () => {
-      const action = PlayersPageActions.deletePlayer({ id: player1.id });
+      const action = SetupPageActions.deletePlayer({ id: player1.id });
       const completion = PlayersApiActions.deletePlayerSuccess({
         id: player1.id
       });
@@ -91,7 +91,7 @@ describe('PlayerEffects', () => {
     });
 
     it('should create a deletePlayerFailure when deletePlayer throws an error', () => {
-      const action = PlayersPageActions.deletePlayer({ id: player1.id });
+      const action = SetupPageActions.deletePlayer({ id: player1.id });
       const error = 'Unable to delete player.';
       const completion = PlayersApiActions.deletePlayerFailure({ err: error });
 
@@ -137,16 +137,14 @@ describe('PlayerEffects', () => {
 
   describe('updatePlayer', () => {
     it('should create a updatePlayerSuccess', () => {
-      const playerUpdate: Update<Player> = {
+      const update: Update<Player> = {
         id: player1.id,
         changes: {
           name: 'Sten'
         }
       };
-      const action = PlayersPageActions.updatePlayer({ player: playerUpdate });
-      const completion = PlayersApiActions.updatePlayerSuccess({
-        player: playerUpdate
-      });
+      const action = SetupPageActions.updatePlayer({ update });
+      const completion = PlayersApiActions.updatePlayerSuccess({ update });
 
       actions$ = hot('-a', { a: action });
       const newPlayer = {
@@ -158,17 +156,17 @@ describe('PlayerEffects', () => {
       storageSpy.updatePlayer.and.returnValue(response);
 
       expect(effects.updatePlayer$).toBeObservable(expected);
-      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(playerUpdate);
+      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(update);
     });
 
     it('should create a updatePlayerFailure when updatePlayer throws an error', () => {
-      const playerUpdate: Update<Player> = {
+      const update: Update<Player> = {
         id: player1.id,
         changes: {
           name: 'Sten'
         }
       };
-      const action = PlayersPageActions.updatePlayer({ player: playerUpdate });
+      const action = SetupPageActions.updatePlayer({ update });
       const error = 'Failed to update player.';
       const completion = PlayersApiActions.updatePlayerFailure({ err: error });
 
@@ -178,7 +176,7 @@ describe('PlayerEffects', () => {
       storageSpy.updatePlayer.and.returnValue(response);
 
       expect(effects.updatePlayer$).toBeObservable(expected);
-      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(playerUpdate);
+      expect(storageSpy.updatePlayer).toHaveBeenCalledWith(update);
     });
   });
 

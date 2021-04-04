@@ -171,15 +171,13 @@ describe('PlayersReducer', () => {
 
   describe('Update Player', () => {
     it('should update player name', () => {
-      const playerChanges: Update<Player> = {
+      const update: Update<Player> = {
         id: player1.id,
         changes: {
           name: 'Sten'
         }
       };
-      const action = PlayersApiActions.updatePlayerSuccess({
-        player: playerChanges
-      });
+      const action = PlayersApiActions.updatePlayerSuccess({ update });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state.entities['1'].name).toEqual('Sten');
