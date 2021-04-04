@@ -29,7 +29,12 @@ export class PlayersListComponent implements OnInit {
   }
 
   onCleared(player: Player) {
+    const editingPlayerIndex = this.players.indexOf(player);
     this.deletePlayer.emit(player.id);
+
+    if (editingPlayerIndex > 0) {
+      this.editingPlayer = this.players[editingPlayerIndex - 1];
+    }
   }
 
   onNewPlayer(player: Player) {
