@@ -1,8 +1,12 @@
-<mat-action-list>
-  <button
-    mat-list-item
+<mat-selection-list>
+  <mat-list-item mat-list-item class="mm-add-player-button">
+    <mat-icon mat-list-icon>add</mat-icon>
+    Add player
+  </mat-list-item>
+  <mat-list-option
     (click)="editingPlayer = player"
     *ngFor="let player of players"
+    checkboxPosition="before"
   >
     <mm-editable-text
       [editing]="editingPlayer == player"
@@ -10,5 +14,14 @@
       (cleared)="onCleared(player)"
       (doneEditing)="onPlayerEdited(player, $event)"
     ></mm-editable-text>
-  </button>
-</mat-action-list>
+  </mat-list-option>
+</mat-selection-list>
+
+<mm-players-list-item [colored]="true">
+  <mat-icon>person_add</mat-icon>
+  Add Player
+</mm-players-list-item>
+<mm-players-list-item *ngFor="let player of players">
+  <mat-icon>person</mat-icon>
+  {{ player.name }}
+</mm-players-list-item>

@@ -1,0 +1,31 @@
+@import '~@angular/material/theming';
+@import 'themes/color';
+@import 'themes/typography';
+
+$foreground: map-get($mirror-match-color, 'foreground');
+$primary: map-get($mirror-match-color, 'primary');
+
+:host {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  margin: 0 16px;
+  font: {
+    family: mat-font-family($mirror-match-typography, 'subheading-2');
+    size: mat-font-size($mirror-match-typography, 'subheading-2');
+    weight: mat-font-weight($mirror-match-typography, 'subheading-2');
+  }
+
+  .icon {
+    color: mat-color($foreground, 'icon');
+    margin-right: 32px;
+  }
+
+  &.colored {
+    color: mat-color($primary);
+
+    .icon {
+      color: inherit;
+    }
+  }
+}

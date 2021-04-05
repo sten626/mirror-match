@@ -1,0 +1,4 @@
+@import '~@angular/material/theming';
+
+// Just using default typography but still create the config for it.
+$mirror-match-typography: mat-typography-config();
