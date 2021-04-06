@@ -14,23 +14,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
-  isAdding = false;
   players$: Observable<Player[]>;
 
   constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
+  createPlayer() {
+    const player: Player = {
+      name: '',
+      dropped: false
+    };
+    this.store.dispatch(SetupPageActions.addPlayer({ player }));
+  }
+
   deletePlayer(id: number) {
     this.store.dispatch(SetupPageActions.deletePlayer({ id }));
-  }
-
-  onAdd() {
-    this.isAdding = true;
-  }
-
-  onCancel() {
-    this.isAdding = false;
   }
 
   deleteAllPlayers() {
@@ -49,14 +48,6 @@ export class SetupPageComponent {
         this.store.dispatch(SetupPageActions.clearPlayers());
       }
     });
-  }
-
-  startAdding() {
-    this.isAdding = true;
-  }
-
-  stopAdding() {
-    this.isAdding = false;
   }
 
   playerChanged(update: Update<Player>) {

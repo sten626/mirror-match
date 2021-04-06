@@ -1,16 +1,14 @@
-<mm-setup-header class="header mat-elevation-z4"></mm-setup-header>
+<!-- <mm-setup-header class="header mat-elevation-z4"></mm-setup-header> -->
 
 <mm-players-list
   class="players-list"
-  [adding]="isAdding"
   [players]="players$ | async"
-  (cancel)="onCancel()"
+  (createPlayer)="createPlayer()"
   (deletePlayer)="deletePlayer($event)"
   (playerChanged)="playerChanged($event)"
 ></mm-players-list>
 
-<mm-setup-footer
+<!-- <mm-setup-footer
   class="footer"
-  (add)="startAdding()"
   (deleteAll)="deleteAllPlayers()"
-></mm-setup-footer>
+></mm-setup-footer> -->

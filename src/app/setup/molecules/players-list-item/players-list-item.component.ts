@@ -8,7 +8,7 @@ import { Component, HostBinding, Input } from '@angular/core';
 export class PlayersListItemComponent {
   @HostBinding('class.colored')
   @Input()
-  colored = false;
+  addPlayerItem = false;
 
   constructor() {}
 }

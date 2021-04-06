@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges
+} from '@angular/core';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 
@@ -7,25 +15,31 @@ import { Update } from '@ngrx/entity';
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss']
 })
-export class PlayersListComponent {
-  @Input() adding: boolean;
+export class PlayersListComponent implements OnChanges {
   @Input() players: Player[];
-  @Output() cancel = new EventEmitter();
+  @Output() createPlayer = new EventEmitter();
   @Output() deletePlayer = new EventEmitter<number>();
-  @Output() newPlayer = new EventEmitter<Player>();
   @Output() playerChanged = new EventEmitter<Update<Player>>();
 
   editingPlayer: Player;
-  initialPlayers: Set<Player>;
 
   constructor() {}
 
-  ngOnInit() {
-    this.initialPlayers = new Set(this.players);
-  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.players) {
+      const playerChange: SimpleChange = changes.players;
 
-  onCancel() {
-    this.cancel.emit();
+      if (playerChange.firstChange) {
+        return;
+      }
+
+      const current: Player[] = playerChange.currentValue;
+      const previous: Player[] = playerChange.previousValue;
+
+      if (current.length > previous.length) {
+        this.editingPlayer = current[current.length - 1];
+      }
+    }
   }
 
   onCleared(player: Player) {
@@ -37,12 +51,14 @@ export class PlayersListComponent {
     // }
   }
 
-  onNewPlayer(player: Player) {
-    this.newPlayer.emit(player);
-  }
-
   onPlayerEdited(player: Player, name: string) {
     this.editingPlayer = null;
+    name = name.trim();
+
+    if (name.length < 1) {
+      // If the name was left blank, remove the player.
+      this.deletePlayer.emit(player.id);
+    }
 
     if (player.name !== name) {
       this.playerChanged.emit({

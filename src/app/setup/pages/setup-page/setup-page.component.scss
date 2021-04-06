@@ -25,11 +25,11 @@
     z-index: 4;
   }
 
-  .players-list {
-    @include body-margins($mat-toolbar-height-desktop);
+  // .players-list {
+  //   @include body-margins($mat-toolbar-height-desktop);
 
-    @media ($mat-xsmall) {
-      @include body-margins($mat-toolbar-height-mobile);
-    }
-  }
+  //   @media ($mat-xsmall) {
+  //     @include body-margins($mat-toolbar-height-mobile);
+  //   }
+  // }
 }
