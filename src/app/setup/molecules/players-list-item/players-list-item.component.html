@@ -1,7 +1,13 @@
 <div class="icon">
-  <mat-icon>{{ addPlayerItem ? 'person_add' : 'person' }}</mat-icon>
+  <mat-icon>person</mat-icon>
 </div>
 <div class="player-name">
-  <ng-container *ngIf="addPlayerItem">Add Player</ng-container>
-  <ng-content *ngIf="!addPlayerItem"></ng-content>
+  <div *ngIf="!isEditing">{{ playerName }}</div>
+  <input
+    #input
+    type="text"
+    *ngIf="isEditing"
+    [value]="playerName"
+    (blur)="stopEditing()"
+  />
 </div>
