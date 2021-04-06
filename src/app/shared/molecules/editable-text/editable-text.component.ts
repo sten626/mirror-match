@@ -16,7 +16,7 @@ import {
 })
 export class EditableTextComponent implements OnChanges {
   @Input() editing = false;
-  @Input() text: string;
+  @Input() text = '';
   @Output() cleared = new EventEmitter();
   @Output() doneEditing = new EventEmitter<string>();
   @ViewChild('input') input: ElementRef<HTMLInputElement>;
@@ -53,6 +53,5 @@ export class EditableTextComponent implements OnChanges {
   stopEditing() {
     const newText = this.input.nativeElement.value.trim();
     this.doneEditing.emit(newText);
-    this.editing = false;
   }
 }

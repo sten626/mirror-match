@@ -3,7 +3,6 @@
   (click)="createPlayer.emit()"
 ></mm-players-list-item>
 <mm-players-list-item
-  role="option"
   *ngFor="let player of players"
   (click)="editingPlayer = player"
 >
@@ -12,5 +11,11 @@
     [text]="player.name"
     (cleared)="onCleared(player)"
     (doneEditing)="onPlayerEdited(player, $event)"
+  ></mm-editable-text>
+</mm-players-list-item>
+<mm-players-list-item *ngIf="adding">
+  <mm-editable-text
+    [editing]="true"
+    (doneEditing)="createNewPlayer($event)"
   ></mm-editable-text>
 </mm-players-list-item>

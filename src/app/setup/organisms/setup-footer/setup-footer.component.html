@@ -2,7 +2,7 @@
   <button
     mat-icon-button
     aria-label="Delete all players button"
-    (click)="deleteAllClicked()"
+    (click)="deleteAll.emit()"
   >
     <mat-icon>delete</mat-icon>
   </button>
@@ -16,7 +16,7 @@
   mat-fab
   aria-label="Add a player button"
   class="fab"
-  (click)="addClicked()"
+  (click)="add.emit()"
 >
   <mat-icon>add</mat-icon>
 </button>

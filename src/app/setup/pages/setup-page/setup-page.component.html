@@ -2,13 +2,15 @@
 
 <mm-players-list
   class="players-list"
+  [adding]="addingPlayer"
   [players]="players$ | async"
-  (createPlayer)="createPlayer()"
+  (createPlayer)="createPlayer($event)"
   (deletePlayer)="deletePlayer($event)"
   (playerChanged)="playerChanged($event)"
 ></mm-players-list>
 
-<!-- <mm-setup-footer
+<mm-setup-footer
   class="footer"
+  (add)="addingPlayer = true"
   (deleteAll)="deleteAllPlayers()"
-></mm-setup-footer> -->
+></mm-setup-footer>

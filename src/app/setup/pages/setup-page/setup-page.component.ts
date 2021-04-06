@@ -1,3 +1,4 @@
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as fromRoot from '@mm/reducers';
@@ -14,15 +15,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
+  addingPlayer = false;
   players$: Observable<Player[]>;
 
   constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
-  createPlayer() {
+  createPlayer(name: string) {
     const player: Player = {
-      name: '',
+      name,
       dropped: false
     };
     this.store.dispatch(SetupPageActions.addPlayer({ player }));
@@ -40,7 +42,8 @@ export class SetupPageComponent {
     };
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       data,
-      autoFocus: false
+      autoFocus: false,
+      scrollStrategy: new NoopScrollStrategy()
     });
 
     dialogRef.afterClosed().subscribe((result) => {

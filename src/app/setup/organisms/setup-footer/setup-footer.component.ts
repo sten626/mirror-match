@@ -10,12 +10,4 @@ export class SetupFooterComponent {
   @Output() deleteAll = new EventEmitter();
 
   constructor() {}
-
-  addClicked() {
-    this.add.emit();
-  }
-
-  deleteAllClicked() {
-    this.deleteAll.emit();
-  }
 }
