@@ -6,45 +6,57 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { AbstractPlayersListItemComponent } from '@mm/setup/molecules/players-list-item/players-list-item.component';
 import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-new-player-list-item',
   templateUrl: './new-player-list-item.component.html',
-  styleUrls: ['./new-player-list-item.component.scss']
+  styleUrls: [
+    './new-player-list-item.component.scss',
+    '../players-list-item/players-list-item.component.scss'
+  ]
 })
-export class NewPlayerListItemComponent implements AfterViewInit {
+export class NewPlayerListItemComponent
+  extends AbstractPlayersListItemComponent
+  implements AfterViewInit {
   @Output() cancel = new EventEmitter();
   @Output() newPlayer = new EventEmitter<Player>();
-  @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
+  @ViewChild('input') input: ElementRef<HTMLInputElement>;
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const inputElement = this.nameInput.nativeElement;
+      const inputElement = this.input.nativeElement;
       inputElement.focus();
       inputElement.scrollIntoView();
     });
   }
 
-  onKeyup(event: KeyboardEvent) {
-    if (event.code === 'Escape') {
-      this.cancel.emit();
-    } else if (event.code === 'Enter') {
-      const inputElement = this.nameInput.nativeElement;
-      const newPlayerName = inputElement.value.trim();
+  onBackspace() {
+    return;
+  }
 
-      if (newPlayerName === '') {
-        this.cancel.emit();
-      } else {
-        // TODO: Validation
-        this.newPlayer.emit({
-          name: this.nameInput.nativeElement.value,
-          dropped: false
-        });
-        inputElement.value = '';
-      }
+  onEnter() {
+    const inputElement = this.input.nativeElement;
+    const newPlayerName = inputElement.value.trim();
+
+    if (newPlayerName === '') {
+      this.cancel.emit();
+    } else {
+      // TODO: Validation
+      this.newPlayer.emit({
+        name: this.input.nativeElement.value,
+        dropped: false
+      });
+      inputElement.value = '';
     }
+  }
+
+  onEscape() {
+    this.cancel.emit();
   }
 }

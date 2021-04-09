@@ -17,6 +17,15 @@ $primary: map-get($mirror-match-color, 'primary');
     weight: mat-font-weight($mirror-match-typography, 'subheading-2');
   }
 
+  input {
+    background-color: transparent;
+    border: none;
+    font: inherit;
+    outline: none;
+    padding: 0;
+    width: 100%;
+  }
+
   .icon {
     color: mat-color($foreground, 'icon');
     margin-right: 32px;

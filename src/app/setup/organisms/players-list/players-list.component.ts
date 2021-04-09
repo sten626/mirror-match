@@ -8,21 +8,15 @@ import { Update } from '@ngrx/entity';
   styleUrls: ['./players-list.component.scss']
 })
 export class PlayersListComponent {
-  @Input() adding = false;
   @Input() players: Player[];
-  @Output() createPlayer = new EventEmitter<string>();
+  @Output() createPlayer = new EventEmitter<Player>();
   @Output() deletePlayer = new EventEmitter<number>();
   @Output() playerChanged = new EventEmitter<Update<Player>>();
 
   editingPlayer: Player;
+  isAdding = false;
 
   constructor() {}
-
-  createNewPlayer(name: string) {
-    this.adding = false;
-    this.createPlayer.emit(name.trim());
-    this.adding = true;
-  }
 
   onCleared(player: Player) {
     this.deletePlayer.emit(player.id);
@@ -43,5 +37,9 @@ export class PlayersListComponent {
         changes: { name }
       });
     }
+  }
+
+  startAdding() {
+    this.isAdding = true;
   }
 }

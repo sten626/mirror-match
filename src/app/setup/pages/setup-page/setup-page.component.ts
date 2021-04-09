@@ -15,18 +15,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-page.component.scss']
 })
 export class SetupPageComponent {
-  addingPlayer = false;
   players$: Observable<Player[]>;
 
   constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
-  createPlayer(name: string) {
-    const player: Player = {
-      name,
-      dropped: false
-    };
+  createPlayer(player: Player) {
     this.store.dispatch(SetupPageActions.addPlayer({ player }));
   }
 

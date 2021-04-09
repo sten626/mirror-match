@@ -1,21 +1,19 @@
 <mm-players-list-item
-  #test
+  #listItem
   *ngFor="let player of players"
   [playerName]="player.name"
-  (click)="test.startEditing()"
+  (click)="listItem.startEditing()"
   (cleared)="onCleared(player)"
   (doneEditing)="onPlayerEdited(player, $event)"
->
-  <!-- <mm-editable-text
-    [editing]="editingPlayer == player"
-    [text]="player.name"
-    (cleared)="onCleared(player)"
-    (doneEditing)="onPlayerEdited(player, $event)"
-  ></mm-editable-text> -->
-</mm-players-list-item>
-<mm-players-list-item *ngIf="adding">
+></mm-players-list-item>
+<!-- <mm-players-list-item *ngIf="adding">
   <mm-editable-text
     [editing]="true"
     (doneEditing)="createNewPlayer($event)"
   ></mm-editable-text>
-</mm-players-list-item>
+</mm-players-list-item> -->
+<mm-new-player-list-item
+  *ngIf="isAdding"
+  (cancel)="isAdding = false"
+  (newPlayer)="createPlayer.emit($event)"
+></mm-new-player-list-item>

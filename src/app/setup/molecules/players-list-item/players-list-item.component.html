@@ -9,5 +9,6 @@
     *ngIf="isEditing"
     [value]="playerName"
     (blur)="stopEditing()"
+    (keyup)="onKeyup($event)"
   />
 </div>
