@@ -26,14 +26,27 @@ $primary: map-get($mirror-match-color, 'primary');
     width: 100%;
   }
 
+  .delete-icon {
+    color: mat-color($foreground, 'icon');
+    display: none;
+  }
+
   .icon {
     color: mat-color($foreground, 'icon');
     margin-right: 32px;
   }
 
+  .player-name {
+    flex: 1;
+  }
+
   &:focus,
   &:hover {
     background: mat-color($background, 'hover');
+
+    .delete-icon {
+      display: block;
+    }
   }
 
   &.colored {

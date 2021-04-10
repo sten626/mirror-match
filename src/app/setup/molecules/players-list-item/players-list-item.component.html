@@ -1,5 +1,5 @@
 <div class="icon">
-  <mat-icon>person</mat-icon>
+  <mat-icon aria-hidden="true">person</mat-icon>
 </div>
 <div class="player-name">
   <div *ngIf="!isEditing">{{ playerName }}</div>
@@ -11,4 +11,9 @@
     (blur)="stopEditing()"
     (keyup)="onKeyup($event)"
   />
+</div>
+<div class="delete-icon">
+  <button mat-icon-button (click)="cleared.emit()">
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>
