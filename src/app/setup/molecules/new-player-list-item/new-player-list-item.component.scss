@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@import 'themes/color';
+
+$primary: map-get($mirror-match-color, 'primary');
+
+:host {
+  color: mat-color($primary, 'text');
+
+  .icon {
+    color: inherit;
+  }
+}

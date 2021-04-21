@@ -13,8 +13,8 @@ import { Player } from '@mm/shared/models';
   selector: 'mm-new-player-list-item',
   templateUrl: './new-player-list-item.component.html',
   styleUrls: [
-    './new-player-list-item.component.scss',
-    '../players-list-item/players-list-item.component.scss'
+    '../players-list-item/players-list-item.component.scss',
+    './new-player-list-item.component.scss'
   ]
 })
 export class NewPlayerListItemComponent
