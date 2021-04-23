@@ -41,19 +41,12 @@ $primary: map-get($mirror-match-color, 'primary');
   }
 
   &:focus,
-  &:hover {
+  &:hover,
+  &.editing {
     background: mat-color($background, 'hover');
 
     .delete-icon {
       display: block;
-    }
-  }
-
-  &.colored {
-    color: mat-color($primary);
-
-    .icon {
-      color: inherit;
     }
   }
 }

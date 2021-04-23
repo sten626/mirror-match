@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnChanges,
   Output,
@@ -23,7 +24,8 @@ export class PlayersListItemComponent
   @Output() doneEditing = new EventEmitter<string>();
   @ViewChild('input') input: ElementRef<HTMLInputElement>;
 
-  isEditing = false;
+  @HostBinding('class.editing') isEditing = false;
+
   isEmpty = false;
 
   constructor() {
