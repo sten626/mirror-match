@@ -5,13 +5,13 @@ import { PageNotFoundComponent } from '@mm/core/components';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/setup',
+    redirectTo: '/players',
     pathMatch: 'full'
   },
   {
-    path: 'setup',
+    path: 'players',
     loadChildren: () =>
-      import('./setup/setup.module').then((m) => m.SetupModule)
+      import('./players/players.module').then((m) => m.PlayersModule)
   },
   // {
   //   path: 'pods',

@@ -1,9 +1,5 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, HostBinding } from '@angular/core';
-import * as fromRoot from '@mm/reducers';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mm-root',
@@ -14,20 +10,7 @@ export class AppComponent {
   hasAnythingStarted$: Observable<boolean>;
   isMobile$: Observable<boolean>;
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private store: Store<fromRoot.State>
-  ) {
-    this.hasAnythingStarted$ = this.store.pipe(
-      select(fromRoot.hasAnythingStarted)
-    );
+  constructor() {}
 
-    this.isMobile$ = this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .pipe(map((result) => result.matches));
-  }
-
-  @HostBinding('class.mat-typography') get typography() {
-    return true;
-  }
+  @HostBinding('class.mat-typography') typography = true;
 }

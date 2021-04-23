@@ -4,8 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   BottomSheetComponent,
-  PageNotFoundComponent,
-  ToolbarComponent
+  PageNotFoundComponent
 } from '@mm/core/components';
 import { MaterialModule } from '@mm/material';
 import { SharedModule } from '@mm/shared/shared.module';
@@ -18,7 +17,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     RouterModule,
     SharedModule
   ],
-  declarations: [BottomSheetComponent, PageNotFoundComponent, ToolbarComponent],
+  declarations: [BottomSheetComponent, PageNotFoundComponent],
   exports: [PageNotFoundComponent]
 })
 export class CoreModule {}

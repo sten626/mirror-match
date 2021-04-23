@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { SetupPageActions } from '@mm/setup/actions';
+import { SetupPageActions } from '@mm/players/actions';
 import { generateMockPlayer, Player } from '@mm/shared/models';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';

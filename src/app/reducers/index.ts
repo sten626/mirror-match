@@ -1,15 +1,14 @@
 import * as fromPlayers from '@mm/core/reducers/players.reducer';
-import * as fromTournament from '@mm/core/reducers/tournament.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
   [fromPlayers.playersFeatureKey]: fromPlayers.State;
-  [fromTournament.tournamentFeatureKey]: fromTournament.State;
+  // [fromTournament.tournamentFeatureKey]: fromTournament.State;
 }
 
-export const ROOT_REDUCERS = {
-  [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
-  [fromTournament.tournamentFeatureKey]: fromTournament.reducer
+export const rootReducers = {
+  [fromPlayers.playersFeatureKey]: fromPlayers.reducer
+  // [fromTournament.tournamentFeatureKey]: fromTournament.reducer
 };
 
 /**
@@ -50,15 +49,18 @@ export const selectActivePlayerIds = createSelector(
   (players) => players.map((p) => p.id)
 );
 
-export const selectPlayerNamesLowerCaseSet = createSelector(selectAllPlayers, (players) => {
-  const playerNames = new Set<string>();
+export const selectPlayerNamesLowerCaseSet = createSelector(
+  selectAllPlayers,
+  (players) => {
+    const playerNames = new Set<string>();
 
-  for (const player of players) {
-    playerNames.add(player.name.toLowerCase());
+    for (const player of players) {
+      playerNames.add(player.name.toLowerCase());
+    }
+
+    return playerNames;
   }
-
-  return playerNames;
-});
+);
 
 export const selectRecommendedTotalRounds = createSelector(
   selectTotalPlayers,
@@ -74,28 +76,28 @@ export const selectRecommendedTotalRounds = createSelector(
 //   (state) => state[fromTournament.tournamentFeatureKey]
 // );
 
-export const selectTournamentState = createFeatureSelector<
-  State,
-  fromTournament.State
->(fromTournament.tournamentFeatureKey);
+// export const selectTournamentState = createFeatureSelector<
+//   State,
+//   fromTournament.State
+// >(fromTournament.tournamentFeatureKey);
 
-export const hasDraftStarted = createSelector(
-  selectTournamentState,
-  fromTournament.hasDraftStarted
-);
+// export const hasDraftStarted = createSelector(
+//   selectTournamentState,
+//   fromTournament.hasDraftStarted
+// );
 
-export const hasSwissStarted = createSelector(
-  selectTournamentState,
-  fromTournament.hasSwissStarted
-);
+// export const hasSwissStarted = createSelector(
+//   selectTournamentState,
+//   fromTournament.hasSwissStarted
+// );
 
-export const isDraft = createSelector(
-  selectTournamentState,
-  fromTournament.isDraft
-);
+// export const isDraft = createSelector(
+//   selectTournamentState,
+//   fromTournament.isDraft
+// );
 
-export const hasAnythingStarted = createSelector(
-  hasDraftStarted,
-  hasSwissStarted,
-  (draftStarted, swissStarted) => draftStarted || swissStarted
-);
+// export const hasAnythingStarted = createSelector(
+//   hasDraftStarted,
+//   hasSwissStarted,
+//   (draftStarted, swissStarted) => draftStarted || swissStarted
+// );

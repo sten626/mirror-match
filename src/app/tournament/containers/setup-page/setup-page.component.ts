@@ -41,11 +41,11 @@ export class SetupPageComponent implements OnInit, OnDestroy {
     this.activePlayerIdsSub = this.store
       .pipe(select(fromRoot.selectActivePlayerIds))
       .subscribe((activePlayerIds) => (this.activePlayerIds = activePlayerIds));
-    this.hasAnythingStartedSub = this.store
-      .pipe(select(fromRoot.hasAnythingStarted))
-      .subscribe(
-        (hasAnythingStarted) => (this.hasAnythingStarted = hasAnythingStarted)
-      );
+    // this.hasAnythingStartedSub = this.store
+    //   .pipe(select(fromRoot.hasAnythingStarted))
+    //   .subscribe(
+    //     (hasAnythingStarted) => (this.hasAnythingStarted = hasAnythingStarted)
+    //   );
     this.recommendedTotalRoundsSub = this.store
       .pipe(select(fromRoot.selectRecommendedTotalRounds))
       .subscribe((value) => (this.recommendedTotalRounds = value));

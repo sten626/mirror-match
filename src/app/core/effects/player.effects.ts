@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { SetupPageActions } from '@mm/setup/actions';
+import { SetupPageActions } from '@mm/players/actions';
 import { Player } from '@mm/shared/models';
 // import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
