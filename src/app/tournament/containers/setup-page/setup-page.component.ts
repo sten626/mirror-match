@@ -21,7 +21,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
   activePlayerIdsSub: Subscription;
   canBeginTournament$: Observable<boolean>;
   hasAnythingStarted = false;
-  hasAnythingStartedSub: Subscription;
+  // hasAnythingStartedSub: Subscription;
   players$: Observable<Player[]>;
   recommendedTotalRounds: number;
   recommendedTotalRoundsSub: Subscription;
@@ -53,7 +53,7 @@ export class SetupPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.activePlayerIdsSub.unsubscribe();
-    this.hasAnythingStartedSub.unsubscribe();
+    // this.hasAnythingStartedSub.unsubscribe();
     this.recommendedTotalRoundsSub.unsubscribe();
   }
 

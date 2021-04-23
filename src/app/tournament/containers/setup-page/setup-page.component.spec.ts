@@ -15,14 +15,16 @@ describe('SetupPageComponent', () => {
   @Component({ selector: 'mm-player-form', template: '' })
   class PlayerFormStubComponent {}
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MatDialogModule, MatTabsModule, RouterTestingModule],
-      declarations: [PlayerFormStubComponent, SetupPageComponent],
-      providers: [provideMockStore()],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [MatDialogModule, MatTabsModule, RouterTestingModule],
+        declarations: [PlayerFormStubComponent, SetupPageComponent],
+        providers: [provideMockStore()],
+        schemas: [NO_ERRORS_SCHEMA]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SetupPageComponent);
