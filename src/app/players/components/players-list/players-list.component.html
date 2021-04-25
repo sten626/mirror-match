@@ -1,7 +1,7 @@
 <mm-players-list-item
   #listItem
   *ngFor="let player of players"
-  [playerName]="player.name"
+  [player]="player"
   (click)="listItem.startEditing()"
   (cleared)="onCleared(player)"
   (doneEditing)="onPlayerEdited(player, $event)"

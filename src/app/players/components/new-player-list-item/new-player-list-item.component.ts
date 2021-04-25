@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Player } from '@mm/shared/models';
 import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.component';
 
@@ -22,7 +23,9 @@ export class NewPlayerListItemComponent
   implements AfterViewInit {
   @Output() cancel = new EventEmitter();
   @Output() newPlayer = new EventEmitter<Player>();
-  @ViewChild('input') input: ElementRef<HTMLInputElement>;
+  @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
+
+  name = new FormControl('');
 
   constructor() {
     super();
@@ -30,7 +33,7 @@ export class NewPlayerListItemComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const inputElement = this.input.nativeElement;
+      const inputElement = this.nameInput.nativeElement;
       inputElement.focus();
       inputElement.scrollIntoView();
     });
@@ -41,18 +44,17 @@ export class NewPlayerListItemComponent
   }
 
   onEnter() {
-    const inputElement = this.input.nativeElement;
-    const newPlayerName = inputElement.value.trim();
+    const newPlayerName = this.name.value;
 
     if (newPlayerName === '') {
       this.cancel.emit();
     } else {
       // TODO: Validation
       this.newPlayer.emit({
-        name: this.input.nativeElement.value,
+        name: newPlayerName,
         dropped: false
       });
-      inputElement.value = '';
+      this.name.reset('');
     }
   }
 

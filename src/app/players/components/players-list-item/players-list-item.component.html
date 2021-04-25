@@ -2,12 +2,12 @@
   <mat-icon aria-hidden="true">person</mat-icon>
 </div>
 <div class="player-name">
-  <div *ngIf="!isEditing">{{ playerName }}</div>
+  <div *ngIf="!isEditing">{{ player.name }}</div>
   <input
-    #input
+    #nameInput
     type="text"
     *ngIf="isEditing"
-    [value]="playerName"
+    [formControl]="name"
     (blur)="stopEditing()"
     (keyup)="onKeyup($event)"
   />

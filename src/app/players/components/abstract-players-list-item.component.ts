@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 
 export abstract class AbstractPlayersListItemComponent {
-  abstract input: ElementRef<HTMLInputElement>;
+  abstract nameInput: ElementRef<HTMLInputElement>;
 
   abstract onBackspace(): void;
   abstract onEnter(): void;

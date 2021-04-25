@@ -9,6 +9,8 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Player } from '@mm/shared/models';
 import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.component';
 
 @Component({
@@ -19,12 +21,13 @@ import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.
 export class PlayersListItemComponent
   extends AbstractPlayersListItemComponent
   implements OnChanges {
-  @Input() playerName = '';
+  @HostBinding('class.editing') isEditing = false;
+  @Input() player: Player;
   @Output() cleared = new EventEmitter();
   @Output() doneEditing = new EventEmitter<string>();
-  @ViewChild('input') input: ElementRef<HTMLInputElement>;
+  @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
 
-  @HostBinding('class.editing') isEditing = false;
+  name = new FormControl('');
 
   isEmpty = false;
 
@@ -42,7 +45,7 @@ export class PlayersListItemComponent
   onBackspace() {
     if (this.isEmpty) {
       this.cleared.emit();
-    } else if (!this.input.nativeElement.value) {
+    } else if (!this.nameInput.nativeElement.value) {
       this.isEmpty = true;
     }
   }
@@ -52,20 +55,20 @@ export class PlayersListItemComponent
   }
 
   onEscape() {
-    this.doneEditing.emit(this.playerName);
+    this.doneEditing.emit(this.player.name);
     this.isEditing = false;
   }
 
   startEditing() {
     this.isEditing = true;
+    this.name.setValue(this.player.name);
     setTimeout(() => {
-      this.input.nativeElement.focus();
+      this.nameInput.nativeElement.focus();
     });
   }
 
   stopEditing() {
-    const newText = this.input.nativeElement.value.trim();
-    this.doneEditing.emit(newText);
+    this.doneEditing.emit(this.name.value.trim());
     this.isEditing = false;
   }
 }

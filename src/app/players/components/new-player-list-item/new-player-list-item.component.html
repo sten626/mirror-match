@@ -2,5 +2,11 @@
   <mat-icon>person_add</mat-icon>
 </div>
 <div class="player-name">
-  <input #input type="text" (blur)="cancel.emit()" (keyup)="onKeyup($event)" />
+  <input
+    #nameInput
+    type="text"
+    [formControl]="name"
+    (blur)="cancel.emit()"
+    (keyup)="onKeyup($event)"
+  />
 </div>
