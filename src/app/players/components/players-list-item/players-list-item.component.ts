@@ -4,71 +4,68 @@ import {
   EventEmitter,
   HostBinding,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { PlayersListItem } from '@mm/players/components/players-list-item.abstract';
 import { Player } from '@mm/shared/models';
-import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.component';
 
 @Component({
   selector: 'mm-players-list-item',
   templateUrl: './players-list-item.component.html',
   styleUrls: ['./players-list-item.component.scss']
 })
-export class PlayersListItemComponent
-  extends AbstractPlayersListItemComponent
-  implements OnChanges {
-  @HostBinding('class.editing') isEditing = false;
+export class PlayersListItemComponent extends PlayersListItem {
+  // @HostBinding('class.editing') isEditing = false;
+  @HostBinding('class.editing')
+  @Input()
+  selected = false;
+
   @Input() player: Player;
-  @Output() cleared = new EventEmitter();
-  @Output() doneEditing = new EventEmitter<string>();
+  @Input() playerNames: Set<string>;
+  @Output() cancel = new EventEmitter();
+  @Output() clickDelete = new EventEmitter();
+  @Output() upsertPlayer = new EventEmitter<Player>();
   @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
-
-  name = new FormControl('');
-
-  isEmpty = false;
 
   constructor() {
     super();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.playerName) {
-      const currentName = changes.playerName.currentValue as string;
-      this.isEmpty = currentName.length < 1;
-    }
-  }
-
-  onBackspace() {
-    if (this.isEmpty) {
-      this.cleared.emit();
-    } else if (!this.nameInput.nativeElement.value) {
-      this.isEmpty = true;
-    }
+  onBlur() {
+    this.submit();
   }
 
   onEnter() {
-    this.stopEditing();
+    this.submit();
   }
 
   onEscape() {
-    this.doneEditing.emit(this.player.name);
-    this.isEditing = false;
+    this.cancel.emit();
   }
 
-  startEditing() {
-    this.isEditing = true;
-    this.name.setValue(this.player.name);
-    setTimeout(() => {
-      this.nameInput.nativeElement.focus();
-    });
+  private submit() {
+    //TODO: Validation.
+    const name = (this.name.value as string).trim();
+    const player: Player = {
+      ...this.player,
+      name
+    };
+    this.upsertPlayer.emit(player);
   }
 
-  stopEditing() {
-    this.doneEditing.emit(this.name.value.trim());
-    this.isEditing = false;
-  }
+  // startEditing() {
+  //   // this.isEditing = true;
+  //   this.playerNames.delete(this.player.name);
+  //   this.name.setValidators(newPlayerValidator(this.playerNames));
+  //   this.name.setValue(this.player.name);
+  //   setTimeout(() => {
+  //     this.nameInput.nativeElement.focus();
+  //   });
+  // }
+
+  // stopEditing() {
+  //   this.doneEditing.emit(this.name.value.trim());
+  //   // this.isEditing = false;
+  // }
 }

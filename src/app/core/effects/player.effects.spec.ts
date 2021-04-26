@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { SetupPageActions } from '@mm/players/actions';
+import { PlayersPageActions } from '@mm/players/actions';
 import { generateMockPlayer, Player } from '@mm/shared/models';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -76,7 +76,7 @@ describe('PlayerEffects', () => {
 
   describe('deletePlayer', () => {
     it('should create a deletePlayerSuccess', () => {
-      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const action = PlayersPageActions.deletePlayer({ id: player1.id });
       const completion = PlayersApiActions.deletePlayerSuccess({
         id: player1.id
       });
@@ -91,7 +91,7 @@ describe('PlayerEffects', () => {
     });
 
     it('should create a deletePlayerFailure when deletePlayer throws an error', () => {
-      const action = SetupPageActions.deletePlayer({ id: player1.id });
+      const action = PlayersPageActions.deletePlayer({ id: player1.id });
       const error = 'Unable to delete player.';
       const completion = PlayersApiActions.deletePlayerFailure({ err: error });
 
@@ -143,7 +143,7 @@ describe('PlayerEffects', () => {
           name: 'Sten'
         }
       };
-      const action = SetupPageActions.updatePlayer({ update });
+      const action = PlayersPageActions.updatePlayer({ update });
       const completion = PlayersApiActions.updatePlayerSuccess({ update });
 
       actions$ = hot('-a', { a: action });
@@ -166,7 +166,7 @@ describe('PlayerEffects', () => {
           name: 'Sten'
         }
       };
-      const action = SetupPageActions.updatePlayer({ update });
+      const action = PlayersPageActions.updatePlayer({ update });
       const error = 'Failed to update player.';
       const completion = PlayersApiActions.updatePlayerFailure({ err: error });
 

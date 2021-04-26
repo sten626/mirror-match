@@ -24,6 +24,16 @@ $primary: map-get($mirror-match-color, 'primary');
     outline: none;
     padding: 0;
     width: 100%;
+
+    // TODO: Remove
+    &.ng-valid {
+      color: green;
+    }
+
+    // TODO: Remove
+    &.ng-invalid {
+      color: red;
+    }
   }
 
   .delete-icon {

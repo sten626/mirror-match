@@ -1,11 +1,10 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PlayersPageActions } from '@mm/players/actions';
 import * as fromRoot from '@mm/reducers';
-import { SetupPageActions } from '@mm/players/actions';
 import { Player } from '@mm/shared/models';
 import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
-import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -21,12 +20,8 @@ export class PlayersPageComponent {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
-  createPlayer(player: Player) {
-    this.store.dispatch(SetupPageActions.addPlayer({ player }));
-  }
-
   deletePlayer(id: number) {
-    this.store.dispatch(SetupPageActions.deletePlayer({ id }));
+    this.store.dispatch(PlayersPageActions.deletePlayer({ id }));
   }
 
   deleteAllPlayers() {
@@ -43,12 +38,12 @@ export class PlayersPageComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(SetupPageActions.clearPlayers());
+        this.store.dispatch(PlayersPageActions.clearPlayers());
       }
     });
   }
 
-  playerChanged(update: Update<Player>) {
-    this.store.dispatch(SetupPageActions.updatePlayer({ update }));
+  onUpsertPlayer(player: Player) {
+    this.store.dispatch(PlayersPageActions.upsertPlayer({ player }));
   }
 }

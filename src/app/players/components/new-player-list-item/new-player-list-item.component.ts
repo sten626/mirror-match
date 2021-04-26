@@ -6,9 +6,8 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { PlayersListItem } from '@mm/players/components/players-list-item.abstract';
 import { Player } from '@mm/shared/models';
-import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.component';
 
 @Component({
   selector: 'mm-new-player-list-item',
@@ -19,13 +18,11 @@ import { AbstractPlayersListItemComponent } from '../abstract-players-list-item.
   ]
 })
 export class NewPlayerListItemComponent
-  extends AbstractPlayersListItemComponent
+  extends PlayersListItem
   implements AfterViewInit {
   @Output() cancel = new EventEmitter();
-  @Output() newPlayer = new EventEmitter<Player>();
+  @Output() upsertPlayer = new EventEmitter<Player>();
   @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
-
-  name = new FormControl('');
 
   constructor() {
     super();
@@ -35,26 +32,27 @@ export class NewPlayerListItemComponent
     setTimeout(() => {
       const inputElement = this.nameInput.nativeElement;
       inputElement.focus();
-      inputElement.scrollIntoView();
+      // inputElement.scrollIntoView();
     });
   }
 
-  onBackspace() {
-    return;
+  onBlur() {
+    this.cancel.emit();
   }
 
   onEnter() {
-    const newPlayerName = this.name.value;
+    const newPlayerName = (this.name.value as string).trim();
 
     if (newPlayerName === '') {
       this.cancel.emit();
     } else {
       // TODO: Validation
-      this.newPlayer.emit({
+      const player: Player = {
         name: newPlayerName,
         dropped: false
-      });
-      this.name.reset('');
+      };
+      this.upsertPlayer.emit(player);
+      this.name.reset();
     }
   }
 

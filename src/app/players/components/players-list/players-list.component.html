@@ -1,19 +1,14 @@
 <mm-players-list-item
-  #listItem
   *ngFor="let player of players"
   [player]="player"
-  (click)="listItem.startEditing()"
-  (cleared)="onCleared(player)"
-  (doneEditing)="onPlayerEdited(player, $event)"
+  [playerNames]="playerNames"
+  [selected]="player.id === selectedPlayerId"
+  (cancel)="selectedPlayerId = null"
+  (click)="selectPlayer(player.id)"
+  (upsertPlayer)="upsertPlayer.emit($event)"
 ></mm-players-list-item>
-<!-- <mm-players-list-item *ngIf="adding">
-  <mm-editable-text
-    [editing]="true"
-    (doneEditing)="createNewPlayer($event)"
-  ></mm-editable-text>
-</mm-players-list-item> -->
 <mm-new-player-list-item
   *ngIf="isAdding"
   (cancel)="isAdding = false"
-  (newPlayer)="createPlayer.emit($event)"
+  (upsertPlayer)="upsertPlayer.emit($event)"
 ></mm-new-player-list-item>

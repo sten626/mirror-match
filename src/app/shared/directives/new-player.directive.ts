@@ -9,7 +9,7 @@ export function newPlayerValidator(playerNames: Set<string>): ValidatorFn {
     const newName: string = control.value.trim().toLowerCase();
 
     if (!newName) {
-      return { nameEmpty: 'Name can\'t be empty.' };
+      return { nameEmpty: "Name can't be empty." };
     }
 
     if (playerNames.has(newName)) {

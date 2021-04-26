@@ -2,18 +2,18 @@
   <mat-icon aria-hidden="true">person</mat-icon>
 </div>
 <div class="player-name">
-  <div *ngIf="!isEditing">{{ player.name }}</div>
+  <div *ngIf="!selected">{{ player.name }}</div>
   <input
     #nameInput
     type="text"
-    *ngIf="isEditing"
+    *ngIf="selected"
     [formControl]="name"
-    (blur)="stopEditing()"
+    (blur)="onBlur()"
     (keyup)="onKeyup($event)"
   />
 </div>
 <div class="delete-icon">
-  <button mat-icon-button (click)="cleared.emit()">
+  <button mat-icon-button (click)="clickDelete.emit()">
     <mat-icon>delete</mat-icon>
   </button>
 </div>

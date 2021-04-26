@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PlayersApiActions } from '@mm/core/actions';
 import { PlayerStorageService } from '@mm/core/services';
-import { SetupPageActions } from '@mm/players/actions';
+import { PlayersPageActions } from '@mm/players/actions';
 import { Player } from '@mm/shared/models';
 // import { SetupPageActions } from '@mm/tournament/actions';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
@@ -12,7 +12,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 export class PlayerEffects implements OnInitEffects {
   addPlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.addPlayer),
+      ofType(PlayersPageActions.addPlayer),
       mergeMap(({ player }) =>
         this.storageService.addPlayer(player).pipe(
           map((value: Player) =>
@@ -26,7 +26,7 @@ export class PlayerEffects implements OnInitEffects {
 
   clearPlayers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.clearPlayers),
+      ofType(PlayersPageActions.clearPlayers),
       mergeMap(() =>
         this.storageService.clearPlayers().pipe(
           map(() => PlayersApiActions.clearPlayersSuccess()),
@@ -40,7 +40,7 @@ export class PlayerEffects implements OnInitEffects {
 
   deletePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.deletePlayer),
+      ofType(PlayersPageActions.deletePlayer),
       mergeMap(({ id }) =>
         this.storageService.deletePlayer(id).pipe(
           map(() => PlayersApiActions.deletePlayerSuccess({ id })),
@@ -75,7 +75,7 @@ export class PlayerEffects implements OnInitEffects {
 
   updatePlayer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetupPageActions.updatePlayer),
+      ofType(PlayersPageActions.updatePlayer),
       mergeMap(({ update }) =>
         this.storageService.updatePlayer(update).pipe(
           map(() => PlayersApiActions.updatePlayerSuccess({ update })),

@@ -1,3 +1,3 @@
-import * as SetupPageActions from './players-page.actions';
+import * as PlayersPageActions from './players-page.actions';
 
-export { SetupPageActions };
+export { PlayersPageActions };
