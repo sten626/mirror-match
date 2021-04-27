@@ -4,8 +4,9 @@
   #playersList
   class="players-list"
   [players]="players$ | async"
-  (deletePlayer)="deletePlayer($event)"
-  (upsertPlayer)="onUpsertPlayer($event)"
+  (changePlayer)="onChangePlayer($event)"
+  (createPlayer)="onCreatePlayer($event)"
+  (deletePlayer)="onDeletePlayer($event)"
 ></mm-players-list>
 
 <mm-setup-footer

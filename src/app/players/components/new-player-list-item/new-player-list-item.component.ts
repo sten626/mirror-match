@@ -21,7 +21,7 @@ export class NewPlayerListItemComponent
   extends PlayersListItem
   implements AfterViewInit {
   @Output() cancel = new EventEmitter();
-  @Output() upsertPlayer = new EventEmitter<Player>();
+  @Output() createPlayer = new EventEmitter<Player>();
   @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
 
   constructor() {
@@ -51,7 +51,7 @@ export class NewPlayerListItemComponent
         name: newPlayerName,
         dropped: false
       };
-      this.upsertPlayer.emit(player);
+      this.createPlayer.emit(player);
       this.name.reset();
     }
   }

@@ -4,11 +4,11 @@
   [playerNames]="playerNames"
   [selected]="player.id === selectedPlayerId"
   (cancel)="selectedPlayerId = null"
+  (changePlayer)="onChangePlayer($event)"
   (click)="selectPlayer(player.id)"
-  (upsertPlayer)="upsertPlayer.emit($event)"
 ></mm-players-list-item>
 <mm-new-player-list-item
   *ngIf="isAdding"
   (cancel)="isAdding = false"
-  (upsertPlayer)="upsertPlayer.emit($event)"
+  (createPlayer)="createPlayer.emit($event)"
 ></mm-new-player-list-item>

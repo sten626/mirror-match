@@ -5,6 +5,7 @@ import { PlayersPageActions } from '@mm/players/actions';
 import * as fromRoot from '@mm/reducers';
 import { Player } from '@mm/shared/models';
 import { AlertDialogComponent, AlertDialogData } from '@mm/shared/molecules';
+import { Update } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -18,10 +19,6 @@ export class PlayersPageComponent {
 
   constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
-  }
-
-  deletePlayer(id: number) {
-    this.store.dispatch(PlayersPageActions.deletePlayer({ id }));
   }
 
   deleteAllPlayers() {
@@ -43,7 +40,15 @@ export class PlayersPageComponent {
     });
   }
 
-  onUpsertPlayer(player: Player) {
-    this.store.dispatch(PlayersPageActions.upsertPlayer({ player }));
+  onCreatePlayer(player: Player) {
+    this.store.dispatch(PlayersPageActions.addPlayer({ player }));
+  }
+
+  onChangePlayer(update: Update<Player>) {
+    this.store.dispatch(PlayersPageActions.updatePlayer({ update }));
+  }
+
+  onDeletePlayer(id: number) {
+    this.store.dispatch(PlayersPageActions.deletePlayer({ id }));
   }
 }

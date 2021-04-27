@@ -6,6 +6,7 @@ import {
   Output
 } from '@angular/core';
 import { Player } from '@mm/shared/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'mm-players-list',
@@ -14,10 +15,9 @@ import { Player } from '@mm/shared/models';
 })
 export class PlayersListComponent implements OnChanges {
   @Input() players: Player[];
-  // @Output() createPlayer = new EventEmitter<Player>();
+  @Output() changePlayer = new EventEmitter<Update<Player>>();
+  @Output() createPlayer = new EventEmitter<Player>();
   @Output() deletePlayer = new EventEmitter<number>();
-  @Output() upsertPlayer = new EventEmitter<Player>();
-  // @Output() playerChanged = new EventEmitter<Update<Player>>();
 
   selectedPlayerId: number;
   isAdding = false;
@@ -31,16 +31,13 @@ export class PlayersListComponent implements OnChanges {
     );
   }
 
-  onCleared(player: Player) {
-    this.deletePlayer.emit(player.id);
+  onChangePlayer(update: Update<Player>) {
+    this.selectedPlayerId = null;
+    this.changePlayer.emit(update);
   }
 
-  onCreatePlayer(name: string) {
-    const player: Player = {
-      name,
-      dropped: false
-    };
-    this.upsertPlayer.emit(player);
+  onCleared(player: Player) {
+    this.deletePlayer.emit(player.id);
   }
 
   selectPlayer(playerId: number | null) {

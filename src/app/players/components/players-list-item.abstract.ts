@@ -1,13 +1,11 @@
 import { ElementRef, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Player } from '@mm/shared/models';
 
 export abstract class PlayersListItem {
   abstract nameInput: ElementRef<HTMLInputElement>;
 
   // Outputs
   abstract cancel: EventEmitter<any>;
-  abstract upsertPlayer: EventEmitter<Player>;
 
   abstract onBlur(): void;
   abstract onEnter(): void;
