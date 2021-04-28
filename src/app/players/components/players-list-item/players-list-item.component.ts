@@ -10,6 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { PlayersListItem } from '@mm/players/components/players-list-item.abstract';
+import { duplicatePlayerValidator } from '@mm/shared/directives';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 
@@ -29,7 +30,8 @@ export class PlayersListItemComponent
   @Input() playerNames: Set<string>;
   @Output() cancel = new EventEmitter();
   @Output() changePlayer = new EventEmitter<Update<Player>>();
-  @Output() clickDelete = new EventEmitter();
+  @Output() deletePlayer = new EventEmitter();
+  @Output() error = new EventEmitter<string>();
   @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
 
   constructor() {
@@ -39,6 +41,9 @@ export class PlayersListItemComponent
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.selected?.currentValue) {
       this.name.setValue(this.player.name);
+      const otherPlayerNames = new Set(this.playerNames);
+      otherPlayerNames.delete(this.player.name.toLowerCase());
+      this.name.setValidators(duplicatePlayerValidator(otherPlayerNames));
       setTimeout(() => this.nameInput.nativeElement.focus());
     }
   }
@@ -56,8 +61,18 @@ export class PlayersListItemComponent
   }
 
   private submit() {
-    //TODO: Validation.
     const name = (this.name.value as string).trim();
+
+    if (name.length === 0) {
+      // Submitting after clearing the name, treat as delete.
+      this.deletePlayer.emit();
+    }
+
+    if (this.name.errors?.playerExists) {
+      this.error.emit(this.name.errors.playerExists);
+      return;
+    }
+
     this.changePlayer.emit({
       id: this.player.id,
       changes: { name }

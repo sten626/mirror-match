@@ -36,8 +36,9 @@ export class PlayersListComponent implements OnChanges {
     this.changePlayer.emit(update);
   }
 
-  onCleared(player: Player) {
-    this.deletePlayer.emit(player.id);
+  onDeletePlayer(playerId: number) {
+    this.selectedPlayerId = null;
+    this.deletePlayer.emit(playerId);
   }
 
   selectPlayer(playerId: number | null) {
