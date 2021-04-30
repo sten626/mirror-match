@@ -42,7 +42,7 @@ export class PlayersListItemComponent
     if (changes?.selected?.currentValue) {
       this.name.setValue(this.player.name);
       const otherPlayerNames = new Set(this.playerNames);
-      otherPlayerNames.delete(this.player.name.toLowerCase());
+      otherPlayerNames.delete(this.player.name);
       this.name.setValidators(duplicatePlayerValidator(otherPlayerNames));
       setTimeout(() => this.nameInput.nativeElement.focus());
     }

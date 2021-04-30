@@ -26,9 +26,7 @@ export class PlayersListComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges() {
-    this.playerNames = new Set<string>(
-      this.players.map((p) => p.name.toLowerCase())
-    );
+    this.playerNames = new Set<string>(this.players.map((p) => p.name));
   }
 
   onChangePlayer(update: Update<Player>) {
