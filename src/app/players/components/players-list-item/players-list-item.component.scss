@@ -5,6 +5,7 @@
 $background: map-get($mirror-match-color, 'background');
 $foreground: map-get($mirror-match-color, 'foreground');
 $primary: map-get($mirror-match-color, 'primary');
+$warn: map-get($mirror-match-color, 'warn');
 
 :host {
   display: flex;
@@ -25,14 +26,8 @@ $primary: map-get($mirror-match-color, 'primary');
     padding: 0;
     width: 100%;
 
-    // TODO: Remove
-    &.ng-valid {
-      color: green;
-    }
-
-    // TODO: Remove
     &.ng-invalid {
-      color: red;
+      color: mat-color($warn);
     }
   }
 
