@@ -57,6 +57,7 @@ export class PlayersListItemComponent
   }
 
   onEscape() {
+    this.name.reset();
     this.cancel.emit();
   }
 
@@ -78,19 +79,4 @@ export class PlayersListItemComponent
       changes: { name }
     });
   }
-
-  // startEditing() {
-  //   // this.isEditing = true;
-  //   this.playerNames.delete(this.player.name);
-  //   this.name.setValidators(newPlayerValidator(this.playerNames));
-  //   this.name.setValue(this.player.name);
-  //   setTimeout(() => {
-  //     this.nameInput.nativeElement.focus();
-  //   });
-  // }
-
-  // stopEditing() {
-  //   this.doneEditing.emit(this.name.value.trim());
-  //   // this.isEditing = false;
-  // }
 }

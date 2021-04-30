@@ -18,6 +18,7 @@ export class PlayersListComponent implements OnChanges {
   @Output() changePlayer = new EventEmitter<Update<Player>>();
   @Output() createPlayer = new EventEmitter<Player>();
   @Output() deletePlayer = new EventEmitter<number>();
+  @Output() error = new EventEmitter<string>();
 
   selectedPlayerId: number;
   isAdding = false;

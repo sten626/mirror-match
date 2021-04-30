@@ -7,6 +7,7 @@
   (changePlayer)="onChangePlayer($event)"
   (click)="selectPlayer(player.id)"
   (deletePlayer)="onDeletePlayer(player.id)"
+  (error)="error.emit($event)"
 ></mm-players-list-item>
 <mm-new-player-list-item
   *ngIf="isAdding"

@@ -23,3 +23,13 @@ $mirror-match-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($mirror-match-theme);
 @include mm-editable-text-typography($mirror-match-theme);
+
+@import 'abstracts/variables';
+
+.mm-players-page-snack-bar {
+  margin-bottom: $mat-toolbar-height-desktop + ($mat-fab-size / 2) + 8px !important;
+
+  @media ($mat-xsmall) {
+    margin-bottom: $mat-toolbar-height-mobile + ($mat-fab-size / 2) + 8px !important;
+  }
+}

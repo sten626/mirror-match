@@ -14,11 +14,12 @@ export function duplicatePlayerValidator(
       return null;
     }
 
-    const name: string = control.value.trim().toLowerCase();
+    const name = (control.value as string).trim();
+    const lowerCaseName = name.toLowerCase();
 
-    if (lowerCaseNames.has(name)) {
+    if (lowerCaseNames.has(lowerCaseName)) {
       return {
-        playerExists: 'A player with this name is already in the tournament.'
+        playerExists: `A player named ${name} is already in the tournament.`
       };
     }
 

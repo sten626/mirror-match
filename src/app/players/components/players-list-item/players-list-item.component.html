@@ -1,5 +1,10 @@
 <div class="icon">
-  <mat-icon aria-hidden="true">person</mat-icon>
+  <mat-icon
+    aria-hidden="true"
+    color="{{ selected && name.invalid ? 'warn' : '' }}"
+  >
+    {{ selected && name.invalid ? 'error' : 'person' }}
+  </mat-icon>
 </div>
 <div class="player-name">
   <div *ngIf="!selected">{{ player.name }}</div>

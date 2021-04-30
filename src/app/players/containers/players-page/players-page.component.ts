@@ -1,6 +1,7 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayersPageActions } from '@mm/players/actions';
 import * as fromRoot from '@mm/reducers';
 import { Player } from '@mm/shared/models';
@@ -17,7 +18,11 @@ import { Observable } from 'rxjs';
 export class PlayersPageComponent {
   players$: Observable<Player[]>;
 
-  constructor(private dialog: MatDialog, private store: Store<fromRoot.State>) {
+  constructor(
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private store: Store<fromRoot.State>
+  ) {
     this.players$ = this.store.pipe(select(fromRoot.selectAllPlayers));
   }
 
@@ -50,5 +55,12 @@ export class PlayersPageComponent {
 
   onDeletePlayer(id: number) {
     this.store.dispatch(PlayersPageActions.deletePlayer({ id }));
+  }
+
+  onError(error: string) {
+    this.snackBar.open(error, null, {
+      duration: 4000,
+      panelClass: 'mm-players-page-snack-bar'
+    });
   }
 }

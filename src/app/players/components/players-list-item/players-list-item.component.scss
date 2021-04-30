@@ -46,6 +46,12 @@ $primary: map-get($mirror-match-color, 'primary');
     margin-right: 32px;
   }
 
+  .mat-icon-button {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+  }
+
   .player-name {
     flex: 1;
   }
