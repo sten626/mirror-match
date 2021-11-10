@@ -3,5 +3,7 @@
     "vsicons.presets.angular": true,
     "cSpell.words": [
         "ngrx"
-    ]
+    ],
+    "xd.globalEditor": true,
+    "xd.lastPackage": "/home/sten/workspace/mirror-match/src/dsp"
 }
