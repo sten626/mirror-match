@@ -93,10 +93,11 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
+              "src/sass/main.scss",
               "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles"]
+              "includePaths": ["src/styles", "src/sass"]
             },
             "assets": [
               "src/assets",
