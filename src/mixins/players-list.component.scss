@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 @mixin players-list-color($config_or_theme) {
   $config: mat-get-color-config($config_or_theme);
@@ -6,7 +6,7 @@
 
   .players-list {
     .dropped-label {
-      color: mat-color($foreground, secondary-text);
+      color: mat.get-color-from-palette($foreground, secondary-text);
     }
   }
 }

@@ -1,5 +1,3 @@
-@import '~@angular/material/theming';
-
 @mixin body-margins($margin-height) {
   // margin-top: $margin-height;
   margin-bottom: $margin-height;
@@ -26,10 +24,10 @@
   }
 
   .players-list {
-    @include body-margins($mat-toolbar-height-desktop);
+    @include body-margins(64px);
 
-    @media ($mat-xsmall) {
-      @include body-margins($mat-toolbar-height-mobile);
+    @media (max-width: 599px) {
+      @include body-margins(56px);
     }
   }
 }

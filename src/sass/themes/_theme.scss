@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 // Plus imports for other components in your app.
 @import 'color';
 @import 'typography';
@@ -7,11 +7,11 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
-$mirror-match-theme: mat-light-theme(
+$mirror-match-theme: mat.define-light-theme(
   (
     'color': $mirror-match-color,
     'typography': $mirror-match-typography
@@ -21,15 +21,15 @@ $mirror-match-theme: mat-light-theme(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($mirror-match-theme);
+@include mat.all-component-themes($mirror-match-theme);
 @include mm-editable-text-typography($mirror-match-theme);
 
 @import 'abstracts/variables';
 
 .mm-players-page-snack-bar {
-  margin-bottom: $mat-toolbar-height-desktop + ($mat-fab-size / 2) + 8px !important;
+  margin-bottom: 64px + ($mat-fab-size / 2) + 8px !important;
 
-  @media ($mat-xsmall) {
-    margin-bottom: $mat-toolbar-height-mobile + ($mat-fab-size / 2) + 8px !important;
+  @media (max-width: 599px) {
+    margin-bottom: 56px + ($mat-fab-size / 2) + 8px !important;
   }
 }

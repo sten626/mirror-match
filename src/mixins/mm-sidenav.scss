@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 @mixin mm-sidenav-theme($theme) {
   $primary: map-get($theme, primary);
@@ -6,8 +6,8 @@
   .mm-sidenav {
     .mat-list-base {
       .mat-list-item-active {
-        background: mat-color($mirror-match-primary, 0.12);
-        color: mat-color($mirror-match-primary);
+        background: mat.get-color-from-palette($mirror-match-primary, 0.12);
+        color: mat.get-color-from-palette($mirror-match-primary);
       }
     }
   }

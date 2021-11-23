@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'themes/color';
 @import 'themes/typography';
 
@@ -13,9 +13,9 @@ $warn: map-get($mirror-match-color, 'warn');
   height: 56px;
   padding: 0 16px;
   font: {
-    family: mat-font-family($mirror-match-typography, 'subheading-2');
-    size: mat-font-size($mirror-match-typography, 'subheading-2');
-    weight: mat-font-weight($mirror-match-typography, 'subheading-2');
+    family: mat.font-family($mirror-match-typography, 'subheading-2');
+    size: mat.font-size($mirror-match-typography, 'subheading-2');
+    weight: mat.font-weight($mirror-match-typography, 'subheading-2');
   }
 
   input {
@@ -27,17 +27,17 @@ $warn: map-get($mirror-match-color, 'warn');
     width: 100%;
 
     &.ng-invalid {
-      color: mat-color($warn);
+      color: mat.get-color-from-palette($warn);
     }
   }
 
   .delete-icon {
-    color: mat-color($foreground, 'icon');
+    color: mat.get-color-from-palette($foreground, 'icon');
     display: none;
   }
 
   .icon {
-    color: mat-color($foreground, 'icon');
+    color: mat.get-color-from-palette($foreground, 'icon');
     margin-right: 32px;
   }
 
@@ -54,7 +54,7 @@ $warn: map-get($mirror-match-color, 'warn');
   &:focus,
   &:hover,
   &.editing {
-    background: mat-color($background, 'hover');
+    background: mat.get-color-from-palette($background, 'hover');
 
     .delete-icon {
       display: block;

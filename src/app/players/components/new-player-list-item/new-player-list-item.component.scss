@@ -1,10 +1,10 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'themes/color';
 
 $primary: map-get($mirror-match-color, 'primary');
 
 :host {
-  color: mat-color($primary, 'text');
+  color: mat.get-color-from-palette($primary, 'text');
 
   .icon {
     color: inherit;

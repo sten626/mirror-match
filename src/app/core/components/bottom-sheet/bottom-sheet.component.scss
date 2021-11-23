@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import 'themes/theme';
 
 $background: map-get($mirror-match-theme, background);
@@ -12,7 +13,7 @@ $scrimColor: rgba(0, 0, 0, 0.32);
   z-index: 16;
 
   .content {
-    background: mat-color($background, background);
+    background: mat.get-color-from-palette($background, background);
     bottom: 0;
     position: absolute;
     width: 100vw;

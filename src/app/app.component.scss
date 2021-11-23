@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'themes/theme';
 
 $primary: map-get($mirror-match-theme, primary);
@@ -17,7 +17,7 @@ $background: map-get($mirror-match-theme, background);
 $nav-link-height: 48px;
 
 :host {
-  background-color: mat-color($background, background);
+  background-color: mat.get-color-from-palette($background, background);
   display: flex;
   flex-direction: column;
   min-height: 100%;
