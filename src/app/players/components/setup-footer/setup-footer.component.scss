@@ -1,7 +1,8 @@
+@use 'sass:math';
 @import 'abstracts/variables';
 
 @mixin fab-bottom($toolbar-height) {
-  bottom: $toolbar-height - ($mat-fab-size / 2);
+  bottom: $toolbar-height - math.div($mat-fab-size, 2);
 }
 
 .fab {

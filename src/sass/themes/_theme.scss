@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
 @import 'color';
@@ -27,9 +28,9 @@ $mirror-match-theme: mat.define-light-theme(
 @import 'abstracts/variables';
 
 .mm-players-page-snack-bar {
-  margin-bottom: 64px + ($mat-fab-size / 2) + 8px !important;
+  margin-bottom: 64px + math.div($mat-fab-size, 2) + 8px !important;
 
   @media (max-width: 599px) {
-    margin-bottom: 56px + ($mat-fab-size / 2) + 8px !important;
+    margin-bottom: 56px + math.div($mat-fab-size, 2) + 8px !important;
   }
 }
