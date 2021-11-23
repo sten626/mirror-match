@@ -1,5 +1,7 @@
 <div class="icon">
-  <mat-icon>person_add</mat-icon>
+  <mat-icon aria-hidden="true" color="{{ name.invalid ? 'warn' : '' }}">
+    {{ name.invalid ? 'error' : 'person_add' }}
+  </mat-icon>
 </div>
 <div class="player-name">
   <input

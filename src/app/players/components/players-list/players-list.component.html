@@ -11,6 +11,8 @@
 ></mm-players-list-item>
 <mm-new-player-list-item
   *ngIf="isAdding"
+  [playerNames]="playerNames"
   (cancel)="isAdding = false"
   (createPlayer)="createPlayer.emit($event)"
+  (error)="error.emit($event)"
 ></mm-new-player-list-item>

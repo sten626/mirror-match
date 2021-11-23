@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { PlayersListItem } from '@mm/players/components/players-list-item.abstract';
+import { PlayersListItem } from '@mm/players/shared';
 import { duplicatePlayerValidator } from '@mm/shared/directives';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
@@ -48,7 +48,8 @@ export class PlayersListItemComponent
     }
   }
 
-  onBlur() {
+  onBlur(event) {
+    console.log(event);
     this.submit();
   }
 
@@ -61,12 +62,18 @@ export class PlayersListItemComponent
     this.cancel.emit();
   }
 
+  onDeletePlayer() {
+    console.log('delete');
+    this.deletePlayer.emit();
+  }
+
   private submit() {
     const name = (this.name.value as string).trim();
 
     if (name.length === 0) {
       // Submitting after clearing the name, treat as delete.
       this.deletePlayer.emit();
+      return;
     }
 
     if (this.name.errors?.playerExists) {

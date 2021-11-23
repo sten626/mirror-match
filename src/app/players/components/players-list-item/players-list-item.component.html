@@ -7,18 +7,18 @@
   </mat-icon>
 </div>
 <div class="player-name">
-  <div *ngIf="!selected">{{ player.name }}</div>
+  <span *ngIf="!selected">{{ player?.name }}</span>
   <input
     #nameInput
     type="text"
     *ngIf="selected"
     [formControl]="name"
-    (blur)="onBlur()"
+    (blur)="onBlur($event)"
     (keyup)="onKeyup($event)"
   />
 </div>
 <div class="delete-icon">
-  <button mat-icon-button (click)="deletePlayer.emit()">
+  <button mat-icon-button class="testmm" (click)="onDeletePlayer()">
     <mat-icon>delete</mat-icon>
   </button>
 </div>

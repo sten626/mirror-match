@@ -29,10 +29,10 @@
               "src/site.webmanifest"
             ],
             "styles": [
-              "src/sass/main.scss"
+              "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/sass"]
+              "includePaths": ["src/sass", "src/styles"]
             },
             "scripts": []
           },
@@ -93,10 +93,10 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
-              "src/sass/main.scss"
+              "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/sass"]
+              "includePaths": ["src/styles"]
             },
             "assets": [
               "src/assets",

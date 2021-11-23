@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as fromRoot from '@mm/reducers';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
@@ -12,14 +12,6 @@ describe('PlayersPageComponent', () => {
   let fixture: ComponentFixture<PlayersPageComponent>;
   let mockStore: MockStore;
 
-  class MockMatBottomSheet {
-    open() {
-      return {
-        afterDismissed: () => of('')
-      };
-    }
-  }
-
   class MockMatDialog {
     open() {
       return {
@@ -27,6 +19,8 @@ describe('PlayersPageComponent', () => {
       };
     }
   }
+
+  class MockMatSnackBar {}
 
   @Component({ selector: 'mm-players-list', template: '' })
   class PlayersListStubComponent {
@@ -36,20 +30,16 @@ describe('PlayersPageComponent', () => {
   @Component({ selector: 'mm-setup-footer', template: '' })
   class SetupFooterStubComponent {}
 
-  @Component({ selector: 'mm-setup-header', template: '' })
-  class SetupHeaderStubComponent {}
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         PlayersListStubComponent,
         SetupFooterStubComponent,
-        SetupHeaderStubComponent,
         PlayersPageComponent
       ],
       providers: [
-        { provide: MatBottomSheet, useClass: MockMatBottomSheet },
         { provide: MatDialog, useClass: MockMatDialog },
+        { provide: MatSnackBar, useClass: MockMatSnackBar },
         provideMockStore()
       ]
     }).compileComponents();

@@ -3,10 +3,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
+  OnChanges,
   Output,
   ViewChild
 } from '@angular/core';
-import { PlayersListItem } from '@mm/players/components/players-list-item.abstract';
+import { PlayersListItem } from '@mm/players/shared';
+import { duplicatePlayerValidator } from '@mm/shared/directives';
 import { Player } from '@mm/shared/models';
 
 @Component({
@@ -19,13 +22,19 @@ import { Player } from '@mm/shared/models';
 })
 export class NewPlayerListItemComponent
   extends PlayersListItem
-  implements AfterViewInit {
+  implements AfterViewInit, OnChanges {
+  @Input() playerNames: Set<string>;
   @Output() cancel = new EventEmitter();
   @Output() createPlayer = new EventEmitter<Player>();
+  @Output() error = new EventEmitter<string>();
   @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>;
 
   constructor() {
     super();
+  }
+
+  ngOnChanges() {
+    this.name.setValidators(duplicatePlayerValidator(this.playerNames));
   }
 
   ngAfterViewInit() {
@@ -45,15 +54,20 @@ export class NewPlayerListItemComponent
 
     if (newPlayerName === '') {
       this.cancel.emit();
-    } else {
-      // TODO: Validation
-      const player: Player = {
-        name: newPlayerName,
-        dropped: false
-      };
-      this.createPlayer.emit(player);
-      this.name.reset();
+      return;
     }
+
+    if (this.name.errors?.playerExists) {
+      this.error.emit(this.name.errors.playerExists);
+      return;
+    }
+
+    const player: Player = {
+      name: newPlayerName,
+      dropped: false
+    };
+    this.createPlayer.emit(player);
+    this.name.reset();
   }
 
   onEscape() {
