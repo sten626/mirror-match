@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 @mixin players-list-color($config_or_theme) {
   $config: mat-get-color-config($config_or_theme);
