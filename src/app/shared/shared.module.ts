@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@mm/material';
-import { FabComponent, SearchBoxComponent } from '@mm/shared/components';
+import {
+  FabComponent,
+  NavigationBarComponent,
+  SearchBoxComponent
+} from '@mm/shared/components';
 import {
   AutofocusDirective,
   BottomSheetContentDirective
@@ -12,7 +16,7 @@ import {
 } from '@mm/shared/molecules';
 import { PairingsFilterPipe, SortStandingsPipe } from '@mm/shared/pipes';
 
-const COMPONENTS = [FabComponent, SearchBoxComponent];
+const COMPONENTS = [FabComponent, NavigationBarComponent, SearchBoxComponent];
 const DIRECTIVES = [AutofocusDirective, BottomSheetContentDirective];
 const MOLECULES = [AlertDialogComponent, EditableTextComponent];
 const PIPES = [PairingsFilterPipe, SortStandingsPipe];
