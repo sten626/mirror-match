@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '@mm/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FabComponent,
   NavigationBarComponent,
@@ -22,7 +24,7 @@ const MOLECULES = [AlertDialogComponent, EditableTextComponent];
 const PIPES = [PairingsFilterPipe, SortStandingsPipe];
 
 @NgModule({
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MatButtonModule, MatDialogModule, MatFormFieldModule],
   declarations: [COMPONENTS, DIRECTIVES, MOLECULES, PIPES],
   exports: [COMPONENTS, DIRECTIVES, MOLECULES, PIPES]
 })
