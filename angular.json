@@ -28,9 +28,7 @@
               "src/favicon.ico",
               "src/site.webmanifest"
             ],
-            "styles": [
-              "src/styles/main.scss"
-            ],
+            "styles": ["src/styles/main.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["src/sass", "src/styles"]
             },
@@ -92,17 +90,11 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "scripts": [],
-            "styles": [
-              "src/sass/main.scss",
-              "src/styles/main.scss"
-            ],
+            "styles": ["src/sass/main.scss", "src/styles/main.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles", "src/sass"]
             },
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
-            ]
+            "assets": ["src/assets", "src/favicon.ico"]
           }
         },
         "lint": {
@@ -113,9 +105,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
