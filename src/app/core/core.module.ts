@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import {
-  BottomNavComponent,
   BottomSheetComponent,
+  NavComponent,
   PageNotFoundComponent
 } from '@mm/core/components';
 import { SharedModule } from '@mm/shared/shared.module';
@@ -22,7 +22,7 @@ import { SharedModule } from '@mm/shared/shared.module';
     RouterModule,
     SharedModule
   ],
-  declarations: [BottomNavComponent, BottomSheetComponent, PageNotFoundComponent],
-  exports: [BottomNavComponent, PageNotFoundComponent]
+  declarations: [BottomSheetComponent, NavComponent, PageNotFoundComponent],
+  exports: [NavComponent, PageNotFoundComponent]
 })
 export class CoreModule {}
