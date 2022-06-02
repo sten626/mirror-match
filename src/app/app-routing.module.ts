@@ -5,14 +5,19 @@ import { PageNotFoundComponent } from '@mm/core/components';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/players',
-    pathMatch: 'full'
-  },
-  {
-    path: 'players',
     loadChildren: () =>
-      import('./players/players.module').then((m) => m.PlayersModule)
+      import('./setup/setup.module').then((m) => m.SetupModule),
   },
+  // {
+  //   path: 'players',
+  //   loadChildren: () =>
+  //     import('./players/players.module').then((m) => m.PlayersModule),
+  // },
+  // {
+  //   path: 'setup',
+  //   loadChildren: () =>
+  //     import('./setup/setup.module').then((m) => m.SetupModule),
+  // },
   // {
   //   path: 'pods',
   //   loadChildren: () => import('./pods/pods.module').then(m => m.PodsModule)
@@ -26,12 +31,12 @@ export const routes: Routes = [
   {
     path: '**',
     component: PageNotFoundComponent,
-    data: { title: 'Not found' }
-  }
+    data: { title: 'Not found' },
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

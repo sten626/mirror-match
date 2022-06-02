@@ -1,13 +1,13 @@
-@import 'variables';
+// @import 'variables';
 
-:host {
-  background: linear-gradient(
-      rgba($md-sys-color-primary, 0.08),
-      rgba($md-sys-color-primary, 0.08)
-    ),
-    linear-gradient($md-sys-color-surface, $md-sys-color-surface);
-  height: 80px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
+// :host {
+//   background: linear-gradient(
+//       rgba($md-sys-color-primary, 0.08),
+//       rgba($md-sys-color-primary, 0.08)
+//     ),
+//     linear-gradient($md-sys-color-surface, $md-sys-color-surface);
+//   height: 80px;
+//   width: 100%;
+//   position: absolute;
+//   bottom: 0;
+// }

@@ -30,7 +30,7 @@
             ],
             "styles": [
               "src/styles/dsp/dist/styledictionary/css/variables.css",
-              "src/styles/main.css"
+              "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": []
@@ -93,9 +93,9 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "scripts": [],
-            "styles": ["src/sass/main.scss", "src/styles/main.scss"],
+            "styles": ["src/styles/main.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles", "src/sass"]
+              "includePaths": []
             },
             "assets": ["src/assets", "src/favicon.ico"]
           }
