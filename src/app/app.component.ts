@@ -1,21 +1,14 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, HostBinding } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'mm-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  isHandset$: Observable<boolean>;
+  // isHandset$: Observable<boolean>;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.isHandset$ = this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .pipe(map((result) => result.matches));
-  }
+  constructor() {}
 
-  @HostBinding('class.mat-typography') typography = true;
+  // @HostBinding('class.mat-typography') typography = true;
 }

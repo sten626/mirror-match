@@ -1,7 +1,6 @@
 {
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "cSpell.words": [
-        "ngrx",
-        "typescale"
-    ],
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "cSpell.words": ["ngrx", "typescale"],
+  "xd.globalEditor": true,
+  "xd.lastPackage": "/home/sten/workspace/mirror-match/src/styles/dsp"
 }
