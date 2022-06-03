@@ -16,7 +16,7 @@ module.exports = {
       "title-large": "var(--md-sys-typescale-title-large-weight)"
     },
     lineHeight: {
-      "title-large": 28
+      "title-large": "28px"
     },
     extend: {},
   },
