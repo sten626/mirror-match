@@ -1,8 +1,7 @@
-<header class="fixed flex h-16 w-full items-center justify-center bg-surface">
-  <div
-    class="flex-initial font-title-large text-title-large leading-title-large text-on-surface"
-  >
+<header class="top-app-bar">
+  <div class="content">
     <ng-content></ng-content>
   </div>
+  <div class="overlay" [class.overlay-scrolled]="scrolled"></div>
 </header>
-<div class="pt-16"></div>
+<div class="page-spacer"></div>
