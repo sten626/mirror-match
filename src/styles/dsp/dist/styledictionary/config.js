@@ -17,16 +17,6 @@ module.exports = {
       ],
       "transformGroup": "css",
       "buildPath": "css/"
-    },
-    "scss": {
-      "files": [
-        {
-          "destination": "variables.scss",
-          "format": "scss/variables"
-        }
-      ],
-      "transformGroup": "scss",
-      "buildPath": "scss/"
     }
   }
 };
