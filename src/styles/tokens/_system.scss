@@ -1,0 +1,22 @@
+:root {
+  --mm-sys-color-primary: var(--mm-ref-palette-primary-40);
+  --mm-sys-color-surface: var(--mm-ref-palette-neutral-99);
+  --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-10);
+
+  // @media screen and (prefers-color-scheme: dark) {
+  //   --mm-sys-color-primary: var(--mm-ref-palette-primary-80);
+  //   --mm-sys-color-surface: var(--mm-ref-palette-neutral-10);
+  //   --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-90);
+  // }
+
+  --mm-sys-typescale-title-large-family: var(--mm-ref-typeface-brand);
+  --mm-sys-typescale-title-large-line-height: 28px;
+  --mm-sys-typescale-title-large-size: 22px;
+  --mm-sys-typescale-title-large-weight: var(--mm-ref-typeface-weight);
+
+  --mm-sys-elevation-surface-1: 0.05;
+  --mm-sys-elevation-surface-2: 0.08;
+  --mm-sys-elevation-surface-3: 0.11;
+  --mm-sys-elevation-surface-4: 0.12;
+  --mm-sys-elevation-surface-5: 0.14;
+}

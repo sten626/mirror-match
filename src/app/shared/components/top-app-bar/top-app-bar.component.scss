@@ -3,7 +3,7 @@
 }
 
 .top-app-bar {
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--mm-sys-color-surface);
   display: flex;
   width: 100%;
   height: 64px;
@@ -12,11 +12,11 @@
   align-items: center;
 
   .content {
-    color: var(--md-sys-color-on-surface);
-    line-height: 28px;
-    font-weight: var(--md-sys-typescale-title-large-weight);
-    font-size: var(--md-sys-typescale-title-large-size);
-    font-family: var(--md-sys-typescale-title-large-family);
+    color: var(--mm-sys-color-on-surface);
+    line-height: var(--mm-sys-typescale-title-large-line-height);
+    font-weight: var(--mm-sys-typescale-title-large-weight);
+    font-size: var(--mm-sys-typescale-title-large-size);
+    font-family: var(--mm-sys-typescale-title-large-family);
   }
 
   .overlay {
@@ -27,8 +27,8 @@
     transition: 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
     &-scrolled {
-      opacity: 0.08;
-      background-color: var(--md-sys-color-primary);
+      opacity: var(--mm-sys-elevation-surface-2);
+      background-color: var(--mm-sys-color-primary);
     }
   }
 }

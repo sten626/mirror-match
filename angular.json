@@ -28,10 +28,7 @@
               "src/favicon.ico",
               "src/site.webmanifest"
             ],
-            "styles": [
-              "src/styles/dsp/dist/styledictionary/css/variables.css",
-              "src/styles/main.scss"
-            ],
+            "styles": ["src/styles/main.scss"],
             "stylePreprocessorOptions": {
               "includePaths": []
             },
