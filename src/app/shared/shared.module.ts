@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TopAppBarComponent } from './components';
+import { CardComponent, TopAppBarComponent } from './components';
 
 // const COMPONENTS = [FabComponent, NavigationBarComponent, SearchBoxComponent];
 // const DIRECTIVES = [AutofocusDirective, BottomSheetContentDirective];
@@ -9,8 +9,8 @@ import { TopAppBarComponent } from './components';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [TopAppBarComponent],
-  exports: [TopAppBarComponent],
+  declarations: [CardComponent, TopAppBarComponent],
+  exports: [CardComponent, TopAppBarComponent],
   // declarations: [DIRECTIVES, MOLECULES, PIPES],
   // exports: [DIRECTIVES, MOLECULES, PIPES]
 })

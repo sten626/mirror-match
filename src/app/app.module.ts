@@ -24,9 +24,9 @@ import { environment } from '../environments/environment';
     StoreModule.forRoot(rootReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
-    })
+      logOnly: environment.production,
+    }),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

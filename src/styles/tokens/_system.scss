@@ -1,11 +1,14 @@
 :root {
   --mm-sys-color-primary: var(--mm-ref-palette-primary-40);
   --mm-sys-color-surface: var(--mm-ref-palette-neutral-99);
+  --mm-sys-color-surface-variant: var(--mm-ref-palette-neutral-variant-90);
   --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-10);
+  --mm-sys-color-shadow: var(--mm-ref-palette-neutral-0);
 
   // @media screen and (prefers-color-scheme: dark) {
   //   --mm-sys-color-primary: var(--mm-ref-palette-primary-80);
   //   --mm-sys-color-surface: var(--mm-ref-palette-neutral-10);
+  //   --mm-sys-color-surface-variant: var(--mm-ref-palette-neutral-variant-30);
   //   --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-90);
   // }
 
