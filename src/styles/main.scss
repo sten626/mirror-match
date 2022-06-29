@@ -1,3 +1,4 @@
-@import 'reset';
-@import 'tokens/reference';
-@import 'tokens/system';
+@use 'reset';
+@use 'tokens/reference';
+@use 'tokens/system';
+@use 'typography';

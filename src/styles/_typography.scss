@@ -1,0 +1,23 @@
+:root {
+  h4,
+  .mm-title-large {
+    font: {
+      family: var(--mm-sys-typescale-title-large-family);
+      size: var(--mm-sys-typescale-title-large-size);
+      weight: var(--mm-sys-typescale-title-large-weight);
+    }
+    line-height: var(--mm-sys-typescale-title-large-line-height);
+    letter-spacing: var(--mm-sys-typescale-title-large-tracking);
+  }
+
+  h5,
+  .mm-title-medium {
+    font: {
+      family: var(--mm-sys-typescale-title-medium-family);
+      size: var(--mm-sys-typescale-title-medium-size);
+      weight: var(--mm-sys-typescale-title-medium-weight);
+    }
+    line-height: var(--mm-sys-typescale-title-medium-line-height);
+    letter-spacing: var(--mm-sys-typescale-title-medium-tracking);
+  }
+}

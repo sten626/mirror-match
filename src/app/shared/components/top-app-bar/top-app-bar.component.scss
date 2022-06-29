@@ -13,14 +13,11 @@
 
   .content {
     color: var(--mm-sys-color-on-surface);
-    line-height: var(--mm-sys-typescale-title-large-line-height);
-    font-weight: var(--mm-sys-typescale-title-large-weight);
-    font-size: var(--mm-sys-typescale-title-large-size);
-    font-family: var(--mm-sys-typescale-title-large-family);
   }
 
   .overlay {
     position: absolute;
+    background-color: var(--mm-sys-color-primary);
     inset: 0;
     pointer-events: none;
     opacity: 0;
@@ -28,7 +25,6 @@
 
     &-scrolled {
       opacity: var(--mm-sys-elevation-surface-2);
-      background-color: var(--mm-sys-color-primary);
     }
   }
 }
