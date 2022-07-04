@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use '../abstracts/variables' as *;
+@use '../abstracts/functions' as *;
+
+@mixin typescale($typescale-map) {
+  $size: map.get($typescale-map, 'size');
+  font-size: sp-size-to-rem($size);
+  line-height: map.get($typescale-map, 'line-height');
+  letter-spacing: letter-spacing(map.get($typescale-map, 'tracking'), $size);
+}
+
+h4,
+.mm-title-large {
+  @include typescale(map.get($typescale, 'title', 'large'));
+
+  font: {
+    family: map.get($typeface, 'family', brand);
+    weight: map.get($typeface, 'weight', 'regular');
+  }
+}
+
+h5,
+.mm-title-medium {
+  font: {
+    family: var(--mm-sys-typescale-title-medium-family);
+    size: var(--mm-sys-typescale-title-medium-size);
+    weight: var(--mm-sys-typescale-title-medium-weight);
+  }
+  line-height: var(--mm-sys-typescale-title-medium-line-height);
+  letter-spacing: var(--mm-sys-typescale-title-medium-tracking);
+}

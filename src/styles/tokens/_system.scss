@@ -1,47 +1,10 @@
-@use 'sass:math';
+@use 'sass:map';
+// @use '../abstracts/main' as *;
 
 :root {
-  @function letter-spacing($tracking, $font-size) {
-    @return math.div($tracking, $font-size) + 'rem';
-  }
-
-  @function size($sp_size) {
-    @return math.div($sp_size, 16) + 'rem';
-  }
-
-  @mixin typescale_tokens(
-    $name,
-    $typeface,
-    $line-height,
-    $size,
-    $tracking,
-    $weight
-  ) {
-    --mm-sys-typescale-#{$name}-family: var(--mm-ref-typeface-#{$typeface});
-    --mm-sys-typescale-#{$name}-line-height: #{size($line-height)};
-    --mm-sys-typescale-#{$name}-size: #{size($size)};
-    --mm-sys-typescale-#{$name}-tracking: #{letter-spacing($tracking, $size)};
-    --mm-sys-typescale-#{$name}-weight: var(
-      --mm-ref-typeface-weight-#{$weight}
-    );
-  }
-
-  --mm-sys-color-primary: var(--mm-ref-palette-primary-40);
-  --mm-sys-color-surface: var(--mm-ref-palette-neutral-99);
-  --mm-sys-color-surface-variant: var(--mm-ref-palette-neutral-variant-90);
-  --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-10);
-  --mm-sys-color-shadow: var(--mm-ref-palette-neutral-0);
-
-  // @media screen and (prefers-color-scheme: dark) {
-  //   --mm-sys-color-primary: var(--mm-ref-palette-primary-80);
-  //   --mm-sys-color-surface: var(--mm-ref-palette-neutral-10);
-  //   --mm-sys-color-surface-variant: var(--mm-ref-palette-neutral-variant-30);
-  //   --mm-sys-color-on-surface: var(--mm-ref-palette-neutral-90);
-  // }
-
-  @include typescale_tokens(title-large, brand, 28, 22, 0, regular);
-  @include typescale_tokens(title-medium, plain, 24, 16, 0.15, medium);
-  @include typescale_tokens(title-small, plain, 20, 14, 0.1, medium);
+  // @include typescale_tokens(title-large, brand, 28, 22, 0, regular);
+  // @include typescale_tokens(title-medium, plain, 24, 16, 0.15, medium);
+  // @include typescale_tokens(title-small, plain, 20, 14, 0.1, medium);
 
   --mm-sys-elevation-surface-1: 0.05;
   --mm-sys-elevation-surface-2: 0.08;

@@ -1,0 +1,16 @@
+@use 'functions' as *;
+
+@mixin typescale_tokens(
+  $name,
+  $typeface,
+  $line-height,
+  $size,
+  $tracking,
+  $weight
+) {
+  --mm-sys-typescale-#{$name}-family: var(--mm-ref-typeface-#{$typeface});
+  --mm-sys-typescale-#{$name}-line-height: #{size($line-height)};
+  --mm-sys-typescale-#{$name}-size: #{size($size)};
+  --mm-sys-typescale-#{$name}-tracking: #{letter-spacing($tracking, $size)};
+  --mm-sys-typescale-#{$name}-weight: var(--mm-ref-typeface-weight-#{$weight});
+}
