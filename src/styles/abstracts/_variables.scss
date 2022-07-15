@@ -93,8 +93,14 @@ $palette: (
 
 $typeface: (
   'family': (
-    'brand': 'Roboto, sans-serif',
-    'plain': 'Roboto, sans-serif',
+    'brand': (
+      Roboto,
+      sans-serif,
+    ),
+    'plain': (
+      Roboto,
+      sans-serif,
+    ),
   ),
   'weight': (
     'regular': 400,
@@ -108,6 +114,15 @@ $typescale: (
       'line-height': 28,
       'size': 22,
       'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+    'medium': (
+      'line-height': 24,
+      'size': 16,
+      'tracking': 0.15,
+      'family': 'plain',
+      'weight': 'medium',
     ),
   ),
 );

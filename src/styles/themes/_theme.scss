@@ -6,6 +6,7 @@
   --mm-color-surface: #{map.get($palette, 'neutral', 99)};
   --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 90)};
   --mm-color-on-surface: #{map.get($palette, 'neutral', 10)};
+  --mm-color-on-surface-variant: #{map.get($palette, 'neutral', 30)};
   --mm-color-shadow: #{map.get($palette, 'neutral', 0)};
 
   @media screen and (prefers-color-scheme: dark) {
@@ -13,5 +14,6 @@
     --mm-color-surface: #{map.get($palette, 'neutral', 10)};
     --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 30)};
     --mm-color-on-surface: #{map.get($palette, 'neutral', 90)};
+    --mm-color-on-surface-variant: #{map.get($palette, 'neutral', 80)};
   }
 }

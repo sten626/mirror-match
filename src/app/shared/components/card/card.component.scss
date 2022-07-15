@@ -1,11 +1,17 @@
+@use 'abstracts/functions' as *;
+
 :host {
-  display: flex;
-  flex-direction: column;
-  border-radius: 12px;
+  display: block;
+  border-radius: sp-size-to-rem(12);
   padding: {
-    left: 16px;
-    right: 16px;
+    left: sp-size-to-rem(16);
+    right: sp-size-to-rem(16);
   }
-  margin: 8px;
-  background-color: var(--mm-sys-color-surface-variant);
+  margin: sp-size-to-rem(8);
+  background-color: var(--mm-color-surface-variant);
+  color: var(--mm-color-on-surface-variant);
+
+  &:hover {
+    box-shadow: 0 3px 1px -2px var(--mm-color-shadow);
+  }
 }

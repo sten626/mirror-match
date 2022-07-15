@@ -1,16 +1,14 @@
+@use 'sass:map';
+@use 'variables' as *;
 @use 'functions' as *;
 
-@mixin typescale_tokens(
-  $name,
-  $typeface,
-  $line-height,
-  $size,
-  $tracking,
-  $weight
-) {
-  --mm-sys-typescale-#{$name}-family: var(--mm-ref-typeface-#{$typeface});
-  --mm-sys-typescale-#{$name}-line-height: #{size($line-height)};
-  --mm-sys-typescale-#{$name}-size: #{size($size)};
-  --mm-sys-typescale-#{$name}-tracking: #{letter-spacing($tracking, $size)};
-  --mm-sys-typescale-#{$name}-weight: var(--mm-ref-typeface-weight-#{$weight});
+@mixin typescale($typescale-map) {
+  $size: map.get($typescale-map, 'size');
+  font-size: sp-size-to-rem($size);
+  line-height: sp-size-to-rem(map.get($typescale-map, 'line-height'));
+  letter-spacing: letter-spacing(map.get($typescale-map, 'tracking'), $size);
+  font: {
+    family: map.get($typeface, map.get($typescale-map, 'family'));
+    weight: map.get($typeface, map.get($typescale-map, 'weight'));
+  }
 }
