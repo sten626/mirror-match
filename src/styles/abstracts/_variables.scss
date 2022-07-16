@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $palette: (
   'primary': (
     100: #ffffff,
@@ -88,6 +90,23 @@ $palette: (
     20: #680003,
     10: #410001,
     0: #000000,
+  ),
+);
+
+$shadow-color: map.get($palette, 'neutral', 0);
+
+$state: (
+  'hover': (
+    'state-layer-opacity': 0.08,
+  ),
+  'focus': (
+    'state-layer-opacity': 0.12,
+  ),
+  'pressed': (
+    'state-layer-opacity': 0.12,
+  ),
+  'dragged': (
+    'state-layer-opacity': 0.16,
   ),
 );
 

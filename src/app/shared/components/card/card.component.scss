@@ -1,17 +1,33 @@
-@use 'abstracts/functions' as *;
+@use 'sass:map';
+@use 'abstracts/functions' as f;
+@use 'abstracts/mixins' as m;
 
 :host {
   display: block;
-  border-radius: sp-size-to-rem(12);
+  border-radius: f.sp-size-to-rem(12);
   padding: {
-    left: sp-size-to-rem(16);
-    right: sp-size-to-rem(16);
+    left: f.sp-size-to-rem(16);
+    right: f.sp-size-to-rem(16);
   }
-  margin: sp-size-to-rem(8);
-  background-color: var(--mm-color-surface-variant);
+  margin: f.sp-size-to-rem(8);
+  background: var(--mm-color-surface-variant);
   color: var(--mm-color-on-surface-variant);
+  transition: box-shadow 80ms linear;
+
+  @include m.interaction-states(
+    '--mm-color-surface-variant',
+    '--mm-color-on-surface-variant'
+  );
 
   &:hover {
-    box-shadow: 0 3px 1px -2px var(--mm-color-shadow);
+    @include m.elevation(1);
+  }
+
+  &:focus {
+    @include m.elevation(0);
+  }
+
+  &:active {
+    @include m.elevation(0);
   }
 }

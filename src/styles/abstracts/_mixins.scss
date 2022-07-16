@@ -2,6 +2,82 @@
 @use 'variables' as *;
 @use 'functions' as *;
 
+@function _get-shadow-1-map($color, $opacity: 0.3) {
+  $shadow-color: rgba($color, $opacity);
+
+  @return (
+    1: '0 1px 2px 0 #{$shadow-color}',
+    2: '0 1px 2px 0 #{$shadow-color}'
+  );
+}
+
+@function _get-shadow-2-map($color, $opacity: 0.15) {
+  $shadow-color: rgba($color, $opacity);
+
+  @return (
+    1: '0 1px 3px 1px #{$shadow-color}',
+    2: '0 2px 6px 2px #{$shadow-color}'
+  );
+}
+
+@mixin elevation($level) {
+  @if $level == 0 {
+    box-shadow: none;
+  } @else {
+    box-shadow: #{map.get(_get-shadow-1-map($shadow-color), $level)},
+      #{map.get(_get-shadow-2-map($shadow-color), $level)};
+  }
+}
+
+@mixin interaction-states($color-var-name, $on-color-var-name) {
+  &:hover {
+    background: linear-gradient(
+        0deg,
+        var(#{$on-color-var-name}-hover),
+        var(#{$on-color-var-name}-hover)
+      ),
+      var(#{$color-var-name});
+  }
+
+  &:focus {
+    background: linear-gradient(
+        0deg,
+        var(#{$on-color-var-name}-focus),
+        var(#{$on-color-var-name}-focus)
+      ),
+      var(#{$color-var-name});
+  }
+
+  &:active {
+    background: linear-gradient(
+        0deg,
+        var(#{$on-color-var-name}-pressed),
+        var(#{$on-color-var-name}-pressed)
+      ),
+      var(#{$color-var-name});
+  }
+}
+
+@mixin state-layer-colors($name, $color) {
+  --mm-color-#{$name}: #{$color};
+  --mm-color-#{$name}-hover: #{rgba(
+      $color,
+      map.get($state, 'hover', 'state-layer-opacity')
+    )};
+  --mm-color-#{$name}-focus: #{rgba(
+      $color,
+      map.get($state, 'focus', 'state-layer-opacity')
+    )};
+  --mm-color-#{$name}-pressed: #{rgba(
+      $color,
+      map.get($state, 'pressed', 'state-layer-opacity')
+    )};
+  --mm-color-#{$name}-dragged: #{rgba(
+      $color,
+      map.get($state, 'dragged', 'state-layer-opacity')
+    )};
+}
+
 @mixin typescale($typescale-map) {
   $size: map.get($typescale-map, 'size');
   font-size: sp-size-to-rem($size);
