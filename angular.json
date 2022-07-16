@@ -92,7 +92,7 @@
             "scripts": [],
             "styles": ["src/styles/main.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": []
+              "includePaths": ["src/styles"]
             },
             "assets": ["src/assets", "src/favicon.ico"]
           }

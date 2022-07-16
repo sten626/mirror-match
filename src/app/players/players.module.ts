@@ -5,22 +5,9 @@ import { PlayersRoutingModule } from '@mm/players/players-routing.module';
 import { SharedModule } from '@mm/shared/shared.module';
 
 @NgModule({
-  declarations: [
-    // NewPlayerListItemComponent,
-    // PlayersListComponent,
-    // PlayersListItemComponent,
-    // PlayersPageComponent
-    // SetupFooterComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
-    // MatBottomSheetModule,
-    // MatButtonModule,
-    // MatFormFieldModule,
-    // MatIconModule,
-    // MatInputModule,
-    // MatSnackBarModule,
-    // MatToolbarModule,
     PlayersRoutingModule,
     ReactiveFormsModule,
     SharedModule,

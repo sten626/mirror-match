@@ -1,9 +1,0 @@
-$displays: flex;
-
-@mixin display-classes($prefix) {
-  .#{$prefix}hidden { display: none; }
-
-  @each $display in $displays {
-    .#{$prefix}#{$display} { display: $display; }
-  }
-}

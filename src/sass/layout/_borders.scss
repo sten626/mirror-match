@@ -1,5 +1,0 @@
-@mixin border-classes($color) {
-  $border: solid 1px $color;
-
-  .border-right { border-right: $border; }
-}

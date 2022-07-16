@@ -5,16 +5,8 @@ import { PageNotFoundComponent } from '@mm/core/components';
 import { SharedModule } from '@mm/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    // MatCardModule,
-    // MatIconModule,
-    // MatToolbarModule,
-    // PortalModule,
-    RouterModule,
-    SharedModule
-  ],
+  imports: [CommonModule, RouterModule, SharedModule],
   declarations: [PageNotFoundComponent],
-  exports: [PageNotFoundComponent]
+  exports: [PageNotFoundComponent],
 })
 export class CoreModule {}
