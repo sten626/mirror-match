@@ -13,18 +13,11 @@
     "noUnusedParameters": true,
     "importHelpers": true,
     "paths": {
-      "@mm/*": [
-        "src/app/*"
-      ]
+      "@mm/*": ["src/app/*"]
     },
     "target": "es2018",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
