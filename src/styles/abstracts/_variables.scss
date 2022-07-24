@@ -128,6 +128,52 @@ $typeface: (
 );
 
 $typescale: (
+  'display': (
+    'large': (
+      'line-height': 64,
+      'size': 57,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+    'medium': (
+      'line-height': 52,
+      'size': 45,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+    'small': (
+      'line-height': 44,
+      'size': 36,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+  ),
+  'headline': (
+    'large': (
+      'line-height': 40,
+      'size': 32,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+    'medium': (
+      'line-height': 36,
+      'size': 28,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+    'small': (
+      'line-height': 32,
+      'size': 24,
+      'tracking': 0,
+      'family': 'brand',
+      'weight': 'regular',
+    ),
+  ),
   'title': (
     'large': (
       'line-height': 28,
@@ -142,6 +188,59 @@ $typescale: (
       'tracking': 0.15,
       'family': 'plain',
       'weight': 'medium',
+    ),
+    'small': (
+      'line-height': 20,
+      'size': 14,
+      'tracking': 0.1,
+      'family': 'plain',
+      'weight': 'medium',
+    ),
+  ),
+  'label': (
+    'large': (
+      'line-height': 20,
+      'size': 14,
+      'tracking': 0.1,
+      'family': 'plain',
+      'weight': 'medium',
+    ),
+    'medium': (
+      'line-height': 16,
+      'size': 12,
+      'tracking': 0.5,
+      'family': 'plain',
+      'weight': 'medium',
+    ),
+    'small': (
+      'line-height': 16,
+      'size': 11,
+      'tracking': 0.5,
+      'family': 'plain',
+      'weight': 'medium',
+    ),
+  ),
+  'body': (
+    'large': (
+      'line-height': 24,
+      'size': 16,
+      'tracking': 0.5,
+      'family': 'plain',
+      'weight': 'medium',
+    ),
+    'medium': (
+      'line-height': 20,
+      'size': 14,
+      'tracking': 0.25,
+      'family': 'plain',
+      'weight': 'regular',
+    ),
+    'small': (
+      'line-height': 16,
+      'size': 12,
+      'tracking': 0.4,
+      'family': 'plain',
+      'weight': 'regular',
     ),
   ),
 );

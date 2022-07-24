@@ -3,6 +3,18 @@
 @use '../abstracts/functions' as *;
 @use '../abstracts/mixins' as *;
 
+.mm-headline-large {
+  @include typescale(map.get($typescale, 'headline', 'large'));
+}
+
+.mm-headline-medium {
+  @include typescale(map.get($typescale, 'headline', 'medium'));
+}
+
+.mm-headline-small {
+  @include typescale(map.get($typescale, 'headline', 'small'));
+}
+
 h4,
 .mm-title-large {
   @include typescale(map.get($typescale, 'title', 'large'));
@@ -11,4 +23,21 @@ h4,
 h5,
 .mm-title-medium {
   @include typescale(map.get($typescale, 'title', 'medium'));
+}
+
+h6,
+.mm-title-small {
+  @include typescale(map.get($typescale, 'title', 'small'));
+}
+
+.mm-body-large {
+  @include typescale(map.get($typescale, 'body', 'large'));
+}
+
+.mm-body-medium {
+  @include typescale(map.get($typescale, 'body', 'medium'));
+}
+
+.mm-body-small {
+  @include typescale(map.get($typescale, 'body', 'small'));
 }
