@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'mm-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
 })
-export class SetupComponent implements OnInit {
+export class SetupComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -1,19 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'mm-top-app-bar',
   templateUrl: './top-app-bar.component.html',
   styleUrls: ['./top-app-bar.component.scss'],
 })
-export class TopAppBarComponent implements OnInit {
+export class TopAppBarComponent {
   scrolled = false;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
   @HostListener('window:scroll')
   onScroll() {
-    this.scrolled = window.scrollY > 0;
+    this.scrolled = window.pageYOffset > 0;
   }
 }
