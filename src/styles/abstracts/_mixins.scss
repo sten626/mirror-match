@@ -78,13 +78,14 @@
     )};
 }
 
-@mixin typescale($typescale-map) {
-  $size: map.get($typescale-map, 'size');
+@mixin typescale($role-type, $role-size) {
+  $role-map: map.get($typescale, $role-type, $role-size);
+  $size: map.get($role-map, 'size');
   font-size: sp-size-to-rem($size);
-  line-height: sp-size-to-rem(map.get($typescale-map, 'line-height'));
-  letter-spacing: letter-spacing(map.get($typescale-map, 'tracking'), $size);
+  line-height: sp-size-to-rem(map.get($role-map, 'line-height'));
+  letter-spacing: letter-spacing(map.get($role-map, 'tracking'), $size);
   font: {
-    family: map.get($typeface, 'family', map.get($typescale-map, 'family'));
-    weight: map.get($typeface, 'weight', map.get($typescale-map, 'weight'));
+    family: map.get($typeface, 'family', map.get($role-map, 'family'));
+    weight: map.get($typeface, 'weight', map.get($role-map, 'weight'));
   }
 }
