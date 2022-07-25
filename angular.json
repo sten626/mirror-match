@@ -124,7 +124,6 @@
       }
     }
   },
-  "defaultProject": "mirror-match",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "mm",
@@ -135,7 +134,9 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ngrx/schematics",
-    "analytics": "403d5cb8-c680-4065-91a7-609752d2ac9f"
+    "analytics": "403d5cb8-c680-4065-91a7-609752d2ac9f",
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }
