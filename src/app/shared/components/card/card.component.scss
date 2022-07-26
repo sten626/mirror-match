@@ -9,7 +9,6 @@
     left: f.sp-size-to-rem(16);
     right: f.sp-size-to-rem(16);
   }
-  margin: f.sp-size-to-rem(8);
   background: var(--mm-color-surface-variant);
   color: var(--mm-color-on-surface-variant);
   transition: box-shadow 80ms linear;
@@ -28,6 +27,12 @@
   }
 
   &:active {
+    @include m.elevation(0);
+  }
+
+  &.disabled {
+    background: var(--mm-color-surface-variant);
+    opacity: 0.38;
     @include m.elevation(0);
   }
 }

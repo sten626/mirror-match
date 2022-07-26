@@ -1,5 +1,33 @@
+@use 'abstracts/functions' as f;
+
 .setup-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
+
+  .cards-container {
+    $padding: f.sp-size-to-rem(8);
+    display: flex;
+    flex-wrap: wrap;
+    gap: $padding;
+    padding: $padding;
+    width: 100%;
+
+    mm-card {
+      cursor: pointer;
+      flex-grow: 1;
+      width: 100%;
+
+      @media screen and (min-width: f.sp-size-to-rem(600)) {
+        width: 33%;
+      }
+
+      div {
+        margin: {
+          top: 1rem;
+          bottom: 1rem;
+        }
+      }
+    }
+  }
 }

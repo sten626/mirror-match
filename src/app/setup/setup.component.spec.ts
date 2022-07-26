@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SetupComponent } from './setup.component';
 
@@ -6,7 +6,9 @@ import { SetupComponent } from './setup.component';
 class TopAppBarStubComponent {}
 
 @Component({ selector: 'mm-card', template: '' })
-class CardStubComponent {}
+class CardStubComponent {
+  @Input() disabled = false;
+}
 
 describe('SetupComponent', () => {
   let component: SetupComponent;

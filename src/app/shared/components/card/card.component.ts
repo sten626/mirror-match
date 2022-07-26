@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'mm-card',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent {
+  @HostBinding('class.disabled')
+  @Input()
+  disabled = false;
+
   constructor() {}
 }
