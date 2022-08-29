@@ -1,10 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CardComponent, TopAppBarComponent } from './components';
+import {
+  CardComponent,
+  ListComponent,
+  ListItemComponent,
+  TopAppBarComponent,
+} from './components';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CardComponent, TopAppBarComponent],
-  exports: [CardComponent, TopAppBarComponent],
+  declarations: [
+    CardComponent,
+    ListComponent,
+    ListItemComponent,
+    TopAppBarComponent,
+  ],
+  exports: [
+    CardComponent,
+    ListComponent,
+    ListItemComponent,
+    TopAppBarComponent,
+  ],
 })
 export class SharedModule {}
