@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SetupComponent } from './setup.component';
+import { SetupPageComponent } from './setup-page.component';
 
 @Component({ selector: 'mm-top-app-bar', template: '' })
 class TopAppBarStubComponent {}
@@ -11,17 +11,21 @@ class CardStubComponent {
 }
 
 describe('SetupComponent', () => {
-  let component: SetupComponent;
-  let fixture: ComponentFixture<SetupComponent>;
+  let component: SetupPageComponent;
+  let fixture: ComponentFixture<SetupPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SetupComponent, CardStubComponent, TopAppBarStubComponent],
+      declarations: [
+        SetupPageComponent,
+        CardStubComponent,
+        TopAppBarStubComponent,
+      ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SetupComponent);
+    fixture = TestBed.createComponent(SetupPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

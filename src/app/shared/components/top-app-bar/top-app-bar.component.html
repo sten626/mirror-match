@@ -1,7 +1,11 @@
 <header class="top-app-bar">
+  <div class="prefix">
+    <ng-content select="[icon]"></ng-content>
+  </div>
   <div class="content mm-title-large">
     <ng-content></ng-content>
   </div>
+  <div class="suffix"></div>
   <div class="overlay" [class.overlay-scrolled]="scrolled"></div>
 </header>
 <div class="page-spacer"></div>

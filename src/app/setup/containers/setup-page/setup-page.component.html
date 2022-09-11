@@ -1,7 +1,12 @@
 <div class="setup-page">
   <mm-top-app-bar>MirrorMatch</mm-top-app-bar>
   <div class="cards-container">
-    <mm-card *ngFor="let card of cards" [disabled]="card.disabled" tabindex="0">
+    <mm-card
+      *ngFor="let card of cards"
+      (click)="onClick(card.link)"
+      [disabled]="card.disabled"
+      tabindex="0"
+    >
       <div class="mm-headline-small">{{ card.title }}</div>
       <div class="mm-body-small">{{ card.body }}</div>
     </mm-card>

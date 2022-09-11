@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SetupComponent } from './setup.component';
+import {
+  AddPlayersPageComponent,
+  SetupPageComponent,
+} from '@mm/setup/containers';
 
-const routes: Routes = [{ path: '', component: SetupComponent }];
+const routes: Routes = [
+  { path: '', component: SetupPageComponent },
+  { path: 'players', component: AddPlayersPageComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SetupRoutingModule { }
+export class SetupRoutingModule {}
