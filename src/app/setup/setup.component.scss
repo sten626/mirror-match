@@ -10,12 +10,11 @@
     display: flex;
     flex-wrap: wrap;
     gap: $padding;
+    justify-content: center;
     padding: $padding;
     width: 100%;
 
     mm-card {
-      cursor: pointer;
-      flex-grow: 1;
       width: 100%;
 
       @media screen and (min-width: f.sp-size-to-rem(600)) {

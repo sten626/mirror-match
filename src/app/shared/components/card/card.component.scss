@@ -3,6 +3,7 @@
 @use 'abstracts/mixins' as m;
 
 :host {
+  cursor: pointer;
   display: block;
   border-radius: f.sp-size-to-rem(12);
   padding: {
@@ -33,6 +34,7 @@
   &.disabled {
     background: var(--mm-color-surface-variant);
     opacity: 0.38;
+    cursor: not-allowed;
     @include m.elevation(0);
   }
 }
