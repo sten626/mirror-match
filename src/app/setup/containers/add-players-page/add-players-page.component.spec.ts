@@ -7,6 +7,9 @@ describe('AddPlayersPageComponent', () => {
   let component: AddPlayersPageComponent;
   let fixture: ComponentFixture<AddPlayersPageComponent>;
 
+  @Component({ selector: 'mm-icon', template: '' })
+  class IconStubComponent {}
+
   @Component({ selector: 'mm-list-item', template: '' })
   class ListItemStubComponent {}
 
@@ -20,6 +23,7 @@ describe('AddPlayersPageComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         AddPlayersPageComponent,
+        IconStubComponent,
         ListItemStubComponent,
         ListStubComponent,
         TopAppBarStubComponent,

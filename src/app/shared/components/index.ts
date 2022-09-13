@@ -1,4 +1,5 @@
 export * from './card/card.component';
+export * from './icon/icon.component';
 export * from './list/list.component';
 export * from './list-item/list-item.component';
 export * from './navigation-bar/navigation-bar.component';
