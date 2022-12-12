@@ -139,7 +139,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "mm",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "mm"
