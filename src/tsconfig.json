@@ -12,10 +12,7 @@
     "noUnusedParameters": true,
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
-    // TODO: Change `target` back to es2015 once the coverage/inheritance bug gets fixed
-    "target": "es5",
-    "typeRoots": [
-      "../node_modules/@types"
-    ]
+    "target": "es2015",
+    "typeRoots": ["../node_modules/@types"]
   }
 }
