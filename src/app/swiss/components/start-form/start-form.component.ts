@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'mm-start-form',
@@ -11,9 +11,9 @@ export class StartFormComponent implements OnChanges {
   @Input() recommendedNumberOfRounds: number;
   @Output() startTournament = new EventEmitter<number>();
 
-  swissPlayersStartForm: FormGroup;
+  swissPlayersStartForm: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.createForm();
   }
 

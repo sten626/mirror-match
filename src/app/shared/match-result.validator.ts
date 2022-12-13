@@ -1,6 +1,6 @@
-import { FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export const matchResultValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+export const matchResultValidator: ValidatorFn = (control: UntypedFormGroup): ValidationErrors | null => {
   const player1Wins: number = control.get('player1Wins').value;
   const player2Wins: number = control.get('player2Wins').value;
   const draws: number = control.get('draws').value;

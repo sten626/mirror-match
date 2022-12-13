@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Player } from 'app/shared';
 
 @Component({
@@ -20,9 +20,9 @@ export class PlayerFormComponent implements OnChanges {
 
   addMode = false;
   isPlayerDroppable = false;
-  swissPlayerForm: FormGroup;
+  swissPlayerForm: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.createForm();
   }
 

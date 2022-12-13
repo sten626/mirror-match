@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -25,7 +25,7 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   @Output() createNextRound = new EventEmitter<void>();
   @Output() createPairings = new EventEmitter<number>();
 
-  selectedRoundControl = new FormControl(1);
+  selectedRoundControl = new UntypedFormControl(1);
 
   private selectedRoundControlSub: Subscription;
 

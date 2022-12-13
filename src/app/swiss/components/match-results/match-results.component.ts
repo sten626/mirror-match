@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Dictionary } from '@ngrx/entity';
 import { matchResultValidator, Pairing, Player } from 'app/shared';
 
@@ -15,7 +15,7 @@ export class MatchResultsComponent implements OnChanges {
   @Output() dropPlayers = new EventEmitter<Player[]>();
   @Output() submitResult = new EventEmitter<Pairing>();
 
-  matchResultsForm: FormGroup = this.fb.group({
+  matchResultsForm: UntypedFormGroup = this.fb.group({
     player1Wins: 0,
     player2Wins: 0,
     draws: 0,
@@ -25,7 +25,7 @@ export class MatchResultsComponent implements OnChanges {
     validators: matchResultValidator
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selectedPairing && !changes.selectedPairing.firstChange) {
@@ -99,7 +99,7 @@ export class MatchResultsComponent implements OnChanges {
     return this.playerEntities[playerId].name;
   }
 
-  private resetForm(form: FormGroup, selectedPairing: Pairing | null) {
+  private resetForm(form: UntypedFormGroup, selectedPairing: Pairing | null) {
     if (selectedPairing) {
       form.reset({
         player1Wins: selectedPairing.player1Wins,

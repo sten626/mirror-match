@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -17,9 +17,9 @@ export class PairingsListFormComponent implements OnDestroy, OnInit {
   @Output() showOutstandingOnlyChanged = new EventEmitter<boolean>();
 
   filterTextSub: Subscription;
-  pairingsListForm: FormGroup = new FormGroup({
-    filterText: new FormControl(''),
-    showOutstandingOnly: new FormControl(true)
+  pairingsListForm: UntypedFormGroup = new UntypedFormGroup({
+    filterText: new UntypedFormControl(''),
+    showOutstandingOnly: new UntypedFormControl(true)
   });
   showOutstandingOnlySub: Subscription;
 
