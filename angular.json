@@ -14,7 +14,7 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets",
               "src/android-chrome-192x192.png",
@@ -85,7 +85,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "src/tsconfig.json",
+            "tsConfig": "tsconfig.spec.json",
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "scripts": [
