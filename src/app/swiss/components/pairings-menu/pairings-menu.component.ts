@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'mm-pairings-menu',
-  templateUrl: './pairings-menu.component.html'
+  templateUrl: './pairings-menu.component.html',
 })
 export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   @Input() canStartNextRound: boolean;
@@ -21,15 +30,18 @@ export class PairingsMenuComponent implements OnChanges, OnDestroy, OnInit {
   private selectedRoundControlSub: Subscription;
 
   ngOnInit(): void {
-    this.selectedRoundControlSub = this.selectedRoundControl.valueChanges.subscribe(round => {
-      const roundInt = parseInt(round);
-      this.changeSelectedRound.emit(roundInt);
-    });
+    this.selectedRoundControlSub =
+      this.selectedRoundControl.valueChanges.subscribe((round) => {
+        const roundInt = parseInt(round);
+        this.changeSelectedRound.emit(roundInt);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectedRoundId) {
-      this.selectedRoundControl.setValue(this.selectedRoundId, { emitEvent: false });
+      this.selectedRoundControl.setValue(this.selectedRoundId, {
+        emitEvent: false,
+      });
     }
   }
 

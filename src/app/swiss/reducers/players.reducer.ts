@@ -14,23 +14,33 @@ export const adapter: EntityAdapter<Player> = createEntityAdapter<Player>();
 
 export const initialState: State = adapter.getInitialState({
   loaded: false,
-  loading: false
+  loading: false,
 });
 
 export const reducer = createReducer(
   initialState,
-  on(PlayersApiActions.addPlayerSuccess, (state, {player}) => adapter.addOne(player, state)),
-  on(PlayersApiActions.deletePlayerSuccess, (state, {playerId}) => adapter.removeOne(playerId, state)),
-  on(PlayersApiActions.dropPlayersSuccess, (state, {players}) => adapter.updateMany(players, state)),
-  on(PlayersApiActions.loadPlayers, state => ({
+  on(PlayersApiActions.addPlayerSuccess, (state, { player }) =>
+    adapter.addOne(player, state)
+  ),
+  on(PlayersApiActions.deletePlayerSuccess, (state, { playerId }) =>
+    adapter.removeOne(playerId, state)
+  ),
+  on(PlayersApiActions.dropPlayersSuccess, (state, { players }) =>
+    adapter.updateMany(players, state)
+  ),
+  on(PlayersApiActions.loadPlayers, (state) => ({
     ...state,
-    loading: true
+    loading: true,
   })),
-  on(PlayersApiActions.loadPlayersSuccess, (state, {players}) => adapter.addAll(players, {
-    ...state,
-    loaded: true,
-    loading: false
-  })),
-  on(PlayersApiActions.updatePlayer, (state, {player}) => adapter.updateOne(player, state)),
-  on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll(state))
+  on(PlayersApiActions.loadPlayersSuccess, (state, { players }) =>
+    adapter.setAll(players, {
+      ...state,
+      loaded: true,
+      loading: false,
+    })
+  ),
+  on(PlayersApiActions.updatePlayer, (state, { player }) =>
+    adapter.updateOne(player, state)
+  ),
+  on(SwissApiActions.clearAllDataSuccess, (state) => adapter.removeAll(state))
 );
