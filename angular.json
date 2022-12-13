@@ -116,7 +116,6 @@
       }
     }
   },
-  "defaultProject": "mirror-match",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "mm",
