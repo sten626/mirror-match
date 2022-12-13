@@ -31,18 +31,17 @@ describe('PairingsPageComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: fromSwiss.reducers
-        })
+          swiss: fromSwiss.reducers,
+        }),
       ],
       declarations: [
         MatchResultsStubComponent,
         PairingsListStubComponent,
         PairingsMenuStubComponent,
-        PairingsPageComponent
+        PairingsPageComponent,
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -54,7 +53,7 @@ describe('PairingsPageComponent', () => {
       player1Wins: 0,
       player2Wins: 0,
       draws: 0,
-      submitted: false
+      submitted: false,
     };
     pairing2 = {
       id: 2,
@@ -64,7 +63,7 @@ describe('PairingsPageComponent', () => {
       player1Wins: 0,
       player2Wins: 0,
       draws: 0,
-      submitted: false
+      submitted: false,
     };
     pairingB = {
       id: 3,
@@ -74,19 +73,19 @@ describe('PairingsPageComponent', () => {
       player1Wins: 2,
       player2Wins: 0,
       draws: 0,
-      submitted: true
+      submitted: true,
     };
     player1 = {
       id: 1,
       name: 'Sten',
-      dropped: false
+      dropped: false,
     };
     player2 = {
       id: 2,
       name: 'Spike',
-      dropped: false
+      dropped: false,
     };
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(PairingsPageComponent);
     component = fixture.componentInstance;
@@ -102,14 +101,14 @@ describe('PairingsPageComponent', () => {
   describe('onChangeSelectedRound', () => {
     it('should dispatch an action when called with null', () => {
       const roundId = null;
-      const action = PairingsPageActions.changeSelectedRound({roundId});
+      const action = PairingsPageActions.changeSelectedRound({ roundId });
       component.onChangeSelectedRound(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 
     it('should dispatch an action when called with a round ID', () => {
       const roundId = 1;
-      const action = PairingsPageActions.changeSelectedRound({roundId});
+      const action = PairingsPageActions.changeSelectedRound({ roundId });
       component.onChangeSelectedRound(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -124,7 +123,9 @@ describe('PairingsPageComponent', () => {
     });
 
     it('should dispatch an action when called with a pairing', () => {
-      const action = PairingsPageActions.clearMatchResult({pairing: pairing1});
+      const action = PairingsPageActions.clearMatchResult({
+        pairing: pairing1,
+      });
       component.onClearMatchResult(pairing1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -148,7 +149,7 @@ describe('PairingsPageComponent', () => {
 
     it('should dispatch an action when called with a round ID', () => {
       const roundId = 1;
-      const action = PairingsPageActions.createPairings({roundId});
+      const action = PairingsPageActions.createPairings({ roundId });
       component.onCreatePairings(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -168,15 +169,15 @@ describe('PairingsPageComponent', () => {
     });
 
     it('should dispatch an action when called with a list with one item', () => {
-      const pairings = [ pairing1 ];
-      const action = PairingsPageActions.clearResults({pairings});
+      const pairings = [pairing1];
+      const action = PairingsPageActions.clearResults({ pairings });
       component.onDeleteResults(pairings);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 
     it('should dispatch an action when called with a list with multiple items', () => {
-      const pairings = [ pairing1, pairing2 ];
-      const action = PairingsPageActions.clearResults({pairings});
+      const pairings = [pairing1, pairing2];
+      const action = PairingsPageActions.clearResults({ pairings });
       component.onDeleteResults(pairings);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -196,15 +197,15 @@ describe('PairingsPageComponent', () => {
     });
 
     it('should dispatch an action when called with a single player', () => {
-      const players = [ player1 ];
-      const action = PairingsPageActions.dropPlayers({players});
+      const players = [player1];
+      const action = PairingsPageActions.dropPlayers({ players });
       component.onDropPlayers(players);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 
     it('should dispatch an action when called with multiple players', () => {
-      const players = [ player1, player2 ];
-      const action = PairingsPageActions.dropPlayers({players});
+      const players = [player1, player2];
+      const action = PairingsPageActions.dropPlayers({ players });
       component.onDropPlayers(players);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -220,7 +221,7 @@ describe('PairingsPageComponent', () => {
 
     it('should dispatch an action when called with a round ID', () => {
       const roundId = 1;
-      const action = PairingsPageActions.deletePairings({roundId});
+      const action = PairingsPageActions.deletePairings({ roundId });
       component.onRedoMatches(roundId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -240,7 +241,7 @@ describe('PairingsPageComponent', () => {
     });
 
     it('should dispatch an action when called with a normal pairing', () => {
-      const action = PairingsPageActions.selectPairing({pairingId: 1});
+      const action = PairingsPageActions.selectPairing({ pairingId: 1 });
       component.onSelectPairing(pairing1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -255,7 +256,7 @@ describe('PairingsPageComponent', () => {
     });
 
     it('should dispatch an action when called with a pairing', () => {
-      const action = PairingsPageActions.submitResult({pairing: pairing1});
+      const action = PairingsPageActions.submitResult({ pairing: pairing1 });
       component.onSubmitResult(pairing1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });

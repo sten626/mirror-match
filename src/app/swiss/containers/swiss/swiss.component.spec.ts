@@ -15,19 +15,16 @@ describe('SwissComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: combineReducers(fromSwiss.reducers)
-        })
+          swiss: combineReducers(fromSwiss.reducers),
+        }),
       ],
-      declarations: [
-        SwissComponent
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+      declarations: [SwissComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(SwissComponent);
     component = fixture.componentInstance;

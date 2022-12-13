@@ -11,28 +11,26 @@ describe('PlayerEffects', () => {
   const player1 = generateMockPlayer();
   const player1NoId: Player = {
     ...player1,
-    id: null
+    id: null,
   };
   let actions$: Observable<any>;
   let effects: PlayerEffects;
-  const storageSpy = jasmine.createSpyObj(
-    'PlayerStorageService', [
-      'addPlayer',
-      'getPlayers'
-    ]
-  );
+  const storageSpy = jasmine.createSpyObj('PlayerStorageService', [
+    'addPlayer',
+    'getPlayers',
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: PlayerStorageService, useValue: storageSpy },
         PlayerEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
-    effects = TestBed.get(PlayerEffects);
-    actions$ = TestBed.get(Actions);
+    effects = TestBed.inject(PlayerEffects);
+    actions$ = TestBed.inject(Actions);
   });
 
   it('should be created', () => {
@@ -42,7 +40,9 @@ describe('PlayerEffects', () => {
   describe('addPlayer', () => {
     it('should create an addPlayerSuccess', () => {
       const action = PlayersPageActions.addPlayer({ player: player1NoId });
-      const completion = PlayersApiActions.addPlayerSuccess({ player: player1 });
+      const completion = PlayersApiActions.addPlayerSuccess({
+        player: player1,
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', { a: player1 });
@@ -56,7 +56,9 @@ describe('PlayerEffects', () => {
     it('should create an addPlayerFailure when addPlayer throws an error', () => {
       const action = PlayersPageActions.addPlayer({ player: player1NoId });
       const error = 'Cannot add nonexistent player.';
-      const completion = PlayersApiActions.addPlayerFailure({ player: player1NoId });
+      const completion = PlayersApiActions.addPlayerFailure({
+        player: player1NoId,
+      });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#', {}, error);

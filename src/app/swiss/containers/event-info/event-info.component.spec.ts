@@ -22,21 +22,20 @@ describe('EventInfoComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: fromSwiss.reducers
-        })
+          swiss: fromSwiss.reducers,
+        }),
       ],
       declarations: [
         EventInfoComponent,
         PlayersInfoStubComponent,
-        RoundInfoStubComponent
+        RoundInfoStubComponent,
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(EventInfoComponent);
     component = fixture.componentInstance;

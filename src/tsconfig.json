@@ -15,10 +15,6 @@
     "target": "es2015",
     "typeRoots": ["../node_modules/@types"]
   },
-  "files": [
-    "main.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["main.ts"],
+  "include": ["src/**/*.d.ts"]
 }
