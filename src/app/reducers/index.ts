@@ -14,7 +14,7 @@ export const rootReducers = new InjectionToken<
   })
 });
 
-export const getMessagesState = createFeatureSelector<State, fromMessages.State>(
+export const getMessagesState = createFeatureSelector< fromMessages.State>(
   fromMessages.messagesFeatureKey
 );
 

@@ -31,7 +31,7 @@ export function reducers(state: SwissState | undefined, action: Action) {
  * Module feature selector.
  */
 
-export const getSwissState = createFeatureSelector<State, SwissState>(swissFeatureKey);
+export const getSwissState = createFeatureSelector< SwissState>(swissFeatureKey);
 
 /**
  * Pairing selectors.
