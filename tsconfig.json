@@ -6,7 +6,10 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "mapRoot": "./",
     "module": "es2020",
     "moduleResolution": "node",
@@ -14,11 +17,16 @@
     "noUnusedParameters": true,
     "outDir": "../dist/out-tsc",
     "paths": {
-      "app/*": ["src/app/*"]
+      "app/*": [
+        "src/app/*"
+      ]
     },
     "sourceMap": true,
-    "target": "es2020",
-    "typeRoots": ["node_modules/@types"]
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
