@@ -6,9 +6,9 @@ import { Player } from 'app/shared';
   templateUrl: './player-list.component.html',
 })
 export class PlayerListComponent {
-  @Input() hasTournamentStarted: boolean;
-  @Input() players: Player[];
-  @Input() selectedPlayer: Player;
+  @Input() hasTournamentStarted: boolean = false;
+  @Input() players: Player[] = [];
+  @Input() selectedPlayer: Player | undefined;
   @Output() delete = new EventEmitter<number>();
   @Output() select = new EventEmitter<Player>();
 

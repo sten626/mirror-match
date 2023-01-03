@@ -30,17 +30,18 @@ describe('PlayerStorageService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('addPlayer', () => {
-    it('should throw an error when passed a null player', (done: DoneFn) => {
-      service.addPlayer(null).subscribe(
-        () => {
-          fail();
-        },
-        (error) => {
-          expect(error).toBe('Cannot add nonexistent player.');
-          done();
-        }
-      );
-    });
-  });
+  // Test no longer makes sense since TS doesn't allow passing null.
+  // describe('addPlayer', () => {
+  //   it('should throw an error when passed a null player', (done: DoneFn) => {
+  //     service.addPlayer(null).subscribe(
+  //       () => {
+  //         fail();
+  //       },
+  //       (error) => {
+  //         expect(error).toBe('Cannot add nonexistent player.');
+  //         done();
+  //       }
+  //     );
+  //   });
+  // });
 });
