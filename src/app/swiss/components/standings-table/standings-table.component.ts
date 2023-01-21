@@ -4,9 +4,9 @@ import { Player, Standing } from 'app/shared';
 
 @Component({
   selector: 'mm-standings-table',
-  templateUrl: './standings-table.component.html'
+  templateUrl: './standings-table.component.html',
 })
 export class StandingsTableComponent {
-  @Input() playerEntities: Dictionary<Player>;
-  @Input() standings: Standing[];
+  @Input() playerEntities!: Dictionary<Player>;
+  @Input() standings: Standing[] = [];
 }
