@@ -17,12 +17,12 @@ export class PairingsPageComponent {
   numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
   pairingsExist$: Observable<boolean>;
-  pairingsFilterText$: Observable<string>;
+  // pairingsFilterText$: Observable<string>;
   playerEntities$: Observable<Dictionary<Player>>;
   roundIds$: Observable<number[]>;
-  selectedPairing$: Observable<Pairing>;
+  selectedPairing$: Observable<Pairing | null | undefined>;
   selectedRoundComplete$: Observable<boolean>;
-  selectedRoundId$: Observable<number>;
+  selectedRoundId$: Observable<number | null>;
 
   constructor(private store: Store<fromSwiss.State>) {
     this.canStartNextRound$ = this.store.pipe(

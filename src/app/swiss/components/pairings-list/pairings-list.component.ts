@@ -5,16 +5,16 @@ import { Pairing, Player } from 'app/shared';
 @Component({
   selector: 'mm-pairings-list',
   styles: ['.redo-matches { margin-right: 1em; }'],
-  templateUrl: './pairings-list.component.html'
+  templateUrl: './pairings-list.component.html',
 })
 export class PairingsListComponent {
-  @Input() hasSubmittedPairings: boolean;
-  @Input() pairings: Pairing[];
-  @Input() pairingsExist: boolean;
-  @Input() playerEntities: Dictionary<Player>;
-  @Input() selectedPairing: Pairing;
-  @Input() selectedRoundComplete: boolean;
-  @Input() selectedRoundId: number;
+  @Input() hasSubmittedPairings: boolean = false;
+  @Input() pairings: Pairing[] = [];
+  @Input() pairingsExist: boolean = false;
+  @Input() playerEntities!: Dictionary<Player>;
+  @Input() selectedPairing!: Pairing;
+  @Input() selectedRoundComplete: boolean = false;
+  @Input() selectedRoundId: number | null = null;
   @Output() deleteResults = new EventEmitter<Pairing[]>();
   @Output() redoMatches = new EventEmitter<number>();
   @Output() selectPairing = new EventEmitter<Pairing>();
@@ -64,9 +64,9 @@ export class PairingsListComponent {
     this.filterText = filterText;
   }
 
-  playerName(playerId: number): string {
+  playerName(playerId: number | null): string {
     if (playerId) {
-      return this.playerEntities[playerId].name;
+      return this.playerEntities[playerId]!.name;
     } else {
       return '***Bye***';
     }

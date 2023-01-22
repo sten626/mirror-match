@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './swiss-menu.component.html',
 })
 export class SwissMenuComponent {
-  @Input() hasCompletedRounds: boolean | null = false;
-  @Input() hasTournamentStarted: boolean | null = false;
-  @Input() numberOfActivePlayers: number | null = 0;
+  @Input() hasCompletedRounds: boolean = false;
+  @Input() hasTournamentStarted: boolean = false;
+  @Input() numberOfActivePlayers: number = 0;
 }

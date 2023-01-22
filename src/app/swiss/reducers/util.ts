@@ -23,9 +23,9 @@ function aggregatePlayerMatchData(
   const standings: Dictionary<Standing> = {};
 
   players.forEach((player) => {
-    standings[player.id] = {
+    standings[player.id!] = {
       ...standingDefaults,
-      playerId: player.id,
+      playerId: player.id!,
       opponentIds: [],
     };
   });
@@ -70,7 +70,7 @@ function calculateOpponentWinData(
   standings: Dictionary<Standing>
 ) {
   players.forEach((player) => {
-    const standing = standings[player.id] as Standing;
+    const standing = standings[player.id!] as Standing;
     const totalOpponents = standing.opponentIds.length;
 
     if (totalOpponents === 0) {
@@ -106,7 +106,7 @@ function calculatePlayerWinData(
   const minimum = 1 / 3;
 
   players.forEach((player) => {
-    const standing = standings[player.id] as Standing;
+    const standing = standings[player.id!] as Standing;
     standing.matchPoints = standing.matchesWon * 3 + standing.matchesDrawn;
     const trueMatchWinPercentage =
       standing.matchPoints / (standing.matchesPlayed * 3);
@@ -125,7 +125,7 @@ function getStandingsList(
   players: Player[],
   standings: Dictionary<Standing>
 ): Standing[] {
-  return players.map((p) => standings[p.id] as Standing);
+  return players.map((p) => standings[p.id!] as Standing);
 }
 
 function sigFigs(num: number, sigFigCount: number): number {

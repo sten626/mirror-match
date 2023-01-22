@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'mm-round-info',
-  templateUrl: './round-info.component.html'
+  templateUrl: './round-info.component.html',
 })
 export class RoundInfoComponent {
-  @Input() completedRoundId: number;
-  @Input() currentRoundId: number;
-  @Input() numberOfMatchesInProgress: number;
-  @Input() numberOfRounds: number;
+  @Input() completedRoundId: number = 0;
+  @Input() currentRoundId: number = 0;
+  @Input() numberOfMatchesInProgress: number = 0;
+  @Input() numberOfRounds: number = 0;
 }

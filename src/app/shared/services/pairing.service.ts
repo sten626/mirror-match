@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { standingsMatchPointComparator, standingsTiebreakerComparator } from 'app/shared/comparators';
+import {
+  standingsMatchPointComparator,
+  standingsTiebreakerComparator,
+} from 'app/shared/comparators';
 import { Pairing, Standing } from 'app/shared/models';
 import { Observable, of } from 'rxjs';
 
@@ -29,14 +32,23 @@ export class PairingService {
   //   // this.loadFromLocalStorage();
   // }
 
-  createPairings(roundId: number, isLastRound: boolean, activePlayerStandings: Standing[], nextId: number): Observable<Pairing[]> {
+  createPairings(
+    roundId: number,
+    isLastRound: boolean,
+    activePlayerStandings: Standing[],
+    nextId: number
+  ): Observable<Pairing[]> {
     const shuffledStandings = this.shuffleStandings(activePlayerStandings);
 
     if (roundId === 1) {
       const pairings = this.createRandomPairings(shuffledStandings, nextId);
       return of(pairings);
     } else {
-      const pairings = this.createWeaklyStablePairings(shuffledStandings, isLastRound, nextId);
+      const pairings = this.createWeaklyStablePairings(
+        shuffledStandings,
+        isLastRound,
+        nextId
+      );
       return of(pairings);
     }
   }
@@ -100,8 +112,11 @@ export class PairingService {
   //   this.next(pairings);
   // }
 
-  private createRandomPairings(standings: Standing[], nextId: number): Pairing[] {
-    const playerIds = standings.map(s => s.playerId);
+  private createRandomPairings(
+    standings: Standing[],
+    nextId: number
+  ): Pairing[] {
+    const playerIds = standings.map((s) => s.playerId);
     const pairings = [];
     let table = 1;
 
@@ -109,12 +124,12 @@ export class PairingService {
       const pairing: Pairing = {
         id: nextId++,
         table: table++,
-        player1Id: playerIds.shift(),
-        player2Id: playerIds.shift(),
+        player1Id: playerIds.shift()!,
+        player2Id: playerIds.shift()!,
         player1Wins: 0,
         player2Wins: 0,
         draws: 0,
-        submitted: false
+        submitted: false,
       };
       pairings.push(pairing);
     }
@@ -123,12 +138,12 @@ export class PairingService {
       const pairing: Pairing = {
         id: nextId++,
         table: 0,
-        player1Id: playerIds.shift(),
+        player1Id: playerIds.shift()!,
         player2Id: null,
         player1Wins: 2,
         player2Wins: 0,
         draws: 0,
-        submitted: true
+        submitted: true,
       };
       pairings.unshift(pairing);
     }
@@ -136,14 +151,20 @@ export class PairingService {
     return pairings;
   }
 
-  private createWeaklyStablePairings(standings: Standing[], isLastRound: boolean, nextId: number): Pairing[] {
+  private createWeaklyStablePairings(
+    standings: Standing[],
+    isLastRound: boolean,
+    nextId: number
+  ): Pairing[] {
     const pairings = [];
-    const comparator = isLastRound ? standingsTiebreakerComparator : standingsMatchPointComparator;
+    const comparator = isLastRound
+      ? standingsTiebreakerComparator
+      : standingsMatchPointComparator;
     const sortedStandings = standings.sort(comparator);
     const needsBye = sortedStandings.length % 2 === 1;
 
     if (needsBye) {
-      const standing = sortedStandings.pop();
+      const standing = sortedStandings.pop()!;
       const pairing: Pairing = {
         id: nextId++,
         table: 0,
@@ -152,7 +173,7 @@ export class PairingService {
         player1Wins: 2,
         player2Wins: 0,
         draws: 0,
-        submitted: true
+        submitted: true,
       };
       pairings.push(pairing);
     }
@@ -161,7 +182,6 @@ export class PairingService {
   }
 
   // private createWeaklyStablePairings(players: Player[], round: number, isLastRound: boolean): Pairing[] {
-
 
   //   // const playerPreferenceMap = this.createPlayerPreferenceMap(players);
   //   // const assignedPlayers = {};
@@ -257,34 +277,49 @@ export class PairingService {
     return result;
   }
 
-  private pairPlayersInner(standings: Standing[], pairings: Pairing[], nextId: number, table: number): Pairing[] {
+  private pairPlayersInner(
+    standings: Standing[],
+    pairings: Pairing[],
+    nextId: number,
+    table: number
+  ): Pairing[] | null {
     if (standings.length === 0) {
       return pairings;
     }
 
-    const [standing, ...potentialOpps] = standings;
-    const {playerId} = standing;
+    const [standing, ...potentialOpponents] = standings;
+    const { playerId } = standing;
 
-    for (const potentialOpp of potentialOpps) {
+    for (const potentialOpp of potentialOpponents) {
       const oppId = potentialOpp.playerId;
 
       if (standing.opponentIds.includes(oppId)) {
         continue;
       }
 
-      const newPairings = [...pairings, {
-        id: nextId,
-        table: table,
-        player1Id: playerId,
-        player2Id: oppId,
-        player1Wins: 0,
-        player2Wins: 0,
-        draws: 0,
-        submitted: false
-      } as Pairing];
+      const newPairings = [
+        ...pairings,
+        {
+          id: nextId,
+          table: table,
+          player1Id: playerId,
+          player2Id: oppId,
+          player1Wins: 0,
+          player2Wins: 0,
+          draws: 0,
+          submitted: false,
+        } as Pairing,
+      ];
 
-      const newStandings = potentialOpps.filter(o => o.playerId !== oppId);
-      const result = this.pairPlayersInner(newStandings, newPairings, nextId + 1, table + 1);
+      const newStandings = potentialOpponents.filter(
+        (o) => o.playerId !== oppId
+      );
+      const result = this.pairPlayersInner(
+        newStandings,
+        newPairings,
+        nextId + 1,
+        table + 1
+      );
 
       if (result !== null) {
         return result;
@@ -364,7 +399,10 @@ export class PairingService {
 
     for (let i = shuffledStandings.length; i; i--) {
       const j = Math.floor(Math.random() * i);
-      [shuffledStandings[i - 1], shuffledStandings[j]] = [shuffledStandings[j], shuffledStandings[i - 1]];
+      [shuffledStandings[i - 1], shuffledStandings[j]] = [
+        shuffledStandings[j],
+        shuffledStandings[i - 1],
+      ];
     }
 
     return shuffledStandings;

@@ -8,7 +8,7 @@ import { Player } from 'app/shared';
 export class PlayerListComponent {
   @Input() hasTournamentStarted: boolean = false;
   @Input() players: Player[] = [];
-  @Input() selectedPlayer: Player | undefined;
+  @Input() selectedPlayer: Player | null = null;
   @Output() delete = new EventEmitter<number>();
   @Output() select = new EventEmitter<Player>();
 

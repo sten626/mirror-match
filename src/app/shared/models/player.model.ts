@@ -1,5 +1,5 @@
 interface PlayerInterface {
-  id: number;
+  id: number | null; // TODO: Revisit this type ones things are stable.
   name: string;
   dropped: boolean;
 }
@@ -10,6 +10,6 @@ export function generateMockPlayer(): Player {
   return {
     id: 1,
     name: 'Steven',
-    dropped: false
+    dropped: false,
   };
 }

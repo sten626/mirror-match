@@ -15,7 +15,7 @@
     <button
       class="close"
       *ngIf="!hasTournamentStarted"
-      (click)="delete.emit(player.id)"
+      (click)="delete.emit(player.id!)"
     >
       &times;
     </button>

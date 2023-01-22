@@ -1,25 +1,33 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'mm-start-form',
-  templateUrl: './start-form.component.html'
+  templateUrl: './start-form.component.html',
 })
 export class StartFormComponent implements OnChanges {
-  @Input() canBeginTournament: boolean;
-  @Input() hasTournamentStarted: boolean;
-  @Input() recommendedNumberOfRounds: number;
+  @Input() canBeginTournament: boolean = false;
+  @Input() hasTournamentStarted: boolean = false;
+  @Input() recommendedNumberOfRounds: number = 3;
   @Output() startTournament = new EventEmitter<number>();
 
   swissPlayersStartForm: UntypedFormGroup;
 
   constructor(private fb: UntypedFormBuilder) {
-    this.createForm();
+    this.swissPlayersStartForm = this.fb.group({
+      numberOfRounds: 3,
+    });
   }
 
   ngOnChanges() {
     this.swissPlayersStartForm.reset({
-      numberOfRounds: this.recommendedNumberOfRounds
+      numberOfRounds: this.recommendedNumberOfRounds,
     });
 
     if (this.hasTournamentStarted) {
@@ -30,13 +38,7 @@ export class StartFormComponent implements OnChanges {
   }
 
   onSubmit() {
-    const numOfRounds = this.swissPlayersStartForm.get('numberOfRounds').value;
+    const numOfRounds = this.swissPlayersStartForm.get('numberOfRounds')!.value;
     this.startTournament.emit(numOfRounds);
-  }
-
-  private createForm() {
-    this.swissPlayersStartForm = this.fb.group({
-      numberOfRounds: 3
-    });
   }
 }
