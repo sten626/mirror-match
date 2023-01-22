@@ -12,21 +12,21 @@ describe('PlayersReducer', () => {
   const player2: Player = {
     id: 2,
     name: 'Jasper',
-    dropped: false
+    dropped: false,
   };
   const player3: Player = {
     id: 3,
     name: 'Spike',
-    dropped: false
+    dropped: false,
   };
   const populatedState: fromPlayers.State = {
-    ids: [player1.id, player2.id],
+    ids: [player1.id!, player2.id!],
     entities: {
-      [player1.id]: player1,
-      [player2.id]: player2
+      [player1.id!]: player1,
+      [player2.id!]: player2,
     },
     loaded: true,
-    loading: false
+    loading: false,
   };
 
   describe('undefined action', () => {
@@ -45,7 +45,7 @@ describe('PlayersReducer', () => {
       const action = PlayersApiActions.addPlayerSuccess({ player: player1 });
       const state = fromPlayers.reducer(initialState, action);
 
-      expect(state.entities[player1.id]).toEqual(player1);
+      expect(state.entities[player1.id!]).toEqual(player1);
     });
   });
 
@@ -57,7 +57,7 @@ describe('PlayersReducer', () => {
 
       expect(state).toEqual({
         ...initialState,
-        loaded: true
+        loaded: true,
       });
     });
   });
@@ -65,23 +65,25 @@ describe('PlayersReducer', () => {
   describe('Delete Player Success', () => {
     it('should remove a player from the state', () => {
       const action = PlayersApiActions.deletePlayerSuccess({
-        playerId: player1.id
+        playerId: player1.id!,
       });
       const expectedResult: fromPlayers.State = {
-        ids: [player2.id],
+        ids: [player2.id!],
         entities: {
-          [player2.id]: player2
+          [player2.id!]: player2,
         },
         loaded: true,
-        loading: false
+        loading: false,
       };
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(expectedResult);
     });
 
-    it('should leave state unchanged when trying to delete a nonexistant player', () => {
-      const action = PlayersApiActions.deletePlayerSuccess({ playerId: player3.id });
+    it('should leave state unchanged when trying to delete a nonexistent player', () => {
+      const action = PlayersApiActions.deletePlayerSuccess({
+        playerId: player3.id!,
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(populatedState);
@@ -98,12 +100,14 @@ describe('PlayersReducer', () => {
 
     it('should not affect the state when passing a player not in the state', () => {
       const update: Update<Player> = {
-        id: player3.id,
+        id: player3.id!,
         changes: {
-          dropped: true
-        }
+          dropped: true,
+        },
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update],
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
       expect(state).toEqual(populatedState);
@@ -111,36 +115,40 @@ describe('PlayersReducer', () => {
 
     it('should drop a single player in the state', () => {
       const update: Update<Player> = {
-        id: player1.id,
+        id: player1.id!,
         changes: {
-          dropped: true
-        }
+          dropped: true,
+        },
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update],
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
-      expect(state.entities[player1.id].dropped).toEqual(true);
-      expect(state.entities[player2.id].dropped).toEqual(false);
+      expect(state.entities[player1.id!]!.dropped).toEqual(true);
+      expect(state.entities[player2.id!]!.dropped).toEqual(false);
     });
 
     it('should drop multiple players in the state', () => {
       const update1: Update<Player> = {
-        id: player1.id,
+        id: player1.id!,
         changes: {
-          dropped: true
-        }
+          dropped: true,
+        },
       };
       const update2: Update<Player> = {
-        id: player2.id,
+        id: player2.id!,
         changes: {
-          dropped: true
-        }
+          dropped: true,
+        },
       };
-      const action = PlayersApiActions.dropPlayersSuccess({ players: [update1, update2] });
+      const action = PlayersApiActions.dropPlayersSuccess({
+        players: [update1, update2],
+      });
       const state = fromPlayers.reducer(populatedState, action);
 
-      expect(state.entities[player1.id].dropped).toEqual(true);
-      expect(state.entities[player2.id].dropped).toEqual(true);
+      expect(state.entities[player1.id!]!.dropped).toEqual(true);
+      expect(state.entities[player2.id!]!.dropped).toEqual(true);
     });
   });
 
@@ -162,13 +170,13 @@ describe('PlayersReducer', () => {
       const players = [player1, player2];
       const action = PlayersApiActions.loadPlayersSuccess({ players });
       const expectedResult: fromPlayers.State = {
-        ids: [player1.id, player2.id],
+        ids: [player1.id!, player2.id!],
         entities: {
-          [player1.id]: player1,
-          [player2.id]: player2
+          [player1.id!]: player1,
+          [player2.id!]: player2,
         },
         loaded: true,
-        loading: false
+        loading: false,
       };
       const state = fromPlayers.reducer(initialState, action);
 
@@ -179,15 +187,15 @@ describe('PlayersReducer', () => {
   describe('Update Player', () => {
     it('should update player name', () => {
       const playerChanges: Update<Player> = {
-        id: player1.id,
+        id: player1.id!,
         changes: {
-          name: 'Sten'
-        }
+          name: 'Sten',
+        },
       };
       const action = PlayersApiActions.updatePlayer({ player: playerChanges });
       const state = fromPlayers.reducer(populatedState, action);
 
-      expect(state.entities['1'].name).toEqual('Sten');
+      expect(state.entities['1']!.name).toEqual('Sten');
     });
   });
 });
