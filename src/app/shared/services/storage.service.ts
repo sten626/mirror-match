@@ -64,6 +64,16 @@ export class StorageService {
     );
   }
 
+  protected setNumberOrNull(
+    key: string,
+    value: number | null
+  ): Observable<number | null> {
+    return this.supported().pipe(
+      tap(() => this.storage.setItem(key, JSON.stringify(value))),
+      map(() => value)
+    );
+  }
+
   protected supported(): Observable<boolean> {
     return this.storage !== null
       ? of(true)
