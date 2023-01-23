@@ -79,11 +79,6 @@ describe('Players Page Component', () => {
   /* addPlayer */
 
   describe('addPlayer', () => {
-    it('should not dispatch an action when called with null', () => {
-      component.addPlayer(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
     it('should dispatch an action to add a player', () => {
       const action = PlayersPageActions.addPlayer({ player: player1NoId });
 
@@ -107,20 +102,12 @@ describe('Players Page Component', () => {
   /* deletePlayer */
 
   describe('deletePlayer', () => {
-    it('should do nothing when called with null', () => {
-      component.selectedPlayer = player1;
-      component.deletePlayer(null);
-
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-      expect(component.selectedPlayer).toEqual(player1);
-    });
-
     it('should dispatch an action to delete a player and clear same selected player', () => {
       component.selectedPlayer = player1;
 
       expect(component.selectedPlayer).toBeDefined();
 
-      const playerId = player1.id;
+      const playerId = player1.id!;
       const action = PlayersPageActions.deletePlayer({ playerId });
       component.deletePlayer(playerId);
 
@@ -133,7 +120,7 @@ describe('Players Page Component', () => {
 
       expect(component.selectedPlayer).toEqual(player1);
 
-      const playerId = player2.id;
+      const playerId = player2.id!;
       const action = PlayersPageActions.deletePlayer({ playerId });
       component.deletePlayer(playerId);
 
@@ -145,11 +132,6 @@ describe('Players Page Component', () => {
   /* onStartTournament */
 
   describe('onStartTournament', () => {
-    it('should not dispatch action when called with null', () => {
-      component.onStartTournament(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
     it('should not dispatch action when called with 0', () => {
       component.onStartTournament(0);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
@@ -182,15 +164,6 @@ describe('Players Page Component', () => {
   /* togglePlayerDropped */
 
   describe('togglePlayerDropped', () => {
-    it('should do nothing when called with null', () => {
-      component.selectedPlayer = player1;
-      expect(component.selectedPlayer).toEqual(player1);
-
-      component.togglePlayerDropped(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-      expect(component.selectedPlayer).toEqual(player1);
-    });
-
     it('should dispatch action and set selectedPlayer to null when called with a player', () => {
       component.selectedPlayer = player1;
       expect(component.selectedPlayer).toEqual(player1);
@@ -220,11 +193,6 @@ describe('Players Page Component', () => {
 
     it('should not dispatch an action when called with no player', () => {
       component.updatePlayerName({ player: null, name: 'Steven' });
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should not dispatch an action when called with no name', () => {
-      component.updatePlayerName({ player: player1, name: null });
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });

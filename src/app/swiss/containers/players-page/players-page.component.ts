@@ -82,7 +82,7 @@ export class PlayersPageComponent {
    * Set the selected player.
    * @param player The Player being selected.
    */
-  selectPlayer(player: Player): void {
+  selectPlayer(player: Player | null): void {
     this.selectedPlayer = player;
   }
 

@@ -55,13 +55,13 @@ describe('EventInfoComponent', () => {
 
     component.showEndEventConfirmation = true;
     fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeTruthy();
 
     component.cancelEndEvent();
     expect(component.showEndEventConfirmation).toEqual(false);
     fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeNull();
   });
 
@@ -81,13 +81,13 @@ describe('EventInfoComponent', () => {
     let alert: Element;
 
     expect(component.showEndEventConfirmation).toEqual(false);
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeNull();
 
     component.endEventClicked();
     fixture.detectChanges();
     expect(component.showEndEventConfirmation).toEqual(true);
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeTruthy();
   });
 });
