@@ -9,18 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [v1.0.5] - 2023-01-23
 
+### Changed
+
 - Upgrading to Angular 15.
 - Many other dependency updates.
 
 ## [v1.0.4] - 2020-08-21
 
-### Fixed
+### Security
 
 - Dependency security updates.
 
 ## [v1.0.3] - 2020-04-14
 
-### Fixed
+### Security
 
 - Dependency security updates.
 
