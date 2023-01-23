@@ -28,7 +28,7 @@
                 : filterText
                 : showOutstandingOnly
           "
-          [ngClass]="{ active: selectedPairing.id === pairing.id }"
+          [ngClass]="{ active: selectedPairing?.id === pairing.id }"
           (click)="selectPairing.emit(pairing)"
         >
           <td>{{ pairing.table }}</td>
