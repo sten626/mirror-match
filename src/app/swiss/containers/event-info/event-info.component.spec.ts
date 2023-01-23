@@ -22,17 +22,16 @@ describe('EventInfoComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: fromSwiss.reducers
-        })
+          swiss: fromSwiss.reducers,
+        }),
       ],
       declarations: [
         EventInfoComponent,
         PlayersInfoStubComponent,
-        RoundInfoStubComponent
+        RoundInfoStubComponent,
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -56,13 +55,13 @@ describe('EventInfoComponent', () => {
 
     component.showEndEventConfirmation = true;
     fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeTruthy();
 
     component.cancelEndEvent();
     expect(component.showEndEventConfirmation).toEqual(false);
     fixture.detectChanges();
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeNull();
   });
 
@@ -82,13 +81,13 @@ describe('EventInfoComponent', () => {
     let alert: Element;
 
     expect(component.showEndEventConfirmation).toEqual(false);
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeNull();
 
     component.endEventClicked();
     fixture.detectChanges();
     expect(component.showEndEventConfirmation).toEqual(true);
-    alert = eventInfoEl.querySelector('.alert');
+    alert = eventInfoEl.querySelector('.alert')!;
     expect(alert).toBeTruthy();
   });
 });

@@ -15,8 +15,8 @@ describe('SwissEffects', () => {
       providers: [
         { provide: Router, useValue: routerSpy },
         SwissEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effects = TestBed.inject(SwissEffects);

@@ -1,30 +1,33 @@
 <mm-pairings-menu
-  [canStartNextRound]="canStartNextRound$ | async"
-  [numberOfRounds]="numberOfRounds$ | async"
-  [pairingsExist]="pairingsExist$ | async"
-  [roundIds]="roundIds$ | async"
-  [selectedRoundId]="selectedRoundId$ | async"
+  [canStartNextRound]="(canStartNextRound$ | async)!"
+  [numberOfRounds]="(numberOfRounds$ | async)!"
+  [pairingsExist]="(pairingsExist$ | async)!"
+  [roundIds]="(roundIds$ | async)!"
+  [selectedRoundId]="(selectedRoundId$ | async)!"
   (changeSelectedRound)="onChangeSelectedRound($event)"
   (createNextRound)="onCreateNextRound()"
-  (createPairings)="onCreatePairings($event)">
+  (createPairings)="onCreatePairings($event)"
+>
 </mm-pairings-menu>
 <mm-pairings-list
-  [hasSubmittedPairings]="hasSubmittedPairings$ | async"
-  [pairings]="pairings$ | async"
-  [pairingsExist]="pairingsExist$ | async"
-  [playerEntities]="playerEntities$ | async"
-  [selectedPairing]="selectedPairing$ | async"
-  [selectedRoundComplete]="selectedRoundComplete$ | async"
-  [selectedRoundId]="selectedRoundId$ | async"
+  [hasSubmittedPairings]="(hasSubmittedPairings$ | async)!"
+  [pairings]="(pairings$ | async)!"
+  [pairingsExist]="(pairingsExist$ | async)!"
+  [playerEntities]="(playerEntities$ | async)!"
+  [selectedPairing]="(selectedPairing$ | async)!"
+  [selectedRoundComplete]="(selectedRoundComplete$ | async)!"
+  [selectedRoundId]="(selectedRoundId$ | async)!"
   (deleteResults)="onDeleteResults($event)"
   (redoMatches)="onRedoMatches($event)"
-  (selectPairing)="onSelectPairing($event)">
+  (selectPairing)="onSelectPairing($event)"
+>
 </mm-pairings-list>
 <mm-match-results
-  [playerEntities]="playerEntities$ | async"
-  [selectedPairing]="selectedPairing$ | async"
-  [selectedRoundComplete]="selectedRoundComplete$ | async"
+  [playerEntities]="(playerEntities$ | async)!"
+  [selectedPairing]="(selectedPairing$ | async)!"
+  [selectedRoundComplete]="(selectedRoundComplete$ | async)!"
   (clearMatchResult)="onClearMatchResult($event)"
   (dropPlayers)="onDropPlayers($event)"
-  (submitResult)="onSubmitResult($event)">
+  (submitResult)="onSubmitResult($event)"
+>
 </mm-match-results>

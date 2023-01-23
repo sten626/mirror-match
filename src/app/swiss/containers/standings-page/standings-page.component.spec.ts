@@ -15,15 +15,12 @@ describe('StandingsPageComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: combineReducers(fromSwiss.reducers)
-        })
+          swiss: combineReducers(fromSwiss.reducers),
+        }),
       ],
-      declarations: [
-        StandingsPageComponent
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+      declarations: [StandingsPageComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

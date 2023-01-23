@@ -1,31 +1,52 @@
 <div class="row">
   <div class="col-sm-6 col-md-3">
     <mm-round-info
-      [completedRoundId]="completedRoundId$ | async"
-      [currentRoundId]="currentRoundId$ | async"
-      [numberOfMatchesInProgress]="numberOfMatchesInProgress$ | async"
-      [numberOfRounds]="numberOfRounds$ | async"
+      [completedRoundId]="(completedRoundId$ | async)!"
+      [currentRoundId]="(currentRoundId$ | async)!"
+      [numberOfMatchesInProgress]="(numberOfMatchesInProgress$ | async)!"
+      [numberOfRounds]="(numberOfRounds$ | async)!"
     ></mm-round-info>
   </div>
 
   <div class="col-sm-6 col-md-3">
     <mm-players-info
-      [activePlayers]="activePlayers$ | async"
-      [droppedPlayers]="droppedPlayers$ | async"
-      [totalPlayers]="totalPlayers$ | async"
+      [activePlayers]="(activePlayers$ | async)!"
+      [droppedPlayers]="(droppedPlayers$ | async)!"
+      [totalPlayers]="(totalPlayers$ | async)!"
     ></mm-players-info>
   </div>
 </div>
 <div class="row">
   <div class="col-xs-12">
     <p>
-        <button type="button" class="btn btn-danger" (click)="endEventClicked()">End Event</button>
+      <button type="button" class="btn btn-danger" (click)="endEventClicked()">
+        End Event
+      </button>
     </p>
-    <div class="alert alert-danger" role="alert" *ngIf="showEndEventConfirmation">
-      <p>Ending the event will erase all currently entered data including players, pairings, and results. Are you sure you want to end the event?</p>
+    <div
+      class="alert alert-danger"
+      role="alert"
+      *ngIf="showEndEventConfirmation"
+    >
       <p>
-        <button type="button" class="btn btn-danger" (click)="endEventConfirm()">I'm done with this event</button>
-        <button type="button" class="btn btn-default" (click)="cancelEndEvent()">Not yet</button>
+        Ending the event will erase all currently entered data including
+        players, pairings, and results. Are you sure you want to end the event?
+      </p>
+      <p>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="endEventConfirm()"
+        >
+          I'm done with this event
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="cancelEndEvent()"
+        >
+          Not yet
+        </button>
       </p>
     </div>
   </div>

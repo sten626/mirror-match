@@ -1,7 +1,11 @@
+import { Round } from '@app/shared';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { Round } from '@app/shared';
-import { RoundApiActions, PairingsApiActions, SwissApiActions } from '../actions';
+import {
+  PairingsApiActions,
+  RoundApiActions,
+  SwissApiActions,
+} from '../actions';
 
 export const roundsFeatureKey = 'rounds';
 
@@ -25,48 +29,63 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
-  on(PairingsApiActions.deletePairingsSuccess, (state, {roundId}) => adapter.updateOne({
-    id: roundId,
-    changes: {
-      pairingIds: []
-    }
-  }, state)),
-  on(RoundApiActions.addRound, (state, {round}) => adapter.addOne(round, {
+  on(PairingsApiActions.deletePairingsSuccess, (state, { roundId }) =>
+    adapter.updateOne(
+      {
+        id: roundId,
+        changes: {
+          pairingIds: [],
+        },
+      },
+      state
+    )
+  ),
+  on(RoundApiActions.addRound, (state, { round }) =>
+    adapter.addOne(round, {
+      ...state,
+      selectedRoundId: round.id,
+    })
+  ),
+  on(RoundApiActions.beginEventSuccess, (state, { numberOfRounds }) => ({
     ...state,
-    selectedRoundId: round.id
-  })),
-  on(RoundApiActions.beginEventSuccess, (state, {numberOfRounds}) => ({
-    ...state,
-    numberOfRounds: numberOfRounds
-  })),
-  on(RoundApiActions.loadRoundsSuccess, (state, {completedRoundId, numberOfRounds, rounds, selectedRoundId}) => adapter.addAll(rounds, {
-    ...state,
-    completedRoundId: completedRoundId,
     numberOfRounds: numberOfRounds,
-    loaded: true,
-    selectedRoundId: selectedRoundId
   })),
-  on(RoundApiActions.setCompletedRoundSuccess, (state, {roundId}) => ({
+  on(
+    RoundApiActions.loadRoundsSuccess,
+    (state, { completedRoundId, numberOfRounds, rounds, selectedRoundId }) =>
+      adapter.setAll(rounds, {
+        ...state,
+        completedRoundId: completedRoundId,
+        numberOfRounds: numberOfRounds,
+        loaded: true,
+        selectedRoundId: selectedRoundId,
+      })
+  ),
+  on(RoundApiActions.setCompletedRoundSuccess, (state, { roundId }) => ({
     ...state,
-    completedRoundId: roundId
+    completedRoundId: roundId,
   })),
-  on(RoundApiActions.setSelectedRound, (state, {roundId}) => ({
+  on(RoundApiActions.setSelectedRound, (state, { roundId }) => ({
     ...state,
     selectedPairingId: null,
-    selectedRoundId: roundId
+    selectedRoundId: roundId,
   })),
-  on(RoundApiActions.updateRound, (state, {round}) => adapter.updateOne(round, {
-    ...state,
-    pairingsFilterText: '',
-    showOutstandingOnly: true
-  })),
-  on(SwissApiActions.clearAllDataSuccess, state => adapter.removeAll({
-    ...state,
-    completedRoundId: 0,
-    numberOfRounds: 0,
-    selectedPairingId: null,
-    selectedRoundId: null
-  }))
+  on(RoundApiActions.updateRound, (state, { round }) =>
+    adapter.updateOne(round, {
+      ...state,
+      pairingsFilterText: '',
+      showOutstandingOnly: true,
+    })
+  ),
+  on(SwissApiActions.clearAllDataSuccess, (state) =>
+    adapter.removeAll({
+      ...state,
+      completedRoundId: 0,
+      numberOfRounds: 0,
+      selectedPairingId: null,
+      selectedRoundId: null,
+    })
+  )
 );
 
 // export function reducer(

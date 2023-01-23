@@ -1,27 +1,26 @@
 import { TestBed } from '@angular/core/testing';
-import { PlayerStorageService } from '@app/shared/services/player-storage.service';
-import { LOCAL_STORAGE_TOKEN } from '@app/shared/services/storage.service';
+import { PlayerStorageService } from './player-storage.service';
+import { LOCAL_STORAGE_TOKEN } from './storage.service';
 
 describe('PlayerStorageService', () => {
   let service: PlayerStorageService;
 
   beforeEach(() => {
-    const storageSpy = jasmine.createSpyObj('Storage', [
-      'getItem',
-      'setItem'
-    ]);
-    const players = [{
-      id: 1,
-      name: 'Spike',
-      dropped: false
-    }];
+    const storageSpy = jasmine.createSpyObj('Storage', ['getItem', 'setItem']);
+    const players = [
+      {
+        id: 1,
+        name: 'Spike',
+        dropped: false,
+      },
+    ];
     storageSpy.getItem.and.returnValue(JSON.stringify(players));
 
     TestBed.configureTestingModule({
       providers: [
         PlayerStorageService,
-        { provide: LOCAL_STORAGE_TOKEN, useValue: storageSpy }
-      ]
+        { provide: LOCAL_STORAGE_TOKEN, useValue: storageSpy },
+      ],
     });
 
     service = TestBed.inject(PlayerStorageService);
@@ -31,14 +30,18 @@ describe('PlayerStorageService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('addPlayer', () => {
-    it('should throw an error when passed a null player', (done: DoneFn) => {
-      service.addPlayer(null).subscribe(() => {
-        fail();
-      }, error => {
-        expect(error).toBe('Cannot add nonexistent player.');
-        done();
-      });
-    });
-  });
+  // Test no longer makes sense since TS doesn't allow passing null.
+  // describe('addPlayer', () => {
+  //   it('should throw an error when passed a null player', (done: DoneFn) => {
+  //     service.addPlayer(null).subscribe(
+  //       () => {
+  //         fail();
+  //       },
+  //       (error) => {
+  //         expect(error).toBe('Cannot add nonexistent player.');
+  //         done();
+  //       }
+  //     );
+  //   });
+  // });
 });

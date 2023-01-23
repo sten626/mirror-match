@@ -1,11 +1,13 @@
-import { FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export const matchResultValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-  const player1Wins: number = control.get('player1Wins').value;
-  const player2Wins: number = control.get('player2Wins').value;
-  const draws: number = control.get('draws').value;
+export const matchResultValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const player1Wins: number = control.get('player1Wins')?.value;
+  const player2Wins: number = control.get('player2Wins')?.value;
+  const draws: number = control.get('draws')?.value;
   const gamesPlayed: number = player1Wins + player2Wins + draws;
-  const error = { 'matchResultInvalid': true };
+  const error = { matchResultInvalid: true };
 
   if (gamesPlayed < 1) {
     return error;

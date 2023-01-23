@@ -1,9 +1,23 @@
 <div class="list-group">
-  <a *ngFor="let player of players"
-      class="list-group-item"
-      [ngClass]="{'active': selectedPlayer === player, 'list-group-item-warning': player.dropped}"
-      (click)="select.emit(player)">
-    {{player.name}}<small><em>{{player.dropped ? ' (dropped)' : ''}}</em></small>
-    <button class="close" *ngIf="!hasTournamentStarted" (click)="delete.emit(player)">&times;</button>
+  <a
+    *ngFor="let player of players"
+    class="list-group-item"
+    [ngClass]="{
+      active: selectedPlayer === player,
+      'list-group-item-warning': player.dropped
+    }"
+    (click)="select.emit(player)"
+  >
+    {{ player.name
+    }}<small
+      ><em>{{ player.dropped ? ' (dropped)' : '' }}</em></small
+    >
+    <button
+      class="close"
+      *ngIf="!hasTournamentStarted"
+      (click)="delete.emit(player.id!)"
+    >
+      &times;
+    </button>
   </a>
 </div>

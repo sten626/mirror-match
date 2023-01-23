@@ -4,7 +4,6 @@ import { StorageService } from '@app/shared/services/storage.service';
 import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-
 @Injectable()
 export class PlayerStorageService extends StorageService {
   private playersKey = 'mm-players';
@@ -17,15 +16,18 @@ export class PlayerStorageService extends StorageService {
     return this.getPlayers().pipe(
       map((value: Player[]) => {
         // Assumption that they're in order, which they should be.
-        const lastId = value.length ? value[value.length - 1].id : 0;
+        const lastId = value.length ? value[value.length - 1].id! : 0;
         return [
-          ...value, {
+          ...value,
+          {
             ...player,
-            id: lastId + 1
-          }
+            id: lastId + 1,
+          },
         ];
       }),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value))),
+      tap((value: Player[]) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(value))
+      ),
       map((value: Player[]) => value[value.length - 1])
     );
   }
@@ -38,11 +40,19 @@ export class PlayerStorageService extends StorageService {
 
   dropPlayers(playerIds: number[]): Observable<Player[]> {
     return this.getPlayers().pipe(
-      map(value => value.map(p => playerIds.includes(p.id) ? {
-        ...p,
-        dropped: true
-      } : p)),
-      tap(value => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      map((value) =>
+        value.map((p) =>
+          playerIds.includes(p.id!)
+            ? {
+                ...p,
+                dropped: true,
+              }
+            : p
+        )
+      ),
+      tap((value) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(value))
+      )
     );
   }
 
@@ -52,15 +62,21 @@ export class PlayerStorageService extends StorageService {
 
   removePlayers(ids: number[]): Observable<Player[]> {
     return this.getPlayers().pipe(
-      map((value: Player[]) => value.filter(item => !ids.includes(item.id))),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      map((value: Player[]) => value.filter((item) => !ids.includes(item.id!))),
+      tap((value: Player[]) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(value))
+      )
     );
   }
 
   updatePlayer(player: Player): Observable<Player[]> {
     return this.getPlayers().pipe(
-      map((value: Player[]) => value.map((item: Player) => item.id === player.id ? player : item)),
-      tap((value: Player[]) => this.storage.setItem(this.playersKey, JSON.stringify(value)))
+      map((value: Player[]) =>
+        value.map((item: Player) => (item.id === player.id ? player : item))
+      ),
+      tap((value: Player[]) =>
+        this.storage.setItem(this.playersKey, JSON.stringify(value))
+      )
     );
   }
 }

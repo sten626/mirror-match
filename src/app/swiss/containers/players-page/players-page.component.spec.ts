@@ -12,24 +12,24 @@ describe('Players Page Component', () => {
   const player1 = generateMockPlayer();
   const player1NoId: Player = {
     ...player1,
-    id: null
+    id: null,
   };
   const player2: Player = {
     ...player1,
     id: 2,
-    name: 'Jasper'
+    name: 'Jasper',
   };
   let component: PlayersPageComponent;
   let fixture: ComponentFixture<PlayersPageComponent>;
   let store: Store<fromSwiss.State>;
 
-  @Component({selector: 'mm-player-form', template: ''})
+  @Component({ selector: 'mm-player-form', template: '' })
   class PlayerFormStubComponent {}
 
-  @Component({selector: 'mm-player-list', template: ''})
+  @Component({ selector: 'mm-player-list', template: '' })
   class PlayerListStubComponent {}
 
-  @Component({selector: 'mm-start-form', template: ''})
+  @Component({ selector: 'mm-start-form', template: '' })
   class StartFormStubComponent {}
 
   beforeEach(() => {
@@ -40,19 +40,17 @@ describe('Players Page Component', () => {
         SharedModule,
         StoreModule.forRoot({
           ...fromRoot.rootReducers,
-          swiss: fromSwiss.reducers
-        })
+          swiss: fromSwiss.reducers,
+        }),
       ],
       declarations: [
         PlayerFormStubComponent,
         PlayerListStubComponent,
         PlayersPageComponent,
-        StartFormStubComponent
+        StartFormStubComponent,
       ],
-      providers: [
-        { provide: Router, useValue: routerSpy }
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      providers: [{ provide: Router, useValue: routerSpy }],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     store = TestBed.inject(Store);
@@ -71,9 +69,9 @@ describe('Players Page Component', () => {
   it('should have a list of players after loading data', () => {
     const players: Player[] = [player1, player2];
 
-    store.dispatch(PlayersApiActions.loadPlayersSuccess({players}));
+    store.dispatch(PlayersApiActions.loadPlayersSuccess({ players }));
 
-    component.players$.subscribe(data => {
+    component.players$.subscribe((data) => {
       expect(data.length).toBe(players.length);
     });
   });
@@ -81,13 +79,8 @@ describe('Players Page Component', () => {
   /* addPlayer */
 
   describe('addPlayer', () => {
-    it('should not dispatch an action when called with null', () => {
-      component.addPlayer(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
     it('should dispatch an action to add a player', () => {
-      const action = PlayersPageActions.addPlayer({player: player1NoId});
+      const action = PlayersPageActions.addPlayer({ player: player1NoId });
 
       component.addPlayer(player1.name);
       expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -109,21 +102,13 @@ describe('Players Page Component', () => {
   /* deletePlayer */
 
   describe('deletePlayer', () => {
-    it('should do nothing when called with null', () => {
-      component.selectedPlayer = player1;
-      component.deletePlayer(null);
-
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-      expect(component.selectedPlayer).toEqual(player1);
-    });
-
     it('should dispatch an action to delete a player and clear same selected player', () => {
       component.selectedPlayer = player1;
 
       expect(component.selectedPlayer).toBeDefined();
 
-      const playerId = player1.id;
-      const action = PlayersPageActions.deletePlayer({playerId});
+      const playerId = player1.id!;
+      const action = PlayersPageActions.deletePlayer({ playerId });
       component.deletePlayer(playerId);
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -135,8 +120,8 @@ describe('Players Page Component', () => {
 
       expect(component.selectedPlayer).toEqual(player1);
 
-      const playerId = player2.id;
-      const action = PlayersPageActions.deletePlayer({playerId});
+      const playerId = player2.id!;
+      const action = PlayersPageActions.deletePlayer({ playerId });
       component.deletePlayer(playerId);
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -147,11 +132,6 @@ describe('Players Page Component', () => {
   /* onStartTournament */
 
   describe('onStartTournament', () => {
-    it('should not dispatch action when called with null', () => {
-      component.onStartTournament(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
     it('should not dispatch action when called with 0', () => {
       component.onStartTournament(0);
       expect(store.dispatch).toHaveBeenCalledTimes(0);
@@ -159,7 +139,7 @@ describe('Players Page Component', () => {
 
     it('should dispatch beginEvent action', () => {
       const numberOfRounds = 3;
-      const action = PlayersPageActions.beginEvent({numberOfRounds});
+      const action = PlayersPageActions.beginEvent({ numberOfRounds });
       component.onStartTournament(numberOfRounds);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -184,20 +164,13 @@ describe('Players Page Component', () => {
   /* togglePlayerDropped */
 
   describe('togglePlayerDropped', () => {
-    it('should do nothing when called with null', () => {
-      component.selectedPlayer = player1;
-      expect(component.selectedPlayer).toEqual(player1);
-
-      component.togglePlayerDropped(null);
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-      expect(component.selectedPlayer).toEqual(player1);
-    });
-
     it('should dispatch action and set selectedPlayer to null when called with a player', () => {
       component.selectedPlayer = player1;
       expect(component.selectedPlayer).toEqual(player1);
 
-      const action = PlayersPageActions.togglePlayerDropped({player: player1});
+      const action = PlayersPageActions.togglePlayerDropped({
+        player: player1,
+      });
       component.togglePlayerDropped(player1);
       expect(store.dispatch).toHaveBeenCalledWith(action);
       expect(component.selectedPlayer).toBeNull();
@@ -207,11 +180,11 @@ describe('Players Page Component', () => {
   /* updatePlayerName */
 
   describe('updatePlayerName', () => {
-    it('should dispatch an action to update a player\'s name when called', () => {
+    it("should dispatch an action to update a player's name when called", () => {
       const newName = 'Steven';
       const action = PlayersPageActions.updatePlayerName({
         player: player1,
-        name: newName
+        name: newName,
       });
       component.updatePlayerName({ player: player1, name: newName });
 
@@ -219,12 +192,7 @@ describe('Players Page Component', () => {
     });
 
     it('should not dispatch an action when called with no player', () => {
-      component.updatePlayerName({player: null, name: 'Steven'});
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should not dispatch an action when called with no name', () => {
-      component.updatePlayerName({player: player1, name: null});
+      component.updatePlayerName({ player: null, name: 'Steven' });
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });

@@ -3,18 +3,29 @@
     <div class="row">
       <div class="col-md-2">
         <mm-swiss-menu
-          [hasCompletedRounds]="hasCompletedRounds$ | async"
-          [hasTournamentStarted]="hasTournamentStarted$ | async"
-          [numberOfActivePlayers]="numberOfActivePlayers$ | async">
+          [hasCompletedRounds]="(hasCompletedRounds$ | async)!"
+          [hasTournamentStarted]="(hasTournamentStarted$ | async)!"
+          [numberOfActivePlayers]="(numberOfActivePlayers$ | async)!"
+        >
         </mm-swiss-menu>
       </div>
 
       <div class="col-md-10">
-        <div class="alert alert-dismissible" [ngClass]="message.type" role="alert" *ngFor="let message of messages$ | async">
-          <button type="button" class="close" aria-label="Close" (click)="dismissMessage(message)">
+        <div
+          class="alert alert-dismissible"
+          [ngClass]="message.type"
+          role="alert"
+          *ngFor="let message of messages$ | async"
+        >
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="dismissMessage(message)"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
-          {{message.text}}
+          {{ message.text }}
         </div>
         <router-outlet></router-outlet>
       </div>
