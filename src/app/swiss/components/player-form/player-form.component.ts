@@ -12,7 +12,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Player } from 'app/shared';
+import { Player } from '@app/shared';
 
 @Component({
   selector: 'mm-player-form',
