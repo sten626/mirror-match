@@ -11,9 +11,7 @@ export const duplicatePlayerNameError =
 export const nonexistentPlayerError = 'Cannot add nonexistent player.';
 export const updateInvalidIdError = 'Tried to update player with invalid ID.';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PlayerStorageService extends StorageService {
   private playersKey = 'mm-players';
 
@@ -32,13 +30,13 @@ export class PlayerStorageService extends StorageService {
           }
         }
         // Assumption that they're in order, which they should be.
-        const lastId = value.length ? value[value.length - 1].id : 0;
+        const lastId = value.length ? value[value.length - 1].id! : 0;
         return [
           ...value,
           {
             ...player,
-            id: lastId + 1
-          }
+            id: lastId + 1,
+          },
         ];
       }),
       tap((value: Player[]) =>
@@ -103,7 +101,7 @@ export class PlayerStorageService extends StorageService {
 
         players[playerIndex] = {
           ...oldPlayer,
-          ...player.changes
+          ...player.changes,
         };
 
         return players;
@@ -111,7 +109,7 @@ export class PlayerStorageService extends StorageService {
       tap((players: Player[]) =>
         this.storage.setItem(this.playersKey, JSON.stringify(players))
       ),
-      map((players: Player[]) => players.find((p) => p.id === player.id)),
+      map((players: Player[]) => players.find((p) => p.id === player.id)!),
       catchError((err: Error) => throwError(err.message))
     );
   }
