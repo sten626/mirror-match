@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 function storageAvailable() {
-  let storage: Storage;
+  let storage: Storage | null = null;
 
   try {
     storage = window['localStorage'];
@@ -12,16 +12,19 @@ function storageAvailable() {
     storage.removeItem(x);
     return true;
   } catch (e) {
-    return e instanceof DOMException && (
-      e.code === 22 ||
-      e.code === 1014 ||
-      e.name === 'QuotaExceededError' ||
-      e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-    ) && (storage && storage.length !== 0);
+    return (
+      e instanceof DOMException &&
+      (e.code === 22 ||
+        e.code === 1014 ||
+        e.name === 'QuotaExceededError' ||
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+      storage &&
+      storage.length !== 0
+    );
   }
 }
 
-function storageFactory(): Storage {
+function storageFactory(): Storage | null {
   if (storageAvailable()) {
     return localStorage;
   } else {
@@ -30,8 +33,9 @@ function storageFactory(): Storage {
 }
 
 export const LOCAL_STORAGE_TOKEN = new InjectionToken(
-  'mirror-match-local-storage', {
-    factory: storageFactory
+  'mirror-match-local-storage',
+  {
+    factory: storageFactory,
   }
 );
 
@@ -42,14 +46,14 @@ export class StorageService {
   protected getArray(key: string): Observable<any[]> {
     return this.supported().pipe(
       map(() => this.storage.getItem(key)),
-      map((value: string | null) => value ? JSON.parse(value) : [])
+      map((value: string | null) => (value ? JSON.parse(value) : []))
     );
   }
 
   protected getNumber(key: string, defaultValue = 0): Observable<number> {
     return this.supported().pipe(
       map(() => this.storage.getItem(key)),
-      map((value: string | null) => value ? JSON.parse(value) : defaultValue)
+      map((value: string | null) => (value ? JSON.parse(value) : defaultValue))
     );
   }
 
@@ -69,10 +73,15 @@ export class StorageService {
   }
 
   protected supported(): Observable<boolean> {
-    return this.storage !== null ? of(true) : throwError('Local Storage not supported.');
+    return this.storage !== null
+      ? of(true)
+      : throwError('Local Storage not supported.');
   }
 
-  private setValue(key: string, value: boolean | number): Observable<boolean | number> {
+  private setValue(
+    key: string,
+    value: boolean | number
+  ): Observable<boolean | number> {
     return this.supported().pipe(
       tap(() => this.storage.setItem(key, JSON.stringify(value))),
       map(() => value)

@@ -15,7 +15,6 @@
             "outputPath": "dist/mirror-match",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets",
@@ -32,27 +31,26 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "6kb"
                 }
               ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -63,7 +61,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -88,8 +87,7 @@
             "codeCoverage": true,
             "tsConfig": "tsconfig.spec.json",
             "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "scripts": [],
             "styles": ["src/styles/main.scss"],
             "stylePreprocessorOptions": {
@@ -112,13 +110,8 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "test:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "test:serve:production"
-            }
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "mirror-match:serve"
           }
         }
       }
@@ -134,9 +127,6 @@
     }
   },
   "cli": {
-    "analytics": "403d5cb8-c680-4065-91a7-609752d2ac9f",
-    "schematicCollections": [
-      "@ngrx/schematics"
-    ]
+    "schematicCollections": ["@ngrx/schematics"]
   }
 }

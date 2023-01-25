@@ -3,13 +3,13 @@ import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-player-list',
-  templateUrl: './player-list.component.html'
+  templateUrl: './player-list.component.html',
 })
 export class PlayerListComponent {
-  @Input() hasTournamentStarted: boolean;
-  @Input() players: Player[];
-  @Input() selectedPlayer: Player;
-  @Output() delete = new EventEmitter<Player>();
+  @Input() hasTournamentStarted: boolean = false;
+  @Input() players: Player[] = [];
+  @Input() selectedPlayer: Player | null = null;
+  @Output() delete = new EventEmitter<number>();
   @Output() select = new EventEmitter<Player>();
 
   constructor() {}

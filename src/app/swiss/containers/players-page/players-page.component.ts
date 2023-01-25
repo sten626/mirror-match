@@ -6,20 +6,18 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 @Component({
-  templateUrl: './players-page.component.html'
+  templateUrl: './players-page.component.html',
 })
 export class PlayersPageComponent {
-  canBeginTournament$: Observable<boolean>;
+  // canBeginTournament$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
   isTournamentOver$: Observable<boolean>;
-  numberOfActivePlayers$: Observable<number>;
-  players$: Observable<Player[]>;
-  recommendedNumberOfRounds$: Observable<number>;
-  selectedPlayer: Player;
+  // numberOfActivePlayers$: Observable<number>;
+  // players$: Observable<Player[]>;
+  // recommendedNumberOfRounds$: Observable<number>;
+  selectedPlayer: Player | null = null;
 
-  constructor(
-    private store: Store<fromSwiss.State>
-  ) {
+  constructor(private store: Store<fromSwiss.State>) {
     // this.players$ = store.pipe(
     //   select(fromSwiss.getAllPlayers)
     // );
@@ -29,9 +27,7 @@ export class PlayersPageComponent {
     this.hasTournamentStarted$ = store.pipe(
       select(fromSwiss.hasTournamentStarted)
     );
-    this.isTournamentOver$ = store.pipe(
-      select(fromSwiss.isTournamentOver)
-    );
+    this.isTournamentOver$ = store.pipe(select(fromSwiss.isTournamentOver));
     // this.numberOfActivePlayers$ = store.pipe(
     //   select(fromSwiss.getTotalActivePlayers)
     // );
@@ -47,11 +43,10 @@ export class PlayersPageComponent {
   addPlayer(playerName: string): void {
     if (playerName) {
       const player: Player = {
-        id: null,
         name: playerName,
-        dropped: false
+        dropped: false,
       };
-      this.store.dispatch(PlayersPageActions.addPlayer({player}));
+      this.store.dispatch(PlayersPageActions.addPlayer({ player }));
     }
   }
 
@@ -63,26 +58,26 @@ export class PlayersPageComponent {
   }
 
   /**
-   * Dispath a deletePlayer action and clear it if it was the selected player.
+   * Dispatch a deletePlayer action and clear it if it was the selected player.
    * @param playerId The id of the player to delete.
    */
   deletePlayer(playerId: number): void {
     if (playerId) {
-      this.store.dispatch(PlayersPageActions.deletePlayer({playerId}));
+      this.store.dispatch(PlayersPageActions.deletePlayer({ playerId }));
 
-      if (playerId === this.selectedPlayer.id) {
+      if (playerId === this.selectedPlayer?.id) {
         this.clearSelectedPlayer();
       }
     }
   }
 
   /**
-   * Dispath a beginEvent action.
-   * @param numberOfRounds The number of rounds for the tournmant to have.
+   * Dispatch a beginEvent action.
+   * @param numberOfRounds The number of rounds for the tournament to have.
    */
   onStartTournament(numberOfRounds: number): void {
     if (numberOfRounds) {
-      this.store.dispatch(PlayersPageActions.beginEvent({numberOfRounds}));
+      this.store.dispatch(PlayersPageActions.beginEvent({ numberOfRounds }));
     }
   }
 
@@ -90,7 +85,7 @@ export class PlayersPageComponent {
    * Set the selected player.
    * @param player The Player being selected.
    */
-  selectPlayer(player: Player): void {
+  selectPlayer(player: Player | null): void {
     this.selectedPlayer = player;
   }
 
@@ -100,7 +95,7 @@ export class PlayersPageComponent {
    */
   togglePlayerDropped(player: Player): void {
     if (player) {
-      this.store.dispatch(PlayersPageActions.togglePlayerDropped({player}));
+      this.store.dispatch(PlayersPageActions.togglePlayerDropped({ player }));
       this.selectedPlayer = null;
     }
   }
@@ -109,13 +104,13 @@ export class PlayersPageComponent {
    * Dispatches an updatePlayerName action.
    * @param event An object containing player and name, where name is the new name.
    */
-  updatePlayerName(event: {player: Player, name: string}): void {
-    const {player, name} = event;
+  updatePlayerName(event: { player: Player | null; name: string }): void {
+    const { player, name } = event;
 
     if (!player || !name) {
       return;
     }
 
-    this.store.dispatch(PlayersPageActions.updatePlayerName({player, name}));
+    this.store.dispatch(PlayersPageActions.updatePlayerName({ player, name }));
   }
 }

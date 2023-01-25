@@ -1,29 +1,46 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Player } from '@mm/shared/models';
 
 @Component({
   selector: 'mm-player-form',
   templateUrl: 'player-form.component.html',
-  styleUrls: ['player-form.component.css']
+  styleUrls: ['player-form.component.css'],
 })
 export class PlayerFormComponent implements OnChanges {
-  @Input() hasTournamentStarted: boolean;
-  @Input() isTournamentOver: boolean;
-  @Input() selectedPlayer: Player;
+  @Input() hasTournamentStarted: boolean = false;
+  @Input() isTournamentOver: boolean = false;
+  @Input() selectedPlayer: Player | null = null;
   @Output() addPlayer = new EventEmitter<string>();
   @Output() reset = new EventEmitter<any>();
   @Output() togglePlayerDropped = new EventEmitter<Player>();
-  @Output() updatePlayerName = new EventEmitter<{player: Player, name: string}>();
+  @Output() updatePlayerName = new EventEmitter<{
+    player: Player | null;
+    name: string;
+  }>();
 
-  @ViewChild('name', { static: true }) playerNameElement: ElementRef;
+  @ViewChild('name', { static: true }) playerNameElement!: ElementRef;
 
   addMode = false;
   isPlayerDroppable = false;
   swissPlayerForm: UntypedFormGroup;
 
   constructor(private fb: UntypedFormBuilder) {
-    this.createForm();
+    this.swissPlayerForm = this.fb.group({
+      name: ['', [Validators.required]],
+    });
   }
 
   ngOnChanges() {
@@ -31,7 +48,7 @@ export class PlayerFormComponent implements OnChanges {
       // Modifying an existing player.
       this.playerNameElement.nativeElement.focus();
       this.swissPlayerForm.reset({
-        name: this.selectedPlayer.name
+        name: this.selectedPlayer.name,
       });
       this.addMode = false;
       this.isPlayerDroppable = !this.selectedPlayer.dropped;
@@ -48,7 +65,7 @@ export class PlayerFormComponent implements OnChanges {
   }
 
   submit() {
-    const nameControl = this.swissPlayerForm.get('name');
+    const nameControl = this.swissPlayerForm.get('name')!;
     let name = nameControl.value;
     name = name.trim();
     nameControl.patchValue(name);
@@ -63,7 +80,7 @@ export class PlayerFormComponent implements OnChanges {
     } else {
       this.updatePlayerName.emit({
         player: this.selectedPlayer,
-        name: name
+        name: name,
       });
       this.reset.emit();
     }
@@ -78,17 +95,9 @@ export class PlayerFormComponent implements OnChanges {
     // this.playerFormReset.emit();
   }
 
-  private createForm() {
-    this.swissPlayerForm = this.fb.group({
-      name: ['', [
-        Validators.required
-      ]]
-    });
-  }
-
   private clearForm(): void {
     this.swissPlayerForm.reset({
-      name: ''
+      name: '',
     });
     this.addMode = true;
     this.isPlayerDroppable = false;

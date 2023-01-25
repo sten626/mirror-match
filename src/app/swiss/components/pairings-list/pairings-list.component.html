@@ -5,8 +5,9 @@
       [selectedRoundComplete]="selectedRoundComplete"
       (deleteResults)="deleteResults.emit(pairings)"
       (filterTextChanged)="filterTextChanged($event)"
-      (redoMatches)="redoMatches.emit(selectedRoundId)"
-      (showOutstandingOnlyChanged)="showOutstandingOnlyChanged($event)">
+      (redoMatches)="redoMatches.emit(selectedRoundId!)"
+      (showOutstandingOnlyChanged)="showOutstandingOnlyChanged($event)"
+    >
     </mm-pairings-list-form>
     <table class="table table-hover">
       <thead>
@@ -19,14 +20,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pairing of pairings | pairingsFilter: playerEntities:filterText:showOutstandingOnly"
-            [ngClass]="{'active': selectedPairing?.id === pairing.id}"
-            (click)="selectPairing.emit(pairing)">
-          <td>{{pairing.table}}</td>
-          <td>{{playerName(pairing.player1Id)}}</td>
-          <td>{{resultDisplayString(pairing)}}</td>
-          <td>{{playerName(pairing.player2Id)}}</td>
-          <td>{{resultDisplayString(pairing, true)}}</td>
+        <tr
+          *ngFor="
+            let pairing of pairings
+              | pairingsFilter
+                : playerEntities
+                : filterText
+                : showOutstandingOnly
+          "
+          [ngClass]="{ active: selectedPairing?.id === pairing.id }"
+          (click)="selectPairing.emit(pairing)"
+        >
+          <td>{{ pairing.table }}</td>
+          <td>{{ playerName(pairing.player1Id) }}</td>
+          <td>{{ resultDisplayString(pairing) }}</td>
+          <td>{{ playerName(pairing.player2Id) }}</td>
+          <td>{{ resultDisplayString(pairing, true) }}</td>
         </tr>
       </tbody>
     </table>

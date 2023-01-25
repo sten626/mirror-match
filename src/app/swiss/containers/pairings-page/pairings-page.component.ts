@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { Pairing, Player } from '@mm/shared/models';
 import { PairingsPageActions } from '@mm/swiss/actions';
 import * as fromSwiss from '@mm/swiss/reducers';
-import { Dictionary } from '@ngrx/entity';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './pairings-page.component.html'
+  templateUrl: './pairings-page.component.html',
 })
 export class PairingsPageComponent {
   canStartNextRound$: Observable<boolean>;
@@ -17,16 +16,14 @@ export class PairingsPageComponent {
   numberOfRounds$: Observable<number>;
   pairings$: Observable<Pairing[]>;
   pairingsExist$: Observable<boolean>;
-  pairingsFilterText$: Observable<string>;
-  playerEntities$: Observable<Dictionary<Player>>;
-  roundIds$: Observable<number[] | string[]>;
-  selectedPairing$: Observable<Pairing>;
+  // pairingsFilterText$: Observable<string>;
+  // playerEntities$: Observable<Dictionary<Player>>;
+  roundIds$: Observable<number[]>;
+  selectedPairing$: Observable<Pairing | null | undefined>;
   selectedRoundComplete$: Observable<boolean>;
-  selectedRoundId$: Observable<number>;
+  selectedRoundId$: Observable<number | null>;
 
-  constructor(
-    private store: Store<fromSwiss.State>
-  ) {
+  constructor(private store: Store<fromSwiss.State>) {
     this.canStartNextRound$ = this.store.pipe(
       select(fromSwiss.canStartNextRound)
     );
@@ -36,21 +33,19 @@ export class PairingsPageComponent {
     this.hasSubmittedPairings$ = this.store.pipe(
       select(fromSwiss.selectedRoundHasSubmittedPairings)
     );
-    this.numberOfRounds$ = this.store.pipe(
-      select(fromSwiss.getNumberOfRounds)
-    );
+    this.numberOfRounds$ = this.store.pipe(select(fromSwiss.getNumberOfRounds));
     this.pairings$ = this.store.pipe(
       select(fromSwiss.getSelectedRoundPairings)
     );
     this.pairingsExist$ = this.pairings$.pipe(
-      map(pairings => pairings.length > 0)
+      map((pairings) => pairings.length > 0)
     );
     // this.playerEntities$ = this.store.pipe(
     //   select(fromSwiss.getPlayerEntities)
     // );
     this.roundIds$ = this.store.pipe(
       select(fromSwiss.getRoundIds)
-    );
+    ) as Observable<number[]>;
     this.selectedPairing$ = this.store.pipe(
       select(fromSwiss.getSelectedPairing)
     );
@@ -66,8 +61,8 @@ export class PairingsPageComponent {
    * Dispatch an action to change the selected round.
    * @param roundId A numerical round ID.
    */
-  onChangeSelectedRound(roundId: number) {
-    this.store.dispatch(PairingsPageActions.changeSelectedRound({roundId}));
+  onChangeSelectedRound(roundId: number | null) {
+    this.store.dispatch(PairingsPageActions.changeSelectedRound({ roundId }));
   }
 
   /**
@@ -76,7 +71,7 @@ export class PairingsPageComponent {
    */
   onClearMatchResult(pairing: Pairing): void {
     if (pairing) {
-      this.store.dispatch(PairingsPageActions.clearMatchResult({pairing}));
+      this.store.dispatch(PairingsPageActions.clearMatchResult({ pairing }));
     }
   }
 
@@ -93,7 +88,7 @@ export class PairingsPageComponent {
    */
   onCreatePairings(roundId: number) {
     if (roundId) {
-      this.store.dispatch(PairingsPageActions.createPairings({roundId}));
+      this.store.dispatch(PairingsPageActions.createPairings({ roundId }));
     }
   }
 
@@ -103,7 +98,7 @@ export class PairingsPageComponent {
    */
   onDeleteResults(pairings: Pairing[]) {
     if (pairings && pairings.length > 0) {
-      this.store.dispatch(PairingsPageActions.clearResults({pairings}));
+      this.store.dispatch(PairingsPageActions.clearResults({ pairings }));
     }
   }
 
@@ -113,7 +108,7 @@ export class PairingsPageComponent {
    */
   onDropPlayers(players: Player[]) {
     if (players && players.length > 0) {
-      this.store.dispatch(PairingsPageActions.dropPlayers({players}));
+      this.store.dispatch(PairingsPageActions.dropPlayers({ players }));
     }
   }
 
@@ -123,7 +118,7 @@ export class PairingsPageComponent {
    */
   onRedoMatches(roundId: number) {
     if (roundId) {
-      this.store.dispatch(PairingsPageActions.deletePairings({roundId}));
+      this.store.dispatch(PairingsPageActions.deletePairings({ roundId }));
     }
   }
 
@@ -133,7 +128,9 @@ export class PairingsPageComponent {
    */
   onSelectPairing(pairing: Pairing) {
     if (pairing && pairing.player2Id) {
-      this.store.dispatch(PairingsPageActions.selectPairing({pairingId: pairing.id}));
+      this.store.dispatch(
+        PairingsPageActions.selectPairing({ pairingId: pairing.id })
+      );
     }
   }
 
@@ -143,7 +140,7 @@ export class PairingsPageComponent {
    */
   onSubmitResult(pairing: Pairing) {
     if (pairing) {
-      this.store.dispatch(PairingsPageActions.submitResult({pairing}));
+      this.store.dispatch(PairingsPageActions.submitResult({ pairing }));
     }
   }
 }

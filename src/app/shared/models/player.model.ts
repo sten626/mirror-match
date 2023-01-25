@@ -10,6 +10,6 @@ export function generateMockPlayer(): Player {
   return {
     id: 1,
     name: 'Steven',
-    dropped: false
+    dropped: false,
   };
 }

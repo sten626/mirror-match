@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PairingStorageService, RoundStorageService } from '@mm/core/services';
-import { Pairing } from '@mm/shared/models';
+import { Pairing, Round } from '@mm/shared/models';
 import { PairingsApiActions, PairingsPageActions } from '@mm/swiss/actions';
 import * as fromSwiss from '@mm/swiss/reducers';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
@@ -11,54 +11,69 @@ import { concatMap, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PairingEffects implements OnInitEffects {
-  addPairings$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsApiActions.createPairingsSuccess),
-    mergeMap(({pairings}) =>
-      this.storageService.addPairings(pairings).pipe(
-        map(() => PairingsApiActions.addPairings({pairings}))
+  addPairings$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PairingsApiActions.createPairingsSuccess),
+      mergeMap(({ pairings }) =>
+        this.storageService
+          .addPairings(pairings)
+          .pipe(map(() => PairingsApiActions.addPairings({ pairings })))
       )
     )
-  ));
+  );
 
-  clearMatchResult$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.clearMatchResult),
-    mergeMap(({pairing}) =>
-      this.storageService.clearResults([pairing.id]).pipe(
-        map(() => PairingsApiActions.clearMatchResultSuccess({
-          pairing: {
-            id: pairing.id,
-            changes: {
-              player1Wins: 0,
-              player2Wins: 0,
-              draws: 0,
-              submitted: false
-            }
-          }
-        }))
+  clearMatchResult$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PairingsPageActions.clearMatchResult),
+      mergeMap(({ pairing }) =>
+        this.storageService.clearResults([pairing.id]).pipe(
+          map(() =>
+            PairingsApiActions.clearMatchResultSuccess({
+              pairing: {
+                id: pairing.id,
+                changes: {
+                  player1Wins: 0,
+                  player2Wins: 0,
+                  draws: 0,
+                  submitted: false,
+                },
+              },
+            })
+          )
+        )
       )
     )
-  ));
+  );
 
-  clearResults$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.clearResults),
-    map(({pairings}) => pairings.filter(p => p.player2Id).map(p => p.id)),
-    mergeMap(pairingIds =>
-      this.storageService.clearResults(pairingIds).pipe(
-        map(() => {
-          const updates = pairingIds.map(pid => ({
-            id: pid,
-            changes: {
-              player1Wins: 0,
-              player2Wins: 0,
-              draws: 0,
-              submitted: false
-            }
-          }) as Update<Pairing>);
-          return PairingsApiActions.clearResultsSuccess({pairings: updates});
-        })
+  clearResults$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PairingsPageActions.clearResults),
+      map(({ pairings }) =>
+        pairings.filter((p) => p.player2Id).map((p) => p.id)
+      ),
+      mergeMap((pairingIds) =>
+        this.storageService.clearResults(pairingIds).pipe(
+          map(() => {
+            const updates = pairingIds.map(
+              (pid) =>
+                ({
+                  id: pid,
+                  changes: {
+                    player1Wins: 0,
+                    player2Wins: 0,
+                    draws: 0,
+                    submitted: false,
+                  },
+                } as Update<Pairing>)
+            );
+            return PairingsApiActions.clearResultsSuccess({
+              pairings: updates,
+            });
+          })
+        )
       )
     )
-  ));
+  );
 
   // createPairings$ = createEffect(() => this.actions$.pipe(
   //   ofType(PairingsPageActions.createPairings),
@@ -84,26 +99,30 @@ export class PairingEffects implements OnInitEffects {
   //   })
   // ));
 
-  deletePairings$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.deletePairings),
-    concatMap(action => of(action).pipe(
-      withLatestFrom(this.store.pipe(
-        select(fromSwiss.getRoundEntities)
-      ))
-    )),
-    mergeMap(([{roundId}, roundEntities]) => {
-      const pairingIds = roundEntities[roundId].pairingIds;
-      const deletePairings$ = this.storageService.deletePairings(pairingIds);
-      const updateRound$ = this.roundStorageService.updateRound({
-        id: roundId,
-        pairingIds: []
-      });
+  deletePairings$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PairingsPageActions.deletePairings),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store.pipe(select(fromSwiss.getRoundEntities)))
+        )
+      ),
+      mergeMap(([{ roundId }, roundEntities]) => {
+        const pairingIds = (roundEntities[roundId] as Round).pairingIds;
+        const deletePairings$ = this.storageService.deletePairings(pairingIds);
+        const updateRound$ = this.roundStorageService.updateRound({
+          id: roundId,
+          pairingIds: [],
+        });
 
-      return combineLatest(deletePairings$, updateRound$).pipe(
-        map(() => PairingsApiActions.deletePairingsSuccess({pairingIds, roundId}))
-      );
-    })
-  ));
+        return combineLatest(deletePairings$, updateRound$).pipe(
+          map(() =>
+            PairingsApiActions.deletePairingsSuccess({ pairingIds, roundId })
+          )
+        );
+      })
+    )
+  );
 
   // loadPairings$ = createEffect(() => this.actions$.pipe(
   //   ofType(PairingsApiActions.loadPairings),
@@ -121,24 +140,28 @@ export class PairingEffects implements OnInitEffects {
   //   )
   // ));
 
-  submitResult$ = createEffect(() => this.actions$.pipe(
-    ofType(PairingsPageActions.submitResult),
-    mergeMap(({pairing}) =>
-      this.storageService.updatePairing(pairing).pipe(
-        map(() => PairingsApiActions.submitResultSuccess({
-          pairing: {
-            id: pairing.id,
-            changes: {
-              player1Wins: pairing.player1Wins,
-              player2Wins: pairing.player2Wins,
-              draws: pairing.draws,
-              submitted: pairing.submitted
-            }
-          }
-        }))
+  submitResult$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PairingsPageActions.submitResult),
+      mergeMap(({ pairing }) =>
+        this.storageService.updatePairing(pairing).pipe(
+          map(() =>
+            PairingsApiActions.submitResultSuccess({
+              pairing: {
+                id: pairing.id,
+                changes: {
+                  player1Wins: pairing.player1Wins,
+                  player2Wins: pairing.player2Wins,
+                  draws: pairing.draws,
+                  submitted: pairing.submitted,
+                },
+              },
+            })
+          )
+        )
       )
     )
-  ));
+  );
 
   // private nextId = 1;
 

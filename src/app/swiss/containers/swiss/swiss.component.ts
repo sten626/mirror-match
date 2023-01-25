@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { Message } from '@mm/shared/models';
 import * as fromSwiss from '@mm/swiss/reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 @Component({
-  templateUrl: './swiss.component.html'
+  templateUrl: './swiss.component.html',
 })
 export class SwissComponent {
   hasCompletedRounds$: Observable<boolean>;
   hasTournamentStarted$: Observable<boolean>;
-  messages$: Observable<Message[]>;
-  numberOfActivePlayers$: Observable<number>;
+  // messages$: Observable<Message[]>;
+  // numberOfActivePlayers$: Observable<number>;
 
   constructor(private store: Store<fromSwiss.State>) {
     this.hasCompletedRounds$ = this.store.pipe(

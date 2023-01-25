@@ -7,7 +7,7 @@ export interface State {
 }
 
 export const rootReducers = {
-  [fromPlayers.playersFeatureKey]: fromPlayers.reducer
+  [fromPlayers.playersFeatureKey]: fromPlayers.reducer,
   // [fromTournament.tournamentFeatureKey]: fromTournament.reducer
 };
 

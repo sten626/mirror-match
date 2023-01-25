@@ -9,11 +9,16 @@ import {
   PlayerListComponent,
   PlayersInfoComponent,
   RoundInfoComponent,
-  StandingsTableComponent,
   StartFormComponent,
-  SwissMenuComponent
+  SwissMenuComponent,
 } from '@mm/swiss/components';
-import { EventInfoComponent, PairingsPageComponent, PlayersPageComponent, StandingsPageComponent, SwissComponent } from '@mm/swiss/containers';
+import {
+  EventInfoComponent,
+  PairingsPageComponent,
+  PlayersPageComponent,
+  StandingsPageComponent,
+  SwissComponent,
+} from '@mm/swiss/containers';
 import { PairingEffects, RoundEffects, SwissEffects } from '@mm/swiss/effects';
 import { StandingsGuard, TournamentStartedGuard } from '@mm/swiss/guards';
 import * as fromSwiss from '@mm/swiss/reducers';
@@ -26,7 +31,7 @@ import { StoreModule } from '@ngrx/store';
     EffectsModule.forFeature([PairingEffects, RoundEffects, SwissEffects]),
     SharedModule,
     StoreModule.forFeature(fromSwiss.swissFeatureKey, fromSwiss.reducers),
-    SwissRoutingModule
+    SwissRoutingModule,
   ],
   declarations: [
     EventInfoComponent,
@@ -44,11 +49,7 @@ import { StoreModule } from '@ngrx/store';
     SwissComponent,
     SwissMenuComponent,
     StandingsPageComponent,
-    StandingsTableComponent
   ],
-  providers: [
-    StandingsGuard,
-    TournamentStartedGuard
-  ]
+  providers: [StandingsGuard, TournamentStartedGuard],
 })
-export class SwissModule { }
+export class SwissModule {}
