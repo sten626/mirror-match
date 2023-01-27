@@ -3,7 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -11,12 +11,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'mm-search-box',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
 })
 export class SearchBoxComponent {
   @Output() focused = new EventEmitter<string>();
   @Output() searched: Observable<string>;
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  @ViewChild('searchBox', { static: true }) searchBox!: ElementRef;
 
   private debounceTime = 300;
   private searchSubject = new Subject<string>();

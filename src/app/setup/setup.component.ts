@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 interface Card {
   title: string;
   body: string;
-  disabled?: boolean;
+  disabled: boolean;
 }
 
 @Component({
@@ -16,6 +16,7 @@ export class SetupComponent {
     {
       title: 'Swiss Pairing',
       body: 'A non-eliminating tournament structure with a fixed number of rounds. Each round players play against opponents with a similar score.',
+      disabled: false,
     },
     {
       title: 'Draft Pods',

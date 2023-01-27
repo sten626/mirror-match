@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoundStorageService extends StorageService {
   private completedRoundKey = 'mm-completed-round';
@@ -39,16 +39,16 @@ export class RoundStorageService extends StorageService {
     return this.getNumber(this.selectedRoundKey, 1);
   }
 
-  setCompletedRound(roundId: number): Observable<number> {
+  setCompletedRound(roundId: number): Observable<number | null> {
     return this.setNumber(this.completedRoundKey, roundId);
   }
 
-  setNumberOfRounds(numberOfRounds: number): Observable<number> {
+  setNumberOfRounds(numberOfRounds: number): Observable<number | null> {
     return this.setNumber(this.numberOfRoundsKey, numberOfRounds);
   }
 
   setSelectedRound(roundId: number | null): Observable<number | null> {
-    return this.setNumberOrNull(this.selectedRoundKey, roundId);
+    return this.setNumber(this.selectedRoundKey, roundId);
   }
 
   updateRound(round: Round): Observable<Round[]> {

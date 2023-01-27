@@ -3,11 +3,9 @@ import { LOCAL_STORAGE_TOKEN } from '@mm/core/services/storage.service';
 import { Player } from '@mm/shared/models';
 import { Update } from '@ngrx/entity';
 import {
-  deleteInvalidIdError,
   duplicatePlayerNameError,
-  nonexistentPlayerError,
   PlayerStorageService,
-  updateInvalidIdError
+  updateInvalidIdError,
 } from './player-storage.service';
 
 describe('PlayerStorageService', () => {
@@ -17,23 +15,23 @@ describe('PlayerStorageService', () => {
     {
       id: 1,
       name: 'Spike',
-      dropped: false
-    }
+      dropped: false,
+    },
   ];
 
   beforeEach(() => {
     storageSpy = jasmine.createSpyObj('Storage', [
       'getItem',
       'removeItem',
-      'setItem'
+      'setItem',
     ]);
     storageSpy.getItem.and.returnValue(JSON.stringify(players));
 
     TestBed.configureTestingModule({
       providers: [
         PlayerStorageService,
-        { provide: LOCAL_STORAGE_TOKEN, useValue: storageSpy }
-      ]
+        { provide: LOCAL_STORAGE_TOKEN, useValue: storageSpy },
+      ],
     });
 
     service = TestBed.inject(PlayerStorageService);
@@ -44,30 +42,16 @@ describe('PlayerStorageService', () => {
   });
 
   describe('addPlayer', () => {
-    it('should throw an error when passed a null player', (done: DoneFn) => {
-      service.addPlayer(null).subscribe(
-        () => {
-          fail();
-        },
-        (error) => {
-          expect(error).toBe(nonexistentPlayerError);
-          expect(storageSpy.setItem).toHaveBeenCalledTimes(0);
-          done();
-        }
-      );
-    });
-
     it('should call setItem and assign an ID when adding a player', (done: DoneFn) => {
       const player: Player = {
-        id: null,
         name: 'Sten',
-        dropped: false
+        dropped: false,
       };
 
       service.addPlayer(player).subscribe((result) => {
         expect(result).toEqual({
           ...player,
-          id: 2
+          id: 2,
         });
         expect(storageSpy.setItem).toHaveBeenCalled();
         done();
@@ -78,13 +62,13 @@ describe('PlayerStorageService', () => {
       const player: Player = {
         id: 5,
         name: 'Sten',
-        dropped: false
+        dropped: false,
       };
 
       service.addPlayer(player).subscribe((result) => {
         expect(result).toEqual({
           ...player,
-          id: 2
+          id: 2,
         });
         expect(storageSpy.setItem).toHaveBeenCalled();
         done();
@@ -94,15 +78,14 @@ describe('PlayerStorageService', () => {
     it('should give the player ID 1 if there are no players', (done: DoneFn) => {
       storageSpy.getItem.and.returnValue('');
       const player: Player = {
-        id: null,
         name: 'Sten',
-        dropped: false
+        dropped: false,
       };
 
       service.addPlayer(player).subscribe((result) => {
         expect(result).toEqual({
           ...player,
-          id: 1
+          id: 1,
         });
         expect(storageSpy.setItem).toHaveBeenCalled();
         done();
@@ -112,7 +95,7 @@ describe('PlayerStorageService', () => {
     it('should throw an error if the given player name already exists', (done: DoneFn) => {
       const player: Player = {
         name: 'Spike',
-        dropped: false
+        dropped: false,
       };
 
       service.addPlayer(player).subscribe(
@@ -130,19 +113,6 @@ describe('PlayerStorageService', () => {
   });
 
   describe('deletePlayer', () => {
-    it('should throw an error if passed null', (done: DoneFn) => {
-      service.deletePlayer(null).subscribe(
-        () => {
-          fail();
-        },
-        (err) => {
-          expect(err).toBe(deleteInvalidIdError);
-          expect(storageSpy.setItem).toHaveBeenCalledTimes(0);
-          done();
-        }
-      );
-    });
-
     it('should return the ID of the deleted player', (done: DoneFn) => {
       const playerId = 1;
       service.deletePlayer(playerId).subscribe((result) => {
@@ -173,31 +143,12 @@ describe('PlayerStorageService', () => {
   });
 
   describe('updatePlayer', () => {
-    it('should throw an error when called with null ID', (done: DoneFn) => {
-      const update: Update<Player> = {
-        id: null,
-        changes: {
-          name: 'Sten'
-        }
-      };
-
-      service.updatePlayer(update).subscribe(
-        () => {
-          fail();
-        },
-        (err) => {
-          expect(err).toEqual(updateInvalidIdError);
-          done();
-        }
-      );
-    });
-
     it('should throw an error when called with nonexistent ID', (done: DoneFn) => {
       const update: Update<Player> = {
         id: 5,
         changes: {
-          name: 'Sten'
-        }
+          name: 'Sten',
+        },
       };
 
       service.updatePlayer(update).subscribe(
@@ -216,8 +167,8 @@ describe('PlayerStorageService', () => {
         .updatePlayer({
           id: 1,
           changes: {
-            dropped: true
-          }
+            dropped: true,
+          },
         })
         .subscribe((player) => {
           expect(player.dropped).toBeTrue();

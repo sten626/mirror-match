@@ -68,7 +68,10 @@ export class StorageService {
     return this.setValue(key, value) as Observable<boolean>;
   }
 
-  protected setNumber(key: string, value: number): Observable<number> {
+  protected setNumber(
+    key: string,
+    value: number | null
+  ): Observable<number | null> {
     return this.setValue(key, value) as Observable<number>;
   }
 
@@ -80,8 +83,8 @@ export class StorageService {
 
   private setValue(
     key: string,
-    value: boolean | number
-  ): Observable<boolean | number> {
+    value: boolean | number | null
+  ): Observable<boolean | number | null> {
     return this.supported().pipe(
       tap(() => this.storage.setItem(key, JSON.stringify(value))),
       map(() => value)
