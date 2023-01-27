@@ -11,7 +11,9 @@ export const duplicatePlayerNameError =
 export const nonexistentPlayerError = 'Cannot add nonexistent player.';
 export const updateInvalidIdError = 'Tried to update player with invalid ID.';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PlayerStorageService extends StorageService {
   private playersKey = 'mm-players';
 
