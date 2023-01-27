@@ -85,8 +85,8 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "codeCoverage": true,
+            "inlineStyleLanguage": "scss",
             "tsConfig": "tsconfig.spec.json",
-            "main": "src/test.ts",
             "polyfills": ["zone.js", "zone.js/testing"],
             "scripts": [],
             "styles": ["src/styles/main.scss"],
