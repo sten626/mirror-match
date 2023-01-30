@@ -1,0 +1,41 @@
+// @use '@angular/material' as mat;
+// @import 'themes/theme';
+
+// $primary: map-get($mirror-match-theme, primary);
+// $background: map-get($mirror-match-theme, background);
+// // $density-scale: mat-get-density-config($mirror-match-theme);
+// // $height-desktop: _mat-density-prop-value(
+// //   $mat-toolbar-desktop-density-config,
+// //   $density-scale,
+// //   height
+// // );
+// // $height-mobile: _mat-density-prop-value(
+// //   $mat-toolbar-mobile-density-config,
+// //   $density-scale,
+// //   height
+// // );
+// $nav-link-height: 48px;
+
+:host {
+  background-color: var(--mm-color-surface);
+  display: block;
+  // flex-direction: column;
+  min-height: 100%;
+
+  // .content-container {
+  //   margin-top: $height-mobile;
+  //   width: 100%;
+
+  //   &.large {
+  //     margin-top: $height-desktop;
+  //   }
+
+  //   &.with-tabs {
+  //     margin-top: $height-mobile + $nav-link-height;
+  //   }
+
+  //   &.large.with-tabs {
+  //     margin-top: $height-desktop + $nav-link-height;
+  //   }
+  // }
+}
