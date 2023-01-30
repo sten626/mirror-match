@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from '@mm/core/components';
 
 export const routes: Routes = [
   {
@@ -28,11 +27,11 @@ export const routes: Routes = [
   //   path: 'swiss',
   //   loadChildren: () => import('./swiss/swiss.module').then(m => m.SwissModule)
   // },
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-    data: { title: 'Not found' },
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  //   data: { title: 'Not found' },
+  // },
 ];
 
 @NgModule({

@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-players-page.component.scss'],
 })
 export class AddPlayersPageComponent {
-  players = ['Sten', 'Esther', 'Nylea'];
   constructor() {}
 }
