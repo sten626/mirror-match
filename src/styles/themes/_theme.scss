@@ -1,25 +1,30 @@
-@use 'sass:map';
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
+// @use 'sass:map';
+// @use '../abstracts/variables' as *;
+// @use '../abstracts/mixins' as *;
+@forward 'tokens.css';
+@forward 'colors.module.css';
+@forward 'typography.module.css';
+@forward 'theme.light.css';
+@forward 'theme.dark.css';
 
-:root {
-  --mm-color-primary: #{map.get($palette, 'primary', 40)};
-  --mm-color-surface: #{map.get($palette, 'neutral', 99)};
-  --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 90)};
-  --mm-color-on-surface: #{map.get($palette, 'neutral', 10)};
-  @include state-layer-colors(
-    'on-surface-variant',
-    map.get($palette, 'neutral', 30)
-  );
+// :root {
+//   --mm-color-primary: #{map.get($palette, 'primary', 40)};
+//   --mm-color-surface: #{map.get($palette, 'neutral', 99)};
+//   --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 90)};
+//   --mm-color-on-surface: #{map.get($palette, 'neutral', 10)};
+//   @include state-layer-colors(
+//     'on-surface-variant',
+//     map.get($palette, 'neutral', 30)
+//   );
 
-  @media screen and (prefers-color-scheme: dark) {
-    --mm-color-primary: #{map.get($palette, 'primary', 80)};
-    --mm-color-surface: #{map.get($palette, 'neutral', 10)};
-    --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 30)};
-    --mm-color-on-surface: #{map.get($palette, 'neutral', 90)};
-    @include state-layer-colors(
-      'on-surface-variant',
-      map.get($palette, 'neutral', 80)
-    );
-  }
-}
+//   @media screen and (prefers-color-scheme: dark) {
+//     --mm-color-primary: #{map.get($palette, 'primary', 80)};
+//     --mm-color-surface: #{map.get($palette, 'neutral', 10)};
+//     --mm-color-surface-variant: #{map.get($palette, 'neutral-variant', 30)};
+//     --mm-color-on-surface: #{map.get($palette, 'neutral', 90)};
+//     @include state-layer-colors(
+//       'on-surface-variant',
+//       map.get($palette, 'neutral', 80)
+//     );
+//   }
+// }

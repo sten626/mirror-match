@@ -1,0 +1,11 @@
+<header class="top-app-bar title-large">
+  <div class="prefix">
+    <ng-content select="[prefix]"></ng-content>
+  </div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+  <div class="suffix"></div>
+  <div class="overlay" [class.overlay-scrolled]="scrolled"></div>
+</header>
+<div class="page-spacer"></div>
