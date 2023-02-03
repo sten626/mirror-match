@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TopAppBarComponent } from './components';
+import { NgModule } from '@angular/core';
+import { SegmentedButtonComponent, TopAppBarComponent } from './components';
 
 @NgModule({
-  declarations: [TopAppBarComponent],
+  declarations: [SegmentedButtonComponent, TopAppBarComponent],
   imports: [CommonModule],
-  exports: [TopAppBarComponent],
+  exports: [SegmentedButtonComponent, TopAppBarComponent],
 })
 export class SharedModule {}

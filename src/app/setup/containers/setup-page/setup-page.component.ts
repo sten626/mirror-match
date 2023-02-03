@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./setup-page.component.scss'],
 })
 export class SetupPageComponent {
+  matchTypes = ['Best of 1', 'Best of 3'];
   // cards: Card[] = [
   //   {
   //     title: 'Swiss Pairing',
