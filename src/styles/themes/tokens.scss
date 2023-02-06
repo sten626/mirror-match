@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 :root {
   --md-source: #77a9ff;
   /* primary */
@@ -136,6 +138,10 @@
   --md-sys-color-on-background-light: #1a1b1f;
   --md-sys-color-surface-light: #fdfbff;
   --md-sys-color-on-surface-light: #1a1b1f;
+  --md-sys-color-on-surface-opacity-12-light: #{color.change(
+      #1a1b1f,
+      $alpha: 0.12
+    )};
   --md-sys-color-surface-variant-light: #e0e2ec;
   --md-sys-color-on-surface-variant-light: #44474e;
   --md-sys-color-inverse-surface-light: #2f3033;
@@ -167,6 +173,10 @@
   --md-sys-color-on-background-dark: #e3e2e6;
   --md-sys-color-surface-dark: #1a1b1f;
   --md-sys-color-on-surface-dark: #e3e2e6;
+  --md-sys-color-on-surface-opacity-12-dark: #{color.change(
+      #e3e2e6,
+      $alpha: 0.12
+    )};
   --md-sys-color-surface-variant-dark: #44474e;
   --md-sys-color-on-surface-variant-dark: #c4c6d0;
   --md-sys-color-inverse-surface-dark: #e3e2e6;

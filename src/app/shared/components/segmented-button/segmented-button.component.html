@@ -1,9 +1,12 @@
 <button
   *ngFor="let option of options"
-  [class.selected]="option === selected"
+  [ngClass]="buttonClasses(option)"
   class="label-large"
+  [disabled]="option.disabled"
   (click)="handleSelect(option)"
 >
-  <span *ngIf="option === selected" class="material-icons">check</span>
-  {{ option }}
+  <span @showHideCheck *ngIf="option === selected" class="material-icons"
+    >check</span
+  >
+  <span class="label">{{ option.text }}</span>
 </button>

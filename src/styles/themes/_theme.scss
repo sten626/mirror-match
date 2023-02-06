@@ -1,11 +1,11 @@
 // @use 'sass:map';
 // @use '../abstracts/variables' as *;
 // @use '../abstracts/mixins' as *;
-@forward 'tokens.css';
-@forward 'colors.module.css';
-@forward 'typography.module.css';
-@forward 'theme.light.css';
-@forward 'theme.dark.css';
+@forward 'tokens';
+@forward 'colors';
+@forward 'typography';
+@forward 'theme-light';
+@forward 'theme-dark';
 
 // :root {
 //   --mm-color-primary: #{map.get($palette, 'primary', 40)};

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Option } from '@mm/shared/components';
 
 // interface Card {
 //   title: string;
@@ -13,7 +14,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./setup-page.component.scss'],
 })
 export class SetupPageComponent {
-  matchTypes = ['Best of 1', 'Best of 3'];
+  matchTypes: Option[] = [
+    { text: 'Best of 1', disabled: true },
+    { text: 'Best of 3' },
+  ];
   // cards: Card[] = [
   //   {
   //     title: 'Swiss Pairing',

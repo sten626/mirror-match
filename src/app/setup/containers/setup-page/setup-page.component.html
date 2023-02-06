@@ -1,5 +1,8 @@
 <mm-top-app-bar>Mirror Match</mm-top-app-bar>
 <main>
   <h4>Match Type</h4>
-  <mm-segmented-button [options]="matchTypes"></mm-segmented-button>
+  <mm-segmented-button
+    [options]="matchTypes"
+    [selected]="matchTypes[1]"
+  ></mm-segmented-button>
 </main>
