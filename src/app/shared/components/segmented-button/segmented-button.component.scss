@@ -3,6 +3,13 @@
 
 $height: 40px;
 $border-radius: math.div($height, 2);
+$color-on-secondary-container: var(--md-sys-color-on-secondary-container);
+$color-on-surface: var(--md-sys-color-on-surface);
+$color-on-surface-opacity-12: var(--md-sys-color-on-surface-opacity-12);
+$color-outline: var(--md-sys-color-outline);
+$color-secondary-container: var(--md-sys-color-secondary-container);
+$state-focus-state-layer-opacity: var(--md-sys-state-focus-state-layer-opacity);
+$state-hover-state-layer-opacity: var(--md-sys-state-hover-state-layer-opacity);
 
 :host {
   display: inline-flex;
@@ -11,30 +18,28 @@ $border-radius: math.div($height, 2);
     align-items: center;
     background: none;
     border: none;
+    color: $color-on-surface;
     cursor: pointer;
     display: inline-flex;
     flex: 1;
     height: $height;
     justify-content: center;
-    outline: solid 1px var(--md-sys-color-outline);
+    outline: solid 1px $color-outline;
     padding: 0 12px;
+    position: relative;
 
-    &:first-child {
+    &:first-of-type {
       border: {
         top-left-radius: $border-radius;
         bottom-left-radius: $border-radius;
       }
     }
 
-    &:last-child {
+    &:last-of-type {
       border: {
         top-right-radius: $border-radius;
         bottom-right-radius: $border-radius;
       }
-    }
-
-    .label {
-      color: var(--md-sys-color-on-surface);
     }
 
     .material-icons {
@@ -42,8 +47,21 @@ $border-radius: math.div($height, 2);
       margin-right: 8px;
     }
 
+    .state-layer {
+      border-radius: inherit;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &.selected {
+      background-color: $color-secondary-container;
+      color: $color-on-secondary-container;
+    }
+
     &:disabled {
-      outline-color: var(--md-sys-color-on-surface-opacity-12);
+      outline-color: $color-on-surface-opacity-12;
       cursor: default;
 
       .label,
@@ -52,9 +70,30 @@ $border-radius: math.div($height, 2);
       }
     }
 
-    &.selected {
-      background-color: var(--md-sys-color-secondary-container);
-      color: var(--md-sys-color-on-secondary-container);
+    &:focus {
+      .state-layer {
+        background-color: $color-on-surface;
+        opacity: $state-focus-state-layer-opacity;
+      }
+
+      &.selected {
+        .state-layer {
+          background-color: $color-on-secondary-container;
+        }
+      }
+    }
+
+    &:hover {
+      .state-layer {
+        background-color: $color-on-surface;
+        opacity: $state-hover-state-layer-opacity;
+      }
+
+      &.selected {
+        .state-layer {
+          background-color: $color-secondary-container;
+        }
+      }
     }
   }
 }

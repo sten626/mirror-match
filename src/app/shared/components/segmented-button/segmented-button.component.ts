@@ -13,7 +13,7 @@ export interface Option {
   animations: [
     trigger('showHideCheck', [
       transition(':enter', [
-        style({ 'overflow-x': 'hidden', 'font-size': 0 }),
+        style({ 'font-size': 0 }),
         animate('200ms', style({})),
       ]),
     ]),

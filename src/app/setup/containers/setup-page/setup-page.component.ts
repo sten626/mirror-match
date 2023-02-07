@@ -15,7 +15,7 @@ import { Option } from '@mm/shared/components';
 })
 export class SetupPageComponent {
   matchTypes: Option[] = [
-    { text: 'Best of 1', disabled: true },
+    { text: 'Best of 1', disabled: false },
     { text: 'Best of 3' },
   ];
   // cards: Card[] = [
