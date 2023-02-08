@@ -1,5 +1,10 @@
 :host {
   background-color: var(--mm-color-surface);
   display: block;
+  margin: 0 16px;
   min-height: 100%;
+
+  @media (min-width: 600px) {
+    margin: 0 24px;
+  }
 }

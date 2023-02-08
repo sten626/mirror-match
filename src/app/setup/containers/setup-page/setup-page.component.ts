@@ -14,6 +14,10 @@ import { Option } from '@mm/shared/components';
   styleUrls: ['./setup-page.component.scss'],
 })
 export class SetupPageComponent {
+  eventStructures: Option[] = [
+    { text: 'Single Elimination' },
+    { text: 'Swiss' },
+  ];
   matchTypes: Option[] = [
     { text: 'Best of 1', disabled: false },
     { text: 'Best of 3' },
