@@ -1,2 +1,3 @@
 export * from './segmented-button/segmented-button.component';
+export * from './switch/switch.component';
 export * from './top-app-bar/top-app-bar.component';

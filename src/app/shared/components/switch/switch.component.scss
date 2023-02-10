@@ -1,0 +1,37 @@
+@use 'sass:math';
+
+$color-outline: var(--md-sys-color-outline);
+$color-surface-variant: var(--md-sys-color-surface-variant);
+$height: 32px;
+$thumb-size: 16px;
+
+$thumb-border-radius: math.div($thumb-size, 2);
+$track-border-radius: math.div($height, 2);
+
+:host {
+  button {
+    background: none;
+    border: none;
+    display: inline-flex;
+    margin: 0;
+    position: relative;
+
+    .thumb {
+      background-color: $color-outline;
+      border-radius: $thumb-border-radius;
+      height: $thumb-size;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: $thumb-size;
+    }
+
+    .track {
+      background-color: $color-surface-variant;
+      border-radius: $track-border-radius;
+      height: $height;
+      outline: solid 2px $color-outline;
+      width: 52px;
+    }
+  }
+}
