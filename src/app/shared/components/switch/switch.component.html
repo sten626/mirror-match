@@ -1,5 +1,7 @@
-<button>
-  <div class="track">
-    <div class="thumb"></div>
-  </div>
+<button [ngClass]="styleClasses()" (click)="handleClick()">
+  <span class="track">
+    <span class="thumb-container">
+      <span class="thumb"></span>
+    </span>
+  </span>
 </button>

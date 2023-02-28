@@ -127,6 +127,7 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ngrx/schematics"]
+    "packageManager": "pnpm",
+    "schematicCollections": ["@angular-eslint/schematics", "@ngrx/schematics"]
   }
 }
