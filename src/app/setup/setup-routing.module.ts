@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  AddPlayersPageComponent,
-  SetupPageComponent,
-} from '@mm/setup/containers';
+import { StartComponent } from '@mm/setup/components';
+import { SetupPageComponent } from '@mm/setup/containers';
 
 const routes: Routes = [
-  { path: '', component: SetupPageComponent },
-  { path: 'players', component: AddPlayersPageComponent },
+  {
+    path: '',
+    component: SetupPageComponent,
+    children: [
+      {
+        path: '',
+        component: StartComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
