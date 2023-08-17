@@ -17,6 +17,8 @@ $mirror-match-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $mirror-match-warn: mat.define-palette(mat.$red-palette);
 
+$mirror-match-typography: mat.define-typography-config();
+
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $mirror-match-theme: mat.define-light-theme(
@@ -26,6 +28,7 @@ $mirror-match-theme: mat.define-light-theme(
       accent: $mirror-match-accent,
       warn: $mirror-match-warn,
     ),
+    typography: $mirror-match-typography,
   )
 );
 
@@ -33,6 +36,7 @@ $mirror-match-theme: mat.define-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($mirror-match-theme);
+@include mat.typography-hierarchy($mirror-match-typography);
 
 html,
 body {
